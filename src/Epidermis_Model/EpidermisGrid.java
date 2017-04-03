@@ -2,6 +2,7 @@ package Epidermis_Model;
 
 import AgentFramework.Grid2;
 import AgentFramework.GridDiff2;
+import AgentFramework.Gui.Gui;
 import AgentFramework.Gui.GuiVis;
 import static AgentFramework.Utils.*;
 import static Epidermis_Model.EpidermisConst.*;
@@ -80,7 +81,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         }
         for (int x = 0; x < xDim; x++) {
             for (int y = 0; y < AIR_HEIGHT; y++) {
-                if (SQtoAgent(x,y) != null) {
+                if (SQtoAgent(x,y) == null) {
                     EpidermisCell c = NewAgent(x, y);
                     c.init(KERATINOCYTE, 1.0f, 1.0f, 1.0f, startingGenomeVals, 0, 1, 0); // Initializes cell types; Uniform Start
                 }
@@ -99,45 +100,45 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         CleanShuffInc(RN); // Special Sauce
     }
 
-//    public void DrawChemicals(boolean egf, boolean bfgf) {
-//        for (int x = 0; x < xDim; x++) {
-//            for (int y = 0; y < yDim; y++) {
-////                float color[]={0,0,0};
-//                if (egf) {
-////                    color[0]=(float)(EGF.Get(x,y)/SOURCE_EGF);
-//                    vis.SetHeat(x, y, EGF.Get(x, y) / SOURCE_EGF);
-//                }
-//                if (bfgf) {
-////                    color[1]=(float)(BFGF.Get(x,y)/SOURCE_BFGF);
-//                    vis.SetHeatGreen(x, y, BFGF.Get(x, y) / SOURCE_BFGF);
-//                }
-////                vis.Set(x,y,color[0],color[1],color[2]);
-//
-//            }
-//        }
-//    }
+    public void DrawChemicals(GuiVis chemVis, boolean egf, boolean bfgf) {
+        for (int x = 0; x < xDim; x++) {
+            for (int y = 0; y < yDim; y++) {
+                //float color[]={0,0,0};
+                if (egf) {
+                    //color[0]=(float)(EGF.SQgetCurr(x,y)/SOURCE_EGF);
+                    chemVis.SetColorHeat(x, y, EGF.SQgetCurr(x, y) / SOURCE_EGF, "rgb");
+                }
+                if (bfgf) {
+                    //color[1]=(float)(BFGF.SQgetCurr(x,y)/SOURCE_BFGF);
+                    chemVis.SetColorHeat(x, y, BFGF.SQgetCurr(x, y) / SOURCE_BFGF, "bgr");
+                }
+                //chemVis.SetColor(x,y,color[0],color[1],color[2]);
+            }
+        }
+    }
 
-//    public void DrawCells(Visualizer vis) {
-//        long time = System.currentTimeMillis();
-//        for (int x = 0; x < xDim; x++) {
-//            for (int y = 0; y < yDim; y++) {
-//                SkinCell c = cells.FirstOnSquare(x, y);
-//                if (c != null) {
-//                    if (c.myType == KERATINOCYTE) {
-//                        //vis.Set(x,y,0.0f,1.0f,1.0f);
-//                        vis.Set(x, y, c.r, c.g, c.b);
-////                        if(c.Age()==1){
-////                            vis.Set(x,y,1.0f,0.0f,0.0f);
-////                        }
-//                    } else if (c.myType == MELANOCYTE) {
-//                        vis.Set(x, y, 0.0f, 0.0f, 1.0f);
-//                    }
-//                } else {
-//                    vis.Set(x, y, 0.0f, 0.0f, 0.0f);
-//                }
-//            }
-//        }
-//    }
+    public void DrawCells(GuiVis vis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
+        long time = System.currentTimeMillis();
+        for (int x = 0; x < xDim; x++) {
+            for (int y = 0; y < yDim; y++) {
+                EpidermisCell c = Epidermis.SQtoAgent(x, y);
+                if (c != null) {
+                    if (c.myType == KERATINOCYTE) {
+                        //vis.Set(x,y,0.0f,1.0f,1.0f);
+                        CellDraw.DrawCellonGrid(vis, c);
+                        //vis.SetColor(x, y, c.r, c.g, c.b);
+//                        if(c.Age()==1){
+//                            vis.Set(x,y,1.0f,0.0f,0.0f);
+//                        }
+                    } else if (c.myType == MELANOCYTE) {
+                        vis.SetColor(x, y, 0.0f, 0.0f, 1.0f);
+                    }
+                } else {
+                    CellDraw.DrawEmptyCell(vis, x, y);
+                }
+            }
+        }
+    }
 
 //    public String ToString() {
 //        String ret = "#" + cells.Tick() + "\n";
@@ -158,12 +159,12 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
 
     // Inflicting a wound to simulate wound repair...
     public void inflict_wound(){
-        for (int i = 20; i < 300; i++){
+        for (int i = 20; i < 100; i++){
             for (int k=0; k < 20; k++){
                 EpidermisCell c = SQtoAgent(i,k);
                 if (c != null) {
-                    System.out.println(i + '\t' + k);
-                    c.Dispose();
+//                    System.out.println(i + '\t' + k);
+                    c.itDead();
                 }
 
             }

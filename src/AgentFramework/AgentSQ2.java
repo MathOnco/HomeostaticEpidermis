@@ -81,6 +81,6 @@ public class AgentSQ2<T extends Grid2> extends AgentBase <T>{
      * Deletes the agent
      */
     public void Dispose(){
-        myGrid.RemoveAgent(this,myGrid.SQtoI(xSq,ySq));
+        myGrid.RemoveAgent(this,iSq);
     }
 }

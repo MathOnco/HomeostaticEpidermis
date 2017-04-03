@@ -55,7 +55,7 @@ public class Grid2<T extends AgentSQ2> extends GridBase implements Iterable<T>{
      * gets the y component of the square at the specified index
      */
     public int ItoY(int i){
-        return i%xDim;
+        return i%yDim;
     }
 
     /**

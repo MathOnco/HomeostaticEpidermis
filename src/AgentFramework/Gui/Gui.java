@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * the window that the other gui items sit in
  */
 public class Gui extends JFrame{
-    private JPanel panel;
+    public JPanel panel;
     private GridBagConstraints gbc;
     boolean main;
     boolean alive;

@@ -14,7 +14,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
-    double prolif_scale_factor = 0.2; //Correction for appropriate proliferation rate
+    double prolif_scale_factor = 0.7; //Correction for appropriate proliferation rate
     double KERATINO_EGF_CONSPUMPTION = -0.005; //consumption rate by keratinocytes
     double MELANO_BFGF_CONSUMPTION = -0.01; //consumption rate by melanocytes
     double KERATINO_APOPTOSIS_EGF = 0.01; //level at which apoptosis occurs by chance (above this and no apoptosis)
@@ -25,6 +25,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     static int loss_count_basal = 0;
     static int death_count = 0;
     static int myType; //cell type
+    int Action; //cells action
 
     /**
      * Parameters for cell specific tracking and genome information
@@ -51,6 +52,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         this.cellID = cellIDcounter; // Set the cell ID for the newly created cell to a unique value...
         this.cloneID = cloneInfo;
         this.ParentCloneID = parentCloneInfo;
+        this.Action = STATIONARY;
 
         // copying over the genome from the parentCell
         myGenome = new EpidermisCellGenome();
@@ -70,7 +72,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             return inBoundsCount;
         }
         for (int i=0; i<inBoundsCount; i++){
-            if(G().ItoAgent(inBounds[i]) != null){
+            if(G().ItoAgent(inBounds[i]) == null){
                 inBounds[finalCount]=inBounds[i];
                 finalCount++;
             }
@@ -130,16 +132,17 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 
         if(y==0){
             int divOptions = GetEmptyVNSquares(x, y, false, G().inBounds); // Number of coordinates you could divide into
-            iDivLoc = basalProlif(); // Where the new cell is going to be (which coordinate) if basal cell
+            iDivLoc = basalProlif(); // Where the new cell is going to be (which index) if basal cell
 
             CellPush(iDivLoc);
 
         } else{
             int divOptions = GetEmptyVNSquares(x, y, true, G().inBounds); // Number of coordinates you could divide into
-            iDivLoc = G().RN.nextInt(divOptions); //Where the new cell is going to be (which coordinate)
+            if(divOptions>0){iDivLoc = G().RN.nextInt(divOptions);} else {return false;} //Where the new cell is going to be (which coordinate)
         }
 
-        EpidermisCell newCell = (EpidermisCell) G().NewAgent(iDivLoc);
+        EpidermisCell newCell = G().NewAgent(G().inBounds[iDivLoc]);
+        Action = DIVIDE;
 
         if (y == 0) {
             pro_count_basal++;
@@ -192,12 +195,34 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             colTop++;
             c=G().SQtoAgent(x,colTop);
         }
+        int colMax=colTop;
         //move column of cells up
         for(;colTop>y;colTop--){
             c=(G().SQtoAgent(x,colTop-1));
             c.Move(x,colTop);
         }
+        //if(c.Ysq()>= G().yDim-1){c.itDead();}
     }
+
+//    public void CellPush2(int x,int y){
+//        //look up for empty square
+//        int colTop=y;
+//        SkinCell c=(SkinCell)(MyGrid().FirstOnSquare(x,colTop));
+//        while(c!=null){
+//            colTop++;
+//            c=(SkinCell)(MyGrid().FirstOnSquare(x,colTop));
+//        }
+//        //kill top cell if it will hit air
+//        if(colTop>=AIR_HEIGHT){
+//            MyGrid().FirstOnSquare(x,colTop-1).Remove();
+//            colTop--;
+//        }
+//        //move column of cells up
+//        for(;colTop>y;colTop--){
+//            c=(SkinCell)(MyGrid().FirstOnSquare(x,colTop-1));
+//            c.MoveSq(x,colTop);
+//        }
+//    }
 
     // Sets the coordinates for a cell that is moving.
     public int GetMoveCoords() {
@@ -236,14 +261,16 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 
         int iMoveCoord=GetMoveCoords(); // -1 if not moving
 
-        CheckProliferate();
-
         if(iMoveCoord!=-1) {
             Move(G().inBounds[iMoveCoord]); // We are moving
+            Action = MOVING;
             if (Ysq()!=0 && y==0) {
                 loss_count_basal++;
             }
         }
+
+        CheckProliferate();
+
     }
 
     // Builds my genome information for data analysis

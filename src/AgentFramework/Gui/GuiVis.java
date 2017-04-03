@@ -57,8 +57,9 @@ public class GuiVis extends JPanel implements GuiComp {
 
     /**
      * sets the pixel at the specified x,y position using the heat colormap, which goes from black to red to yellow to white
+     * @param colorOrder the order in which to fill the colors, default is rgb, but any permutation of these three characters is valid
      */
-    public void SetColorHeat(int x, int y, double val){
+    public void SetColorHeat(int x, int y, double val,String colorOrder) {
         if(val>0) {
             float r = (float) Math.min(1, val * 3);
             float g = 0;
@@ -69,7 +70,30 @@ public class GuiVis extends JPanel implements GuiComp {
             if (val > 0.666) {
                 b = (float) Math.min(1, (val - 0.666) * 3);
             }
-            SetColor(x, y, r, g, b);
+            switch (colorOrder) {
+                case "rgb":
+                    SetColor(x, y, r, g, b);
+                    break;
+                case "rbg":
+                    SetColor(x, y, r, b, g);
+                    break;
+                case "grb":
+                    SetColor(x, y, g, r, b);
+                    break;
+                case "gbr":
+                    SetColor(x, y, g, b, r);
+                    break;
+                case "brg":
+                    SetColor(x, y, b, r, g);
+                    break;
+                case "bgr":
+                    SetColor(x, y, b, g, r);
+                    break;
+                default:
+                    SetColor(x, y, r, g, b);
+                    System.out.println("Invalid colorOrder string passed to SetColorHeat:"+colorOrder+"\ncolorOrder String must be some permutation of the characters 'r','g','b'");
+                    break;
+            }
         }
     }
 

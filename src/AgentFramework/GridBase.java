@@ -8,7 +8,7 @@ abstract class GridBase {
     /**
      * gets the current grid tick
      */
-    public int Tick(){
+    public int GetTick(){
         return tick;
     }
 
