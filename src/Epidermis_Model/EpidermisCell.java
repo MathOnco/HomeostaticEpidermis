@@ -14,7 +14,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
-    double prolif_scale_factor = 0.7; //Correction for appropriate proliferation rate
+    double prolif_scale_factor = 0.8; //Correction for appropriate proliferation rate
     double KERATINO_EGF_CONSPUMPTION = -0.005; //consumption rate by keratinocytes
     double MELANO_BFGF_CONSUMPTION = -0.01; //consumption rate by melanocytes
     double KERATINO_APOPTOSIS_EGF = 0.01; //level at which apoptosis occurs by chance (above this and no apoptosis)

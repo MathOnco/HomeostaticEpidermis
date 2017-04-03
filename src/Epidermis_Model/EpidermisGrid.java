@@ -159,7 +159,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
 
     // Inflicting a wound to simulate wound repair...
     public void inflict_wound(){
-        for (int i = 20; i < 100; i++){
+        for (int i = 5; i < 100; i++){
             for (int k=0; k < 20; k++){
                 EpidermisCell c = SQtoAgent(i,k);
                 if (c != null) {
