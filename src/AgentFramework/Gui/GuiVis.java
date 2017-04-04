@@ -61,36 +61,36 @@ public class GuiVis extends JPanel implements GuiComp {
      */
     public void SetColorHeat(int x, int y, double val,String colorOrder) {
         if(val>0) {
-            float r = (float) Math.min(1, val * 3);
-            float g = 0;
-            float b = 0;
+            float c1 = (float) Math.min(1, val * 3);
+            float c2 = 0;
+            float c3 = 0;
             if (val > 0.333) {
-                g = (float) Math.min(1, (val - 0.333) * 3);
+                c2 = (float) Math.min(1, (val - 0.333) * 3);
             }
             if (val > 0.666) {
-                b = (float) Math.min(1, (val - 0.666) * 3);
+                c3 = (float) Math.min(1, (val - 0.666) * 3);
             }
             switch (colorOrder) {
                 case "rgb":
-                    SetColor(x, y, r, g, b);
+                    SetColor(x, y, c1, c2, c3);
                     break;
                 case "rbg":
-                    SetColor(x, y, r, b, g);
+                    SetColor(x, y, c1, c3, c2);
                     break;
                 case "grb":
-                    SetColor(x, y, g, r, b);
+                    SetColor(x, y, c2, c1, c3);
                     break;
                 case "gbr":
-                    SetColor(x, y, g, b, r);
+                    SetColor(x, y, c3, c1, c2);
                     break;
                 case "brg":
-                    SetColor(x, y, b, r, g);
+                    SetColor(x, y, c2, c3, c1);
                     break;
                 case "bgr":
-                    SetColor(x, y, b, g, r);
+                    SetColor(x, y, c3, c2, c1);
                     break;
                 default:
-                    SetColor(x, y, r, g, b);
+                    SetColor(x, y, c1, c2, c3);
                     System.out.println("Invalid colorOrder string passed to SetColorHeat:"+colorOrder+"\ncolorOrder String must be some permutation of the characters 'r','g','b'");
                     break;
             }

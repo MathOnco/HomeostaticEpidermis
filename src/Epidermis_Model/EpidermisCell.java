@@ -23,10 +23,10 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
-    double prolif_scale_factor = 0.4; //Correction for appropriate proliferation rate
+    double prolif_scale_factor = 0.3; //Correction for appropriate proliferation rate
     double KERATINO_EGF_CONSPUMPTION = -0.005; //consumption rate by keratinocytes
     double MELANO_BFGF_CONSUMPTION = -0.01; //consumption rate by melanocytes
-    double KERATINO_APOPTOSIS_EGF = 0.01; //level at which apoptosis occurs by chance (above this and no apoptosis)
+    double KERATINO_APOPTOSIS_EGF = 0.005; //level at which apoptosis occurs by chance (above this and no apoptosis)
     double MELANO_APOPTOSIS_BFGF = 0.1; //check line above, same for melanocytes
     int MELANO_DIV_DENSITY_MIN = 16; //this number or fewer keratinocytes around melanocyte and division won't happen; melanin unit
     static int pro_count = 0;
@@ -142,7 +142,9 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         if(y==0){
             int divOptions = GetEmptyVNSquares(x, y, false, G().inBounds); // Number of coordinates you could divide into
             iDivLoc = basalProlif(); // Where the new cell is going to be (which index) if basal cell
-
+            if(iDivLoc==0||iDivLoc==1){
+                loss_count_basal+=1;
+            }
             CellPush(iDivLoc);
 
         } else{
@@ -151,7 +153,6 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         }
 
         EpidermisCell newCell = G().NewAgent(G().inBounds[iDivLoc]);
-        Action = DIVIDE;
 
         if (y == 0) {
             pro_count_basal++;
@@ -225,11 +226,12 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 
     public void CellStep(){
         int x=Xsq();int y=Ysq(); // Get discrete x and y coordinates
+        Action = STATIONARY;
         if (y>=G().AIR_HEIGHT){
             itDead();
             return;
         }
-        if (myType == KERATINOCYTE && G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < Math.pow(G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF,3)) {
+        if (myType == KERATINOCYTE && G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() > Math.pow(G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF,3)) {
             //DEATH FROM LACK OF NUTRIENTS KERATINOCYTE
             itDead();
             return;
@@ -240,17 +242,25 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             return;
         }
 
-        int iMoveCoord=GetMoveCoords(); // -1 if not moving
+        if (G().RN.nextFloat() > 0.75) {
+            int iMoveCoord = GetMoveCoords(); // -1 if not moving
 
-        if(iMoveCoord!=-1) {
-            Move(G().inBounds[iMoveCoord]); // We are moving
-            Action = MOVING;
-            if (Ysq()!=0 && y==0) {
-                loss_count_basal++;
+            if (iMoveCoord != -1) {
+                Move(G().inBounds[iMoveCoord]); // We are moving
+                Action = MOVING;
+                if (Ysq() != 0 && y == 0) {
+                    loss_count_basal++;
+                }
             }
         }
 
-        CheckProliferate();
+        boolean divided = CheckProliferate();
+        if(divided){
+            Action = DIVIDE;
+        }
+// else{
+//            Action = STATIONARY;
+//        }
 
     }
 

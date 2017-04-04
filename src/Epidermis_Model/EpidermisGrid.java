@@ -34,6 +34,8 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     float r_lambda_weekly = 0;
     int xDim;
     int yDim;
+    int[] MeanProlif = new int[EpidermisConst.xSize * EpidermisConst.ySize];
+    int[] MeanDeath = new int[EpidermisConst.xSize * EpidermisConst.ySize];
     ArrayList<HashMap<String,Integer>> muellerList;  // timestep array[ {ClonalPopID:PopSize, ...}, {...} ]
     ArrayList<String[]> lineages;
     GridDiff2 EGF;
@@ -76,7 +78,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         int[] xPositions = RandomIndices(xSize, INIT_MELANOCYTE_COUNT, RN); //Place Melanocytes
         for (int i = 0; i < INIT_MELANOCYTE_COUNT; i++) {
             EpidermisCell c = NewAgent(xPositions[i], 0);
-            c.init(MELANOCYTE, 0, 0, 0, startingGenomeVals, 0, 0, 1);
+            c.init(MELANOCYTE, 0, 1, 0, startingGenomeVals, 0, 1, 1);
         }
         for (int x = 0; x < xDim; x++) {
             for (int y = 0; y < AIR_HEIGHT; y++) {
@@ -95,6 +97,8 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         }
         for (EpidermisCell c: this) {
             c.CellStep();
+            MeanProlif(c);
+//            MeanDeath();
         }
         CleanShuffInc(RN); // Special Sauce
     }
@@ -112,20 +116,46 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         }
     }
 
-//    public void ActivityHeatMap(GuiVis heatVis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
-//        int[] means= MeanProlif(Epidermis);
-//        for(int i=0; i<means.length; i++){
-//            heatVis.SetColorHeat(ItoX(i), ItoY(i), means[i], "gbr");
-//        }
-//    }
+    public void DivisionHeatMap(GuiVis heatVis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
+        for(int i=0; i<MeanProlif.length; i++){
+            if(MeanProlif[i]!=0) {
+                heatVis.SetColorHeat(ItoX(i), ItoY(i), MeanProlif[i] / 7f, "brg");
+            } else {
+                heatVis.SetColor(ItoX(i),ItoY(i), 0f, 0f, 0f);
+            }
+        }
+    }
+
+    public void DivisionLayers(GuiVis heatVis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
+        int[] MeanDivLayer = new int[EpidermisConst.ySize];
+        for(int i=0; i<MeanProlif.length; i++){
+            int y = ItoY(i);
+            MeanDivLayer[y] += MeanProlif[i];
+            heatVis.SetColor(ItoX(i),ItoY(i), 0f, 0f, 0f);
+        }
+        for(int i = 0; i<MeanProlif.length; i++){
+            if(MeanDivLayer[ItoY(i)]!=0){
+                heatVis.SetColorHeat(ItoX(i), ItoY(i), MeanDivLayer[ItoY(i)] / EpidermisConst.xSize / 7f, "brg");
+                MeanProlif[i] = 0;
+            }
+        }
+    }
+
+    public void MeanProlif(EpidermisCell c){
+            if(c.Action == DIVIDE){
+                MeanProlif[c.Isq()] += 1;
+            }
+    }
+
+//    public void MeanDeath(){
+//        for (int x = 0; x < xDim; x++) {
+//            for (int y = 0; y < yDim; y++) {
+//                int mySq = SQtoI(x, y);
+//                if (){
 //
-//    public int[] MeanProlif(EpidermisGrid Cells){
-//        int[] means = new int[Cells.length];
-//        for(int i=0; i<means.length; i++){
-//            means[i]=Cells.ProWeekCount/7f;
-//            int t =0;
+//                }
+//            }
 //        }
-//        return means;
 //    }
 
     public void DrawCellActivity(GuiVis vis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
@@ -137,7 +167,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
                     if (c.myType == KERATINOCYTE) {
                         CellDraw.DrawCellonGrid(vis, c);
                     } else if (c.myType == MELANOCYTE) {
-                        vis.SetColor(x, y, 0.0f, 0.0f, 1.0f);
+                        vis.SetColor(x, y, 0.0f, 1.0f, 0.0f);
                     }
                 } else {
                     CellDraw.DrawEmptyCell(vis, x, y);
@@ -155,7 +185,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
                     if (c.myType == KERATINOCYTE) {
                         CellDraw.DrawCellonGridPop(vis, c);
                     } else if (c.myType == MELANOCYTE) {
-                        vis.SetColor(x, y, 0.0f, 0.0f, 1.0f);
+                        vis.SetColor(x, y, 0.0f, 1.0f, 0.0f);
                     }
                 } else {
                     CellDraw.DrawEmptyCell(vis, x, y);
@@ -183,8 +213,8 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
 
     // Inflicting a wound to simulate wound repair...
     public void inflict_wound(){
-        for (int i = 5; i < 100; i++){
-            for (int k=2; k < 20; k++){
+        for (int i = 10; i < xDim-20; i++){
+            for (int k=0; k < 20; k++){
                 EpidermisCell c = SQtoAgent(i,k);
                 if (c != null) {
                     c.itDead();

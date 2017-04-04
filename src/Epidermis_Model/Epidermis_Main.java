@@ -31,14 +31,14 @@ class EpidermisConst{
     static final int STATIONARY = 1; // Attribute if cell is stationary
     static final int MOVING = 2; //Attribute if cell is moving
 
-    static final int years=23725; // time in years.
+    static final int years=65; // time in years.
     static final int RecordTime=years*365;
     static final int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
     static final boolean FileOn = false; // use when writing information for mueller plots
     static final boolean GuiOn = true; // use for visualization
     static final boolean genome_info = false; // use when you want genome information
-    static final boolean get_r_lambda = false; // use when you want the r_lambda value
+    static final boolean get_r_lambda = true; // use when you want the r_lambda value
 }
 
 public class Epidermis_Main {
@@ -57,6 +57,9 @@ public class Epidermis_Main {
         GuiVis EGFVis = null;
         GuiVis BFGFVis = null;
         GuiVis DivVis = null;
+        GuiVis DivLayerVis = null;
+        GuiVis DeathVis = null;
+        GuiVis DeathLayerVis = null;
         GuiVis ClonalVis = null;
         GuiLabel YearLab = null;
         GuiLabel rLambda_Label = null;
@@ -69,7 +72,10 @@ public class Epidermis_Main {
             MainGUI.panel.setOpaque(true);
             MainGUI.panel.setBackground(Color.black);
             ClonalVis = new GuiVis(EpidermisConst.xSize*5, EpidermisConst.ySize*5, 1, 2, 1);
-            DivVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
+            DivVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            DivLayerVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            DeathVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            DeathLayerVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
             ActivityVis = new GuiVis(EpidermisConst.xSize * 5, EpidermisConst.ySize * 5, 1, 2, 1); // Main Epidermis visualization window
             EGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
             BFGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
@@ -77,15 +83,20 @@ public class Epidermis_Main {
             MainGUI.AddCol(YearLab, 0);
             rLambda_Label = LabelGuiSet("rLambda: ", 1, 1);
             MainGUI.AddCol(rLambda_Label, 1);
-            MainGUI.AddCol(LabelGuiSet("Population", 1, 1), 0);
+            MainGUI.AddCol(LabelGuiSet("Population", 2, 1), 0);
             MainGUI.AddCol(ClonalVis, 0);
-            MainGUI.AddCol(LabelGuiSet("Division", 1, 1), 0);
+            MainGUI.AddCol(LabelGuiSet("Division (per week)", 1, 1), 0);
             MainGUI.AddCol(DivVis, 0);
-            MainGUI.AddCol(LabelGuiSet("Epidermis", 1, 1), 0);
+            MainGUI.AddCol(LabelGuiSet("Division Layers (per week)", 1, 1), 1);
+            MainGUI.AddCol(LabelGuiSet("Death (per week)", 1, 1), 0);
+            MainGUI.AddCol(DeathVis,0);
+            MainGUI.AddCol(DivLayerVis, 1);
+            MainGUI.AddCol(LabelGuiSet("Death Layer (per week)", 1, 1), 1);
+            MainGUI.AddCol(LabelGuiSet("Epidermis", 2, 1), 0);
             MainGUI.AddCol(ActivityVis, 0); // Main Epidermis visualization window
-            MainGUI.AddCol(LabelGuiSet("EGF", 1, 1), 0);
+            MainGUI.AddCol(LabelGuiSet("EGF", 2, 1), 0);
             MainGUI.AddCol(EGFVis, 0);
-            MainGUI.AddCol(LabelGuiSet("bFGF", 1, 1), 0);
+            MainGUI.AddCol(LabelGuiSet("bFGF", 2, 1), 0);
             MainGUI.AddCol(BFGFVis, 0);
 
             MainGUI.RunGui();
@@ -94,28 +105,42 @@ public class Epidermis_Main {
         TickRateTimer tickIt = new TickRateTimer();
         while(Epidermis.GetTick() < EpidermisConst.ModelTime){
 
-            tickIt.TickPause(50); // Adjusting a frame rate
+            tickIt.TickPause(0); // Adjusting a frame rate
 
             // Main Running of the steps within the model
             Epidermis.RunStep();
-//            if(Epidermis.GetTick()==100||Epidermis.GetTick()==150){
-//                Epidermis.inflict_wound();
-//            }
-            // Visualization Components
+            if(Epidermis.GetTick()==100){
+                Epidermis.inflict_wound();
+            }
+
+            if (EpidermisConst.get_r_lambda) {
+                if (Epidermis.GetTick() % 7f == 0) {
+                    float temp_r_lambda = Epidermis.r_lambda_weekly / 7.0f;
+                    String r_lambda_out = String.valueOf(temp_r_lambda);
+                    //writer2.Write(r_lambda_out + '\n'); // writes out r_lambda value
+                    //System.out.println(Epidermis.r_lambda_weekly / 7.0f);
+                    if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda: " + new DecimalFormat("#.000").format(Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f));}
+                    EpidermisCell.loss_count_basal=0;
+                    Epidermis.r_lambda_weekly = 0;
+                } else {
+                    Epidermis.r_lambda_weekly += ((float) EpidermisCell.loss_count_basal);
+                }
+            }
+
             if(ActivityVis==null){
-                if(Epidermis.GetTick()%3650==0){
+                if(Epidermis.GetTick()%365==0){
                     System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
                 }
             }
-            if(ActivityVis!=null){YearLab.setText("Age: " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
-            //if(DivVis!=null&Epidermis.GetTick()%7==0){Epidermis.ActivityHeatMap(DivVis, Epidermis, CellDraw);}
+
+            // Visualization Components
+            if(ActivityVis!=null){YearLab.setText("Age (yrs.): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
+            if(DivVis!=null&Epidermis.GetTick()%7==0){Epidermis.DivisionHeatMap(DivVis, Epidermis, CellDraw);}
+            if(DivLayerVis!=null&Epidermis.GetTick()%7==0){Epidermis.DivisionLayers(DivLayerVis, Epidermis, CellDraw);}
             if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
             if(BFGFVis!=null){Epidermis.DrawChemicals(BFGFVis, false, true);}
-
-
-
         }
     }
 }
