@@ -3,6 +3,7 @@ import AgentFramework.*;
 import AgentFramework.Gui.*;
 import sun.applet.Main;
 
+import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import static AgentFramework.Utils.*;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static final int xSize=500; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static final int xSize=250; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -52,11 +53,13 @@ public class Epidermis_Main {
 
     public static void main (String[] args){
         final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize); // Initializes and sets up the program for running
-        GuiVis MainVis = null;
+        GuiVis ActivityVis = null;
         GuiVis EGFVis = null;
         GuiVis BFGFVis = null;
         GuiVis DivVis = null;
+        GuiVis ClonalVis = null;
         GuiLabel YearLab = null;
+        GuiLabel rLambda_Label = null;
         EpidermisCellVis CellDraw = null;
         // Sets up GUI
 
@@ -65,17 +68,21 @@ public class Epidermis_Main {
             Gui MainGUI = new Gui("Homeostatic Epidermis Model", true);
             MainGUI.panel.setOpaque(true);
             MainGUI.panel.setBackground(Color.black);
-
-            DivVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 1, 1);
-            MainVis = new GuiVis(EpidermisConst.xSize * 5, EpidermisConst.ySize * 5, 1, 1, 1); // Main Epidermis visualization window
-            EGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 1, 1);
-            BFGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 1, 1);
+            ClonalVis = new GuiVis(EpidermisConst.xSize*5, EpidermisConst.ySize*5, 1, 2, 1);
+            DivVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
+            ActivityVis = new GuiVis(EpidermisConst.xSize * 5, EpidermisConst.ySize * 5, 1, 2, 1); // Main Epidermis visualization window
+            EGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
+            BFGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
             YearLab = LabelGuiSet("Age: ", 1, 1);
             MainGUI.AddCol(YearLab, 0);
+            rLambda_Label = LabelGuiSet("rLambda: ", 1, 1);
+            MainGUI.AddCol(rLambda_Label, 1);
+            MainGUI.AddCol(LabelGuiSet("Population", 1, 1), 0);
+            MainGUI.AddCol(ClonalVis, 0);
             MainGUI.AddCol(LabelGuiSet("Division", 1, 1), 0);
             MainGUI.AddCol(DivVis, 0);
             MainGUI.AddCol(LabelGuiSet("Epidermis", 1, 1), 0);
-            MainGUI.AddCol(MainVis, 0); // Main Epidermis visualization window
+            MainGUI.AddCol(ActivityVis, 0); // Main Epidermis visualization window
             MainGUI.AddCol(LabelGuiSet("EGF", 1, 1), 0);
             MainGUI.AddCol(EGFVis, 0);
             MainGUI.AddCol(LabelGuiSet("bFGF", 1, 1), 0);
@@ -87,62 +94,28 @@ public class Epidermis_Main {
         TickRateTimer tickIt = new TickRateTimer();
         while(Epidermis.GetTick() < EpidermisConst.ModelTime){
 
-//            tickIt.TickPause(100); // Adjusting a frame rate
+            tickIt.TickPause(50); // Adjusting a frame rate
 
             // Main Running of the steps within the model
             Epidermis.RunStep();
-
-            // Print Epidermis Time in Years
-
-            if(Epidermis.GetTick()==100||Epidermis.GetTick()==150){
-                Epidermis.inflict_wound();
-            }
-
-            if(MainVis==null){
+//            if(Epidermis.GetTick()==100||Epidermis.GetTick()==150){
+//                Epidermis.inflict_wound();
+//            }
+            // Visualization Components
+            if(ActivityVis==null){
                 if(Epidermis.GetTick()%3650==0){
                     System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
                 }
             }
-            if(MainVis!=null){YearLab.setText("Tick: " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
-            if(MainVis!=null){Epidermis.DrawCells(MainVis, Epidermis, CellDraw);}
+            if(ActivityVis!=null){YearLab.setText("Age: " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
+            //if(DivVis!=null&Epidermis.GetTick()%7==0){Epidermis.ActivityHeatMap(DivVis, Epidermis, CellDraw);}
+            if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);}
+            if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
             if(BFGFVis!=null){Epidermis.DrawChemicals(BFGFVis, false, true);}
 
 
 
         }
-
-
-//        for(int t=0; t < EpidermisConst.ModelTime; t++) {
-//
-//
-//            EpidermisCellVis cell_vis = new EpidermisCellVis();
-//            for(int x=0; x<=1399; x+=5){
-//                for(int y=0; y<=29; y+=5){
-//                    // Draws the cell
-//                    for (int i = 0; i < cell_vis.division_vis.length; i += 2) {
-//                        if(MainVis!=null){MainVis.SetColor(cell_vis.division_vis[i]+x, cell_vis.division_vis[i + 1]+y, 1f, 0f, 0f);}
-//                    }
-//                }
-//            }
-//
-//            for(int x=0; x<=1399; x+=5){
-//                for(int y=30; y<=59; y+=5){
-//                    // Draws the cell
-//                    for (int i = 0; i < cell_vis.stationary_vis.length; i += 2) {
-//                        if(MainVis!=null){MainVis.SetColor(cell_vis.stationary_vis[i]+x, cell_vis.stationary_vis[i + 1]+y, 0f, 1f, 0f);}
-//                    }
-//                }
-//            }
-//            for(int x=0; x<=1399; x+=5){
-//                for(int y=60; y<=99; y+=5){
-//                    // Draws the cell
-//                    for (int i = 0; i < cell_vis.movement_vis.length; i += 2) {
-//                        if(MainVis!=null){MainVis.SetColor(cell_vis.movement_vis[i]+x, cell_vis.movement_vis[i + 1]+y, 0f, 0f, 1f);}
-//                    }
-//                }
-//            }
-
-
     }
 }

@@ -1,8 +1,17 @@
 package Epidermis_Model;
 
 import AgentFramework.AgentSQ2;
+import AgentFramework.Utils;
+import cern.jet.random.Poisson;
+import cern.jet.random.engine.DRand;
+import cern.jet.random.engine.RandomEngine;
+
+import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static AgentFramework.Utils.ModWrap;
+import static Epidermis_Model.EpidermisCellGenome.GeneMutations;
+import static Epidermis_Model.EpidermisCellGenome.genelengths;
 import static Epidermis_Model.EpidermisConst.*;
 
 /**
@@ -14,7 +23,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
-    double prolif_scale_factor = 0.8; //Correction for appropriate proliferation rate
+    double prolif_scale_factor = 0.4; //Correction for appropriate proliferation rate
     double KERATINO_EGF_CONSPUMPTION = -0.005; //consumption rate by keratinocytes
     double MELANO_BFGF_CONSUMPTION = -0.01; //consumption rate by melanocytes
     double KERATINO_APOPTOSIS_EGF = 0.01; //level at which apoptosis occurs by chance (above this and no apoptosis)
@@ -26,7 +35,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     static int death_count = 0;
     static int myType; //cell type
     int Action; //cells action
-
+    static public RandomEngine RNEngine = new DRand();
     /**
      * Parameters for cell specific tracking and genome information
      **/
@@ -148,36 +157,28 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             pro_count_basal++;
         }
 
-        //Find mutated genes given mutation rate and multinomial distribution of the proportion of gene in genome.
-//        int mutationcount = poisson_dist.nextInt();// Sample from poisson distribution for mutation rate.
-//        int[] hitgenes = Utils.sample(mutationcount, EpidermisCellGenome.geneproportion); // based on multinomial distribution
-//        for (int i = 0; i < hitgenes.length; i++) {
-//            //Add the appropriate mutation index for the gene.
-//            if (hitgenes[i] != 0) {
-//                //add a mutated position to the genome array from a randomly chosen position
-//                int rnpos = G().RN.nextInt((int) (myGenome.genelengths[hitgenes[i]]));
-//                String mutout = G().Tick() + "." + rnpos;
-//
-//                myGenome.mut_pos_setter(hitgenes[i], mutout);
-//
-//                r = G().RN.nextFloat() * 0.9f + 0.1f;
-//                g = G().RN.nextFloat() * 0.9f + 0.1f;
-//                b = G().RN.nextFloat() * 0.9f + 0.1f;
-//                ParentCloneID = cloneID;
-//                cloneCounter += 1; // Place here if only tracking cells with mutations that hit the 71 genes of interest...
-//                cloneID = cloneCounter;
-//                String[] parentLineage = G().lineages.get(ParentCloneID);
-//                String[] myLineage = Arrays.copyOf(parentLineage, parentLineage.length + 1);
-//                myLineage[parentLineage.length] = ParentCloneID + "." + cloneID;
-//                G().lineages.add(myLineage);
-//
-//
-//            } else { // Hit the rest of the genome...
-//                long rnpos = ThreadLocalRandom.current().nextLong(myGenome.genelengths[hitgenes[i]]);
-//                String mutout = G().Tick() + "." + rnpos;
-//                myGenome.mut_pos_setter(hitgenes[i], mutout);
-//            }
-//        }
+        int[] MutationsObtained = new int[GeneMutations.length];
+        for(int j=0; j<GeneMutations.length; j++){
+            if (j!=0){
+                Poisson poisson_dist = new Poisson(GeneMutations[j], RNEngine); // Setup the Poisson distributions for each gene.
+                int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for each gene
+                for(int hits=0; hits<mutations; hits++){
+                    long index = ThreadLocalRandom.current().nextLong(genelengths[j]);
+                    String mutout = G().GetTick() + "." + index;
+                    myGenome.mut_pos_setter(j, mutout);
+                    r = G().RN.nextFloat() * 0.9f + 0.1f;
+                    g = G().RN.nextFloat() * 0.9f + 0.1f;
+                    b = G().RN.nextFloat() * 0.9f + 0.1f;
+                    ParentCloneID = cloneID;
+                    cloneCounter += 1; // Place here if only tracking cells with mutations that hit the 71 genes of interest...
+                    cloneID = cloneCounter;
+                    String[] parentLineage = G().lineages.get(ParentCloneID);
+                    String[] myLineage = Arrays.copyOf(parentLineage, parentLineage.length + 1);
+                    myLineage[parentLineage.length] = ParentCloneID + "." + cloneID;
+                    G().lineages.add(myLineage);
+                }
+            }
+        }
 
         newCell.init(myType, r, g, b, myGenome, cellID, cloneID, ParentCloneID); // initializes a new skin cell, pass the cellID for a new value each time.
         pro_count += 1;
@@ -203,26 +204,6 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         }
         //if(c.Ysq()>= G().yDim-1){c.itDead();}
     }
-
-//    public void CellPush2(int x,int y){
-//        //look up for empty square
-//        int colTop=y;
-//        SkinCell c=(SkinCell)(MyGrid().FirstOnSquare(x,colTop));
-//        while(c!=null){
-//            colTop++;
-//            c=(SkinCell)(MyGrid().FirstOnSquare(x,colTop));
-//        }
-//        //kill top cell if it will hit air
-//        if(colTop>=AIR_HEIGHT){
-//            MyGrid().FirstOnSquare(x,colTop-1).Remove();
-//            colTop--;
-//        }
-//        //move column of cells up
-//        for(;colTop>y;colTop--){
-//            c=(SkinCell)(MyGrid().FirstOnSquare(x,colTop-1));
-//            c.MoveSq(x,colTop);
-//        }
-//    }
 
     // Sets the coordinates for a cell that is moving.
     public int GetMoveCoords() {
