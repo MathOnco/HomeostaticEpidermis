@@ -28,8 +28,10 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     static final double SOURCE_BFGF=0.1; //constant level at basement
     static final int AIR_HEIGHT=15; //air, keratinocyte death! (threshold level for placement of keratinocytes essentially)
     static final int DENSITY_SEARCH_SIZE=4; //Square by which 4 sides in all directions make a square, (4 is the radius), for keratinocytes.
+    static final int[] DENSITY_SEARCH_RECT = RectCentered(false, DENSITY_SEARCH_SIZE, DENSITY_SEARCH_SIZE);
+    static final int[] DENSITY_SEARCH_RESULTS = new int[DENSITY_SEARCH_RECT.length/2];
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
-    static final int INIT_MELANOCYTE_COUNT=0; // number of starting melanocytes
+    static final int INIT_MELANOCYTE_COUNT=(int)((EpidermisConst.xSize*EpidermisConst.ySize)*.02); // number of starting melanocytes
     boolean running;
     float r_lambda_weekly = 0;
     int xDim;

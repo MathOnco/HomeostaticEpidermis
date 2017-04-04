@@ -109,9 +109,9 @@ public class Epidermis_Main {
 
             // Main Running of the steps within the model
             Epidermis.RunStep();
-            if(Epidermis.GetTick()==100){
-                Epidermis.inflict_wound();
-            }
+//            if(Epidermis.GetTick()==100){
+//                Epidermis.inflict_wound();
+//            }
 
             if (EpidermisConst.get_r_lambda) {
                 if (Epidermis.GetTick() % 7f == 0) {

@@ -1,7 +1,6 @@
 package Epidermis_Model;
 
 import AgentFramework.AgentSQ2;
-import AgentFramework.Utils;
 import cern.jet.random.Poisson;
 import cern.jet.random.engine.DRand;
 import cern.jet.random.engine.RandomEngine;
@@ -27,7 +26,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     double KERATINO_EGF_CONSPUMPTION = -0.005; //consumption rate by keratinocytes
     double MELANO_BFGF_CONSUMPTION = -0.01; //consumption rate by melanocytes
     double KERATINO_APOPTOSIS_EGF = 0.005; //level at which apoptosis occurs by chance (above this and no apoptosis)
-    double MELANO_APOPTOSIS_BFGF = 0.1; //check line above, same for melanocytes
+    double MELANO_APOPTOSIS_BFGF = 0.5; //check line above, same for melanocytes
     int MELANO_DIV_DENSITY_MIN = 16; //this number or fewer keratinocytes around melanocyte and division won't happen; melanin unit
     static int pro_count = 0;
     static int pro_count_basal = 0;
@@ -89,22 +88,33 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         return finalCount;
     }
 
-    public int CountInArea(int x, int y, int searchRadius, int cellType) {
+    public float EpidermalMelaninUnit(int x, int y, int searchRadius, int cellType) {
         //gets count of cells of type in a square around x,y (in a 9 x 9 block (4 in every direction))
-        int count = 0;
-        for (int xDisp = -searchRadius; xDisp <= searchRadius; xDisp++) {
-            for (int yDisp = -searchRadius; yDisp <= searchRadius; yDisp++) {
-                int searchX = ModWrap(xDisp + x, G().xDim);
-                int searchY = yDisp + y;
-                if (G().In(searchX, searchY)) {
-                    EpidermisCell c = (EpidermisCell) G().SQtoAgent(searchX, searchY); // SQtoAgent returns null if no one there
-                    if (c != null && c.myType == cellType) {
-                        count++;
-                    }
-                }
+        int melanocyteCount=0;
+        int keratinocyteCount=0;
+        G().SQsToLocalIs(G().DENSITY_SEARCH_RECT, G().DENSITY_SEARCH_RESULTS, x, y, true, false);
+        for(int i: G().DENSITY_SEARCH_RESULTS){
+            EpidermisCell c = G().ItoAgent(i);
+            if(c!=null){
+                if(c.myType==MELANOCYTE){melanocyteCount+=1;}
+                if(c.myType==KERATINOCYTE){keratinocyteCount+=1;}
             }
         }
-        return count;
+        return (melanocyteCount*1.0f)/keratinocyteCount;
+
+//        for (int xDisp = -searchRadius; xDisp <= searchRadius; xDisp++) {
+//            for (int yDisp = -searchRadius; yDisp <= searchRadius; yDisp++) {
+//                int searchX = ModWrap(xDisp + x, G().xDim);
+//                int searchY = yDisp + y;
+//                if (G().In(searchX, searchY)) {
+//                    EpidermisCell c = (EpidermisCell) G().SQtoAgent(searchX, searchY); // SQtoAgent returns null if no one there
+//                    if (c != null && c.myType == cellType) {
+//                        count++;
+//                    }
+//                }
+//            }
+//        }
+//        return count;
     }
 
     // Gets where a cell is dividing if it's a basal cell and is proliferating
@@ -135,7 +145,9 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             return false;
         }
 
-        if (myType == MELANOCYTE && CountInArea(x, y, G().DENSITY_SEARCH_SIZE, KERATINOCYTE) <= MELANO_DIV_DENSITY_MIN) {
+        float test = EpidermalMelaninUnit(x, y, G().DENSITY_SEARCH_SIZE, KERATINOCYTE);
+        if (myType == MELANOCYTE && EpidermalMelaninUnit(x, y, G().DENSITY_SEARCH_SIZE, KERATINOCYTE) <= MELANO_DIV_DENSITY_MIN) {
+            System.out.println("Not Prolif");
             return false;
         }
 
@@ -158,28 +170,31 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             pro_count_basal++;
         }
 
-        int[] MutationsObtained = new int[GeneMutations.length];
-        for(int j=0; j<GeneMutations.length; j++){
-            if (j!=0){
-                Poisson poisson_dist = new Poisson(GeneMutations[j], RNEngine); // Setup the Poisson distributions for each gene.
-                int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for each gene
-                for(int hits=0; hits<mutations; hits++){
-                    long index = ThreadLocalRandom.current().nextLong(genelengths[j]);
-                    String mutout = G().GetTick() + "." + index;
-                    myGenome.mut_pos_setter(j, mutout);
-                    r = G().RN.nextFloat() * 0.9f + 0.1f;
-                    g = G().RN.nextFloat() * 0.9f + 0.1f;
-                    b = G().RN.nextFloat() * 0.9f + 0.1f;
-                    ParentCloneID = cloneID;
-                    cloneCounter += 1; // Place here if only tracking cells with mutations that hit the 71 genes of interest...
-                    cloneID = cloneCounter;
-                    String[] parentLineage = G().lineages.get(ParentCloneID);
-                    String[] myLineage = Arrays.copyOf(parentLineage, parentLineage.length + 1);
-                    myLineage[parentLineage.length] = ParentCloneID + "." + cloneID;
-                    G().lineages.add(myLineage);
+        if(myType==KERATINOCYTE){
+            int[] MutationsObtained = new int[GeneMutations.length];
+            for(int j=0; j<GeneMutations.length; j++){
+                if (j!=0){
+                    Poisson poisson_dist = new Poisson(GeneMutations[j], RNEngine); // Setup the Poisson distributions for each gene.
+                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for each gene
+                    for(int hits=0; hits<mutations; hits++){
+                        long index = ThreadLocalRandom.current().nextLong(genelengths[j]);
+                        String mutout = G().GetTick() + "." + index;
+                        myGenome.mut_pos_setter(j, mutout);
+                        r = G().RN.nextFloat() * 0.9f + 0.1f;
+                        g = G().RN.nextFloat() * 0.9f + 0.1f;
+                        b = G().RN.nextFloat() * 0.9f + 0.1f;
+                        ParentCloneID = cloneID;
+                        cloneCounter += 1; // Place here if only tracking cells with mutations that hit the 71 genes of interest...
+                        cloneID = cloneCounter;
+                        String[] parentLineage = G().lineages.get(ParentCloneID);
+                        String[] myLineage = Arrays.copyOf(parentLineage, parentLineage.length + 1);
+                        myLineage[parentLineage.length] = ParentCloneID + "." + cloneID;
+                        G().lineages.add(myLineage);
+                    }
                 }
             }
         }
+
 
         newCell.init(myType, r, g, b, myGenome, cellID, cloneID, ParentCloneID); // initializes a new skin cell, pass the cellID for a new value each time.
         pro_count += 1;
@@ -210,7 +225,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     public int GetMoveCoords() {
         int iMoveCoord=-1;  //when it's time to move, it is the index of coordinate that is picked from Coords array above. -1 == Not Moving
         int MoveOptions=GetEmptyVNSquares(Xsq(),Ysq(), true, G().inBounds);
-        if(MoveOptions>0&&(myType==KERATINOCYTE||myType==MELANOCYTE&&CountInArea(Xsq(),Ysq(),G().DENSITY_SEARCH_SIZE,KERATINOCYTE)<=MELANO_DIV_DENSITY_MIN)) {
+        if(MoveOptions>0&&(myType==KERATINOCYTE||myType==MELANOCYTE&& EpidermalMelaninUnit(Xsq(),Ysq(),G().DENSITY_SEARCH_SIZE,KERATINOCYTE)<=MELANO_DIV_DENSITY_MIN)) {
             iMoveCoord=G().RN.nextInt(MoveOptions);
         }
         return iMoveCoord;
@@ -236,13 +251,13 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             itDead();
             return;
         }
-        if (myType == MELANOCYTE && G().BFGF.SQgetCurr(x, y) < MELANO_APOPTOSIS_BFGF && G().RN.nextDouble() < G().BFGF.SQgetCurr(x, y) / MELANO_APOPTOSIS_BFGF) {
+        if (myType == MELANOCYTE && G().BFGF.SQgetCurr(x, y) < MELANO_APOPTOSIS_BFGF && G().RN.nextDouble() > Math.pow(G().BFGF.SQgetCurr(x, y) / MELANO_APOPTOSIS_BFGF,3)) {
             //DEATH FROM LACK OF NUTRIENTS MELANOCYTE
             itDead();
             return;
         }
 
-        if (G().RN.nextFloat() > 0.75) {
+        if (G().RN.nextFloat() >= 0.5) {
             int iMoveCoord = GetMoveCoords(); // -1 if not moving
 
             if (iMoveCoord != -1) {
@@ -258,9 +273,6 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         if(divided){
             Action = DIVIDE;
         }
-// else{
-//            Action = STATIONARY;
-//        }
 
     }
 
