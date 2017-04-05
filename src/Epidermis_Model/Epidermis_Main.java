@@ -1,17 +1,9 @@
 package Epidermis_Model;
 import AgentFramework.*;
 import AgentFramework.Gui.*;
-import sun.applet.Main;
 
-import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
-import static AgentFramework.Utils.*;
 
 /**
  * Created by schencro on 3/24/17.
@@ -63,6 +55,7 @@ public class Epidermis_Main {
         GuiVis ClonalVis = null;
         GuiLabel YearLab = null;
         GuiLabel rLambda_Label = null;
+        GuiLabel OldestCell = null;
         EpidermisCellVis CellDraw = null;
         // Sets up GUI
 
@@ -80,8 +73,10 @@ public class Epidermis_Main {
             EGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
             YearLab = LabelGuiSet("Age: ", 1, 1);
             MainGUI.AddCol(YearLab, 0);
+            OldestCell = LabelGuiSet("Oldest Cell: ", 1, 1);
             rLambda_Label = LabelGuiSet("rLambda: ", 1, 1);
             MainGUI.AddCol(rLambda_Label, 1);
+            MainGUI.AddCol(OldestCell, 1);
             MainGUI.AddCol(LabelGuiSet("Population", 2, 1), 0);
             MainGUI.AddCol(ClonalVis, 0);
             MainGUI.AddCol(LabelGuiSet("Division (per week)", 1, 1), 0);
@@ -107,9 +102,9 @@ public class Epidermis_Main {
 
             // Main Running of the steps within the model
             Epidermis.RunStep();
-            if(Epidermis.GetTick()%1000==0){
-                Epidermis.inflict_wound();
-            }
+//            if(Epidermis.GetTick()%1000==0){
+//                Epidermis.inflict_wound();
+//            }
 
             if (EpidermisConst.get_r_lambda) {
                 if (Epidermis.GetTick() % 7f == 0) {
@@ -117,7 +112,7 @@ public class Epidermis_Main {
                     String r_lambda_out = String.valueOf(temp_r_lambda);
                     //writer2.Write(r_lambda_out + '\n'); // writes out r_lambda value
                     //System.out.println(Epidermis.r_lambda_weekly / 7.0f);
-                    if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda: " + new DecimalFormat("#.000").format(Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f));}
+                    if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format(Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f));}
                     EpidermisCell.loss_count_basal=0;
                     Epidermis.r_lambda_weekly = 0;
                 } else {
@@ -138,6 +133,7 @@ public class Epidermis_Main {
             if(DeathVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DeathVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(DeathLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DeathLayerVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);}
+            if(OldestCell!=null){OldestCell.setText("Mean cell age (days): " + new DecimalFormat("#.00").format(Epidermis.GetOldestCell(Epidermis)));}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
         }

@@ -23,6 +23,12 @@ class AgentBase <T extends GridBase>{
         return myGrid.tick-birthTick;
     }
 
+
+    /**
+     * Returns the birth tick of the cell
+     */
+    public int BirthTick() { return birthTick;}
+
     /**
      * Returns whether the agent is alive or has been disposed
      */
