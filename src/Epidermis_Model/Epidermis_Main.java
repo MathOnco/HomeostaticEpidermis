@@ -19,7 +19,7 @@ import static AgentFramework.Utils.*;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static final int xSize=250; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static final int xSize=200; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -27,13 +27,15 @@ class EpidermisConst{
 
     static final int KERATINOCYTE = 0; //setting types into a binary 0 or 1
     static final int MELANOCYTE = 1; //same as above (1)
-    static final int DIVIDE = 0; // Attribute if cell is dividing
-    static final int STATIONARY = 1; // Attribute if cell is stationary
-    static final int MOVING = 2; //Attribute if cell is moving
+    static final int DIVIDE = 2; // Attribute if cell is dividing
+    static final int STATIONARY = 3; // Attribute if cell is stationary
+    static final int MOVING = 4; //Attribute if cell is moving
 
     static final int years=65; // time in years.
     static final int RecordTime=years*365;
     static final int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
+
+    static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
     static final boolean FileOn = false; // use when writing information for mueller plots
     static final boolean GuiOn = true; // use for visualization
@@ -92,6 +94,7 @@ public class Epidermis_Main {
             MainGUI.AddCol(DeathVis,0);
             MainGUI.AddCol(DivLayerVis, 1);
             MainGUI.AddCol(LabelGuiSet("Death Layer (per week)", 1, 1), 1);
+            MainGUI.AddCol(DeathLayerVis, 1);
             MainGUI.AddCol(LabelGuiSet("Epidermis", 2, 1), 0);
             MainGUI.AddCol(ActivityVis, 0); // Main Epidermis visualization window
             MainGUI.AddCol(LabelGuiSet("EGF", 2, 1), 0);
@@ -109,9 +112,9 @@ public class Epidermis_Main {
 
             // Main Running of the steps within the model
             Epidermis.RunStep();
-            if(Epidermis.GetTick()==100){
-                Epidermis.inflict_wound();
-            }
+//            if(Epidermis.GetTick()%1000==0){
+//                Epidermis.inflict_wound();
+//            }
 
             if (EpidermisConst.get_r_lambda) {
                 if (Epidermis.GetTick() % 7f == 0) {
@@ -135,8 +138,10 @@ public class Epidermis_Main {
 
             // Visualization Components
             if(ActivityVis!=null){YearLab.setText("Age (yrs.): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
-            if(DivVis!=null&Epidermis.GetTick()%7==0){Epidermis.DivisionHeatMap(DivVis, Epidermis, CellDraw);}
-            if(DivLayerVis!=null&Epidermis.GetTick()%7==0){Epidermis.DivisionLayers(DivLayerVis, Epidermis, CellDraw);}
+            if(DivVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DivVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
+            if(DivLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DivLayerVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
+            if(DeathVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DeathVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
+            if(DeathLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DeathLayerVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}

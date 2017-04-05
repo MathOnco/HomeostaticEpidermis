@@ -60,7 +60,7 @@ public class GuiVis extends JPanel implements GuiComp {
      * @param colorOrder the order in which to fill the colors, default is rgb, but any permutation of these three characters is valid
      */
     public void SetColorHeat(int x, int y, double val,String colorOrder) {
-        if(val>0) {
+        if(val>=0) {
             float c1 = (float) Math.min(1, val * 3);
             float c2 = 0;
             float c3 = 0;
