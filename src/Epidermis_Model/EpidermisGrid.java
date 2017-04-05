@@ -140,6 +140,18 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             }
     }
 
+    public float GetOldestCell(EpidermisGrid Epidermis){
+        float Age = 0;
+        int aliveCells = 0;
+        for (EpidermisCell c: this) {
+            if(c!=null){
+                Age += c.Age();
+                aliveCells += 1;
+            }
+        }
+        return Age/aliveCells;
+    }
+
 
     public void DrawCellActivity(GuiVis vis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
         long time = System.currentTimeMillis();
