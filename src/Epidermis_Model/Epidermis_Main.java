@@ -26,7 +26,6 @@ class EpidermisConst{
     static final int ySize=20;
 
     static final int KERATINOCYTE = 0; //setting types into a binary 0 or 1
-    static final int MELANOCYTE = 1; //same as above (1)
     static final int DIVIDE = 2; // Attribute if cell is dividing
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
@@ -57,7 +56,6 @@ public class Epidermis_Main {
         final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize); // Initializes and sets up the program for running
         GuiVis ActivityVis = null;
         GuiVis EGFVis = null;
-        GuiVis BFGFVis = null;
         GuiVis DivVis = null;
         GuiVis DivLayerVis = null;
         GuiVis DeathVis = null;
@@ -80,7 +78,6 @@ public class Epidermis_Main {
             DeathLayerVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
             ActivityVis = new GuiVis(EpidermisConst.xSize * 5, EpidermisConst.ySize * 5, 1, 2, 1); // Main Epidermis visualization window
             EGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
-            BFGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
             YearLab = LabelGuiSet("Age: ", 1, 1);
             MainGUI.AddCol(YearLab, 0);
             rLambda_Label = LabelGuiSet("rLambda: ", 1, 1);
@@ -99,8 +96,6 @@ public class Epidermis_Main {
             MainGUI.AddCol(ActivityVis, 0); // Main Epidermis visualization window
             MainGUI.AddCol(LabelGuiSet("EGF", 2, 1), 0);
             MainGUI.AddCol(EGFVis, 0);
-            MainGUI.AddCol(LabelGuiSet("bFGF", 2, 1), 0);
-            MainGUI.AddCol(BFGFVis, 0);
 
             MainGUI.RunGui();
         }
@@ -112,9 +107,9 @@ public class Epidermis_Main {
 
             // Main Running of the steps within the model
             Epidermis.RunStep();
-//            if(Epidermis.GetTick()%1000==0){
-//                Epidermis.inflict_wound();
-//            }
+            if(Epidermis.GetTick()%1000==0){
+                Epidermis.inflict_wound();
+            }
 
             if (EpidermisConst.get_r_lambda) {
                 if (Epidermis.GetTick() % 7f == 0) {
@@ -145,7 +140,6 @@ public class Epidermis_Main {
             if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
-            if(BFGFVis!=null){Epidermis.DrawChemicals(BFGFVis, false, true);}
         }
     }
 }

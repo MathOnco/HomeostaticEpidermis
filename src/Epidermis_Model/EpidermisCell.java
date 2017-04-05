@@ -24,10 +24,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
      **/
     double prolif_scale_factor = 0.3; //Correction for appropriate proliferation rate
     double KERATINO_EGF_CONSPUMPTION = -0.005; //consumption rate by keratinocytes
-    double MELANO_BFGF_CONSUMPTION = -0.01; //consumption rate by melanocytes
     double KERATINO_APOPTOSIS_EGF = 0.005; //level at which apoptosis occurs by chance (above this and no apoptosis)
-    double MELANO_APOPTOSIS_BFGF = 0.05; //check line above, same for melanocytes
-    int MELANO_DIV_DENSITY_MIN = 16; //this number or fewer keratinocytes around melanocyte and division won't happen; melanin unit
     static int pro_count = 0;
     static int pro_count_basal = 0;
     static int loss_count_basal = 0;
@@ -88,44 +85,6 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         return finalCount;
     }
 
-    public float EpidermalMelaninUnit(int x, int y, int searchRadius, int cellType) {
-        //gets count of cells of type in a square around x,y (in a 9 x 9 block (4 in every direction))
-        int melanocyteCount=0;
-        int keratinocyteCount=0;
-        G().SQsToLocalIs(G().DENSITY_SEARCH_RECT, G().DENSITY_SEARCH_RESULTS, x, y, true, false);
-//        for(int i: G().DENSITY_SEARCH_RESULTS){
-//            EpidermisCell c = G().ItoAgent(i);
-//            if(c!=null){
-//                if(c.myType==MELANOCYTE){melanocyteCount+=1;}
-//                if(c.myType==KERATINOCYTE){keratinocyteCount+=1;}
-//            }
-//        }
-
-        for(int j=0;j<G().DENSITY_SEARCH_RESULTS.length;j++){
-            int i=G().DENSITY_SEARCH_RESULTS[j];
-            EpidermisCell c = G().ItoAgent(i);
-            if(c!=null){
-                if(c.myType==MELANOCYTE){melanocyteCount+=1;}
-                if(c.myType==KERATINOCYTE){keratinocyteCount+=1;}
-            }
-        }
-        return (melanocyteCount*1.0f)/keratinocyteCount;
-
-//        for (int xDisp = -searchRadius; xDisp <= searchRadius; xDisp++) {
-//            for (int yDisp = -searchRadius; yDisp <= searchRadius; yDisp++) {
-//                int searchX = ModWrap(xDisp + x, G().xDim);
-//                int searchY = yDisp + y;
-//                if (G().In(searchX, searchY)) {
-//                    EpidermisCell c = (EpidermisCell) G().SQtoAgent(searchX, searchY); // SQtoAgent returns null if no one there
-//                    if (c != null && c.myType == cellType) {
-//                        count++;
-//                    }
-//                }
-//            }
-//        }
-//        return count;
-    }
-
     // Gets where a cell is dividing if it's a basal cell and is proliferating
     public int basalProlif(){
         double divideWhere = G().RN.nextDouble();
@@ -147,16 +106,6 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 
         // If EGF is low then next double is likely to be higher...Results in no proliferation
         if (myType == KERATINOCYTE && G().RN.nextDouble() > G().EGF.SQgetCurr(x, y) * prolif_scale_factor) {
-            return false;
-        }
-        // If bFGF is low then next double is likely to be higher...Results in no proliferation
-        if (myType == MELANOCYTE && G().RN.nextDouble() > G().BFGF.SQgetCurr(x, y) * prolif_scale_factor) {
-            return false;
-        }
-
-        float test = EpidermalMelaninUnit(x, y, G().DENSITY_SEARCH_SIZE, KERATINOCYTE);
-        if (myType == MELANOCYTE && EpidermalMelaninUnit(x, y, G().DENSITY_SEARCH_SIZE, KERATINOCYTE) <= MELANO_DIV_DENSITY_MIN) {
-            //System.out.println("Not Prolif");
             return false;
         }
 
@@ -217,7 +166,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     public boolean CellPush(int iDivLoc){
         int i = G().inBounds[iDivLoc];
         EpidermisCell c=G().ItoAgent(i);
-        if(c!=null&&c.myType!=MELANOCYTE){
+        if(c!=null){
             int x = G().ItoX(i);
             int y = G().ItoY(i);
             //look up for empty square
@@ -244,7 +193,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     public int GetMoveCoords() {
         int iMoveCoord=-1;  //when it's time to move, it is the index of coordinate that is picked from Coords array above. -1 == Not Moving
         int MoveOptions=GetEmptyVNSquares(Xsq(),Ysq(),true, G().divHood, G().inBounds);
-        if(MoveOptions>0&&(myType==KERATINOCYTE||myType==MELANOCYTE&& EpidermalMelaninUnit(Xsq(),Ysq(),G().DENSITY_SEARCH_SIZE,KERATINOCYTE)<=MELANO_DIV_DENSITY_MIN)) {
+        if(MoveOptions>0&&myType==KERATINOCYTE) {
             iMoveCoord=G().RN.nextInt(MoveOptions);
         }
         return iMoveCoord;
@@ -268,11 +217,6 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         }
         if (myType == KERATINOCYTE && G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() > Math.pow(G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF,3)) {
             //DEATH FROM LACK OF NUTRIENTS KERATINOCYTE
-            itDead();
-            return;
-        }
-        if (myType == MELANOCYTE && G().BFGF.SQgetCurr(x, y) < MELANO_APOPTOSIS_BFGF && G().RN.nextDouble() < Math.pow(G().BFGF.SQgetCurr(x, y) / MELANO_APOPTOSIS_BFGF,3)) {
-            //DEATH FROM LACK OF NUTRIENTS MELANOCYTE
             itDead();
             return;
         }

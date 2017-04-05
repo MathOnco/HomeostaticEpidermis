@@ -23,16 +23,11 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     static final int[] divHood={1,0,-1,0,0,1,0,-1}; // Coordinate set for two beside and one above and one below [x,y,x,y...]
     static final int[] inBounds= new int[4];
     static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
-    static final double BFGF_DIFFUSION_RATE=0.07; //melanocyte growth factor
     static final double DECAY_RATE=0.01; //chemical decay rate of growth factors
     static final double SOURCE_EGF=1; //constant level at basement
     static final double SOURCE_BFGF=0.1; //constant level at basement
     static final int AIR_HEIGHT=15; //air, keratinocyte death! (threshold level for placement of keratinocytes essentially)
-    static final int DENSITY_SEARCH_SIZE=4; //Square by which 4 sides in all directions make a square, (4 is the radius), for keratinocytes.
-    static final int[] DENSITY_SEARCH_RECT = RectCentered(false, DENSITY_SEARCH_SIZE, DENSITY_SEARCH_SIZE);
-    static final int[] DENSITY_SEARCH_RESULTS = new int[DENSITY_SEARCH_RECT.length/2];
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
-    static final int INIT_MELANOCYTE_COUNT=0; // number of starting melanocytes
     boolean running;
     float r_lambda_weekly = 0;
     int xDim;
@@ -42,7 +37,6 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     ArrayList<HashMap<String,Integer>> muellerList;  // timestep array[ {ClonalPopID:PopSize, ...}, {...} ]
     ArrayList<String[]> lineages;
     GridDiff2 EGF;
-    GridDiff2 BFGF;
 
     public EpidermisGrid(int x, int y) {
         super(x,y,EpidermisCell.class);
@@ -54,7 +48,6 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         xDim = x;
         yDim = y;
         EGF = new GridDiff2(x, y);
-        BFGF = new GridDiff2(x, y);
         PlaceCells();
     }
 
@@ -78,11 +71,6 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
 
     public void PlaceCells() {
         EpidermisCellGenome startingGenomeVals = new EpidermisCellGenome(); // Creating genome class within each cell
-        int[] xPositions = RandomIndices(xSize, INIT_MELANOCYTE_COUNT, RN); //Place Melanocytes
-        for (int i = 0; i < INIT_MELANOCYTE_COUNT; i++) {
-            EpidermisCell c = NewAgent(xPositions[i], 0);
-            c.init(MELANOCYTE, 0, 1, 1, startingGenomeVals, 0, 1, 1);
-        }
         for (int x = 0; x < xDim; x++) {
             for (int y = 0; y < AIR_HEIGHT; y++) {
                 if (SQtoAgent(x,y) == null) {
@@ -111,9 +99,6 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             for (int y = 0; y < yDim; y++) {
                 if (egf) {
                     chemVis.SetColorHeat(x, y, EGF.SQgetCurr(x, y) / SOURCE_EGF, "rgb");
-                }
-                if (bfgf) {
-                    chemVis.SetColorHeat(x, y, BFGF.SQgetCurr(x, y) / SOURCE_BFGF, "bgr");
                 }
             }
         }
@@ -157,11 +142,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             for (int y = 0; y < yDim; y++) {
                 EpidermisCell c = Epidermis.SQtoAgent(x, y);
                 if (c != null) {
-                    if (c.myType == KERATINOCYTE) {
                         CellDraw.DrawCellonGrid(vis, c);
-                    } else if (c.myType == MELANOCYTE) {
-                        CellDraw.DrawCellonGridPop(vis, c);
-                    }
                 } else {
                     CellDraw.DrawEmptyCell(vis, x, y);
                 }
@@ -175,11 +156,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             for (int y = 0; y < yDim; y++) {
                 EpidermisCell c = Epidermis.SQtoAgent(x, y);
                 if (c != null) {
-                    if (c.myType == KERATINOCYTE) {
                         CellDraw.DrawCellonGridPop(vis, c);
-                    } else if (c.myType == MELANOCYTE) {
-                        CellDraw.DrawCellonGridPop(vis, c);
-                    }
                 } else {
                     CellDraw.DrawEmptyCell(vis, x, y);
                 }
@@ -219,33 +196,22 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     public void ChemicalLoop(){
         //DIFFUSION
         EGF.Diffuse(EGF_DIFFUSION_RATE,false,0,true);
-        BFGF.Diffuse(BFGF_DIFFUSION_RATE,false,0,true);
         //CELL CONSUMPTION
         for (EpidermisCell c: this) {
-            if(c.myType==KERATINOCYTE){
                 EGF.IaddNext(c.Isq(), c.KERATINO_EGF_CONSPUMPTION*EGF.IgetCurr(c.Isq()));
-            }
-            else if(c.myType==MELANOCYTE){
-                BFGF.IaddNext(c.Isq(), c.MELANO_BFGF_CONSUMPTION*BFGF.IgetCurr(c.Isq()));
-            }
         }
 
         //DECAY RATE
         for(int i=0;i<EGF.length;i++){
             EGF.IsetNext(i, EGF.IgetNext(i)*(1.0-DECAY_RATE));
         }
-        for(int i=0;i<BFGF.length;i++){
-            BFGF.IsetNext(i, BFGF.IgetNext(i)*(1.0-DECAY_RATE));
-        }
 
         //SOURCE ADDITION
         for(int x=0;x<xDim;x++) {
             EGF.SQsetNext(x,0,SOURCE_EGF);
-            BFGF.SQsetNext(x,0,SOURCE_BFGF);
         }
 
         //SWAP CURRENT FOR NEXT
         EGF.SwapNextCurr();
-        BFGF.SwapNextCurr();
     }
 }
