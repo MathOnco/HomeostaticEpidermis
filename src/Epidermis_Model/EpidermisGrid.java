@@ -25,7 +25,6 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
     static final double DECAY_RATE=0.01; //chemical decay rate of growth factors
     static final double SOURCE_EGF=1; //constant level at basement
-    static final double SOURCE_BFGF=0.1; //constant level at basement
     static final int AIR_HEIGHT=15; //air, keratinocyte death! (threshold level for placement of keratinocytes essentially)
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
     boolean running;
@@ -109,7 +108,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             if(MeanLife[i]!=0) {
                 heatVis.SetColorHeat(ItoX(i), ItoY(i), MeanLife[i] / (float)EpidermisConst.VisUpdate, heatColor);
             } else {
-                heatVis.SetColor(ItoX(i),ItoY(i), 0f, 0f, 0f);
+                heatVis.SetColor(ItoX(i),ItoY(i), 0.0f, 0.0f, 0.0f);
             }
         }
     }
@@ -123,8 +122,14 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         }
         for(int y = 0; y<MeanLayer.length; y++) {
             float LayerAvg = MeanLayer[y] / (EpidermisConst.xSize * (float) EpidermisConst.VisUpdate);
-                for (int x = 0; x < EpidermisConst.xSize; x++) {
-                    heatVis.SetColorHeat(x, y, LayerAvg, heatColor);
+                if(LayerAvg!=0) {
+                    for (int x = 0; x < EpidermisConst.xSize; x++) {
+                        heatVis.SetColorHeat(x, y, LayerAvg, heatColor);
+                    }
+                } else {
+                    for (int x = 0; x < EpidermisConst.xSize; x++) {
+                        heatVis.SetColor(x, y, 0.0f, 0.0f, 0.0f);
+                    }
                 }
         }
     }

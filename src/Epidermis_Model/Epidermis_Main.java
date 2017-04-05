@@ -1,17 +1,9 @@
 package Epidermis_Model;
 import AgentFramework.*;
 import AgentFramework.Gui.*;
-import sun.applet.Main;
 
-import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
-import static AgentFramework.Utils.*;
 
 /**
  * Created by schencro on 3/24/17.

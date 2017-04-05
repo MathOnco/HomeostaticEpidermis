@@ -22,9 +22,10 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
-    double prolif_scale_factor = 0.3; //Correction for appropriate proliferation rate
+    double prolif_scale_factor = 0.1; //Correction for appropriate proliferation rate (Default = 0.1-0.075 with KERATINO_APOPTOSIS_EGF=0.01)
     double KERATINO_EGF_CONSPUMPTION = -0.005; //consumption rate by keratinocytes
-    double KERATINO_APOPTOSIS_EGF = 0.005; //level at which apoptosis occurs by chance (above this and no apoptosis)
+    double KERATINO_APOPTOSIS_EGF = 0.01; //level at which apoptosis occurs by chance (above this and no apoptosis)
+    double MOVEPROBABILITY = 0.75; //RN float has to be greater than this to move...
     static int pro_count = 0;
     static int pro_count_basal = 0;
     static int loss_count_basal = 0;
@@ -215,15 +216,14 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             itDead();
             return;
         }
-        if (myType == KERATINOCYTE && G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() > Math.pow(G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF,3)) {
+        if (myType == KERATINOCYTE && G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < Math.pow(G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF,3)) {
             //DEATH FROM LACK OF NUTRIENTS KERATINOCYTE
             itDead();
             return;
         }
 
-        if (G().RN.nextFloat() >= 0.0) {
+        if (G().RN.nextFloat() >= MOVEPROBABILITY) {
             int iMoveCoord = GetMoveCoords(); // -1 if not moving
-
             if (iMoveCoord != -1) {
                 Move(G().inBounds[iMoveCoord]); // We are moving
                 Action = MOVING;
