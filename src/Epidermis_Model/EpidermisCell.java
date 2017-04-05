@@ -167,7 +167,10 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             if(iDivLoc==0||iDivLoc==1){
                 loss_count_basal+=1;
             }
-            CellPush(iDivLoc);
+            boolean Pushed = CellPush(iDivLoc);
+            if(Pushed==false){
+                return false; // Only false if melanocyte there
+            }
 
         } else{
             int divOptions = GetEmptyVNSquares(x, y, true, G().divHood, G().inBounds); // Number of coordinates you could divide into
@@ -211,24 +214,30 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         return true;
     }
 
-    public void CellPush(int iDivLoc){
+    public boolean CellPush(int iDivLoc){
         int i = G().inBounds[iDivLoc];
-        int x = G().ItoX(i);
-        int y = G().ItoY(i);
-        //look up for empty square
-        int colTop=y;
         EpidermisCell c=G().ItoAgent(i);
-        while(c!=null){
-            colTop++;
-            c=G().SQtoAgent(x,colTop);
+        if(c!=null&&c.myType!=MELANOCYTE){
+            int x = G().ItoX(i);
+            int y = G().ItoY(i);
+            //look up for empty square
+            int colTop=y;
+//            EpidermisCell c=G().ItoAgent(i);
+            while(c!=null){
+                colTop++;
+                c=G().SQtoAgent(x,colTop);
+            }
+            int colMax=colTop;
+            //move column of cells up
+            for(;colTop>y;colTop--){
+                c=(G().SQtoAgent(x,colTop-1));
+                c.Move(x,colTop);
+            }
+            //if(c.Ysq()>= G().yDim-1){c.itDead();}
+            return true;
+        } else{
+            return false;
         }
-        int colMax=colTop;
-        //move column of cells up
-        for(;colTop>y;colTop--){
-            c=(G().SQtoAgent(x,colTop-1));
-            c.Move(x,colTop);
-        }
-        //if(c.Ysq()>= G().yDim-1){c.itDead();}
     }
 
     // Sets the coordinates for a cell that is moving.
@@ -244,6 +253,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     public void itDead(){
         Dispose();
         death_count+=1;
+        G().MeanDeath[Isq()] += 1;
         if (Ysq()==0){
             loss_count_basal++;
         }
@@ -267,7 +277,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             return;
         }
 
-        if (G().RN.nextFloat() >= 0.5) {
+        if (G().RN.nextFloat() >= 0.0) {
             int iMoveCoord = GetMoveCoords(); // -1 if not moving
 
             if (iMoveCoord != -1) {

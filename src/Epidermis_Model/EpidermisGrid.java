@@ -32,7 +32,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     static final int[] DENSITY_SEARCH_RECT = RectCentered(false, DENSITY_SEARCH_SIZE, DENSITY_SEARCH_SIZE);
     static final int[] DENSITY_SEARCH_RESULTS = new int[DENSITY_SEARCH_RECT.length/2];
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
-    static final int INIT_MELANOCYTE_COUNT=(int)((EpidermisConst.xSize*EpidermisConst.ySize)*.02); // number of starting melanocytes
+    static final int INIT_MELANOCYTE_COUNT=0; // number of starting melanocytes
     boolean running;
     float r_lambda_weekly = 0;
     int xDim;
@@ -81,7 +81,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         int[] xPositions = RandomIndices(xSize, INIT_MELANOCYTE_COUNT, RN); //Place Melanocytes
         for (int i = 0; i < INIT_MELANOCYTE_COUNT; i++) {
             EpidermisCell c = NewAgent(xPositions[i], 0);
-            c.init(MELANOCYTE, 0, 1, 0, startingGenomeVals, 0, 1, 1);
+            c.init(MELANOCYTE, 0, 1, 1, startingGenomeVals, 0, 1, 1);
         }
         for (int x = 0; x < xDim; x++) {
             for (int y = 0; y < AIR_HEIGHT; y++) {
@@ -119,28 +119,28 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         }
     }
 
-    public void DivisionHeatMap(GuiVis heatVis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
-        for(int i=0; i<MeanProlif.length; i++){
-            if(MeanProlif[i]!=0) {
-                heatVis.SetColorHeat(ItoX(i), ItoY(i), MeanProlif[i] / 7f, "gbr");
+    public void ActivityHeatMap(GuiVis heatVis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw, int[] MeanLife, String heatColor) {
+        for(int i=0; i<MeanLife.length; i++){
+            if(MeanLife[i]!=0) {
+                heatVis.SetColorHeat(ItoX(i), ItoY(i), MeanLife[i] / (float)EpidermisConst.VisUpdate, heatColor);
             } else {
                 heatVis.SetColor(ItoX(i),ItoY(i), 0f, 0f, 0f);
             }
         }
     }
 
-    public void DivisionLayers(GuiVis heatVis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
-        int[] MeanDivLayer = new int[EpidermisConst.ySize];
-        for(int i=0; i<MeanProlif.length; i++){
+    public void LayerVis(GuiVis heatVis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw, int[] MeanLife, String heatColor) {
+        int[] MeanLayer = new int[EpidermisConst.ySize];
+        for(int i=0; i<MeanLife.length; i++){
             int y = ItoY(i);
-            MeanDivLayer[y] += MeanProlif[i];
-            heatVis.SetColor(ItoX(i),ItoY(i), 0f, 0f, 0f);
+            MeanLayer[y] += MeanLife[i];
+            MeanLife[i] = 0;
         }
-        for(int i = 0; i<MeanProlif.length; i++){
-            if(MeanDivLayer[ItoY(i)]!=0){
-                heatVis.SetColorHeat(ItoX(i), ItoY(i), MeanDivLayer[ItoY(i)] / EpidermisConst.xSize / 7f, "gbr");
-                MeanProlif[i] = 0;
-            }
+        for(int y = 0; y<MeanLayer.length; y++) {
+            float LayerAvg = MeanLayer[y] / (EpidermisConst.xSize * (float) EpidermisConst.VisUpdate);
+                for (int x = 0; x < EpidermisConst.xSize; x++) {
+                    heatVis.SetColorHeat(x, y, LayerAvg, heatColor);
+                }
         }
     }
 
@@ -150,16 +150,6 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             }
     }
 
-//    public void MeanDeath(){
-//        for (int x = 0; x < xDim; x++) {
-//            for (int y = 0; y < yDim; y++) {
-//                int mySq = SQtoI(x, y);
-//                if (){
-//
-//                }
-//            }
-//        }
-//    }
 
     public void DrawCellActivity(GuiVis vis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
         long time = System.currentTimeMillis();
