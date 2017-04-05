@@ -19,8 +19,9 @@ import java.util.Random;
 // Grid specific parameters
 class EpidermisGrid extends Grid2<EpidermisCell> {
     final Random RN=new Random();
-    static final int[] divHood={1,0,-1,0,0,1}; // Coordinate set for two beside and one above [x,y,x,y...]
-    static final int[] inBounds= new int[3];
+    static final int[] divHoodBasal={1,0,-1,0,0,1}; // Coordinate set for two beside and one above [x,y,x,y...]
+    static final int[] divHood={1,0,-1,0,0,1,0,-1}; // Coordinate set for two beside and one above and one below [x,y,x,y...]
+    static final int[] inBounds= new int[4];
     static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
     static final double BFGF_DIFFUSION_RATE=0.07; //melanocyte growth factor
     static final double DECAY_RATE=0.01; //chemical decay rate of growth factors
@@ -121,7 +122,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     public void DivisionHeatMap(GuiVis heatVis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
         for(int i=0; i<MeanProlif.length; i++){
             if(MeanProlif[i]!=0) {
-                heatVis.SetColorHeat(ItoX(i), ItoY(i), MeanProlif[i] / 7f, "brg");
+                heatVis.SetColorHeat(ItoX(i), ItoY(i), MeanProlif[i] / 7f, "gbr");
             } else {
                 heatVis.SetColor(ItoX(i),ItoY(i), 0f, 0f, 0f);
             }
@@ -137,7 +138,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         }
         for(int i = 0; i<MeanProlif.length; i++){
             if(MeanDivLayer[ItoY(i)]!=0){
-                heatVis.SetColorHeat(ItoX(i), ItoY(i), MeanDivLayer[ItoY(i)] / EpidermisConst.xSize / 7f, "brg");
+                heatVis.SetColorHeat(ItoX(i), ItoY(i), MeanDivLayer[ItoY(i)] / EpidermisConst.xSize / 7f, "gbr");
                 MeanProlif[i] = 0;
             }
         }
@@ -169,7 +170,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
                     if (c.myType == KERATINOCYTE) {
                         CellDraw.DrawCellonGrid(vis, c);
                     } else if (c.myType == MELANOCYTE) {
-                        vis.SetColor(x, y, 0.0f, 1.0f, 0.0f);
+                        CellDraw.DrawCellonGridPop(vis, c);
                     }
                 } else {
                     CellDraw.DrawEmptyCell(vis, x, y);
@@ -187,7 +188,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
                     if (c.myType == KERATINOCYTE) {
                         CellDraw.DrawCellonGridPop(vis, c);
                     } else if (c.myType == MELANOCYTE) {
-                        vis.SetColor(x, y, 0.0f, 1.0f, 0.0f);
+                        CellDraw.DrawCellonGridPop(vis, c);
                     }
                 } else {
                     CellDraw.DrawEmptyCell(vis, x, y);
@@ -224,7 +225,6 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             }
         }
     }
-
 
     public void ChemicalLoop(){
         //DIFFUSION

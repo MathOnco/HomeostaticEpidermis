@@ -26,13 +26,13 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     double KERATINO_EGF_CONSPUMPTION = -0.005; //consumption rate by keratinocytes
     double MELANO_BFGF_CONSUMPTION = -0.01; //consumption rate by melanocytes
     double KERATINO_APOPTOSIS_EGF = 0.005; //level at which apoptosis occurs by chance (above this and no apoptosis)
-    double MELANO_APOPTOSIS_BFGF = 0.5; //check line above, same for melanocytes
+    double MELANO_APOPTOSIS_BFGF = 0.05; //check line above, same for melanocytes
     int MELANO_DIV_DENSITY_MIN = 16; //this number or fewer keratinocytes around melanocyte and division won't happen; melanin unit
     static int pro_count = 0;
     static int pro_count_basal = 0;
     static int loss_count_basal = 0;
     static int death_count = 0;
-    static int myType; //cell type
+    int myType; //cell type
     int Action; //cells action
     static public RandomEngine RNEngine = new DRand();
     /**
@@ -51,7 +51,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     static int cellIDcounter = 0;
 
     public void init(int cellType, float r, float g, float b, EpidermisCellGenome parentGenome, int parentinfo, int cloneInfo, int parentCloneInfo) { //This initilizes an agent with whatever is inside of this function...
-        myType = cellType;
+        this.myType = cellType;
         this.r = r;
         this.b = b;
         this.g = g;
@@ -73,9 +73,9 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 
     // Set coords array using this function
     // Function gets all cells surrounding it that are empty!! Take-Away
-    public int GetEmptyVNSquares(int x, int y, boolean OnlyEmpty, int[] inBounds){
+    public int GetEmptyVNSquares(int x, int y, boolean OnlyEmpty, int[] divHood, int[] inBounds){
         int finalCount=0;
-        int inBoundsCount = G().SQsToLocalIs(G().divHood, inBounds, x, y, true, false); // Gets all inbound indices
+        int inBoundsCount = G().SQsToLocalIs(divHood, inBounds, x, y, true, false); // Gets all inbound indices
         if(!OnlyEmpty){
             return inBoundsCount;
         }
@@ -93,7 +93,16 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         int melanocyteCount=0;
         int keratinocyteCount=0;
         G().SQsToLocalIs(G().DENSITY_SEARCH_RECT, G().DENSITY_SEARCH_RESULTS, x, y, true, false);
-        for(int i: G().DENSITY_SEARCH_RESULTS){
+//        for(int i: G().DENSITY_SEARCH_RESULTS){
+//            EpidermisCell c = G().ItoAgent(i);
+//            if(c!=null){
+//                if(c.myType==MELANOCYTE){melanocyteCount+=1;}
+//                if(c.myType==KERATINOCYTE){keratinocyteCount+=1;}
+//            }
+//        }
+
+        for(int j=0;j<G().DENSITY_SEARCH_RESULTS.length;j++){
+            int i=G().DENSITY_SEARCH_RESULTS[j];
             EpidermisCell c = G().ItoAgent(i);
             if(c!=null){
                 if(c.myType==MELANOCYTE){melanocyteCount+=1;}
@@ -147,20 +156,21 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 
         float test = EpidermalMelaninUnit(x, y, G().DENSITY_SEARCH_SIZE, KERATINOCYTE);
         if (myType == MELANOCYTE && EpidermalMelaninUnit(x, y, G().DENSITY_SEARCH_SIZE, KERATINOCYTE) <= MELANO_DIV_DENSITY_MIN) {
-            System.out.println("Not Prolif");
+            //System.out.println("Not Prolif");
             return false;
         }
 
         if(y==0){
-            int divOptions = GetEmptyVNSquares(x, y, false, G().inBounds); // Number of coordinates you could divide into
+            int divOptions = GetEmptyVNSquares(x, y, false, G().divHoodBasal, G().inBounds); // Number of coordinates you could divide into
             iDivLoc = basalProlif(); // Where the new cell is going to be (which index) if basal cell
+            //TODO STOP Pushing of Melanocytes!!!!
             if(iDivLoc==0||iDivLoc==1){
                 loss_count_basal+=1;
             }
             CellPush(iDivLoc);
 
         } else{
-            int divOptions = GetEmptyVNSquares(x, y, true, G().inBounds); // Number of coordinates you could divide into
+            int divOptions = GetEmptyVNSquares(x, y, true, G().divHood, G().inBounds); // Number of coordinates you could divide into
             if(divOptions>0){iDivLoc = G().RN.nextInt(divOptions);} else {return false;} //Where the new cell is going to be (which coordinate)
         }
 
@@ -224,7 +234,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     // Sets the coordinates for a cell that is moving.
     public int GetMoveCoords() {
         int iMoveCoord=-1;  //when it's time to move, it is the index of coordinate that is picked from Coords array above. -1 == Not Moving
-        int MoveOptions=GetEmptyVNSquares(Xsq(),Ysq(), true, G().inBounds);
+        int MoveOptions=GetEmptyVNSquares(Xsq(),Ysq(),true, G().divHood, G().inBounds);
         if(MoveOptions>0&&(myType==KERATINOCYTE||myType==MELANOCYTE&& EpidermalMelaninUnit(Xsq(),Ysq(),G().DENSITY_SEARCH_SIZE,KERATINOCYTE)<=MELANO_DIV_DENSITY_MIN)) {
             iMoveCoord=G().RN.nextInt(MoveOptions);
         }
@@ -251,7 +261,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             itDead();
             return;
         }
-        if (myType == MELANOCYTE && G().BFGF.SQgetCurr(x, y) < MELANO_APOPTOSIS_BFGF && G().RN.nextDouble() > Math.pow(G().BFGF.SQgetCurr(x, y) / MELANO_APOPTOSIS_BFGF,3)) {
+        if (myType == MELANOCYTE && G().BFGF.SQgetCurr(x, y) < MELANO_APOPTOSIS_BFGF && G().RN.nextDouble() < Math.pow(G().BFGF.SQgetCurr(x, y) / MELANO_APOPTOSIS_BFGF,3)) {
             //DEATH FROM LACK OF NUTRIENTS MELANOCYTE
             itDead();
             return;
