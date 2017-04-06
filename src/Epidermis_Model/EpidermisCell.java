@@ -36,9 +36,6 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     /**
      * Parameters for cell specific tracking and genome information
      **/
-    float r;
-    float g;
-    float b;
     // Clonal dynamic tracking
     EpidermisCellGenome myGenome; // Creating genome class within each cell
 

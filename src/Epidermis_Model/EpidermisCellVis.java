@@ -16,7 +16,7 @@ public class EpidermisCellVis {
         for(int y=0;y<5;y++){
             for(int x=0;x<5;x++){
                 int cVal=stationary_vis[x+y*5];
-                vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.r,cVal*theCell.g,cVal*theCell.b);
+                vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.myGenome.r,cVal*theCell.myGenome.g,cVal*theCell.myGenome.b);
             }
         }
     }

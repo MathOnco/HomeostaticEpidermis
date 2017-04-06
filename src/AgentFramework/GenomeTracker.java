@@ -3,7 +3,7 @@ package AgentFramework;
 import java.util.ArrayList;
 
 /**
- * Created by bravorr on 4/5/17.
+ * should be instantiated GenomeTracker<myGenomeInfoType>
  */
 public class GenomeTracker <T extends GenomeInfo>{
     ArrayList<Integer> parentIDs;
@@ -50,7 +50,6 @@ public class GenomeTracker <T extends GenomeInfo>{
     T AddMutant(T parent,T child) {
         nMutations++;
         nActiveClones++;
-        parent.DisposeClone();
         if(allGenomeInfos!=null) {
             allGenomeInfos.add(child.GenomeInfoStr());
         }

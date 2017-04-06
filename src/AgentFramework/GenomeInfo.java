@@ -1,7 +1,7 @@
 package AgentFramework;
 
 /**
- * Created by bravorr on 4/5/17.
+ * should be declared myType extends GenomeInfo <myType>
  */
 public abstract class GenomeInfo <T extends GenomeInfo> {
     int id;
@@ -51,7 +51,7 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
         if(nextGenome==null){
             return (T)this;
         }
-        myTracker.DisposeClone(this);
+        DisposeClone();
         myTracker.AddMutant(this,nextGenome);
         return nextGenome;
     }
