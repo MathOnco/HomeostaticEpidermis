@@ -9,8 +9,8 @@ import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static AgentFramework.Utils.ModWrap;
-import static Epidermis_Model.EpidermisCellGenome.GeneMutations;
-import static Epidermis_Model.EpidermisCellGenome.genelengths;
+import static Epidermis_Model.EpidermisCellGenome.ExpectedMuts;
+import static Epidermis_Model.EpidermisCellGenome.GeneLengths;
 import static Epidermis_Model.EpidermisConst.*;
 
 /**
@@ -40,33 +40,13 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     float g;
     float b;
     // Clonal dynamic tracking
-    EpidermisCellGenome myGenome = new EpidermisCellGenome(); // Creating genome class within each cell
-    int parentID;
-    int cellID;
-    int ParentCloneID; // Tracking parent Clone ID
-    int cloneID; // Needs to track the cell so only unique populations have who they came from and the same cell ID for same genome population...
-    static int cloneCounter = 1;
-    static int cellIDcounter = 0;
+    EpidermisCellGenome myGenome; // Creating genome class within each cell
 
-    public void init(int cellType, float r, float g, float b, EpidermisCellGenome parentGenome, int parentinfo, int cloneInfo, int parentCloneInfo) { //This initilizes an agent with whatever is inside of this function...
+    public void init(int cellType, EpidermisCellGenome myGenome) { //This initilizes an agent with whatever is inside of this function...
         this.myType = cellType;
-        this.r = r;
-        this.b = b;
-        this.g = g;
-        this.parentID = parentinfo; // Sets the parentID of what is passed to the newly created cell...
-        this.cellIDcounter += 1; // Add 1 to set the cell ID to a unique value...
-        this.cellID = cellIDcounter; // Set the cell ID for the newly created cell to a unique value...
-        this.cloneID = cloneInfo;
-        this.ParentCloneID = parentCloneInfo;
         this.Action = STATIONARY;
-
-        // copying over the genome from the parentCell
-        myGenome = new EpidermisCellGenome();
-        for (int i = 0; i < parentGenome.genomelength; i++) {
-            for (int p = 0; p < parentGenome.mut_pos[i].size(); p++) {
-                myGenome.mut_pos_setter(i, parentGenome.mut_pos_getter(i, p));
-            }
-        }
+        // Storing Genome Reference to Parent and Itself if mutation happened
+        this.myGenome = myGenome;
     }
 
     // Set coords array using this function
@@ -133,33 +113,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             pro_count_basal++;
         }
 
-        if(myType==KERATINOCYTE){
-            int[] MutationsObtained = new int[GeneMutations.length];
-            for(int j=0; j<GeneMutations.length; j++){
-                if (j!=0){
-                    Poisson poisson_dist = new Poisson(GeneMutations[j], RNEngine); // Setup the Poisson distributions for each gene.
-                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for each gene
-                    for(int hits=0; hits<mutations; hits++){
-                        long index = ThreadLocalRandom.current().nextLong(genelengths[j]);
-                        String mutout = G().GetTick() + "." + index;
-                        myGenome.mut_pos_setter(j, mutout);
-                        r = G().RN.nextFloat() * 0.9f + 0.1f;
-                        g = G().RN.nextFloat() * 0.9f + 0.1f;
-                        b = G().RN.nextFloat() * 0.9f + 0.1f;
-                        ParentCloneID = cloneID;
-                        cloneCounter += 1; // Place here if only tracking cells with mutations that hit the 71 genes of interest...
-                        cloneID = cloneCounter;
-                        String[] parentLineage = G().lineages.get(ParentCloneID);
-                        String[] myLineage = Arrays.copyOf(parentLineage, parentLineage.length + 1);
-                        myLineage[parentLineage.length] = ParentCloneID + "." + cloneID;
-                        G().lineages.add(myLineage);
-                    }
-                }
-            }
-        }
-
-
-        newCell.init(myType, r, g, b, myGenome, cellID, cloneID, ParentCloneID); // initializes a new skin cell, pass the cellID for a new value each time.
+        newCell.init(myType, myGenome.NewChild().PossiblyMutate()); // initializes a new skin cell, pass the cellID for a new value each time.
         pro_count += 1;
         return true;
     }
@@ -201,6 +155,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     }
 
     public void itDead(){
+        myGenome.DisposeClone(); // Decrements Population
         Dispose();
         death_count+=1;
         G().MeanDeath[Isq()] += 1;
@@ -240,24 +195,18 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 
     }
 
-    // Builds my genome information for data analysis
-    String ToString(){
-        String cellInfo="{["+createStrID()+"];[";
-        for(int iGene=0;iGene<myGenome.genomelength;iGene++){
-            cellInfo+="[";
-            for(int iMut=0;iMut<myGenome.mut_pos[iGene].size();iMut++){
-                cellInfo+=myGenome.mut_pos_getter(iGene,iMut)+",";
-            }
-            cellInfo+="],";
-        }
-        cellInfo+="]}";
-        return cellInfo;
-    }
-
-    // Creates a unique string ID using parentID and cellID
-    private String createStrID(){
-        String strID=parentID + "." + cellID;
-        return strID;
-    }
+//    // Builds my genome information for data analysis
+//    String ToString(){
+//        String cellInfo="{["+createStrID()+"];[";
+//        for(int iGene=0;iGene<myGenome.genomelength;iGene++){
+//            cellInfo+="[";
+//            for(int iMut=0;iMut<myGenome.mut_pos[iGene].size();iMut++){
+//                cellInfo+=myGenome.mut_pos_getter(iGene,iMut)+",";
+//            }
+//            cellInfo+="],";
+//        }
+//        cellInfo+="]}";
+//        return cellInfo;
+//    }
 
 }

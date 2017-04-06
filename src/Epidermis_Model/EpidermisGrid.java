@@ -1,5 +1,6 @@
 package Epidermis_Model;
 
+import AgentFramework.GenomeTracker;
 import AgentFramework.Grid2;
 import AgentFramework.GridDiff2;
 import AgentFramework.Gui.Gui;
@@ -33,48 +34,25 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     int yDim;
     int[] MeanProlif = new int[EpidermisConst.xSize * EpidermisConst.ySize];
     int[] MeanDeath = new int[EpidermisConst.xSize * EpidermisConst.ySize];
-    ArrayList<HashMap<String,Integer>> muellerList;  // timestep array[ {ClonalPopID:PopSize, ...}, {...} ]
-    ArrayList<String[]> lineages;
+    GenomeTracker<EpidermisCellGenome> GenomeStore;
     GridDiff2 EGF;
 
     public EpidermisGrid(int x, int y) {
         super(x,y,EpidermisCell.class);
-        lineages=new ArrayList<String[]>();
-        lineages.add(new String[]{"None"});//0th generation: parent of all cells
-        lineages.add(new String[]{"0.1"});//1st generation: starting population
-        muellerList=new ArrayList<HashMap<String,Integer>>();  // timestep array[ {ClonalPopID:PopSize, ...}, {...} ]
         running = false;
         xDim = x;
         yDim = y;
         EGF = new GridDiff2(x, y);
+        GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(1,1,1,""), true, true);
         PlaceCells();
     }
 
-//    public void MuellerListTimestepBuilder(){
-//        HashMap<String, Integer> tickInfo = new HashMap<String, Integer>();
-//        SkinCell c=cells.FirstAgentAll();
-//        while(c!=null){
-//            if(c.myType==KERATINOCYTE) {
-//                String key = c.ParentCloneID + "\t" + c.cloneID;
-//                if(tickInfo.get(key)!=null) {
-//                    tickInfo.put(key,tickInfo.get(key)+1);
-//                }
-//                else{
-//                    tickInfo.put(key,1);
-//                }
-//            }
-//            c=cells.NextAgentAll();
-//        }
-//        muellerList.add(tickInfo);
-//    }
-
     public void PlaceCells() {
-        EpidermisCellGenome startingGenomeVals = new EpidermisCellGenome(); // Creating genome class within each cell
         for (int x = 0; x < xDim; x++) {
             for (int y = 0; y < AIR_HEIGHT; y++) {
                 if (SQtoAgent(x,y) == null) {
                     EpidermisCell c = NewAgent(x, y);
-                    c.init(KERATINOCYTE, 1.0f, 1.0f, 1.0f, startingGenomeVals, 0, 1, 0); // Initializes cell types; Uniform Start
+                    c.init(KERATINOCYTE, GenomeStore.NewProgenitor()); // Initializes cell types; Uniform Start
                 }
             }
         }
@@ -180,23 +158,6 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             }
         }
     }
-
-//    public String ToString() {
-//        String ret = "#" + cells.Tick() + "\n";
-//        for (int x = 0; x < xDim; x++) {
-//            for (int y = 0; y < yDim; y++) {
-//                SkinCell c = cells.FirstOnSquare(x, y);
-//                if (c != null) {
-//                    if (c.myType == KERATINOCYTE) {
-//                        ret += c.ToString() + "\n";
-//
-//                    }
-//
-//                }
-//            }
-//        }
-//        return ret;
-//    }
 
     // Inflicting a wound to simulate wound repair...
     public void inflict_wound(){
