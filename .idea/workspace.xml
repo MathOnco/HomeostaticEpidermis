@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2e3fdfee-6d6e-47a1-ab0f-7d7d829cd72a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Grid2.class" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Grid2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Grid2_5.class" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Grid2_5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Grid3.class" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Grid3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/GridDiff2.class" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/GridDiff2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/GridDiff3.class" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/GridDiff3.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Homeostatic_Epidermis.iml" afterPath="$PROJECT_DIR$/Homeostatic_Epidermis.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AgentFramework/GenomeInfo.java" afterPath="$PROJECT_DIR$/src/AgentFramework/GenomeInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AgentFramework/GenomeTracker.java" afterPath="$PROJECT_DIR$/src/AgentFramework/GenomeTracker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AgentFramework/FileIO.java" afterPath="$PROJECT_DIR$/src/AgentFramework/FileIO.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -78,14 +70,24 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="EpidermisCellGenome.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="EpidermisCellGenome.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="721">
-                  <caret line="88" column="74" selection-start-line="88" selection-start-column="74" selection-end-line="88" selection-end-column="74" />
+                <state relative-caret-position="405">
+                  <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="FileIO.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/AgentFramework/FileIO.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="660">
+                  <caret line="163" column="4" selection-start-line="163" selection-start-column="4" selection-end-line="163" selection-end-column="4" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -190,6 +192,7 @@
         <option value="$PROJECT_DIR$/src/AgentFramework/GenomeTracker.java" />
         <option value="$PROJECT_DIR$/src/AgentFramework/GenomeInfo.java" />
         <option value="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java" />
+        <option value="$PROJECT_DIR$/src/AgentFramework/FileIO.java" />
       </list>
     </option>
   </component>
@@ -277,6 +280,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AgentFramework" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -692,9 +699,9 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19839357" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19839357" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18232931" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18232931" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.149722" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
@@ -767,14 +774,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellVis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="57" column="29" selection-start-line="57" selection-start-column="16" selection-end-line="57" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1144,11 +1143,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="721">
-          <caret line="88" column="74" selection-start-line="88" selection-start-column="74" selection-end-line="88" selection-end-column="74" />
+        <state relative-caret-position="405">
+          <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AgentFramework/FileIO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="163" column="4" selection-start-line="163" selection-start-column="4" selection-end-line="163" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>

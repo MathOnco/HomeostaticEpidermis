@@ -146,6 +146,22 @@ public class FileIO {
         }
         return lines;
     }
+
+    /**
+     * requires read mode ("r")
+     * pulls all lines from the file, splits them by the delimiter, and returns an arraylist, where each entry is an array of longs from that line
+     * @param delimiter the delimiter used to divide the lines
+     */
+    public ArrayList<long[]> ReadLongDelimit(String delimiter){
+        ArrayList<long[]>lines=new ArrayList<>();
+        long[] read=ReadLineLongDelimit(delimiter);
+        while(read!=null){
+            lines.add(read);
+            read=ReadLineLongDelimit(delimiter);
+        }
+        return lines;
+    }
+
     /**
      * requires read mode ("r")
      * pulls all lines from the file, splits them by the delimiter, and returns an arraylist, where each entry is an array of doubles from that line
