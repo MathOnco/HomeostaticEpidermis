@@ -21,15 +21,16 @@ public class GenomeTracker <T extends GenomeInfo>{
      * @param trackGenomeInfos whether to track the genome information
      */
     public GenomeTracker(T progenitorGenome,boolean trackParents,boolean trackGenomeInfos){
+        CloneCounts=new ArrayList<>();
+        progenitors = progenitorGenome;
         if(trackParents) {
             parentIDs = new ArrayList<>();
+            parentIDs.add(-1);
         }
         if(trackGenomeInfos) {
             allGenomeInfos = new ArrayList<>();
+            allGenomeInfos.add(progenitors.GenomeInfoStr());
         }
-        CloneCounts=new ArrayList<>();
-        parentIDs.add(-1);
-        progenitors = progenitorGenome;
         progenitorGenome._Init(this,0,null,null);
     }
 
@@ -37,10 +38,14 @@ public class GenomeTracker <T extends GenomeInfo>{
      * returns the progenitor genome, and increases the population size
      */
     public T NewProgenitor(){
-        progenitors.popSize++;
-        if(progenitors.popSize==1){
+        if(progenitors.popSize==0){
             nActiveClones++;
+            if(livingCloneInfos!=null) { livingCloneInfos.prev = progenitors; }
+            progenitors.next=livingCloneInfos;
+            progenitors.prev=null;
+            livingCloneInfos =progenitors;
         }
+        progenitors.popSize++;
         return progenitors;
     }
 
@@ -50,13 +55,9 @@ public class GenomeTracker <T extends GenomeInfo>{
     T AddMutant(T parent,T child) {
         nMutations++;
         nActiveClones++;
-        if(allGenomeInfos!=null) {
-            allGenomeInfos.add(child.GenomeInfoStr());
-        }
-        if(parentIDs!=null) {
-            parentIDs.add(parent.id);
-        }
-        child._Init(this,NumMutations()-1, livingCloneInfos,null);
+        if(allGenomeInfos!=null) { allGenomeInfos.add(child.GenomeInfoStr()); }
+        if(parentIDs!=null) { parentIDs.add(parent.id); }
+        child._Init(this,NumMutations(), livingCloneInfos,null);
         child.popSize++;
         if(livingCloneInfos!=null) { livingCloneInfos.prev = child; }
         livingCloneInfos =child;
@@ -85,6 +86,9 @@ public class GenomeTracker <T extends GenomeInfo>{
             nActiveClones--;
             //remove livingCloneInfos with 0 population
             if(livingCloneInfos ==cloneInfo){
+                if(livingCloneInfos.prev!=null){
+                    System.out.println("something here!");
+                }
                 livingCloneInfos =(T)cloneInfo.next;
             }
             if(cloneInfo.next!=null){
@@ -102,15 +106,20 @@ public class GenomeTracker <T extends GenomeInfo>{
     public void RecordClonePops(){
         int[]ret=new int[nActiveClones*2];
         int iClone=0;
-        if(progenitors.popSize!=0){
-            ret[0]=progenitors.id;
-            ret[1]=progenitors.popSize;
-            iClone++;
-        }
+//        if(progenitors.popSize!=0){
+//            ret[0]=progenitors.id;
+//            ret[1]=progenitors.popSize;
+//            iClone++;
+//        }
         T clone= livingCloneInfos;
-        while(livingCloneInfos !=null){
+        if(livingCloneInfos!=null && livingCloneInfos.prev!=null){
+            System.out.println("here?");
+        }
+        while(clone !=null){
             ret[iClone*2]=clone.id;
             ret[iClone*2+1]=clone.popSize;
+            clone=(T)clone.next;
+            iClone++;
         }
         CloneCounts.add(ret);
     }
@@ -216,7 +225,7 @@ public class GenomeTracker <T extends GenomeInfo>{
      * @param innerDelim used to separate ids and infos
      * @param outerDelim used to separate clonecount events
      */
-    public void WriteCloneCounts(FileIO cloneCountsOut,String innerDelim,String outerDelim){
+    public void WriteClonePops(FileIO cloneCountsOut,String innerDelim,String outerDelim){
         for (int[] counts : CloneCounts) {
             cloneCountsOut.WriteDelimit(counts,innerDelim);
             cloneCountsOut.Write(outerDelim);

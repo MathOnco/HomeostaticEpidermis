@@ -1,5 +1,4 @@
 package AgentFramework;
-
 /**
  * should be declared myType extends GenomeInfo <myType>
  */
