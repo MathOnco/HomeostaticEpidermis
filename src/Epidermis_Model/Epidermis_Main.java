@@ -28,7 +28,7 @@ class EpidermisConst{
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = false; // use for visualization
+    static final boolean GuiOn = true; // use for visualization
     static final boolean JarFile = false; // Set to true if running from command line as jar file
     static final boolean RecordParents = true; // use when you want parents information
     static final boolean RecordLineages = true; // use when you want
@@ -49,21 +49,6 @@ public class Epidermis_Main {
 
     public static void main (String[] args){
         /*
-        Sets up Data Files if on cluster or if ran locally
-         */
-        if(EpidermisConst.JarFile){
-            String ParentFile = args[0];
-            String LineageFile = args[1];
-            String PopSizes = args[2];
-            String MutationFile = args[3];
-        } else {
-            String ParentFile = System.getProperty("user.dir") + "/TestOutputs/ParentFile.csv";
-            String LineageFile = System.getProperty("user.dir") + "/TestOutputs/LineageFile.csv";
-            String PopSizes = System.getProperty("user.dir") + "/TestOutputs/PopSizes.csv";
-            String MutationFile = System.getProperty("user.dir") + "/TestOutputs/MutationFile.csv";
-        }
-
-        /*
         Initialization
          */
         final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize); // Initializes and sets up the program for running
@@ -78,6 +63,19 @@ public class Epidermis_Main {
         GuiLabel rLambda_Label = null;
         GuiLabel OldestCell = null;
         EpidermisCellVis CellDraw = null;
+        String ParentFile = System.getProperty("user.dir") + "/TestOutputs/ParentFile.csv";
+        String LineageFile = System.getProperty("user.dir") + "/TestOutputs/LineageFile.csv";
+        String PopSizes = System.getProperty("user.dir") + "/TestOutputs/PopSizes.csv";
+        String MutationFile = System.getProperty("user.dir") + "/TestOutputs/MutationFile.csv";
+        /*
+        Sets up Data Files if on cluster or if ran locally
+         */
+        if(EpidermisConst.JarFile){
+            ParentFile = args[0];
+            LineageFile = args[1];
+            PopSizes = args[2];
+            MutationFile = args[3];
+        }
 
 
         // Sets up GUI
@@ -174,10 +172,27 @@ public class Epidermis_Main {
             /*
             All Model Data Recording Is Below This line
              */
-            if(EpidermisConst.GuiOn == false && EpidermisConst.RecordGenomes==true){
+            if(EpidermisConst.RecordGenomes==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
+                FileIO MutsOut = new FileIO(MutationFile, "w");
 
+                MutsOut.Close();
             }
+            if(EpidermisConst.RecordParents==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
+                FileIO ParentOut = new FileIO(ParentFile, "w");
 
+                ParentOut.Close();
+            }
+            if(EpidermisConst.RecordLineages==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
+                FileIO LineageOut = new FileIO(LineageFile, "w");
+
+                LineageOut.Close();
+            }
+            if(EpidermisConst.RecordPopSizes==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
+                FileIO PopSizeOut = new FileIO(PopSizes, "w");
+                Epidermis.GenomeStore.RecordClonePops();
+                Epidermis.GenomeStore.WriteClonePops(PopSizeOut, ",", "\n");
+                PopSizeOut.Close();
+            }
         }
     }
 }
