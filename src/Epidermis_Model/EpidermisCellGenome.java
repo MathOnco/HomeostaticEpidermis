@@ -18,7 +18,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     /*
     New Information To Keep Inside the Model!!!!! Official Information
      */
-    private static final String BaseIndexFile="/Users/schencro/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/src/Epidermis_Model/BaseIndexes.csv";
+    private static final String BaseIndexFile= System.getProperty("user.dir") + "/src/Epidermis_Model/BaseIndexes.csv";
     static final int GenomeComponents = 71;
     static final double HumanGenome = 3200000000.0;
     static final String[] GeneNames = new String[]{"Genome","ADAM29","ADAMTS18","AJUBA","AKT1","AKT2","APOB","ARID1A","ARID2","AURKA","BAI3","BRAF","CASP8","CCND1","CDH1","CDKN2A","CR2","CREBBP","CUL3","DICER1","EGFR","EPHA2","ERBB2","ERBB3","ERBB4","EZH2","FAT1","FAT4","FBXW7","FGFR1","FGFR2","FGFR3","FLG2","GRIN2A","GRM3","HRAS","IRF6","KCNH5","KEAP1","KRAS","MET","MUC17","NF1","NFE2L2","NOTCH1","NOTCH2","NOTCH3","NRAS","NSD1","PCED1B","PIK3CA","PLCB1","PPP1R3A","PREX2","PTCH1","PTEN","PTPRT","RB1","RBM10","SALL1","SCN11A","SCN1A","SETD2","SMAD4","SMO","SOX2","SPHKAP","SUFU","TP53","TP63","TRIOBP"};
@@ -58,17 +58,17 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
                     MutsObtained.append(MutOut);
                 }
             }
-            else {
-                if(EpidermisConst.GuiOn == false) {
-                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
-                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
-                    for (int hits = 0; hits < mutations; hits++) {
-                        long mutIndex = RN.nextLong();
-                        String MutOut = j + ".N." + mutIndex + ",";
-                        MutsObtained.append(MutOut);
-                    }
-                }
-            }
+//            else {
+//                if(EpidermisConst.GuiOn == false) {
+//                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
+//                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
+//                    for (int hits = 0; hits < mutations; hits++) {
+//                        long mutIndex = RN.nextLong();
+//                        String MutOut = j + ".N." + mutIndex + ",";
+//                        MutsObtained.append(MutOut);
+//                    }
+//                }
+//            }
         }
         String PrivGenome = MutsObtained.toString();
         if(PrivGenome.length()>0){

@@ -22,15 +22,18 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static final int years=65; // time in years.
+    static final int years=10; // time in years.
     static final int RecordTime=years*365;
     static final int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean FileOn = false; // use when writing information for mueller plots
-    static final boolean GuiOn = true; // use for visualization
-    static final boolean genome_info = false; // use when you want genome information
+    static final boolean GuiOn = false; // use for visualization
+    static final boolean JarFile = false; // Set to true if running from command line as jar file
+    static final boolean RecordParents = true; // use when you want parents information
+    static final boolean RecordLineages = true; // use when you want
+    static final boolean RecordPopSizes = true; // Use to record clone population sizes
+    static final boolean RecordGenomes = true; // Use to record clone genomes
     static final boolean get_r_lambda = true; // use when you want the r_lambda value
 }
 
@@ -45,6 +48,24 @@ public class Epidermis_Main {
     }
 
     public static void main (String[] args){
+        /*
+        Sets up Data Files if on cluster or if ran locally
+         */
+        if(EpidermisConst.JarFile){
+            String ParentFile = args[0];
+            String LineageFile = args[1];
+            String PopSizes = args[2];
+            String MutationFile = args[3];
+        } else {
+            String ParentFile = System.getProperty("user.dir") + "/TestOutputs/ParentFile.csv";
+            String LineageFile = System.getProperty("user.dir") + "/TestOutputs/LineageFile.csv";
+            String PopSizes = System.getProperty("user.dir") + "/TestOutputs/PopSizes.csv";
+            String MutationFile = System.getProperty("user.dir") + "/TestOutputs/MutationFile.csv";
+        }
+
+        /*
+        Initialization
+         */
         final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize); // Initializes and sets up the program for running
         GuiVis ActivityVis = null;
         GuiVis EGFVis = null;
@@ -57,8 +78,9 @@ public class Epidermis_Main {
         GuiLabel rLambda_Label = null;
         GuiLabel OldestCell = null;
         EpidermisCellVis CellDraw = null;
-        // Sets up GUI
 
+
+        // Sets up GUI
         if(EpidermisConst.GuiOn) {
             CellDraw = new EpidermisCellVis();
             Gui MainGUI = new Gui("Homeostatic Epidermis Model", true);
@@ -102,10 +124,17 @@ public class Epidermis_Main {
 
             // Main Running of the steps within the model
             Epidermis.RunStep();
+
+            /*
+            All Injuries Occuring Here!
+             */
 //            if(Epidermis.GetTick()%1000==0){
 //                Epidermis.inflict_wound();
 //            }
 
+            /*
+            rLambda Value calculations, output, and recording
+             */
             if (EpidermisConst.get_r_lambda) {
                 if (Epidermis.GetTick() % 7f == 0) {
                     float temp_r_lambda = Epidermis.r_lambda_weekly / 7.0f;
@@ -120,13 +149,18 @@ public class Epidermis_Main {
                 }
             }
 
+            /*
+            Output Time Options
+             */
             if(ActivityVis==null){
                 if(Epidermis.GetTick()%365==0){
                     System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
                 }
             }
 
-            // Visualization Components
+            /*
+            All Visualization Components are here
+             */
             if(ActivityVis!=null){YearLab.setText("Age (yrs.): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
             if(DivVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DivVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
             if(DivLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DivLayerVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
@@ -136,6 +170,14 @@ public class Epidermis_Main {
             if(OldestCell!=null){OldestCell.setText("Mean cell age (days): " + new DecimalFormat("#.00").format(Epidermis.GetOldestCell(Epidermis)));}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
+
+            /*
+            All Model Data Recording Is Below This line
+             */
+            if(EpidermisConst.GuiOn == false && EpidermisConst.RecordGenomes==true){
+
+            }
+
         }
     }
 }
