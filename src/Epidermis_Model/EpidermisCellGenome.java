@@ -54,17 +54,27 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
                 for(int hits=0; hits<mutations; hits++){
                     int MutatedBaseKind = Utils.RandomVariable(BaseMutProb, RN);
                     long mutIndex = BaseIndex[j-1][MutatedBaseKind][RN.nextInt(BaseIndex[j-1][MutatedBaseKind].length)];
-                    String MutOut = j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
+                    String MutOut = "";
+                    if(j==ExpectedMuts.length-1){
+                        MutOut = j + "." + Base[MutatedBaseKind] + "." + mutIndex;
+                    } else {
+                        MutOut = j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
+                    }
                     MutsObtained.append(MutOut);
                 }
             }
 //            else {
-//                if(EpidermisConst.GuiOn == false) {
+//                if(EpidermisConst.GuiOn == true) {
 //                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
 //                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
 //                    for (int hits = 0; hits < mutations; hits++) {
 //                        long mutIndex = RN.nextLong();
-//                        String MutOut = j + ".N." + mutIndex + ",";
+//                        String MutOut = "";
+//                        if(j==ExpectedMuts.length-1){
+//                            MutOut = j + "." + ".N." + "." + mutIndex;
+//                        } else {
+//                            MutOut = j + "." + ".N." + "." + mutIndex + ",";
+//                        }
 //                        MutsObtained.append(MutOut);
 //                    }
 //                }

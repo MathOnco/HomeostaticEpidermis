@@ -22,7 +22,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
-    double prolif_scale_factor = 0.085; //Correction for appropriate proliferation rate (Default = 0.75-0.1 with KERATINO_APOPTOSIS_EGF=0.01)
+    double prolif_scale_factor = 0.15; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
     double KERATINO_EGF_CONSPUMPTION = -0.005; //consumption rate by keratinocytes
     double KERATINO_APOPTOSIS_EGF = 0.01; //level at which apoptosis occurs by chance (above this and no apoptosis)
     double MOVEPROBABILITY = 0.75; //RN float has to be greater than this to move...
@@ -87,11 +87,10 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             return false;
         }
 
-        if(y==0){
+//        if(y==0){
             int divOptions = GetEmptyVNSquares(x, y, false, G().divHoodBasal, G().inBounds); // Number of coordinates you could divide into
             iDivLoc = basalProlif(); // Where the new cell is going to be (which index) if basal cell
-            //TODO STOP Pushing of Melanocytes!!!!
-            if(iDivLoc==0||iDivLoc==1){
+            if(iDivLoc==0 && y==0){
                 loss_count_basal+=1;
             }
             boolean Pushed = CellPush(iDivLoc);
@@ -99,10 +98,12 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
                 return false; // Only false if melanocyte there
             }
 
-        } else{
-            int divOptions = GetEmptyVNSquares(x, y, true, G().divHood, G().inBounds); // Number of coordinates you could divide into
-            if(divOptions>0){iDivLoc = G().RN.nextInt(divOptions);} else {return false;} //Where the new cell is going to be (which coordinate)
-        }
+//        } else{
+//            int divOptions = GetEmptyVNSquares(x, y, true, G().divHood, G().inBounds); // Number of coordinates you could divide into
+//            if(divOptions>0){iDivLoc = G().RN.nextInt(divOptions);} else {return false;} //Where the new cell is going to be (which coordinate)
+//
+//
+//        }
 
         EpidermisCell newCell = G().NewAgent(G().inBounds[iDivLoc]);
 
@@ -111,6 +112,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         }
 
         newCell.init(myType, myGenome.NewChild().PossiblyMutate()); // initializes a new skin cell, pass the cellID for a new value each time.
+        myGenome = myGenome.PossiblyMutate(); // Check if this duaghter cell, i.e. the progenitor gets mutations during this proliferation step.
         pro_count += 1;
         return true;
     }
@@ -144,7 +146,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     // Sets the coordinates for a cell that is moving.
     public int GetMoveCoords() {
         int iMoveCoord=-1;  //when it's time to move, it is the index of coordinate that is picked from Coords array above. -1 == Not Moving
-        int MoveOptions=GetEmptyVNSquares(Xsq(),Ysq(),true, G().divHood, G().inBounds);
+        int MoveOptions=GetEmptyVNSquares(Xsq(),Ysq(),true, G().moveHood, G().inBounds);
         if(MoveOptions>0&&myType==KERATINOCYTE) {
             iMoveCoord=G().RN.nextInt(MoveOptions);
         }
@@ -168,7 +170,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             itDead();
             return;
         }
-        if (myType == KERATINOCYTE && G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < Math.pow(G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF,3)) {
+        if (myType == KERATINOCYTE && G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() > Math.pow(G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF,3)) {
             //DEATH FROM LACK OF NUTRIENTS KERATINOCYTE
             itDead();
             return;

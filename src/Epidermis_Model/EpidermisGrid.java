@@ -22,6 +22,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     final Random RN=new Random();
     static final int[] divHoodBasal={1,0,-1,0,0,1}; // Coordinate set for two beside and one above [x,y,x,y...]
     static final int[] divHood={1,0,-1,0,0,1,0,-1}; // Coordinate set for two beside and one above and one below [x,y,x,y...]
+    static final int[] moveHood={1,0,-1,0,0,-1};
     static final int[] inBounds= new int[4];
     static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
     static final double DECAY_RATE=0.01; //chemical decay rate of growth factors

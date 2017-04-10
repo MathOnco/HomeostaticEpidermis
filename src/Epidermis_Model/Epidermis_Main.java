@@ -33,7 +33,6 @@ class EpidermisConst{
     static final boolean RecordParents = true; // use when you want parents information
     static final boolean RecordLineages = true; // use when you want
     static final boolean RecordPopSizes = true; // Use to record clone population sizes
-    static final boolean RecordGenomes = true; // Use to record clone genomes
     static final boolean get_r_lambda = true; // use when you want the r_lambda value
 }
 
@@ -63,18 +62,16 @@ public class Epidermis_Main {
         GuiLabel rLambda_Label = null;
         GuiLabel OldestCell = null;
         EpidermisCellVis CellDraw = null;
-        String ParentFile = System.getProperty("user.dir") + "/TestOutputs/ParentFile.csv";
-        String LineageFile = System.getProperty("user.dir") + "/TestOutputs/LineageFile.csv";
-        String PopSizes = System.getProperty("user.dir") + "/TestOutputs/PopSizes.csv";
-        String MutationFile = System.getProperty("user.dir") + "/TestOutputs/MutationFile.csv";
+        String ParentFile = System.getProperty("user.dir") + "/TestOutput/ParentFile.csv";
+        String PopSizes = System.getProperty("user.dir") + "/TestOutput/PopSizes.csv";
+        String MutationFile = System.getProperty("user.dir") + "/TestOutput/MutationFile.csv";
         /*
         Sets up Data Files if on cluster or if ran locally
          */
         if(EpidermisConst.JarFile){
             ParentFile = args[0];
-            LineageFile = args[1];
-            PopSizes = args[2];
-            MutationFile = args[3];
+            PopSizes = args[1];
+            MutationFile = args[2];
         }
 
 
@@ -169,29 +166,29 @@ public class Epidermis_Main {
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
 
+            Epidermis.GenomeStore.RecordClonePops();
+
             /*
             All Model Data Recording Is Below This line
              */
-            if(EpidermisConst.RecordGenomes==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
-                FileIO MutsOut = new FileIO(MutationFile, "w");
-
-                MutsOut.Close();
-            }
             if(EpidermisConst.RecordParents==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
                 FileIO ParentOut = new FileIO(ParentFile, "w");
-
+                Epidermis.GenomeStore.WriteParentIDs(ParentOut, "\n");
                 ParentOut.Close();
+                System.out.println("Parents written to file.");
             }
             if(EpidermisConst.RecordLineages==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
-                FileIO LineageOut = new FileIO(LineageFile, "w");
-
-                LineageOut.Close();
+                FileIO MutsOut = new FileIO(MutationFile, "w");
+                Epidermis.GenomeStore.WriteAllLineageInfoLiving(MutsOut, ",", "\n");
+                MutsOut.Close();
+                System.out.println("Lineage genomes written to file.");
             }
             if(EpidermisConst.RecordPopSizes==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
                 FileIO PopSizeOut = new FileIO(PopSizes, "w");
-                Epidermis.GenomeStore.RecordClonePops();
+                //Epidermis.GenomeStore.RecordClonePops();
                 Epidermis.GenomeStore.WriteClonePops(PopSizeOut, ",", "\n");
                 PopSizeOut.Close();
+                System.out.println("Population sizes written to file.");
             }
         }
     }

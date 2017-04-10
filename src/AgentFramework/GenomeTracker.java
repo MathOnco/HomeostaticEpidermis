@@ -193,10 +193,10 @@ public class GenomeTracker <T extends GenomeInfo>{
         T curr=livingCloneInfos;
         while(curr!=null){
             if(lineageInfoOut.binary){
-                lineageInfoOut.WriteBinString(curr.id+outerDelim+ FullLineageInfoStr(curr.id,innerDelim)+outerDelim);
+                lineageInfoOut.WriteBinString(curr.id+innerDelim+ FullLineageInfoStr(curr.id,innerDelim)+outerDelim);
             }
             else {
-                lineageInfoOut.Write(curr.id+outerDelim+ FullLineageInfoStr(curr.id, innerDelim) + outerDelim);
+                lineageInfoOut.Write(curr.id+innerDelim+ FullLineageInfoStr(curr.id, innerDelim) + outerDelim);
             }
             curr=(T)curr.next;
         }
@@ -214,7 +214,7 @@ public class GenomeTracker <T extends GenomeInfo>{
                 lineageInfoOut.WriteBinString(FullLineageInfoStr(i,innerDelim)+outerDelim);
             }
             else{
-                lineageInfoOut.Write(FullLineageInfoStr(i,innerDelim)+outerDelim);
+                lineageInfoOut.Write(i + innerDelim + FullLineageInfoStr(i,innerDelim)+outerDelim);
             }
         }
     }
