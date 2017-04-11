@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static final int xSize=200; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=200; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -50,7 +50,6 @@ public class Epidermis_Main {
         /*
         Initialization
          */
-        final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize); // Initializes and sets up the program for running
         GuiVis ActivityVis = null;
         GuiVis EGFVis = null;
         GuiVis DivVis = null;
@@ -72,8 +71,10 @@ public class Epidermis_Main {
             ParentFile = args[0];
             PopSizes = args[1];
             MutationFile = args[2];
+            EpidermisConst.xSize = Integer.parseInt(args[3]);
         }
-
+        final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize); // Initializes and sets up the program for running
+        Runtime rt = Runtime.getRuntime();
 
         // Sets up GUI
         if(EpidermisConst.GuiOn) {
@@ -189,6 +190,10 @@ public class Epidermis_Main {
                 Epidermis.GenomeStore.WriteClonePops(PopSizeOut, ",", "\n");
                 PopSizeOut.Close();
                 System.out.println("Population sizes written to file.");
+            }
+
+            if(EpidermisConst.ModelTime-1 == Epidermis.GetTick()){
+                System.out.println();
             }
         }
     }
