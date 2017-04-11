@@ -23,18 +23,18 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static final int years=5; // time in years.
+    static final int years=20; // time in years.
     static final int RecordTime=years*365;
     static final int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = true; // use for visualization
-    static final boolean JarFile = false; // Set to true if running from command line as jar file
-    static final boolean RecordParents = false; // use when you want parents information
-    static final boolean RecordLineages = false; // use when you want
-    static final boolean RecordPopSizes = false; // Use to record clone population sizes
-    static final boolean get_r_lambda = false; // use when you want the r_lambda value
+    static final boolean GuiOn = false; // use for visualization
+    static final boolean JarFile = true; // Set to true if running from command line as jar file
+    static final boolean RecordParents = true; // use when you want parents information
+    static final boolean RecordLineages = true; // use when you want
+    static final boolean RecordPopSizes = true; // Use to record clone population sizes
+    static final boolean get_r_lambda = true; // use when you want the r_lambda value
 }
 
 public class Epidermis_Main {
@@ -153,11 +153,11 @@ public class Epidermis_Main {
             /*
             Output Time Options
              */
-//            if(ActivityVis==null){
-//                if(Epidermis.GetTick()%365==0){
-//                    System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
-//                }
-//            }
+            if(ActivityVis==null){
+                if(Epidermis.GetTick()%365==0){
+                    System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
+                }
+            }
 
             /*
             All Visualization Components are here
@@ -177,35 +177,35 @@ public class Epidermis_Main {
             /*
             All Model Data Recording Is Below This line
              */
-//            if(EpidermisConst.RecordParents==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
-//                FileIO ParentOut = new FileIO(ParentFile, "w");
-//                Epidermis.GenomeStore.WriteParentIDs(ParentOut, "\n");
-//                ParentOut.Close();
-//                System.out.println("Parents written to file.");
-//            }
-//            if(EpidermisConst.RecordLineages==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
-//                FileIO MutsOut = new FileIO(MutationFile, "w");
-//                Epidermis.GenomeStore.WriteAllLineageInfoLiving(MutsOut, ",", "\n");
-//                MutsOut.Close();
-//                System.out.println("Lineage genomes written to file.");
-//            }
-//            if(EpidermisConst.RecordPopSizes==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
-//                FileIO PopSizeOut = new FileIO(PopSizes, "w");
-//                //Epidermis.GenomeStore.RecordClonePops();
-//                Epidermis.GenomeStore.WriteClonePops(PopSizeOut, ",", "\n");
-//                PopSizeOut.Close();
-//                System.out.println("Population sizes written to file.");
-//            }
+            if(EpidermisConst.RecordParents==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
+                FileIO ParentOut = new FileIO(ParentFile, "w");
+                Epidermis.GenomeStore.WriteParentIDs(ParentOut, "\n");
+                ParentOut.Close();
+                System.out.println("Parents written to file.");
+            }
+            if(EpidermisConst.RecordLineages==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
+                FileIO MutsOut = new FileIO(MutationFile, "w");
+                Epidermis.GenomeStore.WriteAllLineageInfoLiving(MutsOut, ",", "\n");
+                MutsOut.Close();
+                System.out.println("Lineage genomes written to file.");
+            }
+            if(EpidermisConst.RecordPopSizes==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
+                FileIO PopSizeOut = new FileIO(PopSizes, "w");
+                Epidermis.GenomeStore.RecordClonePops();
+                Epidermis.GenomeStore.WriteClonePops(PopSizeOut, ",", "\n");
+                PopSizeOut.Close();
+                System.out.println("Population sizes written to file.");
+            }
             if(EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime==Epidermis.GetTick()){
-//                FileIO RLambdaWriter = new FileIO(r_lambda_file, "w");
+                FileIO RLambdaWriter = new FileIO(r_lambda_file, "w");
                 float r_lamb_print = 0;
                 for (int i = 0; i < r_lambda_WriteValue.size(); i++) {
                     r_lamb_print += r_lambda_WriteValue.get(i);
-//                    String out = r_lambda_WriteValue.get(i).toString();
-//                    RLambdaWriter.Write(out);
+                    String out = r_lambda_WriteValue.get(i).toString();
+                    RLambdaWriter.Write(out);
                 }
-//                RLambdaWriter.Close();
-//                System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print/r_lambda_index) + "\n");
+                RLambdaWriter.Close();
+                System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print/r_lambda_index) + "\n");
             }
             if(EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime==Epidermis.GetTick()) {
                 float MeanWeekPrint = 0;
