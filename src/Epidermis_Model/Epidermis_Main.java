@@ -29,12 +29,12 @@ class EpidermisConst{
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = true; // use for visualization
+    static final boolean GuiOn = false; // use for visualization
     static final boolean JarFile = false; // Set to true if running from command line as jar file
     static final boolean RecordParents = false; // use when you want parents information
     static final boolean RecordLineages = false; // use when you want
     static final boolean RecordPopSizes = false; // Use to record clone population sizes
-    static final boolean get_r_lambda = false; // use when you want the r_lambda value
+    static final boolean get_r_lambda = true; // use when you want the r_lambda value
 }
 
 public class Epidermis_Main {
@@ -64,7 +64,7 @@ public class Epidermis_Main {
         EpidermisCellVis CellDraw = null;
         ArrayList<Float> r_lambda_WriteValue = new ArrayList();
         int r_lambda_index = 0;
-        ArrayList<Float> meanCellAge = new ArrayList();
+        ArrayList<Float> meanCellAgeWriteValue = new ArrayList();
         int meanCellAgeIndex = 0;
         String ParentFile = System.getProperty("user.dir") + "/TestOutput/ParentFile.csv";
         String PopSizes = System.getProperty("user.dir") + "/TestOutput/PopSizes.csv";
@@ -136,12 +136,14 @@ public class Epidermis_Main {
 //            }
 
             /*
-            rLambda Value calculations, output, and recording
+            rLambda and meanCell Age Value calculations, output, and recording
              */
             if (EpidermisConst.get_r_lambda) {
                 if (Epidermis.GetTick() % 7f == 0) {
                     r_lambda_WriteValue.add(r_lambda_index, Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f);
                     r_lambda_index += 1;
+                    meanCellAgeWriteValue.add(meanCellAgeIndex, Epidermis.GetOldestCell(Epidermis));
+                    meanCellAgeIndex += 1;
                     if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format(Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f));}
                     EpidermisCell.loss_count_basal=0;
                     Epidermis.r_lambda_weekly = 0;
@@ -205,16 +207,16 @@ public class Epidermis_Main {
 //                    RLambdaWriter.Write(out);
                 }
 //                RLambdaWriter.Close();
-//                System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print/r_lambda_index) + "\n");
+                System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print/r_lambda_index) + "\n");
             }
             if(EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime==Epidermis.GetTick()) {
                 float MeanWeekPrint = 0;
                 for (int i = 0; i < r_lambda_WriteValue.size(); i++) {
-                    MeanWeekPrint += r_lambda_WriteValue.get(i);
+                    MeanWeekPrint += meanCellAgeWriteValue.get(i);
                 }
-                System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(MeanWeekPrint/r_lambda_index) + "\n");
+                System.out.println("Mean weekly cell age: " + new DecimalFormat("#.000").format(MeanWeekPrint/meanCellAgeWriteValue.size()) + "\n");
             }
         }
-        Utils.PrintMemoryUsage();
+//        Utils.PrintMemoryUsage();
     }
 }
