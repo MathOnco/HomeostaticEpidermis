@@ -852,6 +852,17 @@ public final class Utils {
         }
     }
 
+    /**
+     * prints information about the memory usage and max memory allocated for the program
+     */
+    public static void PrintMemoryUsage(){
+        int mb=1024*1024;
+        Runtime rt=Runtime.getRuntime();
+        System.out.println("Used Memory: "+(rt.totalMemory()-rt.freeMemory())/mb+" mb");
+        System.out.println("Free Momory: "+rt.freeMemory()/mb+" mb");
+        System.out.println("Total Memory: "+rt.totalMemory()/mb+" mb");
+        System.out.println("Max  Memory: "+rt.maxMemory()/mb+" mb");
+    }
 
 }
 

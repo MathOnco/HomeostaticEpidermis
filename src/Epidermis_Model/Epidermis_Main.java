@@ -4,6 +4,7 @@ import AgentFramework.Gui.*;
 
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * Created by schencro on 3/24/17.
@@ -61,9 +62,12 @@ public class Epidermis_Main {
         GuiLabel rLambda_Label = null;
         GuiLabel OldestCell = null;
         EpidermisCellVis CellDraw = null;
+        ArrayList<Float> r_lambda_WriteValue = new ArrayList();
+        int r_lambda_index = 0;
         String ParentFile = System.getProperty("user.dir") + "/TestOutput/ParentFile.csv";
         String PopSizes = System.getProperty("user.dir") + "/TestOutput/PopSizes.csv";
         String MutationFile = System.getProperty("user.dir") + "/TestOutput/MutationFile.csv";
+        String r_lambda_file = System.getProperty("user.dir") + "/TestOutput/R_Lambda_Values.csv";
         /*
         Sets up Data Files if on cluster or if ran locally
          */
@@ -71,7 +75,8 @@ public class Epidermis_Main {
             ParentFile = args[0];
             PopSizes = args[1];
             MutationFile = args[2];
-            EpidermisConst.xSize = Integer.parseInt(args[3]);
+            r_lambda_file = args[3];
+            EpidermisConst.xSize = Integer.parseInt(args[4]);
         }
         final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize); // Initializes and sets up the program for running
         Runtime rt = Runtime.getRuntime();
@@ -133,10 +138,8 @@ public class Epidermis_Main {
              */
             if (EpidermisConst.get_r_lambda) {
                 if (Epidermis.GetTick() % 7f == 0) {
-                    float temp_r_lambda = Epidermis.r_lambda_weekly / 7.0f;
-                    String r_lambda_out = String.valueOf(temp_r_lambda);
-                    //writer2.Write(r_lambda_out + '\n'); // writes out r_lambda value
-                    //System.out.println(Epidermis.r_lambda_weekly / 7.0f);
+                    r_lambda_WriteValue.add(r_lambda_index, Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f);
+                    r_lambda_index += 1;
                     if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format(Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f));}
                     EpidermisCell.loss_count_basal=0;
                     Epidermis.r_lambda_weekly = 0;
@@ -191,10 +194,18 @@ public class Epidermis_Main {
                 PopSizeOut.Close();
                 System.out.println("Population sizes written to file.");
             }
-
-            if(EpidermisConst.ModelTime-1 == Epidermis.GetTick()){
-                System.out.println();
+            if(EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime==Epidermis.GetTick()){
+                FileIO RLambdaWriter = new FileIO(r_lambda_file, "w");
+                float r_lamb_print = 0;
+                for (int i = 0; i < r_lambda_WriteValue.size(); i++) {
+                    r_lamb_print += r_lambda_WriteValue.get(i);
+                    String out = r_lambda_WriteValue.get(i).toString();
+                    RLambdaWriter.Write(out);
+                }
+                RLambdaWriter.Close();
+                System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print/r_lambda_index) + "\n");
             }
         }
+        Utils.PrintMemoryUsage();
     }
 }
