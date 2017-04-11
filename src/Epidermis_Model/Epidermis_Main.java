@@ -142,6 +142,8 @@ public class Epidermis_Main {
                 if (Epidermis.GetTick() % 7f == 0) {
                     r_lambda_WriteValue.add(r_lambda_index, Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f);
                     r_lambda_index += 1;
+                    meanCellAge.add(meanCellAgeIndex, Epidermis.GetOldestCell(Epidermis));
+                    meanCellAgeIndex += 1;
                     if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format(Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f));}
                     EpidermisCell.loss_count_basal=0;
                     Epidermis.r_lambda_weekly = 0;
@@ -172,8 +174,6 @@ public class Epidermis_Main {
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
 
-            Epidermis.GenomeStore.RecordClonePops();
-
             /*
             All Model Data Recording Is Below This line
              */
@@ -202,17 +202,17 @@ public class Epidermis_Main {
                 for (int i = 0; i < r_lambda_WriteValue.size(); i++) {
                     r_lamb_print += r_lambda_WriteValue.get(i);
                     String out = r_lambda_WriteValue.get(i).toString();
-                    RLambdaWriter.Write(out);
+                    RLambdaWriter.Write(out + "\n");
                 }
                 RLambdaWriter.Close();
                 System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print/r_lambda_index) + "\n");
             }
             if(EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime==Epidermis.GetTick()) {
                 float MeanWeekPrint = 0;
-                for (int i = 0; i < r_lambda_WriteValue.size(); i++) {
-                    MeanWeekPrint += r_lambda_WriteValue.get(i);
+                for (int i = 0; i < meanCellAge.size(); i++) {
+                    MeanWeekPrint += meanCellAge.get(i);
                 }
-                System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(MeanWeekPrint/r_lambda_index) + "\n");
+                System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(MeanWeekPrint/meanCellAgeIndex) + "\n");
             }
         }
         Utils.PrintMemoryUsage();
