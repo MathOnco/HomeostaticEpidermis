@@ -11,6 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static AgentFramework.Utils.ModWrap;
 import static Epidermis_Model.EpidermisCellGenome.ExpectedMuts;
 import static Epidermis_Model.EpidermisCellGenome.GeneLengths;
+import static Epidermis_Model.EpidermisCellGenome.RN;
 import static Epidermis_Model.EpidermisConst.*;
 
 /**
@@ -22,9 +23,10 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
-    double prolif_scale_factor = 0.15; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
+    double prolif_scale_factor = 0.16; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
     double KERATINO_EGF_CONSPUMPTION = -0.005; //consumption rate by keratinocytes
-    double KERATINO_APOPTOSIS_EGF = 0.01; //level at which apoptosis occurs by chance (above this and no apoptosis)
+    double KERATINO_APOPTOSIS_EGF = 0.07; //level at which apoptosis occurs by chance (above this and no apoptosis)
+    double DEATH_PROB = 0.0001; //Overall Death Probability
     double MOVEPROBABILITY = 0.75; //RN float has to be greater than this to move...
     static int pro_count = 0;
     static int pro_count_basal = 0;
@@ -170,8 +172,13 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             itDead();
             return;
         }
-        if (myType == KERATINOCYTE && G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() > Math.pow(G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF,3)) {
+        if (G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < (Math.pow(1.0 - G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF, 5))) {
             //DEATH FROM LACK OF NUTRIENTS KERATINOCYTE
+            itDead();
+            return;
+        }
+        if(RN.nextDouble() < DEATH_PROB){
+            //Random Fucked
             itDead();
             return;
         }

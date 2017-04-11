@@ -93,6 +93,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
         return PrivateGenome;
     }
 
+    // Parses Base Mutation Information
     private static long[][][] ParseBaseIndexes(){
         FileIO reader = new FileIO(BaseIndexFile, "r");
         ArrayList<long[]> data = new ArrayList<> (reader.ReadLongDelimit(","));
@@ -105,4 +106,10 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
         }
         return BaseIndexes;
     }
+
+    // Parses Base Mutation Function Information
+//    public String long[][] ParseMutationInfo(){
+//        FileIO reader = new FileIO(BaseIndexFile, "r");
+//        ArrayList<long[]> data = new ArrayList<>(reader.ReadBinString(",")));
+//    }
 }
