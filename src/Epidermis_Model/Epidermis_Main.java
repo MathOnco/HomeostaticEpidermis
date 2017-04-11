@@ -4,6 +4,7 @@ import AgentFramework.Gui.*;
 
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * Created by schencro on 3/24/17.
@@ -11,7 +12,7 @@ import java.text.DecimalFormat;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static final int xSize=200; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=200; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -22,15 +23,17 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static final int years=65; // time in years.
+    static final int years=5; // time in years.
     static final int RecordTime=years*365;
     static final int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean FileOn = false; // use when writing information for mueller plots
     static final boolean GuiOn = true; // use for visualization
-    static final boolean genome_info = false; // use when you want genome information
+    static final boolean JarFile = false; // Set to true if running from command line as jar file
+    static final boolean RecordParents = true; // use when you want parents information
+    static final boolean RecordLineages = true; // use when you want
+    static final boolean RecordPopSizes = true; // Use to record clone population sizes
     static final boolean get_r_lambda = true; // use when you want the r_lambda value
 }
 
@@ -45,7 +48,9 @@ public class Epidermis_Main {
     }
 
     public static void main (String[] args){
-        final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize); // Initializes and sets up the program for running
+        /*
+        Initialization
+         */
         GuiVis ActivityVis = null;
         GuiVis EGFVis = null;
         GuiVis DivVis = null;
@@ -57,8 +62,26 @@ public class Epidermis_Main {
         GuiLabel rLambda_Label = null;
         GuiLabel OldestCell = null;
         EpidermisCellVis CellDraw = null;
-        // Sets up GUI
+        ArrayList<Float> r_lambda_WriteValue = new ArrayList();
+        int r_lambda_index = 0;
+        String ParentFile = System.getProperty("user.dir") + "/TestOutput/ParentFile.csv";
+        String PopSizes = System.getProperty("user.dir") + "/TestOutput/PopSizes.csv";
+        String MutationFile = System.getProperty("user.dir") + "/TestOutput/MutationFile.csv";
+        String r_lambda_file = System.getProperty("user.dir") + "/TestOutput/R_Lambda_Values.csv";
+        /*
+        Sets up Data Files if on cluster or if ran locally
+         */
+        if(EpidermisConst.JarFile){
+            ParentFile = args[0];
+            PopSizes = args[1];
+            MutationFile = args[2];
+            r_lambda_file = args[3];
+            EpidermisConst.xSize = Integer.parseInt(args[4]);
+        }
+        final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize); // Initializes and sets up the program for running
+        Runtime rt = Runtime.getRuntime();
 
+        // Sets up GUI
         if(EpidermisConst.GuiOn) {
             CellDraw = new EpidermisCellVis();
             Gui MainGUI = new Gui("Homeostatic Epidermis Model", true);
@@ -102,16 +125,21 @@ public class Epidermis_Main {
 
             // Main Running of the steps within the model
             Epidermis.RunStep();
+
+            /*
+            All Injuries Occuring Here!
+             */
 //            if(Epidermis.GetTick()%1000==0){
 //                Epidermis.inflict_wound();
 //            }
 
+            /*
+            rLambda Value calculations, output, and recording
+             */
             if (EpidermisConst.get_r_lambda) {
                 if (Epidermis.GetTick() % 7f == 0) {
-                    float temp_r_lambda = Epidermis.r_lambda_weekly / 7.0f;
-                    String r_lambda_out = String.valueOf(temp_r_lambda);
-                    //writer2.Write(r_lambda_out + '\n'); // writes out r_lambda value
-                    //System.out.println(Epidermis.r_lambda_weekly / 7.0f);
+                    r_lambda_WriteValue.add(r_lambda_index, Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f);
+                    r_lambda_index += 1;
                     if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format(Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f));}
                     EpidermisCell.loss_count_basal=0;
                     Epidermis.r_lambda_weekly = 0;
@@ -120,13 +148,18 @@ public class Epidermis_Main {
                 }
             }
 
+            /*
+            Output Time Options
+             */
             if(ActivityVis==null){
                 if(Epidermis.GetTick()%365==0){
                     System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
                 }
             }
 
-            // Visualization Components
+            /*
+            All Visualization Components are here
+             */
             if(ActivityVis!=null){YearLab.setText("Age (yrs.): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
             if(DivVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DivVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
             if(DivLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DivLayerVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
@@ -136,6 +169,43 @@ public class Epidermis_Main {
             if(OldestCell!=null){OldestCell.setText("Mean cell age (days): " + new DecimalFormat("#.00").format(Epidermis.GetOldestCell(Epidermis)));}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
+
+            Epidermis.GenomeStore.RecordClonePops();
+
+            /*
+            All Model Data Recording Is Below This line
+             */
+            if(EpidermisConst.RecordParents==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
+                FileIO ParentOut = new FileIO(ParentFile, "w");
+                Epidermis.GenomeStore.WriteParentIDs(ParentOut, "\n");
+                ParentOut.Close();
+                System.out.println("Parents written to file.");
+            }
+            if(EpidermisConst.RecordLineages==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
+                FileIO MutsOut = new FileIO(MutationFile, "w");
+                Epidermis.GenomeStore.WriteAllLineageInfoLiving(MutsOut, ",", "\n");
+                MutsOut.Close();
+                System.out.println("Lineage genomes written to file.");
+            }
+            if(EpidermisConst.RecordPopSizes==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
+                FileIO PopSizeOut = new FileIO(PopSizes, "w");
+                //Epidermis.GenomeStore.RecordClonePops();
+                Epidermis.GenomeStore.WriteClonePops(PopSizeOut, ",", "\n");
+                PopSizeOut.Close();
+                System.out.println("Population sizes written to file.");
+            }
+            if(EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime==Epidermis.GetTick()){
+                FileIO RLambdaWriter = new FileIO(r_lambda_file, "w");
+                float r_lamb_print = 0;
+                for (int i = 0; i < r_lambda_WriteValue.size(); i++) {
+                    r_lamb_print += r_lambda_WriteValue.get(i);
+                    String out = r_lambda_WriteValue.get(i).toString();
+                    RLambdaWriter.Write(out);
+                }
+                RLambdaWriter.Close();
+                System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print/r_lambda_index) + "\n");
+            }
         }
+        Utils.PrintMemoryUsage();
     }
 }

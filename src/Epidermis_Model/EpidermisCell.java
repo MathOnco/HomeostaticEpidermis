@@ -9,8 +9,9 @@ import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static AgentFramework.Utils.ModWrap;
-import static Epidermis_Model.EpidermisCellGenome.GeneMutations;
-import static Epidermis_Model.EpidermisCellGenome.genelengths;
+import static Epidermis_Model.EpidermisCellGenome.ExpectedMuts;
+import static Epidermis_Model.EpidermisCellGenome.GeneLengths;
+import static Epidermis_Model.EpidermisCellGenome.RN;
 import static Epidermis_Model.EpidermisConst.*;
 
 /**
@@ -22,9 +23,10 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
-    double prolif_scale_factor = 0.085; //Correction for appropriate proliferation rate (Default = 0.75-0.1 with KERATINO_APOPTOSIS_EGF=0.01)
+    double prolif_scale_factor = 0.16; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
     double KERATINO_EGF_CONSPUMPTION = -0.005; //consumption rate by keratinocytes
-    double KERATINO_APOPTOSIS_EGF = 0.01; //level at which apoptosis occurs by chance (above this and no apoptosis)
+    double KERATINO_APOPTOSIS_EGF = 0.07; //level at which apoptosis occurs by chance (above this and no apoptosis)
+    double DEATH_PROB = 0.0001; //Overall Death Probability
     double MOVEPROBABILITY = 0.75; //RN float has to be greater than this to move...
     static int pro_count = 0;
     static int pro_count_basal = 0;
@@ -36,37 +38,14 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     /**
      * Parameters for cell specific tracking and genome information
      **/
-    float r;
-    float g;
-    float b;
     // Clonal dynamic tracking
-    EpidermisCellGenome myGenome = new EpidermisCellGenome(); // Creating genome class within each cell
-    int parentID;
-    int cellID;
-    int ParentCloneID; // Tracking parent Clone ID
-    int cloneID; // Needs to track the cell so only unique populations have who they came from and the same cell ID for same genome population...
-    static int cloneCounter = 1;
-    static int cellIDcounter = 0;
+    EpidermisCellGenome myGenome; // Creating genome class within each cell
 
-    public void init(int cellType, float r, float g, float b, EpidermisCellGenome parentGenome, int parentinfo, int cloneInfo, int parentCloneInfo) { //This initilizes an agent with whatever is inside of this function...
+    public void init(int cellType, EpidermisCellGenome myGenome) { //This initilizes an agent with whatever is inside of this function...
         this.myType = cellType;
-        this.r = r;
-        this.b = b;
-        this.g = g;
-        this.parentID = parentinfo; // Sets the parentID of what is passed to the newly created cell...
-        this.cellIDcounter += 1; // Add 1 to set the cell ID to a unique value...
-        this.cellID = cellIDcounter; // Set the cell ID for the newly created cell to a unique value...
-        this.cloneID = cloneInfo;
-        this.ParentCloneID = parentCloneInfo;
         this.Action = STATIONARY;
-
-        // copying over the genome from the parentCell
-        myGenome = new EpidermisCellGenome();
-        for (int i = 0; i < parentGenome.genomelength; i++) {
-            for (int p = 0; p < parentGenome.mut_pos[i].size(); p++) {
-                myGenome.mut_pos_setter(i, parentGenome.mut_pos_getter(i, p));
-            }
-        }
+        // Storing Genome Reference to Parent and Itself if mutation happened
+        this.myGenome = myGenome;
     }
 
     // Set coords array using this function
@@ -110,11 +89,10 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             return false;
         }
 
-        if(y==0){
+//        if(y==0){
             int divOptions = GetEmptyVNSquares(x, y, false, G().divHoodBasal, G().inBounds); // Number of coordinates you could divide into
             iDivLoc = basalProlif(); // Where the new cell is going to be (which index) if basal cell
-            //TODO STOP Pushing of Melanocytes!!!!
-            if(iDivLoc==0||iDivLoc==1){
+            if(iDivLoc==0 && y==0){
                 loss_count_basal+=1;
             }
             boolean Pushed = CellPush(iDivLoc);
@@ -122,10 +100,12 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
                 return false; // Only false if melanocyte there
             }
 
-        } else{
-            int divOptions = GetEmptyVNSquares(x, y, true, G().divHood, G().inBounds); // Number of coordinates you could divide into
-            if(divOptions>0){iDivLoc = G().RN.nextInt(divOptions);} else {return false;} //Where the new cell is going to be (which coordinate)
-        }
+//        } else{
+//            int divOptions = GetEmptyVNSquares(x, y, true, G().divHood, G().inBounds); // Number of coordinates you could divide into
+//            if(divOptions>0){iDivLoc = G().RN.nextInt(divOptions);} else {return false;} //Where the new cell is going to be (which coordinate)
+//
+//
+//        }
 
         EpidermisCell newCell = G().NewAgent(G().inBounds[iDivLoc]);
 
@@ -133,33 +113,8 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             pro_count_basal++;
         }
 
-        if(myType==KERATINOCYTE){
-            int[] MutationsObtained = new int[GeneMutations.length];
-            for(int j=0; j<GeneMutations.length; j++){
-                if (j!=0){
-                    Poisson poisson_dist = new Poisson(GeneMutations[j], RNEngine); // Setup the Poisson distributions for each gene.
-                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for each gene
-                    for(int hits=0; hits<mutations; hits++){
-                        long index = ThreadLocalRandom.current().nextLong(genelengths[j]);
-                        String mutout = G().GetTick() + "." + index;
-                        myGenome.mut_pos_setter(j, mutout);
-                        r = G().RN.nextFloat() * 0.9f + 0.1f;
-                        g = G().RN.nextFloat() * 0.9f + 0.1f;
-                        b = G().RN.nextFloat() * 0.9f + 0.1f;
-                        ParentCloneID = cloneID;
-                        cloneCounter += 1; // Place here if only tracking cells with mutations that hit the 71 genes of interest...
-                        cloneID = cloneCounter;
-                        String[] parentLineage = G().lineages.get(ParentCloneID);
-                        String[] myLineage = Arrays.copyOf(parentLineage, parentLineage.length + 1);
-                        myLineage[parentLineage.length] = ParentCloneID + "." + cloneID;
-                        G().lineages.add(myLineage);
-                    }
-                }
-            }
-        }
-
-
-        newCell.init(myType, r, g, b, myGenome, cellID, cloneID, ParentCloneID); // initializes a new skin cell, pass the cellID for a new value each time.
+        newCell.init(myType, myGenome.NewChild().PossiblyMutate()); // initializes a new skin cell, pass the cellID for a new value each time.
+        myGenome = myGenome.PossiblyMutate(); // Check if this duaghter cell, i.e. the progenitor gets mutations during this proliferation step.
         pro_count += 1;
         return true;
     }
@@ -193,7 +148,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     // Sets the coordinates for a cell that is moving.
     public int GetMoveCoords() {
         int iMoveCoord=-1;  //when it's time to move, it is the index of coordinate that is picked from Coords array above. -1 == Not Moving
-        int MoveOptions=GetEmptyVNSquares(Xsq(),Ysq(),true, G().divHood, G().inBounds);
+        int MoveOptions=GetEmptyVNSquares(Xsq(),Ysq(),true, G().moveHood, G().inBounds);
         if(MoveOptions>0&&myType==KERATINOCYTE) {
             iMoveCoord=G().RN.nextInt(MoveOptions);
         }
@@ -201,6 +156,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     }
 
     public void itDead(){
+        myGenome.DisposeClone(); // Decrements Population
         Dispose();
         death_count+=1;
         G().MeanDeath[Isq()] += 1;
@@ -216,8 +172,13 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             itDead();
             return;
         }
-        if (myType == KERATINOCYTE && G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < Math.pow(G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF,3)) {
+        if (G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < (Math.pow(1.0 - G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF, 5))) {
             //DEATH FROM LACK OF NUTRIENTS KERATINOCYTE
+            itDead();
+            return;
+        }
+        if(RN.nextDouble() < DEATH_PROB){
+            //Random Fucked
             itDead();
             return;
         }
@@ -240,24 +201,18 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 
     }
 
-    // Builds my genome information for data analysis
-    String ToString(){
-        String cellInfo="{["+createStrID()+"];[";
-        for(int iGene=0;iGene<myGenome.genomelength;iGene++){
-            cellInfo+="[";
-            for(int iMut=0;iMut<myGenome.mut_pos[iGene].size();iMut++){
-                cellInfo+=myGenome.mut_pos_getter(iGene,iMut)+",";
-            }
-            cellInfo+="],";
-        }
-        cellInfo+="]}";
-        return cellInfo;
-    }
-
-    // Creates a unique string ID using parentID and cellID
-    private String createStrID(){
-        String strID=parentID + "." + cellID;
-        return strID;
-    }
+//    // Builds my genome information for data analysis
+//    String ToString(){
+//        String cellInfo="{["+createStrID()+"];[";
+//        for(int iGene=0;iGene<myGenome.genomelength;iGene++){
+//            cellInfo+="[";
+//            for(int iMut=0;iMut<myGenome.mut_pos[iGene].size();iMut++){
+//                cellInfo+=myGenome.mut_pos_getter(iGene,iMut)+",";
+//            }
+//            cellInfo+="],";
+//        }
+//        cellInfo+="]}";
+//        return cellInfo;
+//    }
 
 }
