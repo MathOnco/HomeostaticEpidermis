@@ -5,6 +5,9 @@ import AgentFramework.Grid2;
 import AgentFramework.GridDiff2;
 import AgentFramework.Gui.Gui;
 import AgentFramework.Gui.GuiVis;
+import cern.jet.random.engine.DRand;
+import cern.jet.random.engine.RandomEngine;
+
 import static AgentFramework.Utils.*;
 import static Epidermis_Model.EpidermisConst.*;
 
@@ -19,11 +22,12 @@ import java.util.Random;
 
 // Grid specific parameters
 class EpidermisGrid extends Grid2<EpidermisCell> {
+    final double[] runParams;
+
     final Random RN=new Random();
-    static final int[] divHoodBasal={1,0,-1,0,0,1}; // Coordinate set for two beside and one above [x,y,x,y...]
-    static final int[] divHood={1,0,-1,0,0,1,0,-1}; // Coordinate set for two beside and one above and one below [x,y,x,y...]
-    static final int[] moveHood={1,0,-1,0,0,-1};
-    static final int[] inBounds= new int[4];
+    final int[] divHoodBasal={1,0,-1,0,0,1}; // Coordinate set for two beside and one above [x,y,x,y...]
+    final int[] moveHood={1,0,-1,0,0,-1};
+    final int[] inBounds= new int[4];
     static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
     static final double DECAY_RATE=0.01; //chemical decay rate of growth factors
     static final double SOURCE_EGF=1; //constant level at basement
@@ -35,11 +39,19 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     int yDim;
     int[] MeanProlif = new int[EpidermisConst.xSize * EpidermisConst.ySize];
     int[] MeanDeath = new int[EpidermisConst.xSize * EpidermisConst.ySize];
+
+    int pro_count = 0;
+    int pro_count_basal = 0;
+    int loss_count_basal = 0;
+    int death_count = 0;
+
+
     GenomeTracker<EpidermisCellGenome> GenomeStore;
     GridDiff2 EGF;
 
-    public EpidermisGrid(int x, int y) {
+    public EpidermisGrid(int x, int y, double[] customParams) {
         super(x,y,EpidermisCell.class);
+        runParams = customParams;
         running = false;
         xDim = x;
         yDim = y;

@@ -14,7 +14,7 @@ public class Grid2<T extends AgentSQ2> extends GridBase implements Iterable<T>{
     public final int length;
     public final int xDim;
     public final int yDim;
-    T[] grid;
+    public T[] grid;
 
     /**
      * @param type pass T.class, used to instantiate agent instances within the grid as needed

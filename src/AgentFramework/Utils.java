@@ -864,6 +864,44 @@ public final class Utils {
         System.out.println("Max  Memory: "+rt.maxMemory()/mb+" mb");
     }
 
+    /**
+     * prints an array
+     * @param arr array to be printed
+     * @param delim the delimiter used to separate entries
+     * @param <T> the type of the data entries in the array
+     */
+    public static <T>String PrintArr(T[] arr,String delim){
+        StringBuilder sb=new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i]+delim);
+        }
+        return sb.toString();
+    }
+    /**
+     * prints an array
+     * @param arr array to be printed
+     * @param delim the delimiter used to separate entries
+     */
+    public static String PrintArr(double[] arr,String delim){
+        StringBuilder sb=new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i]+delim);
+        }
+        return sb.toString();
+    }
+    /**
+     * prints an array
+     * @param arr array to be printed
+     * @param delim the delimiter used to separate entries
+     */
+    public static String PrintArr(int[] arr,String delim){
+        StringBuilder sb=new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i]+delim);
+        }
+        return sb.toString();
+    }
+
 }
 
 
