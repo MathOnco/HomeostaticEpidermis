@@ -117,7 +117,7 @@ public class Epidermis_Main {
 //            MainGUI.RunGui();
 //        }
 
-        FileIO FileParams = new FileIO("ParamFile.txt", "w");
+        FileIO FileParams = new FileIO("ParamFile_Iteration4.txt", "w");
         ParamSweeper PS = new ParamSweeper(FileParams, (double[] runThatShit)->{
             EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, runThatShit); // Initializes and sets up the program for running
             String OutRL = "";
@@ -163,20 +163,28 @@ public class Epidermis_Main {
             return Utils.PrintArr(runThatShit, "\t") + OutRL + "\t" + outMean + "\n";
         });
 
+        //*range+min
         PS.AddParam((Random RN)->{
-            return RN.nextDouble()*0.2+.05;
+            return RN.nextDouble()*0.2+.05; //Iteration 1, 2, 3, 4
         });
         PS.AddParam((Random RN)->{
-            return RN.nextDouble()*-0.009-.001;
+            return RN.nextDouble()*-0.009-.001; //Iteration 1 & 4
+            //return -0.005; //Found value using R script for target Mean Cell Age
         });
         PS.AddParam((Random RN)->{
-            return RN.nextDouble()*0.14+0.01;
+            return RN.nextDouble()*0.14+0.01; //Iteration 1 & 4
+            //return 0.084; //Found value using R script for target Mean Cell Age
         });
         PS.AddParam((Random RN)->{
-            return RN.nextDouble()*0.0009+.00001;
+            return RN.nextDouble()*0.0009+.00001; //Iteration 1, 2, 3, 4
         });
         PS.AddParam((Random RN)->{
-            return RN.nextDouble()*0.75+.25;
+            return RN.nextDouble()*0.75+.25; //Iteration 1, 2, 3, 4
+        });
+        PS.AddParam((Random RN)->{
+            //return RN.nextDouble()*0.55+.2; //Iteration 2 for division location
+            //return RN.nextDouble()*0.9+.01; //Iteration 3 for division location
+            return RN.nextDouble()*0.9+.01; //Iteration 4 for division location
         });
 
         PS.Sweep(1000, 4);
