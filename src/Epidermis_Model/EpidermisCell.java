@@ -101,7 +101,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 //        if(y==0){
             int divOptions = GetEmptyVNSquares(x, y, false, G().divHoodBasal, G().inBounds); // Number of coordinates you could divide into
             iDivLoc = ProlifLoc(); // Where the new cell is going to be (which index) if basal cell
-            if(iDivLoc==0 && y==0){
+            if(iDivLoc==0 || iDivLoc==1 && y==0){
                 G().loss_count_basal+=1;
             }
             boolean Pushed = CellPush(iDivLoc);
