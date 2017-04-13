@@ -117,7 +117,7 @@ public class Epidermis_Main {
 //            MainGUI.RunGui();
 //        }
 
-        FileIO FileParams = new FileIO("ParamFile_Iteration10.txt", "w");
+        FileIO FileParams = new FileIO("ParamFile_Iteration16_DIVLOCPROB_PSF_DEATHPROB_EGFCONS_MOVEPROB_const.txt", "w");
         ParamSweeper PS = new ParamSweeper(FileParams, (double[] runThatShit)->{
             EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, runThatShit); // Initializes and sets up the program for running
             String OutRL = "";
@@ -168,32 +168,37 @@ public class Epidermis_Main {
             //return RN.nextDouble()*0.2+.05; //Iteration 1, 2, 3, 4
             //return RN.nextDouble()*0.05511668+0.09363926; //Iteration 5  // Iteration 6
             //return RN.nextDouble()*0.3+.005; // Iteration 8
-            return RN.nextDouble()*0.1281969+0.08814774;
+            //return RN.nextDouble()*0.1219852+0.09185746;
+            return 0.107811; // Iteration 13 DIVLOC PROB and PSF held constant
         });
         PS.AddParam((Random RN)->{
             //return RN.nextDouble()*-0.009-.001; //Iteration 1 & 4
             //return -0.005; //Found value using R script for target Mean Cell Age
 //            return RN.nextDouble()*-0.004979884-0.008046753; //Iteration 5
             //return -0.01069431;  // Iteration 6
-            return RN.nextDouble()*-0.008319404-0.00900634; // Iteration 8
+//            return RN.nextDouble()*-0.01023355-0.01569697; // Iteration 8
+            //return RN.nextDouble()*-0.1023355-0.00569697; // Iteration 8
+            return -0.01099752; //Iteration 15
         });
         PS.AddParam((Random RN)->{
             //return RN.nextDouble()*0.14+0.01; //Iteration 1 & 4
             //return 0.084; //Found value using R script for target Mean Cell Age
             //return RN.nextDouble()*0.08679152+0.02097634; //Iteration 5  // Iteration 6
-            return RN.nextDouble()*0.1335875+0.09404483; // Iteration 8
+            return RN.nextDouble()*0.6058216+0.0133269; // Iteration 8
         });
         PS.AddParam((Random RN)->{
             //return RN.nextDouble()*0.0009+.00001; //Iteration 1, 2, 3, 4
 //            return RN.nextDouble()*0.0005096622+0.0001995181; //Iteration 5
             //return 0.0003955854; // Iteration 6
-            return RN.nextDouble()*0.02867446+0.006462882; // Iteration 8
+            //return RN.nextDouble()*0.03561596+0.00225195; // Iteration 8
+            return 0.02556716; //Iteration 14
         });
         PS.AddParam((Random RN)->{
             //return RN.nextDouble()*0.75+.25; //Iteration 1, 2, 3, 4
 //            return RN.nextDouble()*0.4216262+0.4094297; //Iteration 5
             //return 0.5249628;  // Iteration 6
-            return RN.nextDouble()*0.8545317+0.3501306; // Iteration 8
+            //return RN.nextDouble()*0.9181475+0.396678; // Iteration 8
+            return 0.6655135; //Iteration 16
         });
         PS.AddParam((Random RN)->{
             //return RN.nextDouble()*0.55+.2; //Iteration 2 for division location
@@ -201,7 +206,8 @@ public class Epidermis_Main {
             //return RN.nextDouble()*0.9+.01; //Iteration 4 for division location
             //return RN.nextDouble()*.19+0.01;//Iteration 5 (best so far 0.06001747)
             //return Math.exp(RN.nextDouble()*(Math.log(0.1)-Math.log(0.0001))+Math.log(0.0001));  // Iteration 6
-            return RN.nextDouble()*0.8326417+0.7146423; // Iteration 8
+            //return RN.nextDouble()*0.7925067+0.7403535; // Iteration 8
+            return 0.7978608; //Iteration 12
         });
 
         PS.Sweep(1000, 4);
