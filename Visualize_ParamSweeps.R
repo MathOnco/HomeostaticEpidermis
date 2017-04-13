@@ -105,7 +105,12 @@ MinRange(Distdf16)
 
 
 
-
+#Iteration_All_Constant
+df16 <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamFile_Iteration17_ALLCONSTANT_VARIABLES.txt", sep = "\t", header = FALSE)
+Distdf16 <- PlotRun(df16)
+plot(Distdf16)
+Distdf16Params <- PlotClosest(Distdf16)
+MinRange(Distdf16)
 
 
 

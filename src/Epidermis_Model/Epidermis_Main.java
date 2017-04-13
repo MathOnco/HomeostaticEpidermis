@@ -117,7 +117,7 @@ public class Epidermis_Main {
 //            MainGUI.RunGui();
 //        }
 
-        FileIO FileParams = new FileIO("ParamFile_Iteration16_DIVLOCPROB_PSF_DEATHPROB_EGFCONS_MOVEPROB_const.txt", "w");
+        FileIO FileParams = new FileIO("ParamFile_Iteration17_ALLCONSTANT_VARIABLES.txt", "w");
         ParamSweeper PS = new ParamSweeper(FileParams, (double[] runThatShit)->{
             EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, runThatShit); // Initializes and sets up the program for running
             String OutRL = "";
@@ -184,7 +184,8 @@ public class Epidermis_Main {
             //return RN.nextDouble()*0.14+0.01; //Iteration 1 & 4
             //return 0.084; //Found value using R script for target Mean Cell Age
             //return RN.nextDouble()*0.08679152+0.02097634; //Iteration 5  // Iteration 6
-            return RN.nextDouble()*0.6058216+0.0133269; // Iteration 8
+            //return RN.nextDouble()*0.6058216+0.0133269; // Iteration 8
+            return RN.nextDouble()*0.04+0.11; //End Iteration. All single values 0.1284331
         });
         PS.AddParam((Random RN)->{
             //return RN.nextDouble()*0.0009+.00001; //Iteration 1, 2, 3, 4
@@ -210,7 +211,7 @@ public class Epidermis_Main {
             return 0.7978608; //Iteration 12
         });
 
-        PS.Sweep(1000, 4);
+        PS.Sweep(50, 4);
 
         FileParams.Close();
 //        while(Epidermis.GetTick() < EpidermisConst.ModelTime){
