@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=200; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=150; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -31,10 +31,10 @@ class EpidermisConst{
 
     static final boolean GuiOn = true; // use for visualization
     static final boolean JarFile = false; // Set to true if running from command line as jar file
-    static final boolean RecordParents = true; // use when you want parents information
-    static final boolean RecordLineages = true; // use when you want
-    static final boolean RecordPopSizes = true; // Use to record clone population sizes
-    static final boolean get_r_lambda = true; // use when you want the r_lambda value
+    static final boolean RecordParents = false; // use when you want parents information
+    static final boolean RecordLineages = false; // use when you want
+    static final boolean RecordPopSizes = false; // Use to record clone population sizes
+    static final boolean get_r_lambda = false; // use when you want the r_lambda value
 }
 
 public class Epidermis_Main {
@@ -129,9 +129,10 @@ public class Epidermis_Main {
             /*
             All Injuries Occuring Here!
              */
-//            if(Epidermis.GetTick()%1000==0){
-//                Epidermis.inflict_wound();
-//            }
+            if(Epidermis.GetTick()%365==0){
+                Epidermis.inflict_wound();
+                tickIt.TickPause(1000); // Adjusting a frame rate
+            }
 
             /*
             rLambda Value calculations, output, and recording
