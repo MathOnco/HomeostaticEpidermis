@@ -29,7 +29,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     final int[] moveHood={1,0,-1,0,0,-1};
     final int[] inBounds= new int[4];
     static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
-    static final double DECAY_RATE=0.01; //chemical decay rate of growth factors
+    static final double DECAY_RATE=0.0001; //chemical decay rate of growth factors
     static final double SOURCE_EGF=1; //constant level at basement
     static final int AIR_HEIGHT=15; //air, keratinocyte death! (threshold level for placement of keratinocytes essentially)
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
@@ -188,7 +188,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
 
     public boolean checkWoundHeal(int AvgHeight){
         int pop=0;
-        for (int i = 37; i < xDim-37*3; i++){
+        for (int i = 37; i < 37*3; i++){
             for (int k=0; k < 20; k++) {
                 if(SQtoAgent(i,k)!=null){
                     pop++;

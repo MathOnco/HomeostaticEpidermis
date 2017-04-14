@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import AgentFramework.Utils;
 
+import javax.print.DocFlavor;
+
 /**
  * Created by schencro on 3/24/17.
  */
@@ -19,7 +21,7 @@ class EpidermisConst{
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
-    static final int ySize=20;
+    static final int ySize=30;
 
     static final int KERATINOCYTE = 0; //setting types into a binary 0 or 1
     static final int DIVIDE = 2; // Attribute if cell is dividing
@@ -31,6 +33,7 @@ class EpidermisConst{
     static final int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
+
 
     static final boolean GuiOn = false; // use for visualization
     static final boolean JarFile = false; // Set to true if running from command line as jar file
@@ -132,12 +135,11 @@ public class Epidermis_Main {
             double avgHeight=0;
             int tickSum=0;
 
-
             while(Epidermis.GetTick() < EpidermisConst.ModelTime){
                 Epidermis.RunStep();
                 int healTick=0;
 
-                if(!Healed && Epidermis.GetTick() > 913){
+                if(!Healed && Epidermis.GetTick() > 913 && woundHealWriteValue.size() < 11){
                     Healed = Epidermis.checkWoundHeal((int)avgHeight);
                     healTick=Epidermis.GetTick();
                     if(Healed){
@@ -145,7 +147,7 @@ public class Epidermis_Main {
                     }
                 }
 
-                if(Healed && Epidermis.GetTick() > 913 && Epidermis.GetTick()-healTick>10){
+                if(Healed && Epidermis.GetTick() > 913 && Epidermis.GetTick()-healTick>10 && woundHealWriteValue.size() < 11){
                     Epidermis.inflict_wound();
                     woundTick=Epidermis.GetTick();
                     Healed = false;
@@ -196,32 +198,32 @@ public class Epidermis_Main {
         });
 
         //*range+min
-        PS.AddParam((Random RN)->{
-            return RN.nextDouble()*0.2+.05; //Iteration 1, 2, 3, 4
+        PS.AddParam((Random RN)->{ // PSF
+            return RN.nextDouble()*0.1+.001; //Iteration 1, 2, 3, 4
 
         });
-        PS.AddParam((Random RN)->{
+        PS.AddParam((Random RN)->{ // KerEGFConsumption
             return RN.nextDouble()*-0.009-.001; //Iteration 1 & 4
 
         });
-        PS.AddParam((Random RN)->{
+        PS.AddParam((Random RN)->{ // ApopEGF
             return RN.nextDouble()*0.14+0.01; //Iteration 1 & 4
 
         });
-        PS.AddParam((Random RN)->{
+        PS.AddParam((Random RN)->{ // DeathProb
             return RN.nextDouble()*0.0009+.00001; //Iteration 1, 2, 3, 4
 
         });
-        PS.AddParam((Random RN)->{
-            return RN.nextDouble()*0.75+.25; //Iteration 1, 2, 3, 4
+        PS.AddParam((Random RN)->{ // MoveProb
+            return RN.nextDouble()*0.75+0.0; //Iteration 1, 2, 3, 4
 //
         });
-        PS.AddParam((Random RN)->{
+        PS.AddParam((Random RN)->{ // DIVLOCPROB
             return RN.nextDouble()*0.55+.2; //Iteration 2 for division location
 
         });
 
-        PS.Sweep(1, 4);
+        PS.Sweep(200, 4);
 
         FileParams.Close();
 //        while(Epidermis.GetTick() < EpidermisConst.ModelTime){

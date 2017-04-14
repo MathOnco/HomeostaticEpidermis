@@ -147,7 +147,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
                 c=(G().SQtoAgent(x,colTop-1));
                 c.Move(x,colTop);
             }
-            if(c.Ysq()>= G().yDim-1){c.itDead();}
+            if(c.Ysq()>= G().yDim-2){c.itDead();}
             return true;
         } else{
             return false;

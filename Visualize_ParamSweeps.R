@@ -9,9 +9,27 @@ OrdRange <- function(q){
   print(max-min)
 }
 
+OrdiPlot <- function(df){
+  dfOutcome <- df[7:10]
+  dfInput <- df[1:6]
+  ccaData <- cca(dfOutcome ~ PSF+EGF_CONS+APOPEGF+DEATHPROB+MOVE+DIVLOCPROB, data=dfInput)
+  summary(ccaData)
+  plot(ccaData)
+  
+  for(i in colnames(dfInput)){
+    print(i)
+  }
+  VectorStats <- envfit(ccaData ~ PSF, data = dfInput, iterations=c(10000))
+  OrdiSurface <- ordisurf(ccaData ~ PSF, data = dfInput, plot = FALSE)
+  par(mfrow=c(2,3))
+  plot(ccaData, main="CCA All Parameters")
+  plot(ccaData, main="DEATHPROB Surface")
+  plot(OrdiSurface, col = "red", add = TRUE)
+  VectorStats
+}
 
 EDist <- function(x, y, z, q, x1, y1, z1, q1){
-  distance <- sqrt((x-x1)^2+(y/100-y1/100)^2+(z/100-z1/100)^2+(q/100-q1/100)^2)
+  distance <- sqrt((x-x1)^2+(y/100-y1/100)^2+(z/100-z1/100)^2+(q/10-q1/10)^2)
   return(distance)
 }
 
@@ -78,16 +96,21 @@ plot(Distdf18)
 Distdf18Params <- PlotClosest(Distdf18)
 plot(Distdf18Params)
 MinRange(Distdf18Params)
+plot(Distdf18$PSF, Distdf18$E.Dist)
 
+OrdiPlot(Distdf18)
 
 #### Canonical Correspondence analysis ####
-dfOutcome <- Distdf18[7:9]
+dfOutcome <- Distdf18[7:10]
 dfInput <- Distdf18[1:6]
 ccaData <- cca(dfOutcome ~ PSF+EGF_CONS+APOPEGF+DEATHPROB+MOVE+DIVLOCPROB, data=dfInput)
-ccaData
 summary(ccaData)
-VectorStats <- envfit(ccaData ~ PSF, data = dfInput, iterations=c(10000))
-OrdiSurface <- ordisurf(ccaData ~ PSF, data = dfInput, plot = FALSE)
-plot(ccaData)
+VectorStats <- envfit(ccaData ~ DEATHPROB, data = dfInput, iterations=c(10000))
+OrdiSurface <- ordisurf(ccaData ~ DEATHPROB, data = dfInput, plot = FALSE)
+par(mfrow=c(2,3))
+plot(ccaData, main="CCA All Parameters")
+plot(ccaData, main="DEATHPROB Surface")
 plot(OrdiSurface, col = "red", add = TRUE)
+VectorStats
+
 
