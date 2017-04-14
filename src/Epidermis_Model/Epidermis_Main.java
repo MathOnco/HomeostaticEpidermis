@@ -117,7 +117,7 @@ public class Epidermis_Main {
 //            MainGUI.RunGui();
 //        }
 
-        FileIO FileParams = new FileIO("ParamFile_Iteration17_ALLCONSTANT_VARIABLES.txt", "w");
+        FileIO FileParams = new FileIO("ParamSweep_Ordination_Round1.txt", "w");
         ParamSweeper PS = new ParamSweeper(FileParams, (double[] runThatShit)->{
             EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, runThatShit); // Initializes and sets up the program for running
             String OutRL = "";
@@ -126,19 +126,47 @@ public class Epidermis_Main {
             int r_lambda_index = 0;
             ArrayList<Float> meanCellAgeWriteValue = new ArrayList();
             int meanCellAgeIndex = 0;
+            ArrayList<Integer> woundHealWriteValue = new ArrayList();
+            int woundTick = 0;
+            boolean Healed = true;
+            double avgHeight=0;
+            int tickSum=0;
+
 
             while(Epidermis.GetTick() < EpidermisConst.ModelTime){
                 Epidermis.RunStep();
+                int healTick=0;
 
+                if(!Healed && Epidermis.GetTick() > 913){
+                    Healed = Epidermis.checkWoundHeal((int)avgHeight);
+                    healTick=Epidermis.GetTick();
+                    if(Healed){
+                        woundHealWriteValue.add(healTick-woundTick);
+                    }
+                }
+
+                if(Healed && Epidermis.GetTick() > 913 && Epidermis.GetTick()-healTick>10){
+                    Epidermis.inflict_wound();
+                    woundTick=Epidermis.GetTick();
+                    Healed = false;
+                }
+                if(Epidermis.GetTick()==912){
+                    avgHeight=(Epidermis.popSum*1.0/Epidermis.GetTick())/Epidermis.xDim;
+                }
 
                 if (EpidermisConst.get_r_lambda) {
                     if (Epidermis.GetTick() % 7f == 0) {
-                        r_lambda_WriteValue.add(r_lambda_index, Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f);
-                        r_lambda_index += 1;
-                        meanCellAgeWriteValue.add(meanCellAgeIndex, Epidermis.GetOldestCell(Epidermis));
-                        meanCellAgeIndex += 1;
+                        if( Epidermis.GetTick() > 14 && Epidermis.GetTick() < 912 ){
+                            r_lambda_WriteValue.add(r_lambda_index, Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f);
+                            r_lambda_index += 1;
+                            meanCellAgeWriteValue.add(meanCellAgeIndex, Epidermis.GetOldestCell(Epidermis));
+                            meanCellAgeIndex += 1;
+                        }
+
+
                         Epidermis.loss_count_basal=0;
                         Epidermis.r_lambda_weekly = 0;
+
                     } else {
                         Epidermis.r_lambda_weekly += ((float) Epidermis.loss_count_basal);
                     }
@@ -157,61 +185,43 @@ public class Epidermis_Main {
                         MeanWeekPrint += meanCellAgeWriteValue.get(i);
                     }
                     outMean = "" + MeanWeekPrint/meanCellAgeWriteValue.size();
+
+                    for (int ticks : woundHealWriteValue) {
+                        tickSum+=ticks;
+                    }
                 }
 
             }
-            return Utils.PrintArr(runThatShit, "\t") + OutRL + "\t" + outMean + "\n";
+            return Utils.PrintArr(runThatShit, "\t") + OutRL + "\t" + outMean + "\t" + avgHeight + "\t"+ tickSum*1.0/woundHealWriteValue.size()+"\n";
         });
 
         //*range+min
         PS.AddParam((Random RN)->{
-            //return RN.nextDouble()*0.2+.05; //Iteration 1, 2, 3, 4
-            //return RN.nextDouble()*0.05511668+0.09363926; //Iteration 5  // Iteration 6
-            //return RN.nextDouble()*0.3+.005; // Iteration 8
-            //return RN.nextDouble()*0.1219852+0.09185746;
-            return 0.107811; // Iteration 13 DIVLOC PROB and PSF held constant
+            return RN.nextDouble()*0.2+.05; //Iteration 1, 2, 3, 4
+
         });
         PS.AddParam((Random RN)->{
-            //return RN.nextDouble()*-0.009-.001; //Iteration 1 & 4
-            //return -0.005; //Found value using R script for target Mean Cell Age
-//            return RN.nextDouble()*-0.004979884-0.008046753; //Iteration 5
-            //return -0.01069431;  // Iteration 6
-//            return RN.nextDouble()*-0.01023355-0.01569697; // Iteration 8
-            //return RN.nextDouble()*-0.1023355-0.00569697; // Iteration 8
-            return -0.01099752; //Iteration 15
+            return RN.nextDouble()*-0.009-.001; //Iteration 1 & 4
+
         });
         PS.AddParam((Random RN)->{
-            //return RN.nextDouble()*0.14+0.01; //Iteration 1 & 4
-            //return 0.084; //Found value using R script for target Mean Cell Age
-            //return RN.nextDouble()*0.08679152+0.02097634; //Iteration 5  // Iteration 6
-            //return RN.nextDouble()*0.6058216+0.0133269; // Iteration 8
-            return RN.nextDouble()*0.04+0.11; //End Iteration. All single values 0.1284331
+            return RN.nextDouble()*0.14+0.01; //Iteration 1 & 4
+
         });
         PS.AddParam((Random RN)->{
-            //return RN.nextDouble()*0.0009+.00001; //Iteration 1, 2, 3, 4
-//            return RN.nextDouble()*0.0005096622+0.0001995181; //Iteration 5
-            //return 0.0003955854; // Iteration 6
-            //return RN.nextDouble()*0.03561596+0.00225195; // Iteration 8
-            return 0.02556716; //Iteration 14
+            return RN.nextDouble()*0.0009+.00001; //Iteration 1, 2, 3, 4
+
         });
         PS.AddParam((Random RN)->{
-            //return RN.nextDouble()*0.75+.25; //Iteration 1, 2, 3, 4
-//            return RN.nextDouble()*0.4216262+0.4094297; //Iteration 5
-            //return 0.5249628;  // Iteration 6
-            //return RN.nextDouble()*0.9181475+0.396678; // Iteration 8
-            return 0.6655135; //Iteration 16
+            return RN.nextDouble()*0.75+.25; //Iteration 1, 2, 3, 4
+//
         });
         PS.AddParam((Random RN)->{
-            //return RN.nextDouble()*0.55+.2; //Iteration 2 for division location
-            //return RN.nextDouble()*0.9+.01; //Iteration 3 for division location
-            //return RN.nextDouble()*0.9+.01; //Iteration 4 for division location
-            //return RN.nextDouble()*.19+0.01;//Iteration 5 (best so far 0.06001747)
-            //return Math.exp(RN.nextDouble()*(Math.log(0.1)-Math.log(0.0001))+Math.log(0.0001));  // Iteration 6
-            //return RN.nextDouble()*0.7925067+0.7403535; // Iteration 8
-            return 0.7978608; //Iteration 12
+            return RN.nextDouble()*0.55+.2; //Iteration 2 for division location
+
         });
 
-        PS.Sweep(50, 4);
+        PS.Sweep(1, 4);
 
         FileParams.Close();
 //        while(Epidermis.GetTick() < EpidermisConst.ModelTime){

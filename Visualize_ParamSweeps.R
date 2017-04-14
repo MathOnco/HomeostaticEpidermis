@@ -1,9 +1,17 @@
 library(ggplot2)
+library(vegan)
 
 ###### Functions! #####
+OrdRange <- function(q){
+  max <- q*2
+  min <- q/2
+  print(min)
+  print(max-min)
+}
 
-EDist <- function(x, y, x1, y2, rangeRlamb){
-  distance <- sqrt((x-x1)^2+(y/100-y2/100)^2)
+
+EDist <- function(x, y, z, q, x1, y1, z1, q1){
+  distance <- sqrt((x-x1)^2+(y/100-y1/100)^2+(z/100-z1/100)^2+(q/100-q1/100)^2)
   return(distance)
 }
 
@@ -24,21 +32,17 @@ circle <- function(center,diameter = 1, npoints = 100){
   return(data.frame(x = xx, y = yy))
 }
 
-dat <- circleFun(c(1,-1),2.3,npoints = 100)
-#geom_path will do open circles, geom_polygon will do filled circles
-ggplot(dat,aes(x,y)) + geom_path()
-
 PlotRun <- function(df){
   df <- na.omit(df)
-  colnames(df) <- c("PSF", "EGF_CONS","APOPEGF","DEATHPROB","MOVE","DIVLOCPROB","rlambda","mean")
+  colnames(df) <- c("PSF", "EGF_CONS","APOPEGF","DEATHPROB","MOVE","DIVLOCPROB","rlambda","mean", "height", "heal")
   dists <- data.frame(matrix(NA, nrow=0, ncol=1))
   colnames(dists) <- c("Dist")
   for(i in 1:length(df$mean)){
-    dist <- data.frame(Dist=EDist(df$rlambda[i], df$mean[i], 0.16, 28))
+    dist <- data.frame(Dist=EDist(df$rlambda[i], df$mean[i], df$height[i], df$heal[i], 0.16, 28, 14, 3))
     dists <- rbind(dists,dist)
   }
   dfDist <- cbind(df, dists)
-  colnames(dfDist) <- c("PSF", "EGF_CONS","APOPEGF","DEATHPROB","MOVE","DIVLOCPROB","rlambda","mean","E.Dist")
+  colnames(dfDist) <- c("PSF", "EGF_CONS","APOPEGF","DEATHPROB","MOVE","DIVLOCPROB","rlambda","mean", "height", "heal", "E.Dist")
   
   #d=data.frame(x1=c(0.14), x2=c(0.18), y1=c(25), y2=c(30), Region=c('Target'), r=c(1))
   
@@ -67,54 +71,23 @@ PlotClosest <- function(dfDist){
 
 ###### END Functions! #####
 
-#Iteration8-10
-dfAll <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamFile_Iterations8_9_10_11.txt", sep = "\t", header = FALSE)
-DistdfAll <- PlotRun(dfAll)
-plot(DistdfAll)
-DistdfAllParams <- PlotClosest(DistdfAll)
-plot(DistdfAllParams)
-MinRange(DistdfAllParams)
-
-#Iteration13
-df15 <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamFile_Iteration15_DIVLOCPROB_PSF_DEATHPROB_EGFCONS_const.txt", sep = "\t", header = FALSE)
-Distdf15 <- PlotRun(df15)
-plot(Distdf15)
-Distdf15Params <- PlotClosest(Distdf15)
-MinRange(Distdf15Params)
-
-#Iteration14
-df15 <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamFile_Iteration15_DIVLOCPROB_PSF_DEATHPROB_EGFCONS_const.txt", sep = "\t", header = FALSE)
-Distdf15 <- PlotRun(df15)
-plot(Distdf15)
-Distdf15Params <- PlotClosest(Distdf15)
-MinRange(Distdf15Params)
-
-#Iteration15
-df15 <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamFile_Iteration15_DIVLOCPROB_PSF_DEATHPROB_EGFCONS_const.txt", sep = "\t", header = FALSE)
-Distdf15 <- PlotRun(df15)
-plot(Distdf15)
-Distdf15Params <- PlotClosest(Distdf15)
-MinRange(Distdf15Params)
-
-#Iteration16
-df16 <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamFile_Iteration16_DIVLOCPROB_PSF_DEATHPROB_EGFCONS_MOVEPROB_const.txt", sep = "\t", header = FALSE)
-Distdf16 <- PlotRun(df16)
-plot(Distdf16)
-Distdf16Params <- PlotClosest(Distdf16)
-MinRange(Distdf16)
+#Param
+df18 <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamSweep_Ordination_Round1.txt", sep = "\t", header = FALSE)
+Distdf18 <- PlotRun(df18)
+plot(Distdf18)
+Distdf18Params <- PlotClosest(Distdf18)
+plot(Distdf18Params)
+MinRange(Distdf18Params)
 
 
-
-#Iteration_All_Constant
-df16 <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamFile_Iteration17_ALLCONSTANT_VARIABLES.txt", sep = "\t", header = FALSE)
-Distdf16 <- PlotRun(df16)
-plot(Distdf16)
-Distdf16Params <- PlotClosest(Distdf16)
-MinRange(Distdf16)
-
-
-
-
-
-
+#### Canonical Correspondence analysis ####
+dfOutcome <- Distdf18[7:9]
+dfInput <- Distdf18[1:6]
+ccaData <- cca(dfOutcome ~ PSF+EGF_CONS+APOPEGF+DEATHPROB+MOVE+DIVLOCPROB, data=dfInput)
+ccaData
+summary(ccaData)
+VectorStats <- envfit(ccaData ~ PSF, data = dfInput, iterations=c(10000))
+OrdiSurface <- ordisurf(ccaData ~ PSF, data = dfInput, plot = FALSE)
+plot(ccaData)
+plot(OrdiSurface, col = "red", add = TRUE)
 
