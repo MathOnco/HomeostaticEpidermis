@@ -12,20 +12,89 @@ OrdRange <- function(q){
 OrdiPlot <- function(df){
   dfOutcome <- df[7:10]
   dfInput <- df[1:6]
+  print(df)
   ccaData <- cca(dfOutcome ~ PSF+EGF_CONS+APOPEGF+DEATHPROB+MOVE+DIVLOCPROB, data=dfInput)
-  summary(ccaData)
-  plot(ccaData)
   
-  for(i in colnames(dfInput)){
-    print(i)
-  }
-  VectorStats <- envfit(ccaData ~ PSF, data = dfInput, iterations=c(10000))
+  myFact = 18.02976
+  
+  par(mfrow=c(3,3))
+  plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="Canonical Correspondence Analysis")
+  points(ccaData, display = "sites", cex=1/10)
+  text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
+  
+  VectorStats <- envfit(ccaData ~ PSF, data = dfInput, permutations=c(10000))
+  print(VectorStats)
+  myR2 <- paste("r2 = ", round(VectorStats$vectors$r[1],4), sep="")
+  myPval <- paste("p-value = ", round(VectorStats$vectors$pvals[1],4), sep = "")
+  outText <- paste(myR2, myPval, sep="\n")
   OrdiSurface <- ordisurf(ccaData ~ PSF, data = dfInput, plot = FALSE)
-  par(mfrow=c(2,3))
-  plot(ccaData, main="CCA All Parameters")
-  plot(ccaData, main="DEATHPROB Surface")
-  plot(OrdiSurface, col = "red", add = TRUE)
-  VectorStats
+  plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2", main="PSF")
+  plot(OrdiSurface, add=TRUE, col="red")
+  text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("PSF"), arrow.mul = myFact)
+  text(-5,0, labels = c(outText))
+  rm(myR2, myPval, VectorStats)
+  
+  VectorStats <- envfit(ccaData ~ APOPEGF, data = dfInput, permutations=c(1000))
+  print(VectorStats)
+  myR2 <- paste("r2 = ", round(VectorStats$vectors$r[1],4), sep="")
+  myPval <- paste("p-value = ", round(VectorStats$vectors$pvals[1],4), sep = "")
+  outText <- paste(myR2, myPval, sep="\n")
+  OrdiSurface <- ordisurf(ccaData ~ APOPEGF, data = dfInput, plot = FALSE)
+  plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2", main="APOPEGF")
+  plot(OrdiSurface, add=TRUE, col="red")
+  text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("APOPEGF"), arrow.mul = myFact)
+  text(-5,0, labels = c(outText))
+  rm(myR2, myPval, VectorStats)
+  
+  VectorStats <- envfit(ccaData ~ EGF_CONS, data = dfInput, permutations=c(1000))
+  print(VectorStats)
+  myR2 <- paste("r2 = ", round(VectorStats$vectors$r[1],4), sep="")
+  myPval <- paste("p-value = ", round(VectorStats$vectors$pvals[1],4), sep = "")
+  outText <- paste(myR2, myPval, sep="\n")
+  OrdiSurface <- ordisurf(ccaData ~ EGF_CONS, data = dfInput, plot = FALSE)
+  plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2", main="EGF CONSUMPTION")
+  plot(OrdiSurface, add=TRUE, col="red")
+  text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("EGF_CONS"), arrow.mul = myFact)
+  text(-5,0, labels = c(outText))
+  rm(myR2, myPval, VectorStats)
+  
+  VectorStats <- envfit(ccaData ~ MOVE, data = dfInput, permutations=c(1000))
+  print(VectorStats)
+  myR2 <- paste("r2 = ", round(VectorStats$vectors$r[1],4), sep="")
+  myPval <- paste("p-value = ", round(VectorStats$vectors$pvals[1],4), sep = "")
+  outText <- paste(myR2, myPval, sep="\n")
+  OrdiSurface <- ordisurf(ccaData ~ MOVE, data = dfInput, plot = FALSE)
+  plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2", main="MOVE")
+  plot(OrdiSurface, add=TRUE, col="red")
+  text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("MOVE"), arrow.mul = myFact)
+  text(-5,0, labels = c(outText))
+  rm(myR2, myPval, VectorStats)
+  
+  VectorStats <- envfit(ccaData ~ DIVLOCPROB, data = dfInput, permutations=c(1000))
+  print(VectorStats)
+  myR2 <- paste("r2 = ", round(VectorStats$vectors$r[1],4), sep="")
+  myPval <- paste("p-value = ", round(VectorStats$vectors$pvals[1],4), sep = "")
+  outText <- paste(myR2, myPval, sep="\n")
+  OrdiSurface <- ordisurf(ccaData ~ DIVLOCPROB, data = dfInput, plot = FALSE)
+  plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2", main="DIVLOCPROB")
+  plot(OrdiSurface, add=TRUE, col="red")
+  text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("DIVLOCPROB"), arrow.mul = myFact)
+  text(-5,0, labels = c(outText))
+  rm(myR2, myPval, VectorStats)
+  
+  VectorStats <- envfit(ccaData ~ DEATHPROB, data = dfInput, permutations=c(1000))
+  print(VectorStats)
+  myR2 <- paste("r2 = ", round(VectorStats$vectors$r[1],4), sep="")
+  myPval <- paste("p-value = ", round(VectorStats$vectors$pvals[1],4), sep = "")
+  outText <- paste(myR2, myPval, sep="\n")
+  OrdiSurface <- ordisurf(ccaData ~ DEATHPROB, data = dfInput, plot = FALSE)
+  plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2", main="DEATHPROB")
+  plot(OrdiSurface, add=TRUE, col="red")
+  text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("DEATHPROB"), arrow.mul = myFact)
+  text(-5,0, labels = c(outText))
+  rm(myR2, myPval, VectorStats)
+  
+  return(ccaData)
 }
 
 EDist <- function(x, y, z, q, x1, y1, z1, q1){
@@ -52,6 +121,7 @@ circle <- function(center,diameter = 1, npoints = 100){
 
 PlotRun <- function(df){
   df <- na.omit(df)
+  df$V2 <- as.numeric(lapply(df$V2, function(x) x*-1))
   colnames(df) <- c("PSF", "EGF_CONS","APOPEGF","DEATHPROB","MOVE","DIVLOCPROB","rlambda","mean", "height", "heal")
   dists <- data.frame(matrix(NA, nrow=0, ncol=1))
   colnames(dists) <- c("Dist")
@@ -74,7 +144,7 @@ PlotRun <- function(df){
 }
 
 PlotClosest <- function(dfDist){
-  dfDist <- subset(dfDist, dfDist$E.Dist <= 0.04)
+  dfDist <- subset(dfDist, dfDist$E.Dist <= 0.1)
   #d=data.frame(x1=c(0.14), x2=c(0.18), y1=c(25), y2=c(30), Region=c('Target'), r=c(1))
   d=circle(c(0.16,28), .06)
   p <- ggplot(dfDist, aes(rlambda, mean, colour=E.Dist)) + geom_point() + xlab("rλ (Weekly)") + ylab("Mean Keratinocyte Age (Weekly)") + 
@@ -82,23 +152,84 @@ PlotClosest <- function(dfDist){
     geom_vline(xintercept=c(0.13, 0.19), linetype="dotted") + geom_hline(yintercept=c(25, 31), linetype="dotted") + scale_colour_gradient(low = "blue", high = "black")
   print(subset(dfDist, dfDist$E.Dist == min(dfDist$E.Dist)))
   print(p)
-  setParams <- subset(dfDist, dfDist$rlambda >= 0.14 & dfDist$rlambda <= 0.18)
-  setParams <- subset(setParams, setParams$mean >= 25 & setParams$mean <= 30)
+  setParams <- subset(dfDist, dfDist$rlambda >= 0.13 & dfDist$rlambda <= 0.19)
+  setParams <- subset(setParams, setParams$mean >= 25 & setParams$mean <= 31)
   return(setParams)
+}
+
+textLab <- function(df){
+  input <- paste("Parameters Range/Mean/SD:")
+  a <- paste("PSF: ", round(min(df$PSF), 3), "-", round(max(df$PSF),3), " / ",round(mean(df$PSF),3), " / ", round(sd(df$PSF),3), sep=(""))
+  b <- paste("APOPEGF: ", round(min(df$APOPEGF), 3), "-", round(max(df$APOPEGF),3), " / ",round(mean(df$APOPEGF),3), " / ", round(sd(df$APOPEGF),3), sep=(""))
+  c <- paste("EGFCons.: ", round(min(df$EGF_CONS), 3), "-", round(max(df$EGF_CONS),3), " / ",round(mean(df$EGF_CONS),3), " / ", round(sd(df$EGF_CONS),3), sep=(""))
+  d <- paste("MoveProb: ", round(min(df$MOVE), 3), "-", round(max(df$MOVE),3), " / ",round(mean(df$MOVE),3), " / ", round(sd(df$MOVE),3), sep=(""))
+  e <- paste("DivLocProb: ", round(min(df$DIVLOCPROB), 3), "-", round(max(df$DIVLOCPROB),3), " / ",round(mean(df$DIVLOCPROB),3), " / ", round(sd(df$DIVLOCPROB),3), sep=(""))
+  f <- paste("DeathProb: ", round(min(df$DEATHPROB), 3), "-", round(max(df$DEATHPROB),3), " / ",round(mean(df$DEATHPROB),3), " / ", round(sd(df$DEATHPROB),3), sep=(""))
+  output <- paste("\nOutputs Range/Min.E.Dist:")
+  edist <- subset(df, df$E.Dist == min(df$E.Dist))
+  g <- paste("Cell Age: ", round(min(df$mean), 2), "-", round(max(df$mean), 2), " / ", round(edist$mean, 2), sep="")
+  h <- paste("rLambda: ", round(min(df$rlambda), 2), "-", round(max(df$rlambda), 2), " / ", round(edist$rlambda, 2), sep="")
+  i <- paste("Height: ", round(min(df$height), 2), "-", round(max(df$height), 2), " / ", round(edist$height, 2), sep="")
+  j <- paste("Heal (days): ", round(min(df$heal), 2), "-", round(max(df$heal), 2), " / ", round(edist$heal, 2), sep="")
+  return(paste(input, a, b, c, d, e, f, output, g, h, i, j, sep="\n"))
 }
 
 ###### END Functions! #####
 
-#Param
-df18 <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamSweep_Ordination_Round1.txt", sep = "\t", header = FALSE)
+#Paramaterization Round 3
+df18 <- read.csv("~/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/ParamSweep_Ordination_Round3.txt", sep = "\t", header = FALSE)
 Distdf18 <- PlotRun(df18)
-plot(Distdf18)
-Distdf18Params <- PlotClosest(Distdf18)
-plot(Distdf18Params)
-MinRange(Distdf18Params)
-plot(Distdf18$PSF, Distdf18$E.Dist)
+print(subset(Distdf18, Distdf18$E.Dist==min(Distdf18$E.Dist)))
+#Distdf18Params <- PlotClosest(Distdf18)
+#MinRange(Distdf18Params)
+ccaData <- OrdiPlot(Distdf18) # Use this to get Ordination Plots and CCA plots
+summary(ccaData)
+plot(Distdf18$PSF, Distdf18$E.Dist, xlab = "PSF", ylab = "Eucladian Dist.", main="Best Parameter", cex=2/5)
+plot(1, type="n", xlab="", ylab="", xlim=c(-10, 10), ylim=c(-10, 10), axes=FALSE, frame.plot = FALSE)
+text(0,0, labels = c(textLab(Distdf18)))
 
-OrdiPlot(Distdf18)
+#Paramaterization Round 4
+df18 <- read.csv("~/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/ParamSweep_Ordination_Round4.txt", sep = "\t", header = FALSE)
+Distdf18 <- PlotRun(df18)
+print(subset(Distdf18, Distdf18$E.Dist==min(Distdf18$E.Dist)))
+#Distdf18Params <- PlotClosest(Distdf18)
+#MinRange(Distdf18Params)
+ccaData <- OrdiPlot(Distdf18) # Use this to get Ordination Plots and CCA plots
+plot(Distdf18$PSF, Distdf18$E.Dist, xlab = "PSF", ylab = "Eucladian Dist.", main="Best Parameter", cex=2/5)
+
+#Paramaterization Round 5
+df18 <- read.csv("~/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/ParamSweep_Ordination_Round5.txt", sep = "\t", header = FALSE)
+Distdf18 <- PlotRun(df18)
+print(subset(Distdf18, Distdf18$E.Dist==min(Distdf18$E.Dist)))
+#Distdf18Params <- PlotClosest(Distdf18)
+#MinRange(Distdf18Params)
+ccaData <- OrdiPlot(Distdf18) # Use this to get Ordination Plots and CCA plots
+summary(ccaData)
+plot(Distdf18$PSF, Distdf18$E.Dist, xlab = "PSF", ylab = "Eucladian Dist.", main="Best Parameter", cex=2/5)
+plot(1, type="n", xlab="", ylab="", xlim=c(-10, 10), ylim=c(-10, 10), axes=FALSE, frame.plot = FALSE)
+text(0,0, labels = c(textLab(Distdf18)))
+
+
+
+#### MISC....#####
+OrdiSurface <- ordisurf(ccaData ~ DEATHPROB, data = dfInput, plot = FALSE)
+plot(OrdiSurface, add=FALSE, display="bp")
+summary(ccaData)
+plot(ccaData, cex=5, xlabs = NULL, ylabs = NULL, display="lc")
+p
+
+plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2")
+plot(OrdiSurface, add=TRUE, col="red")
+text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
+
+plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3)
+points(ccaData, display = "sites", cex=1/10)
+text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
+
+
+
+
+
 
 #### Canonical Correspondence analysis ####
 dfOutcome <- Distdf18[7:10]

@@ -30,7 +30,7 @@ class EpidermisConst{
 
     static final int years=5; // time in years.
     static final int RecordTime=years*365;
-    static final int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
+    static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
@@ -120,7 +120,7 @@ public class Epidermis_Main {
 //            MainGUI.RunGui();
 //        }
 
-        FileIO FileParams = new FileIO("ParamSweep_Ordination_Round1.txt", "w");
+        FileIO FileParams = new FileIO("ParamSweep_Ordination_Round5.txt", "w");
         ParamSweeper PS = new ParamSweeper(FileParams, (double[] runThatShit)->{
             EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, runThatShit); // Initializes and sets up the program for running
             String OutRL = "";
@@ -180,6 +180,10 @@ public class Epidermis_Main {
                         r_lamb_print += r_lambda_WriteValue.get(i);
                     }
                     OutRL = "" + r_lamb_print/r_lambda_index;
+                    if(r_lamb_print/r_lambda_index==0.0){
+                        EpidermisConst.ModelTime = Epidermis.GetTick()+1;
+                        OutRL = "NaN";
+                    }
                 }
                 if(EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime==Epidermis.GetTick()) {
                     float MeanWeekPrint = 0;
@@ -192,38 +196,44 @@ public class Epidermis_Main {
                         tickSum+=ticks;
                     }
                 }
-
+                if(Epidermis.Pop()==0){
+                    OutRL = "NaN";
+                    outMean = "NaN";
+                    avgHeight = 0.0;
+                    break;
+                }
             }
             return Utils.PrintArr(runThatShit, "\t") + OutRL + "\t" + outMean + "\t" + avgHeight + "\t"+ tickSum*1.0/woundHealWriteValue.size()+"\n";
         });
 
         //*range+min
         PS.AddParam((Random RN)->{ // PSF
-            return RN.nextDouble()*0.1+.001; //Iteration 1, 2, 3, 4
-
+            //return RN.nextDouble()*0.2+.01; //Iteration 1, 2, 3
+            //return 0.07442369; // Iteration 4
+            return RN.nextDouble()*0.99999+.00001; // Iteration 5
         });
         PS.AddParam((Random RN)->{ // KerEGFConsumption
-            return RN.nextDouble()*-0.009-.001; //Iteration 1 & 4
-
+            //return RN.nextDouble()*-0.009-.001; //Iteration 1, 2, 3
+            return RN.nextDouble()*-0.99999-.00001; // Iteration 5
         });
         PS.AddParam((Random RN)->{ // ApopEGF
-            return RN.nextDouble()*0.14+0.01; //Iteration 1 & 4
-
+            //return RN.nextDouble()*0.14+0.01; //Iteration 1, 2, 3
+            return RN.nextDouble()*0.99999+.00001; // Iteration 5
         });
         PS.AddParam((Random RN)->{ // DeathProb
-            return RN.nextDouble()*0.0009+.00001; //Iteration 1, 2, 3, 4
-
+            //return RN.nextDouble()*0.0009+.00001; //Iteration 1, 2, 3
+            return RN.nextDouble()*0.99999+.00001; // Iteration 5
         });
         PS.AddParam((Random RN)->{ // MoveProb
-            return RN.nextDouble()*0.75+0.0; //Iteration 1, 2, 3, 4
-//
+            //return RN.nextDouble()*0.75+0.0; //Iteration 1, 2, 3
+            return RN.nextDouble()*0.99999+.00001; // Iteration 5
         });
         PS.AddParam((Random RN)->{ // DIVLOCPROB
-            return RN.nextDouble()*0.55+.2; //Iteration 2 for division location
-
+            //return RN.nextDouble()*0.55+.2; //Iteration 1, 2, 3
+            return RN.nextDouble()*0.99999+.00001; // Iteration 5
         });
 
-        PS.Sweep(200, 4);
+        PS.Sweep(20000, 4);
 
         FileParams.Close();
 //        while(Epidermis.GetTick() < EpidermisConst.ModelTime){
