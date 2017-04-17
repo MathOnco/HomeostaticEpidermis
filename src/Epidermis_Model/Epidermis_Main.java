@@ -120,7 +120,7 @@ public class Epidermis_Main {
 //            MainGUI.RunGui();
 //        }
 
-        FileIO FileParams = new FileIO("ParamSweep_Ordination_Round5.txt", "w");
+        FileIO FileParams = new FileIO("ParamSweep_Ordination_Round7.txt", "w");
         ParamSweeper PS = new ParamSweeper(FileParams, (double[] runThatShit)->{
             EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, runThatShit); // Initializes and sets up the program for running
             String OutRL = "";
@@ -196,14 +196,13 @@ public class Epidermis_Main {
                         tickSum+=ticks;
                     }
                 }
-                if(Epidermis.Pop()==0){
+                if(Epidermis.GetTick() == 913 && Epidermis.Pop()==0){
                     OutRL = "NaN";
                     outMean = "NaN";
-                    avgHeight = 0.0;
                     break;
                 }
             }
-            return Utils.PrintArr(runThatShit, "\t") + OutRL + "\t" + outMean + "\t" + avgHeight + "\t"+ tickSum*1.0/woundHealWriteValue.size()+"\n";
+            return Utils.PrintArr(runThatShit, "\t") + OutRL + "\t" + outMean + "\t" + avgHeight + "\t"+ tickSum*1.0/woundHealWriteValue.size() +"\n";
         });
 
         //*range+min
@@ -214,7 +213,8 @@ public class Epidermis_Main {
         });
         PS.AddParam((Random RN)->{ // KerEGFConsumption
             //return RN.nextDouble()*-0.009-.001; //Iteration 1, 2, 3
-            return RN.nextDouble()*-0.99999-.00001; // Iteration 5
+            //return RN.nextDouble()*-0.99999-.00001; // Iteration 5
+            return RN.nextDouble()*-0.009-.0001; // Iteration 7
         });
         PS.AddParam((Random RN)->{ // ApopEGF
             //return RN.nextDouble()*0.14+0.01; //Iteration 1, 2, 3
@@ -222,7 +222,8 @@ public class Epidermis_Main {
         });
         PS.AddParam((Random RN)->{ // DeathProb
             //return RN.nextDouble()*0.0009+.00001; //Iteration 1, 2, 3
-            return RN.nextDouble()*0.99999+.00001; // Iteration 5
+            //return RN.nextDouble()*0.99999+.00001; // Iteration 5
+            return RN.nextDouble()*0.142+0.0; // Iteration
         });
         PS.AddParam((Random RN)->{ // MoveProb
             //return RN.nextDouble()*0.75+0.0; //Iteration 1, 2, 3
@@ -233,7 +234,7 @@ public class Epidermis_Main {
             return RN.nextDouble()*0.99999+.00001; // Iteration 5
         });
 
-        PS.Sweep(20000, 4);
+        PS.Sweep(1000, 4);
 
         FileParams.Close();
 //        while(Epidermis.GetTick() < EpidermisConst.ModelTime){

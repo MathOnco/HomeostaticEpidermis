@@ -177,7 +177,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     // Inflicting a wound to simulate wound repair...
     public void inflict_wound(){
         for (int i = 37; i < xDim-37*3; i++){
-            for (int k=0; k < 20; k++){
+            for (int k=0; k < yDim; k++){
                 EpidermisCell c = SQtoAgent(i,k);
                 if (c != null) {
                     c.itDead();
@@ -189,7 +189,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     public boolean checkWoundHeal(int AvgHeight){
         int pop=0;
         for (int i = 37; i < 37*3; i++){
-            for (int k=0; k < 20; k++) {
+            for (int k=0; k < yDim; k++) {
                 if(SQtoAgent(i,k)!=null){
                     pop++;
                 }

@@ -12,14 +12,23 @@ OrdRange <- function(q){
 OrdiPlot <- function(df){
   dfOutcome <- df[7:10]
   dfInput <- df[1:6]
-  print(df)
-  ccaData <- cca(dfOutcome ~ PSF+EGF_CONS+APOPEGF+DEATHPROB+MOVE+DIVLOCPROB, data=dfInput)
+  #dfInput <- log(df[,1:6]+1)
   
-  myFact = 18.02976
+  ccaData <- rda(dfOutcome ~ PSF+EGF_CONS+APOPEGF+DEATHPROB+MOVE+DIVLOCPROB, data=dfInput, scale=TRUE)
+  p <- plot(ccaData)
+  atts <- attributes(p$biplot)
+  xR2Vals <- as.data.frame(p$sites)
+  myFact = atts$arrow.mul
+  #xLoc <- max(xR2Vals$CCA1) + 2
+  xLoc <- 2.2
   
+  plot.new()
   par(mfrow=c(3,3))
-  plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="Canonical Correspondence Analysis")
-  points(ccaData, display = "sites", cex=1/10)
+  #plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="Canonical Correspondence Analysis")
+  #points(ccaData, display = "sites", cex=1/10)
+  #text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
+  plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="Canonical Correspondence Analysis", ylim = c(-2,2), xlim=c(-3,3))
+  points(ccaData, display = "sites", cex=1/3)
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
   
   VectorStats <- envfit(ccaData ~ PSF, data = dfInput, permutations=c(10000))
@@ -31,7 +40,7 @@ OrdiPlot <- function(df){
   plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2", main="PSF")
   plot(OrdiSurface, add=TRUE, col="red")
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("PSF"), arrow.mul = myFact)
-  text(-5,0, labels = c(outText))
+  text(xLoc,0, labels = c(outText))
   rm(myR2, myPval, VectorStats)
   
   VectorStats <- envfit(ccaData ~ APOPEGF, data = dfInput, permutations=c(1000))
@@ -43,7 +52,7 @@ OrdiPlot <- function(df){
   plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2", main="APOPEGF")
   plot(OrdiSurface, add=TRUE, col="red")
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("APOPEGF"), arrow.mul = myFact)
-  text(-5,0, labels = c(outText))
+  text(xLoc,0, labels = c(outText))
   rm(myR2, myPval, VectorStats)
   
   VectorStats <- envfit(ccaData ~ EGF_CONS, data = dfInput, permutations=c(1000))
@@ -55,7 +64,7 @@ OrdiPlot <- function(df){
   plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2", main="EGF CONSUMPTION")
   plot(OrdiSurface, add=TRUE, col="red")
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("EGF_CONS"), arrow.mul = myFact)
-  text(-5,0, labels = c(outText))
+  text(xLoc,0, labels = c(outText))
   rm(myR2, myPval, VectorStats)
   
   VectorStats <- envfit(ccaData ~ MOVE, data = dfInput, permutations=c(1000))
@@ -67,7 +76,7 @@ OrdiPlot <- function(df){
   plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2", main="MOVE")
   plot(OrdiSurface, add=TRUE, col="red")
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("MOVE"), arrow.mul = myFact)
-  text(-5,0, labels = c(outText))
+  text(xLoc,0, labels = c(outText))
   rm(myR2, myPval, VectorStats)
   
   VectorStats <- envfit(ccaData ~ DIVLOCPROB, data = dfInput, permutations=c(1000))
@@ -79,7 +88,7 @@ OrdiPlot <- function(df){
   plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2", main="DIVLOCPROB")
   plot(OrdiSurface, add=TRUE, col="red")
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("DIVLOCPROB"), arrow.mul = myFact)
-  text(-5,0, labels = c(outText))
+  text(xLoc,0, labels = c(outText))
   rm(myR2, myPval, VectorStats)
   
   VectorStats <- envfit(ccaData ~ DEATHPROB, data = dfInput, permutations=c(1000))
@@ -91,7 +100,7 @@ OrdiPlot <- function(df){
   plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2", main="DEATHPROB")
   plot(OrdiSurface, add=TRUE, col="red")
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("DEATHPROB"), arrow.mul = myFact)
-  text(-5,0, labels = c(outText))
+  text(xLoc,0, labels = c(outText))
   rm(myR2, myPval, VectorStats)
   
   return(ccaData)
@@ -177,71 +186,23 @@ textLab <- function(df){
 ###### END Functions! #####
 
 #Paramaterization Round 3
-df18 <- read.csv("~/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/ParamSweep_Ordination_Round3.txt", sep = "\t", header = FALSE)
-Distdf18 <- PlotRun(df18)
-print(subset(Distdf18, Distdf18$E.Dist==min(Distdf18$E.Dist)))
-#Distdf18Params <- PlotClosest(Distdf18)
-#MinRange(Distdf18Params)
-ccaData <- OrdiPlot(Distdf18) # Use this to get Ordination Plots and CCA plots
+df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamSweep_Ordination_Round7.txt", sep = "\t", header = FALSE)
+DistDF <- PlotRun(df)
+print(subset(DistDF, DistDF$E.Dist==min(DistDF$E.Dist)))
+ccaData <- OrdiPlot(DistDF) # Use this to get Ordination Plots and CCA plots
 summary(ccaData)
-plot(Distdf18$PSF, Distdf18$E.Dist, xlab = "PSF", ylab = "Eucladian Dist.", main="Best Parameter", cex=2/5)
+plot(DistDF$PSF, DistDF$E.Dist, xlab = "PSF", ylab = "Eucladian Dist.", main="Best Parameter", cex=2/5)
 plot(1, type="n", xlab="", ylab="", xlim=c(-10, 10), ylim=c(-10, 10), axes=FALSE, frame.plot = FALSE)
-text(0,0, labels = c(textLab(Distdf18)))
-
-#Paramaterization Round 4
-df18 <- read.csv("~/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/ParamSweep_Ordination_Round4.txt", sep = "\t", header = FALSE)
-Distdf18 <- PlotRun(df18)
-print(subset(Distdf18, Distdf18$E.Dist==min(Distdf18$E.Dist)))
-#Distdf18Params <- PlotClosest(Distdf18)
-#MinRange(Distdf18Params)
-ccaData <- OrdiPlot(Distdf18) # Use this to get Ordination Plots and CCA plots
-plot(Distdf18$PSF, Distdf18$E.Dist, xlab = "PSF", ylab = "Eucladian Dist.", main="Best Parameter", cex=2/5)
-
-#Paramaterization Round 5
-df18 <- read.csv("~/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/ParamSweep_Ordination_Round5.txt", sep = "\t", header = FALSE)
-Distdf18 <- PlotRun(df18)
-print(subset(Distdf18, Distdf18$E.Dist==min(Distdf18$E.Dist)))
-#Distdf18Params <- PlotClosest(Distdf18)
-#MinRange(Distdf18Params)
-ccaData <- OrdiPlot(Distdf18) # Use this to get Ordination Plots and CCA plots
-summary(ccaData)
-plot(Distdf18$PSF, Distdf18$E.Dist, xlab = "PSF", ylab = "Eucladian Dist.", main="Best Parameter", cex=2/5)
-plot(1, type="n", xlab="", ylab="", xlim=c(-10, 10), ylim=c(-10, 10), axes=FALSE, frame.plot = FALSE)
-text(0,0, labels = c(textLab(Distdf18)))
+text(0,0, labels = c(textLab(DistDF)))
 
 
+dfOutcome <- DistDF[7:10]
+dfInput <- DistDF[1:6]
+#dfInput <- log(DistDF[,1:6]+1)
+test <- rda(dfOutcome ~ PSF+EGF_CONS+APOPEGF+DEATHPROB+MOVE+DIVLOCPROB, data=dfInput, scale = TRUE)
 
-#### MISC....#####
-OrdiSurface <- ordisurf(ccaData ~ DEATHPROB, data = dfInput, plot = FALSE)
-plot(OrdiSurface, add=FALSE, display="bp")
-summary(ccaData)
-plot(ccaData, cex=5, xlabs = NULL, ylabs = NULL, display="lc")
-p
-
-plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="CCA1", ylab="CCA2")
-plot(OrdiSurface, add=TRUE, col="red")
-text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
-
-plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3)
-points(ccaData, display = "sites", cex=1/10)
-text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
-
-
-
-
-
-
-#### Canonical Correspondence analysis ####
-dfOutcome <- Distdf18[7:10]
-dfInput <- Distdf18[1:6]
-ccaData <- cca(dfOutcome ~ PSF+EGF_CONS+APOPEGF+DEATHPROB+MOVE+DIVLOCPROB, data=dfInput)
-summary(ccaData)
-VectorStats <- envfit(ccaData ~ DEATHPROB, data = dfInput, iterations=c(10000))
-OrdiSurface <- ordisurf(ccaData ~ DEATHPROB, data = dfInput, plot = FALSE)
-par(mfrow=c(2,3))
-plot(ccaData, main="CCA All Parameters")
-plot(ccaData, main="DEATHPROB Surface")
-plot(OrdiSurface, col = "red", add = TRUE)
-VectorStats
-
-
+plot(test, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="Canonical Correspondence Analysis", ylim = c(-2,2), xlim=c(-3,3))
+points(test, display = "sites", cex=1/3)
+text(test, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
+p <- plot(test)
+print(p)
