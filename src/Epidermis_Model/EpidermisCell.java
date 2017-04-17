@@ -101,6 +101,9 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 //        if(y==0){
             int divOptions = GetEmptyVNSquares(x, y, false, G().divHoodBasal, G().inBounds); // Number of coordinates you could divide into
             iDivLoc = ProlifLoc(); // Where the new cell is going to be (which index) if basal cell
+            if(iDivLoc==2 && y>=G().yDim-1){
+                return false;
+            }
             if(iDivLoc==0 || iDivLoc==1 && y==0){
                 G().loss_count_basal+=1;
             }
@@ -138,6 +141,10 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             int colTop=y;
 //            EpidermisCell c=G().ItoAgent(i);
             while(c!=null){
+                if(c.Ysq()>=G().yDim-1){
+                    c.itDead();
+                    break;
+                }
                 colTop++;
                 c=G().SQtoAgent(x,colTop);
             }
@@ -147,7 +154,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
                 c=(G().SQtoAgent(x,colTop-1));
                 c.Move(x,colTop);
             }
-            if(c.Ysq()>= G().yDim-2){c.itDead();}
+            //if(c.Ysq()>= G().yDim-2){c.itDead();}
             return true;
         } else{
             return false;

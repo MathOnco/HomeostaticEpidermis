@@ -21,7 +21,7 @@ class EpidermisConst{
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
-    static final int ySize=30;
+    static final int ySize=20;
 
     static final int KERATINOCYTE = 0; //setting types into a binary 0 or 1
     static final int DIVIDE = 2; // Attribute if cell is dividing
@@ -120,7 +120,7 @@ public class Epidermis_Main {
 //            MainGUI.RunGui();
 //        }
 
-        FileIO FileParams = new FileIO("ParamSweep_Ordination_Round7.txt", "w");
+        FileIO FileParams = new FileIO("ParamSweep_Ordination_Round9.txt", "w");
         ParamSweeper PS = new ParamSweeper(FileParams, (double[] runThatShit)->{
             EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, runThatShit); // Initializes and sets up the program for running
             String OutRL = "";
@@ -202,19 +202,23 @@ public class Epidermis_Main {
                     break;
                 }
             }
+            System.out.println("Run Complete...");
             return Utils.PrintArr(runThatShit, "\t") + OutRL + "\t" + outMean + "\t" + avgHeight + "\t"+ tickSum*1.0/woundHealWriteValue.size() +"\n";
+
         });
 
         //*range+min
         PS.AddParam((Random RN)->{ // PSF
             //return RN.nextDouble()*0.2+.01; //Iteration 1, 2, 3
             //return 0.07442369; // Iteration 4
-            return RN.nextDouble()*0.99999+.00001; // Iteration 5
+            //return RN.nextDouble()*0.99999+.00001; // Iteration 5
+            return RN.nextDouble()*0.4+0.2; // Iteration 9
         });
         PS.AddParam((Random RN)->{ // KerEGFConsumption
             //return RN.nextDouble()*-0.009-.001; //Iteration 1, 2, 3
             //return RN.nextDouble()*-0.99999-.00001; // Iteration 5
-            return RN.nextDouble()*-0.009-.0001; // Iteration 7
+            //return RN.nextDouble()*-0.009-.0001; // Iteration 7
+            return RN.nextDouble()*-0.005-.0001; // Iteration 8
         });
         PS.AddParam((Random RN)->{ // ApopEGF
             //return RN.nextDouble()*0.14+0.01; //Iteration 1, 2, 3
@@ -231,7 +235,8 @@ public class Epidermis_Main {
         });
         PS.AddParam((Random RN)->{ // DIVLOCPROB
             //return RN.nextDouble()*0.55+.2; //Iteration 1, 2, 3
-            return RN.nextDouble()*0.99999+.00001; // Iteration 5
+            //return RN.nextDouble()*0.99999+.00001; // Iteration 5
+            return RN.nextDouble()*0.5+.5; // Iteration 9
         });
 
         PS.Sweep(1000, 4);
