@@ -28,7 +28,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     double KERATINO_APOPTOSIS_EGF = 0.5750859; //level at which apoptosis occurs by chance (above this and no apoptosis)
     double DEATH_PROB = 0.005125556; //Overall Death Probability
     double MOVEPROBABILITY = 0.3647747; //RN float has to be greater than this to move...
-    double DIVLOCPROB = 0.9615128;
+    double DIVISIONLOCPROB = 0.9615128; // Probability of dividing up vs side to side
     static int pro_count = 0;
     static int pro_count_basal = 0;
     static int loss_count_basal = 0;
@@ -67,11 +67,12 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     }
 
     // Gets where a cell is dividing if it's a basal cell and is proliferating
-    public int basalProlif(){
+    public int ProlifLoc(){
         double divideWhere = G().RN.nextDouble();
-        if(divideWhere<=1.0/3){
+        double OtherOptionProb=(1-DIVISIONLOCPROB)/2.0;
+        if(divideWhere<=DIVISIONLOCPROB){
             return 2; // Dividing up
-        } else if(divideWhere>(2.0/3)){
+        } else if(divideWhere>(DIVISIONLOCPROB+OtherOptionProb)){
             return 0; // Dividing right
         } else {
             return 1; // Dividing Left
@@ -92,8 +93,8 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 
 //        if(y==0){
             int divOptions = GetEmptyVNSquares(x, y, false, G().divHoodBasal, G().inBounds); // Number of coordinates you could divide into
-            iDivLoc = basalProlif(); // Where the new cell is going to be (which index) if basal cell
-            if(iDivLoc==0 && y==0){
+            iDivLoc = ProlifLoc(); // Where the new cell is going to be (which index) if basal cell
+            if(iDivLoc==0 || iDivLoc==1 && y==0){
                 loss_count_basal+=1;
             }
             boolean Pushed = CellPush(iDivLoc);

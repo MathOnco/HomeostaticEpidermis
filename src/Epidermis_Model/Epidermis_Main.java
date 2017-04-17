@@ -131,10 +131,10 @@ public class Epidermis_Main {
             /*
             All Injuries Occuring Here!
              */
-            if(Epidermis.GetTick()%365==0){
-                Epidermis.inflict_wound();
-                tickIt.TickPause(1000); // Adjusting a frame rate
-            }
+//            if(Epidermis.GetTick()%365==0){
+//                Epidermis.inflict_wound();
+//                tickIt.TickPause(1000); // Adjusting a frame rate
+//            }
 
             /*
             rLambda Value calculations, output, and recording
