@@ -9,9 +9,44 @@ OrdRange <- function(q){
   print(max-min)
 }
 
+gradient <- function(x, target, bins){
+  if(x >= target - bins & x < target + bins){y = 0}
+  else if(x >= target - bins*2 & x < target-bins){ y =-1}
+  else if(x >= target + bins & x < target + bins*2){ y = +1}
+  else{y=2}
+  return(y)
+}
+
+getColored <- function(dfInput, dfOutcome, testDF){
+  outputDF <- as.data.frame(matrix(nrow=length(dfInput[,1]), ncol=4))
+  colnames(outputDF) <- c("HeightSat", "AgeSat", "rlambdaSat", "healSat")
+  
+  for( i in 1:length(dfInput$PSF)){
+    dfOutcomeTest <- dfOutcome[i,]
+    if(gradient(dfOutcomeTest$rlambda, 0.16, 0.04)==0){outputDF[i,3]="red"}
+      else if(gradient(dfOutcomeTest$rlambda, 0.16, 0.04)==-1 || gradient(dfOutcomeTest$rlambda, 0.16, 0.04)==+1){outputDF[i,3]="royalblue4"}
+      else{outputDF[i,3]="grey"}
+    if(gradient(dfOutcomeTest$mean, 28, 4)==0){outputDF[i,2]="red"}
+      else if(gradient(dfOutcomeTest$mean, 28, 4)==-1 || gradient(dfOutcomeTest$mean, 28, 4)==+1){outputDF[i,2]="royalblue4"}
+      else{outputDF[i,2]="grey"}
+    if(gradient(dfOutcomeTest$height, 14, 2)==0){outputDF[i,1]="red"}
+      else if(gradient(dfOutcomeTest$height, 14, 2)==-1 || gradient(dfOutcomeTest$height, 14, 2)==+1){outputDF[i,1]="royalblue4"}
+      else{outputDF[i,2]="grey"}
+    if(gradient(dfOutcomeTest$heal, 2, 8)==0){outputDF[i,4]="red"}
+      else if(gradient(dfOutcomeTest$heal, 2, 8)==-1 || gradient(dfOutcomeTest$heal, 2, 8)==+1){outputDF[i,4]="royalblue4"}
+      else{outputDF[i,4]="grey"}
+  }
+  dfOutcomeVariables <- cbind(dfOutcome, outputDF)
+  testDF <- cbind(testDF, dfOutcomeVariables)
+  return(testDF)
+}
+
 OrdiPlot <- function(df){
   dfOutcome <- df[7:10]
   dfOutcome$height <- as.numeric(lapply(dfOutcome$height, function(x) round(x,0)))
+  dfOutcome$rlambda <- as.numeric(lapply(dfOutcome$rlambda, function(x) round(x,2)))
+  dfOutcome$mean <- as.numeric(lapply(dfOutcome$mean, function(x) round(x,0)))
+  dfOutcome$heal <- as.numeric(lapply(dfOutcome$heal, function(x) round(x,0)))
   dfInput <- df[1:6]
   #dfInput <- log(df[,1:6]+1)
   
@@ -25,26 +60,10 @@ OrdiPlot <- function(df){
   #xLoc <- max(xR2Vals$CCA1) + 2
   xLoc <- 2.2
   
-  outputDF <- as.data.frame(matrix(nrow=length(dfInput[,1]), ncol=4))
-  colnames(outputDF) <- c("HeightSat", "AgeSat", "rlambdaSat","healSat")
-  for( i in 1:length(dfInput$PSF)){
-    dfOutcomeTest <- dfOutcome[i,]
-    #print(dfOutcomeTest)
-    count = 0
-    if(dfOutcomeTest$rlambda >= 0.13 & dfOutcomeTest$rlambda <= 0.19){ count <- count + 1 }
-    if(dfOutcomeTest$mean >= 25 & dfOutcomeTest$mean <= 31){ count <- count + 1 }
-    if(dfOutcomeTest$height > 10){ count <- count + 1 }
-    if(dfOutcomeTest$heal >= 1.0 & dfOutcomeTest$heal <= 14.0){ count <- count + 1}
-    if(count == 4){outputDF[i,1] <- "Blue"}else if(dfOutcomeTest$height > 10){outputDF[i,] <- "Red"}else{outputDF[i,] <- "Black"}
-    if(count == 4){outputDF[i,2] <- "Blue"}else if(dfOutcomeTest$mean >= 18 & dfOutcomeTest$mean <= 35){outputDF[i,2] <- "Red"}else{outputDF[i,2] <- "Black"}
-    if(count == 4){outputDF[i,3] <- "Blue"}else if(dfOutcomeTest$rlambda >= 0.11 & dfOutcomeTest$rlambda <= 0.21){outputDF[i,3] <- "Red"}else{outputDF[i,3] <- "Black"}
-    if(count == 4){outputDF[i,4] <- "Blue"}else if(dfOutcomeTest$heal >= 1.0 & dfOutcomeTest$heal <= 100.0){outputDF[i,4] <- "Red"}else{outputDF[i,4] <- "Black"}
-  }
-  dfOutcomeVariables <- cbind(dfOutcome, outputDF)
-  testDF <- cbind(testDF, dfOutcomeVariables)
+  testDF <- getColored(dfInput, dfOutcome, testDF)
   
   plot.new()
-  par(mfrow=c(4,3))
+  par(mfrow=c(3,4))
   #plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="Canonical Correspondence Analysis")
   #points(ccaData, display = "sites", cex=1/10)
   #text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
@@ -52,22 +71,22 @@ OrdiPlot <- function(df){
   #points(ccaData, display = "sites", cex=1/3)
   #text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
   plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="RDA: Height", ylim = c(-2,2), xlim=c(-3,3))
-  points(testDF$RDA1, testDF$RDA2, col=testDF$HeightSat, cex=2/3)
+  points(testDF$RDA1, testDF$RDA2, col=testDF$HeightSat, cex=2/5)
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
   #legend(-3,2,unique(testDF$height),col=1:length(testDF$height),pch=1)
   
   plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="RDA: Age", ylim = c(-2,2), xlim=c(-3,3))
-  points(testDF$RDA1, testDF$RDA2, col=testDF$AgeSat, cex=2/3)
+  points(testDF$RDA1, testDF$RDA2, col=testDF$AgeSat, cex=2/5)
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
   #legend(-3,2,unique(testDF$height),col=1:length(testDF$height),pch=1)
   
   plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="RDA: rlambda", ylim = c(-2,2), xlim=c(-3,3))
-  points(testDF$RDA1, testDF$RDA2, col=testDF$rlambdaSat, cex=2/3)
+  points(testDF$RDA1, testDF$RDA2, col=testDF$rlambdaSat, cex=2/5)
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
   #legend(-3,2,unique(testDF$height),col=1:length(testDF$height),pch=1)
   
   plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="RDA: Heal Time", ylim = c(-2,2), xlim=c(-3,3))
-  points(testDF$RDA1, testDF$RDA2, col=testDF$healSat, cex=2/3)
+  points(testDF$RDA1, testDF$RDA2, col=testDF$healSat, cex=2/5)
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
   #legend(-3,2,unique(testDF$height),col=1:length(testDF$height),pch=1)
   
@@ -79,6 +98,7 @@ OrdiPlot <- function(df){
   OrdiSurface <- ordisurf(ccaData ~ PSF, data = dfInput, plot = FALSE)
   plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="RDA1", ylab="RDA2", main="PSF")
   plot(OrdiSurface, add=TRUE, col="red")
+  text(ccaData, display="species")
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("PSF"), arrow.mul = myFact)
   text(xLoc,0, labels = c(outText))
   rm(myR2, myPval, VectorStats)
@@ -91,6 +111,7 @@ OrdiPlot <- function(df){
   OrdiSurface <- ordisurf(ccaData ~ APOPEGF, data = dfInput, plot = FALSE)
   plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="RDA1", ylab="RDA2", main="APOPEGF")
   plot(OrdiSurface, add=TRUE, col="red")
+  text(ccaData, display="species")
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("APOPEGF"), arrow.mul = myFact)
   text(xLoc,0, labels = c(outText))
   rm(myR2, myPval, VectorStats)
@@ -103,6 +124,7 @@ OrdiPlot <- function(df){
   OrdiSurface <- ordisurf(ccaData ~ EGF_CONS, data = dfInput, plot = FALSE)
   plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="RDA1", ylab="RDA2", main="EGF CONSUMPTION")
   plot(OrdiSurface, add=TRUE, col="red")
+  text(ccaData, display="species")
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("EGF_CONS"), arrow.mul = myFact)
   text(xLoc,0, labels = c(outText))
   rm(myR2, myPval, VectorStats)
@@ -115,6 +137,7 @@ OrdiPlot <- function(df){
   OrdiSurface <- ordisurf(ccaData ~ MOVE, data = dfInput, plot = FALSE)
   plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="RDA1", ylab="RDA2", main="MOVE")
   plot(OrdiSurface, add=TRUE, col="red")
+  text(ccaData, display="species")
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("MOVE"), arrow.mul = myFact)
   text(xLoc,0, labels = c(outText))
   rm(myR2, myPval, VectorStats)
@@ -127,6 +150,7 @@ OrdiPlot <- function(df){
   OrdiSurface <- ordisurf(ccaData ~ DIVLOCPROB, data = dfInput, plot = FALSE)
   plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="RDA1", ylab="RDA2", main="DIVLOCPROB")
   plot(OrdiSurface, add=TRUE, col="red")
+  text(ccaData, display="species")
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("DIVLOCPROB"), arrow.mul = myFact)
   text(xLoc,0, labels = c(outText))
   rm(myR2, myPval, VectorStats)
@@ -139,6 +163,7 @@ OrdiPlot <- function(df){
   OrdiSurface <- ordisurf(ccaData ~ DEATHPROB, data = dfInput, plot = FALSE)
   plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="RDA1", ylab="RDA2", main="DEATHPROB")
   plot(OrdiSurface, add=TRUE, col="red")
+  text(ccaData, display="species")
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("DEATHPROB"), arrow.mul = myFact)
   text(xLoc,0, labels = c(outText))
   rm(myR2, myPval, VectorStats)
@@ -225,8 +250,8 @@ textLab <- function(df){
 
 ###### END Functions! #####
 
-#Paramaterization Round 3
-df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamSweep_Ordination_Round9.txt", sep = "\t", header = FALSE)
+#Paramaterization (Round 5 is actually Round 1)
+df <- read.csv("~/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/ParamSweep_Ordination_Round14.txt", sep = "\t", header = FALSE)
 DistDF <- PlotRun(df)
 print(subset(DistDF, DistDF$E.Dist==min(DistDF$E.Dist)))
 ccaData <- OrdiPlot(DistDF) # Use this to get Ordination Plots and CCA plots
@@ -234,3 +259,6 @@ summary(ccaData)
 plot(DistDF$PSF, DistDF$E.Dist, xlab = "PSF", ylab = "Eucladian Dist.", main="Best Parameter", cex=2/5)
 plot(1, type="n", xlab="", ylab="", xlim=c(-10, 10), ylim=c(-10, 10), axes=FALSE, frame.plot = FALSE)
 text(0,0, labels = c(textLab(DistDF)))
+
+outcome <- DistDF[3:6]
+boxplot(outcome)

@@ -120,7 +120,7 @@ public class Epidermis_Main {
 //            MainGUI.RunGui();
 //        }
 
-        FileIO FileParams = new FileIO("ParamSweep_Ordination_Round9.txt", "w");
+        FileIO FileParams = new FileIO("ParamSweep_Ordination_Round15.txt", "w");
         ParamSweeper PS = new ParamSweeper(FileParams, (double[] runThatShit)->{
             EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, runThatShit); // Initializes and sets up the program for running
             String OutRL = "";
@@ -212,31 +212,44 @@ public class Epidermis_Main {
             //return RN.nextDouble()*0.2+.01; //Iteration 1, 2, 3
             //return 0.07442369; // Iteration 4
             //return RN.nextDouble()*0.99999+.00001; // Iteration 5
-            return RN.nextDouble()*0.4+0.2; // Iteration 9
+            //return RN.nextDouble()*0.4+0.2; // Iteration 9
+            //return RN.nextDouble()*0.35+0.1; // Iteration 10
+            //return RN.nextDouble()*0.25+0.005; // Iteration 12
+            //return RN.nextDouble()*0.15+0.01; // Iteration 13
+            return RN.nextDouble()*0.125+0.06; //Iteration 16
         });
         PS.AddParam((Random RN)->{ // KerEGFConsumption
             //return RN.nextDouble()*-0.009-.001; //Iteration 1, 2, 3
             //return RN.nextDouble()*-0.99999-.00001; // Iteration 5
             //return RN.nextDouble()*-0.009-.0001; // Iteration 7
-            return RN.nextDouble()*-0.005-.0001; // Iteration 8
+            //return RN.nextDouble()*-0.005-.0001; // Iteration 8
+            //return RN.nextDouble()*-0.005-.003; // Iteration 14
+            //return RN.nextDouble()*-0.0045-0.001; // Iteration 15
+            return RN.nextDouble()*0.0044+0.001; //Iteration 16
         });
         PS.AddParam((Random RN)->{ // ApopEGF
             //return RN.nextDouble()*0.14+0.01; //Iteration 1, 2, 3
-            return RN.nextDouble()*0.99999+.00001; // Iteration 5
+            //return RN.nextDouble()*0.99999+.00001; // Iteration 5
+            return RN.nextDouble()*0.25+0.3; // Iteration 10 - 16
         });
         PS.AddParam((Random RN)->{ // DeathProb
             //return RN.nextDouble()*0.0009+.00001; //Iteration 1, 2, 3
             //return RN.nextDouble()*0.99999+.00001; // Iteration 5
-            return RN.nextDouble()*0.142+0.0; // Iteration
+            //return RN.nextDouble()*0.142+0.0; // Iteration 10
+            return RN.nextDouble()*0.1+0.0; // Iteration 16
         });
         PS.AddParam((Random RN)->{ // MoveProb
             //return RN.nextDouble()*0.75+0.0; //Iteration 1, 2, 3
-            return RN.nextDouble()*0.99999+.00001; // Iteration 5
+            //return RN.nextDouble()*0.99999+.00001; // Iteration 5
+            //return RN.nextDouble()*0.5+.00001; // Iteration 12
+            return RN.nextDouble()*0.5+0.2252; //Iteration 16
         });
         PS.AddParam((Random RN)->{ // DIVLOCPROB
             //return RN.nextDouble()*0.55+.2; //Iteration 1, 2, 3
             //return RN.nextDouble()*0.99999+.00001; // Iteration 5
-            return RN.nextDouble()*0.5+.5; // Iteration 9
+            //return RN.nextDouble()*0.5+.5; // Iteration 9
+            //return RN.nextDouble()*0.25+0.75; // Iteration 11
+            return RN.nextDouble()*0.08+0.82; //Iteration 16
         });
 
         PS.Sweep(1000, 4);
