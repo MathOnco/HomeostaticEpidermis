@@ -175,15 +175,16 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     }
 
     public boolean checkWoundHeal(int AvgHeight){
-        int pop=0;
-        for (int i = 37; i < 37*3; i++){
-            for (int k=0; k < yDim; k++) {
-                if(SQtoAgent(i,k)!=null){
-                    pop++;
-                }
-            }
-        }
-        if(pop/(37*2) >= AvgHeight){
+//        int pop=0;
+//        for (int i = 37; i < 37*3; i++){
+//            for (int k=0; k < yDim; k++) {
+//                if(SQtoAgent(i,k)!=null){
+//                    pop++;
+//                }
+//            }
+//        }
+//        if(pop/(37*2) >= AvgHeight){
+        if(SQtoAgent(xDim/2, 0)!=null){
             return true;
         } else {
             return false;
