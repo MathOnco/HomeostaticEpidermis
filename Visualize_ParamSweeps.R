@@ -259,6 +259,3 @@ summary(ccaData)
 plot(DistDF$PSF, DistDF$E.Dist, xlab = "PSF", ylab = "Eucladian Dist.", main="Best Parameter", cex=2/5)
 plot(1, type="n", xlab="", ylab="", xlim=c(-10, 10), ylim=c(-10, 10), axes=FALSE, frame.plot = FALSE)
 text(0,0, labels = c(textLab(DistDF)))
-
-outcome <- DistDF[3:6]
-boxplot(outcome)
