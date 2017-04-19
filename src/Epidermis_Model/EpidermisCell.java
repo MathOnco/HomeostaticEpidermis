@@ -23,12 +23,12 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
-    double prolif_scale_factor = 0.7606006; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
-    double KERATINO_EGF_CONSPUMPTION = -0.7342316; //consumption rate by keratinocytes
-    double KERATINO_APOPTOSIS_EGF = 0.5750859; //level at which apoptosis occurs by chance (above this and no apoptosis)
-    double DEATH_PROB = 0.005125556; //Overall Death Probability
-    double MOVEPROBABILITY = 0.3647747; //RN float has to be greater than this to move...
-    double DIVISIONLOCPROB = 0.9615128; // Probability of dividing up vs side to side
+    double prolif_scale_factor = 0.07610124; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
+    double KERATINO_EGF_CONSPUMPTION = -0.002269758; //consumption rate by keratinocytes
+    double KERATINO_APOPTOSIS_EGF = 0.3358162; //level at which apoptosis occurs by chance (above this and no apoptosis)
+    double DEATH_PROB = 0.01049936; //Overall Death Probability
+    double MOVEPROBABILITY = 0.0; //RN float has to be greater than this to move...
+    double DIVISIONLOCPROB = 0.8315265; // Probability of dividing up vs side to side
     static int pro_count = 0;
     static int pro_count_basal = 0;
     static int loss_count_basal = 0;

@@ -34,7 +34,7 @@ class EpidermisConst{
     static final boolean RecordParents = false; // use when you want parents information
     static final boolean RecordLineages = false; // use when you want
     static final boolean RecordPopSizes = false; // Use to record clone population sizes
-    static final boolean get_r_lambda = false; // use when you want the r_lambda value
+    static final boolean get_r_lambda = true; // use when you want the r_lambda value
 }
 
 public class Epidermis_Main {
