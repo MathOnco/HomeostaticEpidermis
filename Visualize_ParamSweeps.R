@@ -251,7 +251,8 @@ textLab <- function(df){
 ###### END Functions! #####
 
 #Paramaterization (Round 5 is actually Round 1)
-df <- read.csv("~/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/ParamSweep_Ordination_Round14.txt", sep = "\t", header = FALSE)
+df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamSweep_Ordination_Round15.txt", sep = "\t", header = FALSE)
+df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/All_Parameters_Constant_Round16.txt", sep = "\t", header = FALSE)
 DistDF <- PlotRun(df)
 print(subset(DistDF, DistDF$E.Dist==min(DistDF$E.Dist)))
 ccaData <- OrdiPlot(DistDF) # Use this to get Ordination Plots and CCA plots
@@ -259,3 +260,10 @@ summary(ccaData)
 plot(DistDF$PSF, DistDF$E.Dist, xlab = "PSF", ylab = "Eucladian Dist.", main="Best Parameter", cex=2/5)
 plot(1, type="n", xlab="", ylab="", xlim=c(-10, 10), ylim=c(-10, 10), axes=FALSE, frame.plot = FALSE)
 text(0,0, labels = c(textLab(DistDF)))
+
+filtered <- subset(DistDF, DistDF$rlambda >= 0.155 & DistDF$rlambda <= 0.175) # Yields Maximum value from Round15.txt file!
+filtered <- subset(filtered, filtered$mean >= 26 & filtered$mean <= 30) # Yields Maximum value from Round15.txt file!
+filtered <- subset(filtered, filtered$height >= 10) # Yields Maximum value from Round15.txt file!
+VALUES_FOR_MODEL <- subset(filtered, filtered$height==max(filtered$height))
+min(filtered$DIVLOCPROB)
+max(filtered$DIVLOCPROB)-min(filtered$DIVLOCPROB)
