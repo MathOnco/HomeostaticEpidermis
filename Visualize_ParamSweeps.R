@@ -253,6 +253,7 @@ textLab <- function(df){
 #Paramaterization (Round 5 is actually Round 1)
 df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamSweep_Ordination_Round15.txt", sep = "\t", header = FALSE)
 df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/All_Parameters_Constant_Round16.txt", sep = "\t", header = FALSE)
+df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/GridParams_Round1.txt", sep = "\t", header = FALSE)
 DistDF <- PlotRun(df)
 print(subset(DistDF, DistDF$E.Dist==min(DistDF$E.Dist)))
 ccaData <- OrdiPlot(DistDF) # Use this to get Ordination Plots and CCA plots
@@ -267,3 +268,8 @@ filtered <- subset(filtered, filtered$height >= 10) # Yields Maximum value from 
 VALUES_FOR_MODEL <- subset(filtered, filtered$height==max(filtered$height))
 min(filtered$DIVLOCPROB)
 max(filtered$DIVLOCPROB)-min(filtered$DIVLOCPROB)
+
+
+#Grid Parameters
+df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/GridParams_Round1.txt", sep = "\t", header = FALSE)
+colnames(df) <- c()

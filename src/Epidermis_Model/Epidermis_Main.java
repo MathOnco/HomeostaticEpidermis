@@ -11,6 +11,8 @@ import AgentFramework.Utils;
 
 import javax.print.DocFlavor;
 
+import static Epidermis_Model.EpidermisCellGenome.RN;
+
 /**
  * Created by schencro on 3/24/17.
  */
@@ -120,7 +122,7 @@ public class Epidermis_Main {
 //            MainGUI.RunGui();
 //        }
 
-        FileIO FileParams = new FileIO("Move_Probability_Test_Round17.txt", "w");
+        FileIO FileParams = new FileIO("GridParams_Round1.txt", "w");
         ParamSweeper PS = new ParamSweeper(FileParams, (double[] runThatShit)->{
             EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, runThatShit); // Initializes and sets up the program for running
             String OutRL = "";
@@ -247,7 +249,7 @@ public class Epidermis_Main {
             //return RN.nextDouble()*0.99999+.00001; // Iteration 5
             //return RN.nextDouble()*0.5+.00001; // Iteration 12
 //            return RN.nextDouble()*0.4948984+0.002261338; //Iteration 16
-            return 0;
+            return 0.3657964;
         });
         PS.AddParam((Random RN)->{ // DIVLOCPROB
             //return RN.nextDouble()*0.55+.2; //Iteration 1, 2, 3
@@ -256,6 +258,12 @@ public class Epidermis_Main {
             //return RN.nextDouble()*0.25+0.75; // Iteration 11
 //            return RN.nextDouble()*0.1843497+0.7528085; //Iteration 16
             return 0.8315265;
+        });
+        PS.AddParam((RandomRN)->{ // EGF_DIFFUSION_RATE
+            return RN.nextDouble()*0.1+0.01;
+        });
+        PS.AddParam((RandomRN)->{ // Decay Rate
+            return RN.nextDouble()*0.01+0.0005;
         });
 
         PS.Sweep(50, 4);

@@ -28,8 +28,8 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     final int[] divHoodBasal={1,0,-1,0,0,1}; // Coordinate set for two beside and one above [x,y,x,y...]
     final int[] moveHood={1,0,-1,0,0,-1};
     final int[] inBounds= new int[4];
-    static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
-    static final double DECAY_RATE=0.0001; //chemical decay rate of growth factors
+    double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
+    double DECAY_RATE=0.001; //chemical decay rate of growth factors
     static final double SOURCE_EGF=1; //constant level at basement
     static final int AIR_HEIGHT=15; //air, keratinocyte death! (threshold level for placement of keratinocytes essentially)
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
@@ -53,6 +53,8 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     public EpidermisGrid(int x, int y, double[] customParams) {
         super(x,y,EpidermisCell.class);
         runParams = customParams;
+        EGF_DIFFUSION_RATE = customParams[6];
+        DECAY_RATE = customParams[7];
         running = false;
         xDim = x;
         yDim = y;
