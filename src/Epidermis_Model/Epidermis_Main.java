@@ -35,6 +35,7 @@ class EpidermisConst{
     static final boolean RecordLineages = false; // use when you want
     static final boolean RecordPopSizes = false; // Use to record clone population sizes
     static final boolean get_r_lambda = true; // use when you want the r_lambda value
+    static final boolean writeValues = false;
 }
 
 public class Epidermis_Main {
@@ -61,6 +62,8 @@ public class Epidermis_Main {
         GuiLabel YearLab = null;
         GuiLabel rLambda_Label = null;
         GuiLabel OldestCell = null;
+        GuiLabel HealLab = null;
+        GuiLabel HeightLab = null;
         EpidermisCellVis CellDraw = null;
         ArrayList<Float> r_lambda_WriteValue = new ArrayList();
         int r_lambda_index = 0;
@@ -96,8 +99,12 @@ public class Epidermis_Main {
             DeathLayerVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
             ActivityVis = new GuiVis(EpidermisConst.xSize * 5, EpidermisConst.ySize * 5, 1, 2, 1); // Main Epidermis visualization window
             EGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
-            YearLab = LabelGuiSet("Age: ", 1, 1);
+            YearLab = LabelGuiSet("Age (Yrs.): ", 1, 1);
             MainGUI.AddCol(YearLab, 0);
+            HealLab = LabelGuiSet("Heal Time (Days): ", 1, 1);
+            MainGUI.AddCol(HealLab, 0);
+            HeightLab = LabelGuiSet("Height: ", 1, 1);
+            MainGUI.AddCol(HeightLab, 0);
             OldestCell = LabelGuiSet("Oldest Cell: ", 1, 1);
             rLambda_Label = LabelGuiSet("rLambda: ", 1, 1);
             MainGUI.AddCol(rLambda_Label, 1);
@@ -119,6 +126,10 @@ public class Epidermis_Main {
 
             MainGUI.RunGui();
         }
+        int woundTick = 0;
+        boolean Healed = true;
+        double avgHeight=0;
+        int tickSum=0;
 
         TickRateTimer tickIt = new TickRateTimer();
         while(Epidermis.GetTick() < EpidermisConst.ModelTime){
@@ -131,10 +142,24 @@ public class Epidermis_Main {
             /*
             All Injuries Occuring Here!
              */
-//            if(Epidermis.GetTick()%365==0){
-//                Epidermis.inflict_wound();
-//                tickIt.TickPause(1000); // Adjusting a frame rate
-//            }
+            int healTick=0;
+
+            if(Healed && Epidermis.GetTick()%365==0){
+                Epidermis.inflict_wound();
+                woundTick=Epidermis.GetTick();
+                Healed = false;
+            }
+
+            if(!Healed && Epidermis.GetTick()%365!=0) {
+                Healed = Epidermis.checkWoundHeal((int) avgHeight);
+                healTick = Epidermis.GetTick();
+                if (Healed && HealLab != null) {
+                    if (HealLab != null) {
+                        HealLab.setText("Heal Time (Days): " + new DecimalFormat("#.0").format((healTick - woundTick)));
+                    }
+                }
+            }
+
 
             /*
             rLambda Value calculations, output, and recording
@@ -174,46 +199,52 @@ public class Epidermis_Main {
             if(OldestCell!=null){OldestCell.setText("Mean cell age (days): " + new DecimalFormat("#.00").format(Epidermis.GetOldestCell(Epidermis)));}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
+            if(Epidermis.GetTick()==26){
+                avgHeight=(Epidermis.popSum*1.0/Epidermis.GetTick())/Epidermis.xDim;
+                if(HeightLab!=null){HeightLab.setText("Height: " + new DecimalFormat("#.00").format(avgHeight));}
+            }
 
             /*
             All Model Data Recording Is Below This line
              */
-            if(EpidermisConst.RecordParents==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
-                FileIO ParentOut = new FileIO(ParentFile, "w");
-                Epidermis.GenomeStore.WriteParentIDs(ParentOut, "\n");
-                ParentOut.Close();
-                System.out.println("Parents written to file.");
-            }
-            if(EpidermisConst.RecordLineages==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
-                FileIO MutsOut = new FileIO(MutationFile, "w");
-                Epidermis.GenomeStore.WriteAllLineageInfoLiving(MutsOut, ",", "\n");
-                MutsOut.Close();
-                System.out.println("Lineage genomes written to file.");
-            }
-            if(EpidermisConst.RecordPopSizes==true && EpidermisConst.RecordTime==Epidermis.GetTick()){
-                FileIO PopSizeOut = new FileIO(PopSizes, "w");
-                Epidermis.GenomeStore.RecordClonePops();
-                Epidermis.GenomeStore.WriteClonePops(PopSizeOut, ",", "\n");
-                PopSizeOut.Close();
-                System.out.println("Population sizes written to file.");
-            }
-            if(EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime==Epidermis.GetTick()){
-                FileIO RLambdaWriter = new FileIO(r_lambda_file, "w");
-                float r_lamb_print = 0;
-                for (int i = 0; i < r_lambda_WriteValue.size(); i++) {
-                    r_lamb_print += r_lambda_WriteValue.get(i);
-                    String out = r_lambda_WriteValue.get(i).toString();
-                    RLambdaWriter.Write(out + "\n");
+            if(EpidermisConst.writeValues==true) {
+                if (EpidermisConst.RecordParents == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
+                    FileIO ParentOut = new FileIO(ParentFile, "w");
+                    Epidermis.GenomeStore.WriteParentIDs(ParentOut, "\n");
+                    ParentOut.Close();
+                    System.out.println("Parents written to file.");
                 }
-                RLambdaWriter.Close();
-                System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print/r_lambda_index) + "\n");
-            }
-            if(EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime==Epidermis.GetTick()) {
-                float MeanWeekPrint = 0;
-                for (int i = 0; i < meanCellAge.size(); i++) {
-                    MeanWeekPrint += meanCellAge.get(i);
+                if (EpidermisConst.RecordLineages == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
+                    FileIO MutsOut = new FileIO(MutationFile, "w");
+                    Epidermis.GenomeStore.WriteAllLineageInfoLiving(MutsOut, ",", "\n");
+                    MutsOut.Close();
+                    System.out.println("Lineage genomes written to file.");
                 }
-                System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(MeanWeekPrint/meanCellAgeIndex) + "\n");
+                if (EpidermisConst.RecordPopSizes == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
+                    FileIO PopSizeOut = new FileIO(PopSizes, "w");
+                    Epidermis.GenomeStore.RecordClonePops();
+                    Epidermis.GenomeStore.WriteClonePops(PopSizeOut, ",", "\n");
+                    PopSizeOut.Close();
+                    System.out.println("Population sizes written to file.");
+                }
+                if (EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
+                    FileIO RLambdaWriter = new FileIO(r_lambda_file, "w");
+                    float r_lamb_print = 0;
+                    for (int i = 0; i < r_lambda_WriteValue.size(); i++) {
+                        r_lamb_print += r_lambda_WriteValue.get(i);
+                        String out = r_lambda_WriteValue.get(i).toString();
+                        RLambdaWriter.Write(out + "\n");
+                    }
+                    RLambdaWriter.Close();
+                    System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print / r_lambda_index) + "\n");
+                }
+                if (EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
+                    float MeanWeekPrint = 0;
+                    for (int i = 0; i < meanCellAge.size(); i++) {
+                        MeanWeekPrint += meanCellAge.get(i);
+                    }
+                    System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(MeanWeekPrint / meanCellAgeIndex) + "\n");
+                }
             }
         }
         Utils.PrintMemoryUsage();

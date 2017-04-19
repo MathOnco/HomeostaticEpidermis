@@ -33,6 +33,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     float r_lambda_weekly = 0;
     int xDim;
     int yDim;
+    long popSum=0;
     int[] MeanProlif = new int[EpidermisConst.xSize * EpidermisConst.ySize];
     int[] MeanDeath = new int[EpidermisConst.xSize * EpidermisConst.ySize];
     GenomeTracker<EpidermisCellGenome> GenomeStore;
@@ -69,6 +70,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             MeanProlif(c);
 //            MeanDeath();
         }
+        popSum+=Pop();
         CleanShuffInc(RN); // Special Sauce
     }
 
@@ -163,12 +165,28 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     // Inflicting a wound to simulate wound repair...
     public void inflict_wound(){
         for (int i = 37; i < 37*3; i++){
-            for (int k=0; k < 20; k++){
+            for (int k=0; k < yDim; k++){
                 EpidermisCell c = SQtoAgent(i,k);
                 if (c != null) {
                     c.itDead();
                 }
             }
+        }
+    }
+
+    public boolean checkWoundHeal(int AvgHeight){
+        int pop=0;
+        for (int i = 37; i < 37*3; i++){
+            for (int k=0; k < yDim; k++) {
+                if(SQtoAgent(i,k)!=null){
+                    pop++;
+                }
+            }
+        }
+        if(pop/(37*2) >= AvgHeight){
+            return true;
+        } else {
+            return false;
         }
     }
 
