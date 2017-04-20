@@ -17,6 +17,7 @@ class EpidermisConst{
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
     static final int ySize=20;
+    static final int zSize=150;
 
     static final int KERATINOCYTE = 0; //setting types into a binary 0 or 1
     static final int DIVIDE = 2; // Attribute if cell is dividing
@@ -29,7 +30,7 @@ class EpidermisConst{
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = true; // use for visualization
+    static final boolean GuiOn = false; // use for visualization
     static final boolean JarFile = false; // Set to true if running from command line as jar file
     static final boolean RecordParents = false; // use when you want parents information
     static final boolean RecordLineages = false; // use when you want
@@ -83,7 +84,7 @@ public class Epidermis_Main {
             r_lambda_file = args[3];
             EpidermisConst.xSize = Integer.parseInt(args[4]);
         }
-        final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize); // Initializes and sets up the program for running
+        final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, EpidermisConst.zSize); // Initializes and sets up the program for running
         Runtime rt = Runtime.getRuntime();
 
         // Sets up GUI

@@ -1,6 +1,6 @@
 package Epidermis_Model;
 
-import AgentFramework.AgentSQ2;
+import AgentFramework.AgentSQ3unstackable;
 import cern.jet.random.Poisson;
 import cern.jet.random.engine.DRand;
 import cern.jet.random.engine.RandomEngine;
@@ -19,7 +19,7 @@ import static Epidermis_Model.EpidermisConst.*;
  */
 
 
-class EpidermisCell extends AgentSQ2<EpidermisGrid> {
+class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
@@ -51,14 +51,14 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 
     // Set coords array using this function
     // Function gets all cells surrounding it that are empty!! Take-Away
-    public int GetEmptyVNSquares(int x, int y, boolean OnlyEmpty, int[] divHood, int[] inBounds){
+    public int GetEmptyVNSquares(int x, int y, int z, boolean OnlyEmpty, int[] divHood, int[] inBounds){
         int finalCount=0;
-        int inBoundsCount = G().SQsToLocalIs(divHood, inBounds, x, y, true, false); // Gets all inbound indices
+        int inBoundsCount = G().SQstoLocalIs(divHood, inBounds, x, y, z, true, false, true); // Gets all inbound indices
         if(!OnlyEmpty){
             return inBoundsCount;
         }
         for (int i=0; i<inBoundsCount; i++){
-            if(G().ItoAgent(inBounds[i]) == null){
+            if(G().GetAgent(inBounds[i]) == null){
                 inBounds[finalCount]=inBounds[i];
                 finalCount++;
             }
@@ -77,6 +77,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         } else {
             return 1; // Dividing Left
         }
+        //TODO Need to fix this probability so that the probability is shared in the x and z dimentsions
     }
 
 
@@ -84,15 +85,16 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     public boolean CheckProliferate() {
         int x = Xsq();
         int y = Ysq();
+        int z = Zsq();
         int iDivLoc;
 
         // If EGF is low then next double is likely to be higher...Results in no proliferation
-        if (myType == KERATINOCYTE && G().RN.nextDouble() > G().EGF.SQgetCurr(x, y) * prolif_scale_factor) {
+        if (myType == KERATINOCYTE && G().RN.nextDouble() > G().EGF.SQgetCurr(x, y, z) * prolif_scale_factor) {
             return false;
         }
 
 //        if(y==0){
-            int divOptions = GetEmptyVNSquares(x, y, false, G().divHoodBasal, G().inBounds); // Number of coordinates you could divide into
+            int divOptions = GetEmptyVNSquares(x, y, z, false, G().divHoodBasal, G().inBounds); // Number of coordinates you could divide into
             iDivLoc = ProlifLoc(); // Where the new cell is going to be (which index) if basal cell
             if(iDivLoc==0 || iDivLoc==1 && y==0){
                 loss_count_basal+=1;
@@ -123,22 +125,23 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 
     public boolean CellPush(int iDivLoc){
         int i = G().inBounds[iDivLoc];
-        EpidermisCell c=G().ItoAgent(i);
+        EpidermisCell c=G().GetAgent(i);
         if(c!=null){
             int x = G().ItoX(i);
             int y = G().ItoY(i);
+            int z = G().ItoZ(i);
             //look up for empty square
             int colTop=y;
 //            EpidermisCell c=G().ItoAgent(i);
             while(c!=null){
                 colTop++;
-                c=G().SQtoAgent(x,colTop);
+                c=G().GetAgent(x,colTop,z);
             }
             int colMax=colTop;
             //move column of cells up
             for(;colTop>y;colTop--){
-                c=(G().SQtoAgent(x,colTop-1));
-                c.Move(x,colTop);
+                c=(G().GetAgent(x,colTop-1,z));
+                c.Move(x,colTop,z);
             }
             if(c.Ysq()>= G().yDim-2){c.itDead();}
             return true;
@@ -150,7 +153,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     // Sets the coordinates for a cell that is moving.
     public int GetMoveCoords() {
         int iMoveCoord=-1;  //when it's time to move, it is the index of coordinate that is picked from Coords array above. -1 == Not Moving
-        int MoveOptions=GetEmptyVNSquares(Xsq(),Ysq(),true, G().moveHood, G().inBounds);
+        int MoveOptions=GetEmptyVNSquares(Xsq(),Ysq(), Zsq(),true, G().moveHood, G().inBounds);
         if(MoveOptions>0&&myType==KERATINOCYTE) {
             iMoveCoord=G().RN.nextInt(MoveOptions);
         }
@@ -168,13 +171,13 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     }
 
     public void CellStep(){
-        int x=Xsq();int y=Ysq(); // Get discrete x and y coordinates
+        int x=Xsq();int y=Ysq();int z=Zsq(); // Get discrete x and y coordinates
         Action = STATIONARY;
         if (y>=G().AIR_HEIGHT){
             itDead();
             return;
         }
-        if (G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < (Math.pow(1.0 - G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF, 5))) {
+        if (G().EGF.SQgetCurr(x, y, z) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < (Math.pow(1.0 - G().EGF.SQgetCurr(x, y, z) / KERATINO_APOPTOSIS_EGF, 5))) {
             //DEATH FROM LACK OF NUTRIENTS KERATINOCYTE
             itDead();
             return;

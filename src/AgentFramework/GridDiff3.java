@@ -6,7 +6,7 @@ import java.util.Arrays;
  * the intended usage is that during a diffusion step, the current values will be read, and the next values will be written to
  * after updates, SwapNextCurr is called to set the next field as the current field.
  */
-abstract public class GridDiff3 extends GridBase {
+public class GridDiff3 extends GridBase {
     final public int xDim;
     final public int yDim;
     final public int zDim;
