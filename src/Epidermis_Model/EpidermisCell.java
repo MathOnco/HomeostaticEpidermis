@@ -33,6 +33,9 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     static int pro_count_basal = 0;
     static int loss_count_basal = 0;
     static int death_count = 0;
+    final static boolean[][] existsArrs=new boolean[10][20];
+    final static int[] colTops=new int[10];
+    static int iRec=0;
     int myType; //cell type
     int Action; //cells action
     static public RandomEngine RNEngine = new DRand();
@@ -69,13 +72,17 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     // Gets where a cell is dividing if it's a basal cell and is proliferating
     public int ProlifLoc(){
         double divideWhere = G().RN.nextDouble();
-        double OtherOptionProb=(1-DIVISIONLOCPROB)/2.0;
+        double OtherOptionProb=(1-DIVISIONLOCPROB)/4.0;
         if(divideWhere<=DIVISIONLOCPROB){
             return 2; // Dividing up
         } else if(divideWhere>(DIVISIONLOCPROB+OtherOptionProb)){
             return 0; // Dividing right
-        } else {
+        } else if (divideWhere>(DIVISIONLOCPROB+OtherOptionProb) && divideWhere <= (DIVISIONLOCPROB+OtherOptionProb*2)){
             return 1; // Dividing Left
+        } else if (divideWhere>(DIVISIONLOCPROB+OtherOptionProb*2) && divideWhere <= (DIVISIONLOCPROB+OtherOptionProb*3)) {
+            return 3; // Dividing front
+        } else {
+            return 4; // Dividing back
         }
         //TODO Need to fix this probability so that the probability is shared in the x and z dimentsions
     }
@@ -89,14 +96,14 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         int iDivLoc;
 
         // If EGF is low then next double is likely to be higher...Results in no proliferation
-        if (myType == KERATINOCYTE && G().RN.nextDouble() > G().EGF.SQgetCurr(x, y, z) * prolif_scale_factor) {
+        if (myType == KERATINOCYTE && G().RN.nextDouble() > G().EGF.GetCurr(x, y, z) * prolif_scale_factor) {
             return false;
         }
 
 //        if(y==0){
             int divOptions = GetEmptyVNSquares(x, y, z, false, G().divHoodBasal, G().inBounds); // Number of coordinates you could divide into
             iDivLoc = ProlifLoc(); // Where the new cell is going to be (which index) if basal cell
-            if(iDivLoc==0 || iDivLoc==1 && y==0){
+            if(iDivLoc==0 || iDivLoc==1 || iDivLoc==3 || iDivLoc==4 && y==0){
                 loss_count_basal+=1;
             }
             boolean Pushed = CellPush(iDivLoc);
@@ -137,9 +144,15 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
                 colTop++;
                 c=G().GetAgent(x,colTop,z);
             }
-            int colMax=colTop;
+            int ColMax=colTop;
             //move column of cells up
             for(;colTop>y;colTop--){
+                for (int j = 0; j < G().yDim; j++) {
+                    existsArrs[iRec][j]=G().GetAgent(x,j,z)==null?false:true;
+                }
+                colTops[iRec]=colTop;
+                iRec++;
+                iRec=iRec%10;
                 c=(G().GetAgent(x,colTop-1,z));
                 c.Move(x,colTop,z);
             }
@@ -177,7 +190,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             itDead();
             return;
         }
-        if (G().EGF.SQgetCurr(x, y, z) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < (Math.pow(1.0 - G().EGF.SQgetCurr(x, y, z) / KERATINO_APOPTOSIS_EGF, 5))) {
+        if (G().EGF.GetCurr(x, y, z) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < (Math.pow(1.0 - G().EGF.GetCurr(x, y, z) / KERATINO_APOPTOSIS_EGF, 5))) {
             //DEATH FROM LACK OF NUTRIENTS KERATINOCYTE
             itDead();
             return;

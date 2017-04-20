@@ -17,16 +17,16 @@ class EpidermisConst{
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
     static final int ySize=20;
-    static final int zSize=150;
+    static int zSize=150;
 
     static final int KERATINOCYTE = 0; //setting types into a binary 0 or 1
     static final int DIVIDE = 2; // Attribute if cell is dividing
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static final int years=20; // time in years.
-    static final int RecordTime=years*365;
-    static final int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
+    static int years=20; // time in years.
+    static int RecordTime=years*365;
+    static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
@@ -35,7 +35,7 @@ class EpidermisConst{
     static final boolean RecordParents = false; // use when you want parents information
     static final boolean RecordLineages = false; // use when you want
     static final boolean RecordPopSizes = false; // Use to record clone population sizes
-    static final boolean get_r_lambda = true; // use when you want the r_lambda value
+    static final boolean get_r_lambda = false; // use when you want the r_lambda value
     static final boolean writeValues = false;
 }
 
@@ -83,7 +83,17 @@ public class Epidermis_Main {
             MutationFile = args[2];
             r_lambda_file = args[3];
             EpidermisConst.xSize = Integer.parseInt(args[4]);
+            EpidermisConst.zSize = Integer.parseInt(args[4]);
+            int Time = Integer.parseInt(args[5]);
+            EpidermisConst.years = Time;
+            EpidermisConst.ModelTime = Time * 365 + 10;
+            EpidermisConst.RecordTime = Time * 365;
         }
+        if(EpidermisConst.GuiOn == false){
+            System.out.println("xSize and zSize: " + EpidermisConst.xSize);
+            System.out.println("Years: " + EpidermisConst.years);
+        }
+
         final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, EpidermisConst.zSize); // Initializes and sets up the program for running
         Runtime rt = Runtime.getRuntime();
 

@@ -20,8 +20,8 @@ import java.util.Random;
 // Grid specific parameters
 class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     final Random RN=new Random();
-    static final int[] divHoodBasal={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,1,0}; // Coordinate set for four beside and one above [x,y,z,x,y,z...]
-    static final int[] divHood={1,0,-1,0,0,1,0,-1}; // Coordinate set for two beside and one above and one below [x,y,x,y...]
+    static final int[] divHoodBasal={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,1,0}; // Coordinate set for two beside and one above and two front and back [x,y,z,x,y,z...]
+    static final int[] divHood={1,0,0, -1,0,0, 0,1,0, 0,-1,0, 0,0,-1, 0,0,1}; // Coordinate set for two beside and one above and one below [x,y,x,y...]
     static final int[] moveHood={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,-1,0};
     static final int[] inBounds= new int[6];
     static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
@@ -53,8 +53,8 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
 
     public void PlaceCells() {
         for (int x = 0; x < xDim; x++) {
-            for (int z = 0; z < xDim; z++) {
-                for (int y = 0; y < AIR_HEIGHT; y++) {
+            for (int y = 0; y < AIR_HEIGHT; y++) {
+                for (int z = 0; z < xDim; z++) {
                     if (GetAgent(x, y, z) == null) {
                         EpidermisCell c = NewAgent(x, y, z);
                         c.init(KERATINOCYTE, GenomeStore.NewProgenitor()); // Initializes cell types; Uniform Start
@@ -80,10 +80,10 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
 
     public void DrawChemicals(GuiVis chemVis, boolean egf, boolean bfgf) {
         for (int x = 0; x < xDim; x++) {
-            for (int z = 0; z < xDim; z++) {
-                for (int y = 0; y < yDim; y++) {
+            for (int y = 0; y < yDim; y++) {
+                for (int z = 0; z < xDim; z++) {
                     if (egf) {
-                        chemVis.SetColorHeat(x, y, EGF.SQgetCurr(x, y, z) / SOURCE_EGF, "rgb");
+                        chemVis.SetColorHeat(x, y, EGF.GetCurr(x, y, z) / SOURCE_EGF, "rgb");
                     }
                 }
             }
@@ -143,8 +143,8 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     public void DrawCellActivity(GuiVis vis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
         long time = System.currentTimeMillis();
         for (int x = 0; x < xDim; x++) {
-            for (int z = 0; z < xDim; z++) {
-                for (int y = 0; y < yDim; y++) {
+            for (int y = 0; y < yDim; y++) {
+                for (int z = 0; z < xDim; z++) {
                     EpidermisCell c = Epidermis.GetAgent(x, y, z);
                     if (c != null) {
                         CellDraw.DrawCellonGrid(vis, c);
@@ -160,11 +160,13 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         long time = System.currentTimeMillis();
         for (int x = 0; x < xDim; x++) {
             for (int y = 0; y < yDim; y++) {
-                EpidermisCell c = Epidermis.GetAgent(x, y, zDim/2);
-                if (c != null) {
+                for (int z = 0; z < xDim; z++) {
+                    EpidermisCell c = Epidermis.GetAgent(x, y, zDim / 2);
+                    if (c != null) {
                         CellDraw.DrawCellonGridPop(vis, c);
-                } else {
-                    CellDraw.DrawEmptyCell(vis, x, y);
+                    } else {
+                        CellDraw.DrawEmptyCell(vis, x, y);
+                    }
                 }
             }
         }
@@ -173,8 +175,8 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     // Inflicting a wound to simulate wound repair...
     public void inflict_wound(){
         for (int x = 37; x < 37*3; x++){
-            for (int z = 37; z < 37 *3; z++){
-                for (int y=0; y < yDim; y++) {
+            for (int y=0; y < yDim; y++) {
+                for (int z = 37; z < 37 *3; z++){
                     EpidermisCell c = GetAgent(x, y, z);
                     if (c != null) {
                         c.itDead();
@@ -197,18 +199,18 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         EGF.Diffuse(EGF_DIFFUSION_RATE,false,0,true);
         //CELL CONSUMPTION
         for (EpidermisCell c: this) {
-                EGF.SQaddNext(c.Xsq(),c.Ysq(),c.Zsq(), c.KERATINO_EGF_CONSPUMPTION*EGF.SQgetCurr(c.Xsq(), c.Ysq(), c.Zsq()));
+                EGF.AddNext(c.Xsq(),c.Ysq(),c.Zsq(), c.KERATINO_EGF_CONSPUMPTION*EGF.GetCurr(c.Xsq(), c.Ysq(), c.Zsq()));
         }
 
         //DECAY RATE
         for(int i=0;i<EGF.length;i++){
-            EGF.SQsetNext(ItoX(i),ItoY(i),ItoZ(i), EGF.SQgetNext(ItoX(i), ItoY(i), ItoZ(i))*(1.0-DECAY_RATE));
+            EGF.SetNext(ItoX(i),ItoY(i),ItoZ(i), EGF.GetNext(ItoX(i), ItoY(i), ItoZ(i))*(1.0-DECAY_RATE));
         }
 
         //SOURCE ADDITION
         for(int x=0;x<xDim;x++) {
             for(int z=0;z<zDim;z++) {
-                EGF.SQsetNext(x, 0, z, SOURCE_EGF);
+                EGF.SetNext(x, 0, z, SOURCE_EGF);
             }
         }
 

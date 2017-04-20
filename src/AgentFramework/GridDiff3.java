@@ -1,4 +1,6 @@
 package AgentFramework;
+import AgentFramework.Utils;
+
 import java.util.Arrays;
 
 /**
@@ -23,44 +25,53 @@ public class GridDiff3 extends GridBase {
     }
 
     /**
+     * gets the current field value at the specified index
+     */
+    public double GetCurr(int i){return field[i];}
+
+    /**
      * gets the current field value at the specified coordinates
      */
-    public double SQgetCurr(int x,int y,int z) {
+    public double GetCurr(int x,int y,int z) {
         return field[x*yDim*zDim+y*zDim+z];
     }
 
     /**
+     * sets the current field value at the specified index
+     */
+    public void SetCurr(int i,double val){field[i]=val;}
+    /**
      * sets the current field value at the specified coordinates
      */
-    public void SQsetCurr(int x,int y,int z,double val){
+    public void SetCurr(int x,int y,int z,double val){
         field[x*yDim*zDim+y*zDim+z]=val;
     }
 
     /**
      * adds to the current field value at the specified coordinates
      */
-    public void SQaddCurr(int x,int y,int z,double val){
+    public void AddCurr(int x,int y,int z,double val){
         field[x*yDim*zDim+y*zDim+z]+=val;
     }
 
     /**
      * gets to the current field value at the specified coordinates
      */
-    public double SQgetNext(int x,int y,int z){
+    public double GetNext(int x,int y,int z){
         return swap[x*yDim*zDim+y*zDim+z];
     }
 
     /**
      * gets to the current field value at the specified coordinates
      */
-    public void SQsetNext(int x,int y,int z,double val){
+    public void SetNext(int x,int y,int z,double val){
         swap[x*yDim*zDim+y*zDim+z]=val;
     }
 
     /**
      * adds to the next field value at the specified index
      */
-    public void SQaddNext(int x,int y,int z,double val){
+    public void AddNext(int x,int y,int z,double val){
         swap[x*yDim*zDim+y*zDim+z]+=val;
     }
 
@@ -81,6 +92,14 @@ public class GridDiff3 extends GridBase {
     }
 
     /**
+     * Swaps the next and current field, and increments the tick
+     */
+    public void SwapInc(){
+        SwapNextCurr();
+        IncTick();
+    }
+
+    /**
      * Runs diffusion on the current field, putting the results into the next field
      * @param diffRate rate of diffusion
      * @param boundaryCond whether a boundary condition value will diffuse in from the field boundaries
@@ -88,6 +107,17 @@ public class GridDiff3 extends GridBase {
      * @param WrapXZ whether to wrap the field over the left and right and top and bottom
      */
     public void Diffuse(double diffRate,boolean boundaryCond,double boundaryValue,boolean WrapXZ){
+        Utils.Diffusion3(field,swap,xDim,yDim,zDim,diffRate,boundaryCond,boundaryValue,WrapXZ);
+        double[] temp=field;
+    }
+    /**
+     * Runs diffusion on the current field, putting the results into the next field, then swaps them
+     * @param diffRate rate of diffusion
+     * @param boundaryCond whether a boundary condition value will diffuse in from the field boundaries
+     * @param boundaryValue only applies when boundaryCond is true, the boundary condition value
+     * @param WrapXZ whether to wrap the field over the left and right and top and bottom
+     */
+    public void DiffSwap(double diffRate,boolean boundaryCond,double boundaryValue,boolean WrapXZ){
         Utils.Diffusion3(field,swap,xDim,yDim,zDim,diffRate,boundaryCond,boundaryValue,WrapXZ);
         double[] temp=field;
     }
