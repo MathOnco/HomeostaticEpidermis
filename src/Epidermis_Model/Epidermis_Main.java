@@ -23,7 +23,7 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static final int years=65; // time in years.
+    static int years=65; // time in years.
     static final int RecordTime=years*365;
     static final int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
@@ -82,6 +82,7 @@ public class Epidermis_Main {
             MutationFile = args[2];
             r_lambda_file = args[3];
             EpidermisConst.xSize = Integer.parseInt(args[4]);
+            EpidermisConst.years = Integer.parseInt(args[5]);
         }
         final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize); // Initializes and sets up the program for running
         Runtime rt = Runtime.getRuntime();
