@@ -24,8 +24,8 @@ class EpidermisConst{
     static final int MOVING = 4; //Attribute if cell is moving
 
     static int years=5; // time in years.
-    static final int RecordTime=years*365;
-    static final int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
+    static int RecordTime=years*365;
+    static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
