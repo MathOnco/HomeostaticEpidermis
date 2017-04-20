@@ -82,7 +82,10 @@ public class Epidermis_Main {
             MutationFile = args[2];
             r_lambda_file = args[3];
             EpidermisConst.xSize = Integer.parseInt(args[4]);
-            EpidermisConst.years = Integer.parseInt(args[5]);
+            int Time = Integer.parseInt(args[5]);
+            EpidermisConst.years = Time;
+            EpidermisConst.ModelTime = Time * 365 + 10;
+            EpidermisConst.RecordTime = Time * 365;
         }
         if(EpidermisConst.GuiOn == false){
             System.out.println("xSize: " + EpidermisConst.xSize);
