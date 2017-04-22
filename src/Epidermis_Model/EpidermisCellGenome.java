@@ -71,9 +71,9 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
                         long mutIndex = RN.nextLong();
                         String MutOut = "";
                         if(j==ExpectedMuts.length-1){
-                            MutOut = j + "." + ".N." + "." + mutIndex;
+                            MutOut = j + ".N." + mutIndex;
                         } else {
-                            MutOut = j + "." + ".N." + "." + mutIndex + ",";
+                            MutOut = j + ".N." + mutIndex + ",";
                         }
                         MutsObtained.append(MutOut);
                     }
