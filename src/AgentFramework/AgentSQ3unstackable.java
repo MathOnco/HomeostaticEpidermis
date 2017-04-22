@@ -33,6 +33,7 @@ public abstract class AgentSQ3unstackable<T extends Grid3unstackable> extends Ag
         this.xSq=x;
         this.ySq=y;
         this.zSq=z;
+        this.iSq=iNewPos;
     }
 
     /**
@@ -45,6 +46,7 @@ public abstract class AgentSQ3unstackable<T extends Grid3unstackable> extends Ag
         this.xSq=G().ItoX(i);
         this.ySq=G().ItoY(i);
         this.zSq=G().ItoZ(i);
+        this.iSq=i;
     }
 
     /**

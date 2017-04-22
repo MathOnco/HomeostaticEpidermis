@@ -12,12 +12,12 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=150; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=50; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
     static final int ySize=20;
-    static int zSize=150;
+    static int zSize=50;
 
     static final int KERATINOCYTE = 0; //setting types into a binary 0 or 1
     static final int DIVIDE = 2; // Attribute if cell is dividing
@@ -150,26 +150,26 @@ public class Epidermis_Main {
             // Main Running of the steps within the model
             Epidermis.RunStep();
 
-            /*
-            All Injuries Occuring Here!
-             */
-            int healTick=0;
-
-            if(Healed && Epidermis.GetTick()%365==0){
-                Epidermis.inflict_wound();
-                woundTick=Epidermis.GetTick();
-                Healed = false;
-            }
-
-            if(!Healed && Epidermis.GetTick()%365!=0) {
-                Healed = Epidermis.checkWoundHeal((int) avgHeight);
-                healTick = Epidermis.GetTick();
-                if (Healed && HealLab != null) {
-                    if (HealLab != null) {
-                        HealLab.setText("Heal Time (Days): " + new DecimalFormat("#.0").format((healTick - woundTick)));
-                    }
-                }
-            }
+//            /*
+//            All Injuries Occuring Here!
+//             */
+//            int healTick=0;
+//
+//            if(Healed && Epidermis.GetTick()%365==0){
+//                Epidermis.inflict_wound();
+//                woundTick=Epidermis.GetTick();
+//                Healed = false;
+//            }
+//
+//            if(!Healed && Epidermis.GetTick()%365!=0) {
+//                Healed = Epidermis.checkWoundHeal((int) avgHeight);
+//                healTick = Epidermis.GetTick();
+//                if (Healed && HealLab != null) {
+//                    if (HealLab != null) {
+//                        HealLab.setText("Heal Time (Days): " + new DecimalFormat("#.0").format((healTick - woundTick)));
+//                    }
+//                }
+//            }
 
 
             /*

@@ -147,12 +147,12 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             int ColMax=colTop;
             //move column of cells up
             for(;colTop>y;colTop--){
-                for (int j = 0; j < G().yDim; j++) {
-                    existsArrs[iRec][j]=G().GetAgent(x,j,z)==null?false:true;
-                }
-                colTops[iRec]=colTop;
-                iRec++;
-                iRec=iRec%10;
+//                for (int j = 0; j < G().yDim; j++) {
+//                    existsArrs[iRec][j]=G().GetAgent(x,j,z)==null?false:true;
+//                }
+//                colTops[iRec]=colTop;
+//                iRec++;
+//                iRec=iRec%10;
                 c=(G().GetAgent(x,colTop-1,z));
                 c.Move(x,colTop,z);
             }

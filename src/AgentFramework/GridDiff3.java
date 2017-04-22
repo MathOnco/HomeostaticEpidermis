@@ -1,5 +1,6 @@
 package AgentFramework;
-import AgentFramework.Utils;
+//import AgentFramework.Utils;
+
 
 import java.util.Arrays;
 
@@ -24,6 +25,26 @@ public class GridDiff3 extends GridBase {
         swap=new double[this.xDim * this.yDim * this.zDim];
     }
 
+    /**
+     * gets the x component of the voxel at the specified index
+     */
+    public int ItoX(int i){
+        return i/(yDim*zDim);
+    }
+
+    /**
+     * gets the y component of the voxel at the specified index
+     */
+    public int ItoY(int i){
+        return (i%xDim)/zDim;
+    }
+
+    /**
+     * gets the z component of the voxel at the specified index
+     */
+    public int ItoZ(int i){
+        return i%zDim;
+    }
     /**
      * gets the current field value at the specified index
      */
@@ -119,7 +140,19 @@ public class GridDiff3 extends GridBase {
      */
     public void DiffSwap(double diffRate,boolean boundaryCond,double boundaryValue,boolean WrapXZ){
         Utils.Diffusion3(field,swap,xDim,yDim,zDim,diffRate,boundaryCond,boundaryValue,WrapXZ);
-        double[] temp=field;
+        SwapNextCurr();
+    }
+    /**
+     * Runs diffusion on the current field, putting the results into the next field, then swaps them and incs the tick
+     * @param diffRate rate of diffusion
+     * @param boundaryCond whether a boundary condition value will diffuse in from the field boundaries
+     * @param boundaryValue only applies when boundaryCond is true, the boundary condition value
+     * @param WrapXZ whether to wrap the field over the left and right and top and bottom
+     */
+    public void DiffSwapInc(double diffRate,boolean boundaryCond,double boundaryValue,boolean WrapXZ){
+        Utils.Diffusion3(field,swap,xDim,yDim,zDim,diffRate,boundaryCond,boundaryValue,WrapXZ);
+        SwapNextCurr();
+        IncTick();
     }
 
     /**
