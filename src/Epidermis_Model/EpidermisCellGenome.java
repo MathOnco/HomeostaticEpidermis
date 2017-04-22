@@ -68,7 +68,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
                     Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
                     int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
                     for (int hits = 0; hits < mutations; hits++) {
-                        long mutIndex = RN.nextLong();
+                        int mutIndex = RN.nextInt(999999999);
                         String MutOut = "";
                         if(j==ExpectedMuts.length-1){
                             MutOut = j + ".N." + mutIndex;
