@@ -12,12 +12,12 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=50; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=150; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
     static final int ySize=20;
-    static int zSize=50;
+    static int zSize=xSize;
 
     static final int KERATINOCYTE = 0; //setting types into a binary 0 or 1
     static final int DIVIDE = 2; // Attribute if cell is dividing
@@ -30,12 +30,12 @@ class EpidermisConst{
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = false; // use for visualization
+    static final boolean GuiOn = true; // use for visualization
     static final boolean JarFile = false; // Set to true if running from command line as jar file
     static final boolean RecordParents = false; // use when you want parents information
     static final boolean RecordLineages = false; // use when you want
     static final boolean RecordPopSizes = false; // Use to record clone population sizes
-    static final boolean get_r_lambda = false; // use when you want the r_lambda value
+    static final boolean get_r_lambda = true; // use when you want the r_lambda value
     static final boolean writeValues = false;
 }
 
@@ -181,7 +181,7 @@ public class Epidermis_Main {
                     r_lambda_index += 1;
                     meanCellAge.add(meanCellAgeIndex, Epidermis.GetOldestCell(Epidermis));
                     meanCellAgeIndex += 1;
-                    if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format(Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f));}
+                    if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format((Epidermis.r_lambda_weekly/(EpidermisConst.xSize*2))/7f));}
                     EpidermisCell.loss_count_basal=0;
                     Epidermis.r_lambda_weekly = 0;
                 } else {
@@ -206,10 +206,10 @@ public class Epidermis_Main {
             if(DivLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DivLayerVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
             if(DeathVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DeathVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(DeathLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DeathLayerVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
-            if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);}
+            if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);} // 3D Good
             if(OldestCell!=null){OldestCell.setText("Mean cell age (days): " + new DecimalFormat("#.00").format(Epidermis.GetOldestCell(Epidermis)));}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
-            if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
+            if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);} // 3D Good
             if(Epidermis.GetTick()==26){
                 avgHeight=(Epidermis.popSum*1.0/Epidermis.GetTick())/Epidermis.xDim;
                 if(HeightLab!=null){HeightLab.setText("Height: " + new DecimalFormat("#.00").format(avgHeight));}

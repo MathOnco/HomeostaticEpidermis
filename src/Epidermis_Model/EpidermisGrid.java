@@ -81,10 +81,8 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     public void DrawChemicals(GuiVis chemVis, boolean egf, boolean bfgf) {
         for (int x = 0; x < xDim; x++) {
             for (int y = 0; y < yDim; y++) {
-                for (int z = 0; z < xDim; z++) {
                     if (egf) {
-                        chemVis.SetColorHeat(x, y, EGF.GetCurr(x, y, z) / SOURCE_EGF, "rgb");
-                    }
+                        chemVis.SetColorHeat(x, y, EGF.GetCurr(x, y, zDim/2) / SOURCE_EGF, "rgb");
                 }
             }
         }
@@ -144,14 +142,12 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         long time = System.currentTimeMillis();
         for (int x = 0; x < xDim; x++) {
             for (int y = 0; y < yDim; y++) {
-                for (int z = 0; z < xDim; z++) {
-                    EpidermisCell c = Epidermis.GetAgent(x, y, z);
+                    EpidermisCell c = Epidermis.GetAgent(x, y, zDim/2);
                     if (c != null) {
                         CellDraw.DrawCellonGrid(vis, c);
                     } else {
                         CellDraw.DrawEmptyCell(vis, x, y);
                     }
-                }
             }
         }
     }
@@ -160,13 +156,11 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         long time = System.currentTimeMillis();
         for (int x = 0; x < xDim; x++) {
             for (int y = 0; y < yDim; y++) {
-                for (int z = 0; z < xDim; z++) {
-                    EpidermisCell c = Epidermis.GetAgent(x, y, zDim / 2);
-                    if (c != null) {
-                        CellDraw.DrawCellonGridPop(vis, c);
-                    } else {
-                        CellDraw.DrawEmptyCell(vis, x, y);
-                    }
+                EpidermisCell c = Epidermis.GetAgent(x, y, zDim/2);
+                if (c != null) {
+                    CellDraw.DrawCellonGridPop(vis, c);
+                } else {
+                    CellDraw.DrawEmptyCell(vis, x, y);
                 }
             }
         }

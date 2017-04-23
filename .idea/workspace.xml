@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6eacc41e-f520-465f-aa6a-25ee1bd78072" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AgentFramework/AgentSQ3unstackable.java" afterPath="$PROJECT_DIR$/src/AgentFramework/AgentSQ3unstackable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AgentFramework/GridDiff3.java" afterPath="$PROJECT_DIR$/src/AgentFramework/GridDiff3.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java" />
     </list>
     <ignored path="Epidermis_Project_Final.iws" />
@@ -25,14 +24,14 @@
     <favorites_list name="Epidermis_Project_Final" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.49444443">
+    <splitter split-orientation="horizontal" split-proportion="0.5159967">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="EpidermisGrid.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="392">
-                  <caret line="202" column="9" lean-forward="true" selection-start-line="202" selection-start-column="9" selection-end-line="202" selection-end-column="9" />
+                <state relative-caret-position="244">
+                  <caret line="133" column="32" lean-forward="true" selection-start-line="133" selection-start-column="32" selection-end-line="133" selection-end-column="32" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -43,8 +42,8 @@
           <file leaf-file-name="Epidermis_Main.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="180">
-                  <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+                <state relative-caret-position="190">
+                  <caret line="156" column="2" lean-forward="true" selection-start-line="156" selection-start-column="2" selection-end-line="156" selection-end-column="2" />
                   <folding />
                 </state>
               </provider>
@@ -54,11 +53,11 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="EpidermisCell.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="EpidermisCell.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2355">
-                  <caret line="157" column="13" lean-forward="true" selection-start-line="157" selection-start-column="13" selection-end-line="157" selection-end-column="13" />
+                <state relative-caret-position="180">
+                  <caret line="29" column="34" lean-forward="false" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -66,31 +65,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="EpidermisCellVis.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="EpidermisCellVis.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellVis.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="120">
-                  <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="EpidermisCellGenome.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1440">
-                  <caret line="106" column="27" lean-forward="false" selection-start-line="106" selection-start-column="27" selection-end-line="106" selection-end-column="27" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Grid2.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AgentFramework/Grid2.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2010">
-                  <caret line="149" column="22" lean-forward="false" selection-start-line="149" selection-start-column="13" selection-end-line="149" selection-end-column="22" />
+                <state relative-caret-position="-120">
+                  <caret line="17" column="35" lean-forward="true" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
                   <folding />
                 </state>
               </provider>
@@ -115,6 +94,10 @@
       <find>inBounds</find>
       <find>divHood</find>
       <find>GetMoveCoords</find>
+      <find>System</find>
+      <find>DrawCellPops</find>
+      <find>DrawChemicals</find>
+      <find>DrawCellActivity</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -130,11 +113,11 @@
       <list>
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java" />
         <option value="$PROJECT_DIR$/src/AgentFramework/Grid3unstackable.java" />
         <option value="$PROJECT_DIR$/src/AgentFramework/GridDiff3.java" />
         <option value="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java" />
         <option value="$PROJECT_DIR$/src/AgentFramework/AgentSQ3unstackable.java" />
+        <option value="$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java" />
         <option value="$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java" />
       </list>
     </option>
@@ -534,7 +517,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32587063" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32587063" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16666667" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -885,22 +868,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1440">
-          <caret line="106" column="27" lean-forward="false" selection-start-line="106" selection-start-column="27" selection-end-line="106" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AgentFramework/Grid2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2010">
-          <caret line="149" column="22" lean-forward="false" selection-start-line="149" selection-start-column="13" selection-end-line="149" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AgentFramework/GridDiff3.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -950,16 +917,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="202" column="9" lean-forward="true" selection-start-line="202" selection-start-column="9" selection-end-line="202" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AgentFramework/AgentBase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -970,28 +927,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="832">
+          <caret line="106" column="27" lean-forward="false" selection-start-line="106" selection-start-column="27" selection-end-line="106" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AgentFramework/Grid2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1608">
+          <caret line="149" column="22" lean-forward="false" selection-start-line="149" selection-start-column="13" selection-end-line="149" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellVis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-120">
+          <caret line="17" column="35" lean-forward="true" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2355">
-          <caret line="157" column="13" lean-forward="true" selection-start-line="157" selection-start-column="13" selection-end-line="157" selection-end-column="13" />
+        <state relative-caret-position="180">
+          <caret line="29" column="34" lean-forward="false" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellVis.java">
+    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
+        <state relative-caret-position="244">
+          <caret line="133" column="32" lean-forward="true" selection-start-line="133" selection-start-column="32" selection-end-line="133" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state relative-caret-position="190">
+          <caret line="156" column="2" lean-forward="true" selection-start-line="156" selection-start-column="2" selection-end-line="156" selection-end-column="2" />
           <folding />
         </state>
       </provider>
