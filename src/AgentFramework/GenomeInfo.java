@@ -1,7 +1,5 @@
 package AgentFramework;
 
-import AgentFramework.GenomeTracker;
-
 import java.util.Iterator;
 
 /**
@@ -12,7 +10,7 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
     int popSize;
     T next;
     T prev;
-    public GenomeTracker<T> myTracker;
+    GenomeTracker<T> myTracker;
 
     /**
      * gets the current number of clones that share this genome
@@ -55,8 +53,13 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
         if(nextGenome==null){
             return (T)this;
         }
+        myTracker.AddMutant((T)this,nextGenome);
         DisposeClone();
         return nextGenome;
+    }
+
+    public T NewMutantGenome(){
+        return myTracker.NewMutant((T)this);
     }
     public String FullLineageInfoStr(String delim){
         return myTracker.FullLineageInfoStr(id,delim);

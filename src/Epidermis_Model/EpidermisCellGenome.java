@@ -84,7 +84,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
         }
         String PrivGenome = MutsObtained.toString();
         if(PrivGenome.length()>0){
-                EpidermisCellGenome child=this.myTracker.NewMutant(this);
+                EpidermisCellGenome child=this.NewMutantGenome();
                 child.initEpidermisCellGenome(RN.nextFloat() * 0.9f + 0.1f, RN.nextFloat() * 0.9f + 0.1f, RN.nextFloat() * 0.9f + 0.1f, PrivGenome);
                 return child;
 

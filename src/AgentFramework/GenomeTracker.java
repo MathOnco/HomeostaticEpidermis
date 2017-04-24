@@ -79,7 +79,7 @@ public class GenomeTracker <T extends GenomeInfo> implements Iterable<T>{
     /**
      * ignore
      */
-    public T NewMutant(T parent) {
+    T NewMutant(T parent) {
         nMutations++;
         nActiveClones++;
         T child=null;
@@ -94,13 +94,16 @@ public class GenomeTracker <T extends GenomeInfo> implements Iterable<T>{
                 e.printStackTrace();
             }
         }
+        return child;
+    }
+
+    void AddMutant(T parent,T child){
         if(allGenomeInfos!=null) { allGenomeInfos.add(child.GenomeInfoStr()); }
         if(parentIDs!=null) { parentIDs.add(parent.id); }
         child._Init(this, GetNumMutations(), livingCloneInfos,null);
         child.popSize++;
         if(livingCloneInfos!=null) { livingCloneInfos.prev = child; }
         livingCloneInfos =child;
-        return child;
     }
 
     /**

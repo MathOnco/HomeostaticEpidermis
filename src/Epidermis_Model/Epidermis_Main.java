@@ -225,8 +225,7 @@ public class Epidermis_Main {
                 }
                 if (EpidermisConst.RecordLineages == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
                     FileIO MutsOut = new FileIO(MutationFile, "w");
-//                    Epidermis.GenomeStore.WriteAllLineageInfoLiving(MutsOut, ",", "\n");
-                    Epidermis.GenomeStore.WriteMutationInfo(MutsOut, "\n");
+                    Epidermis.GenomeStore.WriteAllLineageInfoLiving(MutsOut, ",", "\n");
                     MutsOut.Close();
                     System.out.println("Lineage genomes written to file.");
                 }
