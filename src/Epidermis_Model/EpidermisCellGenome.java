@@ -38,11 +38,12 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     End New Information To Keep Inside the Model!!!!!
      */
 
-    EpidermisCellGenome(float r, float b, float g, String PrivateGenome) {
+     EpidermisCellGenome initEpidermisCellGenome(float r, float b, float g, String PrivateGenome) {
         this.r = r;
         this.b = b;
         this.g = g;
         this.PrivateGenome = PrivateGenome;
+        return this;
     }
 
     @Override
@@ -64,26 +65,29 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
                     MutsObtained.append(MutOut);
                 }
             }
-            else {
-                if(EpidermisConst.GuiOn == false) {
-                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
-                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
-                    for (int hits = 0; hits < mutations; hits++) {
-                        int mutIndex = RN.nextInt(999999999);
-                        String MutOut = "";
-                        if(j==ExpectedMuts.length-1){
-                            MutOut = j + "." + mutIndex;
-                        } else {
-                            MutOut = j + "." + mutIndex + ",";
-                        }
-                        MutsObtained.append(MutOut);
-                    }
-                }
-            }
+//            else {
+//                if(EpidermisConst.GuiOn == false) {
+//                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
+//                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
+//                    for (int hits = 0; hits < mutations; hits++) {
+//                        int mutIndex = RN.nextInt(999999999);
+//                        String MutOut = "";
+//                        if(j==ExpectedMuts.length-1){
+//                            MutOut = j + "." + mutIndex;
+//                        } else {
+//                            MutOut = j + "." + mutIndex + ",";
+//                        }
+//                        MutsObtained.append(MutOut);
+//                    }
+//                }
+//            }
         }
         String PrivGenome = MutsObtained.toString();
         if(PrivGenome.length()>0){
-            return new EpidermisCellGenome(RN.nextFloat() * 0.9f + 0.1f, RN.nextFloat() * 0.9f + 0.1f, RN.nextFloat() * 0.9f + 0.1f, PrivGenome);
+                EpidermisCellGenome child=this.NewMutantGenome();
+                child.initEpidermisCellGenome(RN.nextFloat() * 0.9f + 0.1f, RN.nextFloat() * 0.9f + 0.1f, RN.nextFloat() * 0.9f + 0.1f, PrivGenome);
+                return child;
+
         } else{
             return null; // If No Mutation Occurs
         }

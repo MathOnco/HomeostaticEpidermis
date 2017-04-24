@@ -1,14 +1,18 @@
 package AgentFramework;
 
-import java.util.ArrayList;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 /**
  * should be instantiated GenomeTracker<myGenomeInfoType>
  */
-public class GenomeTracker <T extends GenomeInfo>{
+public class GenomeTracker <T extends GenomeInfo> implements Iterable<T>{
     ArrayList<Integer> parentIDs;
     ArrayList<String> allGenomeInfos;
     ArrayList<int[]> CloneCounts;
+    final ArrayList<T> deadClones;
+    final Constructor<?> builder;
     T livingCloneInfos;
     final T progenitors;
     int nMutations=0;
@@ -21,6 +25,8 @@ public class GenomeTracker <T extends GenomeInfo>{
      * @param trackGenomeInfos whether to track the genome information
      */
     public GenomeTracker(T progenitorGenome,boolean trackParents,boolean trackGenomeInfos){
+        this.builder=progenitorGenome.getClass().getDeclaredConstructors()[0];
+        deadClones=new ArrayList<>();
         CloneCounts=new ArrayList<>();
         progenitors = progenitorGenome;
         if(trackParents) {
@@ -32,6 +38,27 @@ public class GenomeTracker <T extends GenomeInfo>{
             allGenomeInfos.add(progenitors.GenomeInfoStr());
         }
         progenitorGenome._Init(this,0,null,null);
+    }
+
+    /**
+     * gets the parent ids list
+     */
+    public List<Integer> GetParentIDs(){
+        return Collections.unmodifiableList(parentIDs);
+    }
+
+    /**
+     * gets the info on all genomes
+     */
+    public List<String> GetGenomeInfos(){
+        return Collections.unmodifiableList(allGenomeInfos);
+    }
+
+    /**
+     * returns all clone counts that have been recorded
+     */
+    public List<int[]> GetCloneCounts(){
+        return Collections.unmodifiableList(CloneCounts);
     }
 
     /**
@@ -52,29 +79,44 @@ public class GenomeTracker <T extends GenomeInfo>{
     /**
      * ignore
      */
-    T AddMutant(T parent,T child) {
+    T NewMutant(T parent) {
         nMutations++;
         nActiveClones++;
+        T child=null;
+        if(deadClones.size()>0){
+            child=deadClones.remove(deadClones.size()-1);
+        }
+        else{
+            try {
+                child=(T)builder.newInstance();
+            } catch (Exception e) {
+                System.err.println("could not instantiate");
+                e.printStackTrace();
+            }
+        }
+        return child;
+    }
+
+    void AddMutant(T parent,T child){
         if(allGenomeInfos!=null) { allGenomeInfos.add(child.GenomeInfoStr()); }
         if(parentIDs!=null) { parentIDs.add(parent.id); }
-        child._Init(this,NumMutations(), livingCloneInfos,null);
+        child._Init(this, GetNumMutations(), livingCloneInfos,null);
         child.popSize++;
         if(livingCloneInfos!=null) { livingCloneInfos.prev = child; }
         livingCloneInfos =child;
-        return child;
     }
 
     /**
      * returns the total number of unique clone populations that have ever existed
      */
-    public int NumMutations(){
+    public int GetNumMutations(){
         return nMutations;
     }
 
     /**
      * returns the total number of unique clone populations that currently exist
      */
-    public int NumActiveMutantTypes(){
+    public int GetNumLivingGenomes(){
         return nActiveClones;
     }
     void DisposeClone(T cloneInfo){
@@ -83,12 +125,12 @@ public class GenomeTracker <T extends GenomeInfo>{
             System.out.println("Error! a clone popsize is less than 0!");
         }
         if(cloneInfo.popSize==0){
+            if(cloneInfo!=progenitors){
+                deadClones.add(cloneInfo);
+            }
             nActiveClones--;
             //remove livingCloneInfos with 0 population
             if(livingCloneInfos ==cloneInfo){
-                if(livingCloneInfos.prev!=null){
-                    System.out.println("something here!");
-                }
                 livingCloneInfos =(T)cloneInfo.next;
             }
             if(cloneInfo.next!=null){
@@ -151,7 +193,7 @@ public class GenomeTracker <T extends GenomeInfo>{
                 mutationInfoOut.WriteBinString(info);
             }
             else{
-                mutationInfoOut.Write(mutationInfoOut+delim);
+                mutationInfoOut.Write(info+delim);
             }
         }
     }
@@ -211,10 +253,10 @@ public class GenomeTracker <T extends GenomeInfo>{
     public void WriteAllLineageInfo(FileIO lineageInfoOut,String innerDelim,String outerDelim) {
         for (int i = 0; i < parentIDs.size(); i++) {
             if(lineageInfoOut.binary){
-                lineageInfoOut.WriteBinString(FullLineageInfoStr(i,innerDelim)+outerDelim);
+                lineageInfoOut.WriteBinString(i+innerDelim+FullLineageInfoStr(i,innerDelim)+outerDelim);
             }
             else{
-                lineageInfoOut.Write(i + innerDelim + FullLineageInfoStr(i,innerDelim)+outerDelim);
+                lineageInfoOut.Write(i+innerDelim+FullLineageInfoStr(i,innerDelim)+outerDelim);
             }
         }
     }
@@ -229,6 +271,45 @@ public class GenomeTracker <T extends GenomeInfo>{
         for (int[] counts : CloneCounts) {
             cloneCountsOut.WriteDelimit(counts,innerDelim);
             cloneCountsOut.Write(outerDelim);
+        }
+    }
+    /**
+     * writes all clone population counts stored to a file in the form outerdelim id innerdelim info innerdelim id innerdelim info... outerdelim...
+     * @param cloneCountsOut file to write clonecounts to
+     * @param innerDelim used to separate ids and infos
+     * @param outerDelim used to separate clonecount events
+     */
+    public void WriteClonePopsLineageCumulative(FileIO cloneCountsOut,String innerDelim,String outerDelim){
+        HashMap<Integer,Integer> popCounts;
+        for (int[] counts : CloneCounts) {
+            for(int i=0;i<counts.length;i+=2){
+                int id=counts[i*2];
+                int pop=counts[i*2+1];
+                while(id!=-1){
+
+                }
+            }
+            cloneCountsOut.WriteDelimit(counts,innerDelim);
+            cloneCountsOut.Write(outerDelim);
+        }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return null;
+    }
+    private class myIter implements Iterator<T>{
+        T curr;
+
+        @Override
+        public boolean hasNext() {
+            return curr.next!=null;
+        }
+
+        @Override
+        public T next() {
+            curr=(T)curr.next;
+            return curr;
         }
     }
 }

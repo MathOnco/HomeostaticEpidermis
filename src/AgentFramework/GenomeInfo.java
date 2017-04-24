@@ -1,4 +1,7 @@
 package AgentFramework;
+
+import java.util.Iterator;
+
 /**
  * should be declared myType extends GenomeInfo <myType>
  */
@@ -7,7 +10,7 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
     int popSize;
     T next;
     T prev;
-    GenomeTracker myTracker;
+    GenomeTracker<T> myTracker;
 
     /**
      * gets the current number of clones that share this genome
@@ -31,13 +34,13 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
      * removes clone from GenomeInfo population
      */
     public void DisposeClone(){
-        myTracker.DisposeClone(this);
+        myTracker.DisposeClone((T)this);
     }
 
     /**
      * adds new clone to GenomeInfo population
      */
-    public T NewChild(){
+    public T NewClone(){
         popSize++;
         return (T)this;
     }
@@ -50,9 +53,13 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
         if(nextGenome==null){
             return (T)this;
         }
+        myTracker.AddMutant((T)this,nextGenome);
         DisposeClone();
-        myTracker.AddMutant(this,nextGenome);
         return nextGenome;
+    }
+
+    public T NewMutantGenome(){
+        return myTracker.NewMutant((T)this);
     }
     public String FullLineageInfoStr(String delim){
         return myTracker.FullLineageInfoStr(id,delim);
@@ -60,7 +67,7 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
 
     /**
      * a potential mutation event, return null if the genome did not change, otherwise return a new genome with the change inside
-     * do not change the calling genome!!!!!!!!!!!!!!
+     * do not change the parent genome!!!!!!!!!!!!!!
      */
     public abstract T _RunPossibleMutation();
 
