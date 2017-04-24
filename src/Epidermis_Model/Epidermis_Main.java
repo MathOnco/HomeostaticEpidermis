@@ -29,8 +29,8 @@ class EpidermisConst{
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = false; // use for visualization
-    static final boolean JarFile = true; // Set to true if running from command line as jar file
+    static final boolean GuiOn = true; // use for visualization
+    static final boolean JarFile = false; // Set to true if running from command line as jar file
     static final boolean RecordParents = true; // use when you want parents information
     static final boolean RecordLineages = true; // use when you want
     static final boolean RecordPopSizes = true; // Use to record clone population sizes
@@ -225,7 +225,8 @@ public class Epidermis_Main {
                 }
                 if (EpidermisConst.RecordLineages == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
                     FileIO MutsOut = new FileIO(MutationFile, "w");
-                    Epidermis.GenomeStore.WriteAllLineageInfoLiving(MutsOut, ",", "\n");
+//                    Epidermis.GenomeStore.WriteAllLineageInfoLiving(MutsOut, ",", "\n");
+                    Epidermis.GenomeStore.WriteMutationInfo(MutsOut, "\n");
                     MutsOut.Close();
                     System.out.println("Lineage genomes written to file.");
                 }
