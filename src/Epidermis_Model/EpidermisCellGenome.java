@@ -63,22 +63,22 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
                     MutsObtained.append(MutOut);
                 }
             }
-            else {
-                if(EpidermisConst.GuiOn == false) {
-                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
-                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
-                    for (int hits = 0; hits < mutations; hits++) {
-                        int mutIndex = RN.nextInt(999999999);
-                        String MutOut = "";
-                        if(j==ExpectedMuts.length-1){
-                            MutOut = j + ".N." + mutIndex;
-                        } else {
-                            MutOut = j + ".N." + mutIndex + ",";
-                        }
-                        MutsObtained.append(MutOut);
-                    }
-                }
-            }
+//            else {
+//                if(EpidermisConst.GuiOn == false) {
+//                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
+//                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
+//                    for (int hits = 0; hits < mutations; hits++) {
+//                        int mutIndex = RN.nextInt(999999999);
+//                        String MutOut = "";
+//                        if(j==ExpectedMuts.length-1){
+//                            MutOut = j + ".N." + mutIndex;
+//                        } else {
+//                            MutOut = j + ".N." + mutIndex + ",";
+//                        }
+//                        MutsObtained.append(MutOut);
+//                    }
+//                }
+//            }
         }
         String PrivGenome = MutsObtained.toString();
         if(PrivGenome.length()>0){
