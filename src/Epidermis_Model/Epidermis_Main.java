@@ -216,6 +216,8 @@ public class Epidermis_Main {
             /*
             All Model Data Recording Is Below This line
              */
+            Epidermis.GenomeStore.RecordClonePops();
+
             if(EpidermisConst.writeValues==true) {
                 if (EpidermisConst.RecordParents == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
                     FileIO ParentOut = new FileIO(ParentFile, "w");
@@ -231,7 +233,7 @@ public class Epidermis_Main {
                 }
                 if (EpidermisConst.RecordPopSizes == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
                     FileIO PopSizeOut = new FileIO(PopSizes, "w");
-                    Epidermis.GenomeStore.RecordClonePops();
+                    //Epidermis.GenomeStore.RecordClonePops(); // Used when you only what last time point
                     Epidermis.GenomeStore.WriteClonePops(PopSizeOut, ",", "\n");
                     PopSizeOut.Close();
                     System.out.println("Population sizes written to file.");
