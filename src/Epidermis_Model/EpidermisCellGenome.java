@@ -15,16 +15,6 @@ import static Epidermis_Model.EpidermisCell.RNEngine;
 
 
 public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
-    /**
-     * parameters that may be changed for cell behavior
-     **/
-    double prolif_scale_factor = 0.07610124; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
-    double KERATINO_EGF_CONSPUMPTION = -0.002269758; //consumption rate by keratinocytes
-    double KERATINO_APOPTOSIS_EGF = 0.3358162; //level at which apoptosis occurs by chance (above this and no apoptosis)
-    double DEATH_PROB = 0.01049936; //Overall Death Probability
-    double MOVEPROBABILITY = 0.3657964; //RN float has to be greater than this to move...
-    double DIVISIONLOCPROB = 0.8315265; // Probability of dividing up vs side to side
-
     /*
     New Information To Keep Inside the Model!!!!! Official Information
      */
@@ -40,10 +30,21 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     private static final long[][][] BaseIndex = ParseBaseIndexes();
     private static final String[] Base = new String[]{"A","C","G","T"};
     static final Random RN=new Random();
+    static final Beta beta_dist = new Beta(15, 1, RNEngine);
     String PrivateGenome;
     float r;
     float b;
     float g;
+
+    /*
+     parameters that may be changed for cell behavior
+     */
+    double prolif_scale_factor = 0.07610124; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
+    double KERATINO_EGF_CONSPUMPTION = -0.002269758; //consumption rate by keratinocytes
+    double KERATINO_APOPTOSIS_EGF = 0.3358162; //level at which apoptosis occurs by chance (above this and no apoptosis)
+    double DEATH_PROB = 0.01049936; //Overall Death Probability
+    double MOVEPROBABILITY = 0.3657964; //RN float has to be greater than this to move...
+    double DIVISIONLOCPROB = 0.8315265; // Probability of dividing up vs side to side
     /*
     End New Information To Keep Inside the Model!!!!!
      */
@@ -61,16 +62,9 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
         StringBuilder MutsObtained = new StringBuilder();
         for(int j=0; j<ExpectedMuts.length; j++){
             if (j!=0) {
-                Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
+                Poisson poisson_dist = new Poisson(ExpectedMuts[j]/2, RNEngine); // Setup the Poisson distributions for each gene.
                 int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for each gene
                 for(int hits=0; hits<mutations; hits++){
-
-                    // Random DFE from Beta Distribution effecting the proliferation scale factor.
-                    Beta beta_dist = new Beta(6.0, 2.5, RNEngine);
-                    double PSFChange = beta_dist.nextDouble() - 0.9;
-                    prolif_scale_factor += PSFChange;
-
-
                     int MutatedBaseKind = Utils.RandomVariable(BaseMutProb, RN);
                     long mutIndex = BaseIndex[j-1][MutatedBaseKind][RN.nextInt(BaseIndex[j-1][MutatedBaseKind].length)];
                     String MutOut = "";
@@ -100,10 +94,16 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
 //            }
         }
         String PrivGenome = MutsObtained.toString();
+        System.out.println(prolif_scale_factor);
         if(PrivGenome.length()>0){
+            double PSFChange = (beta_dist.nextDouble() - 0.9995);
 
             EpidermisCellGenome child=this.NewMutantGenome();
+
+            child.prolif_scale_factor = this.prolif_scale_factor + PSFChange / 10;
+
             child.initEpidermisCellGenome(RN.nextFloat() * 0.9f + 0.1f, RN.nextFloat() * 0.9f + 0.1f, RN.nextFloat() * 0.9f + 0.1f, PrivGenome);
+            // Random DFE from Beta Distribution effecting the proliferation scale factor.
             return child;
 
         } else{
