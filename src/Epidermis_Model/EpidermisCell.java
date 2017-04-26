@@ -20,15 +20,6 @@ import static Epidermis_Model.EpidermisConst.*;
 
 
 class EpidermisCell extends AgentSQ2<EpidermisGrid> {
-    /**
-     * parameters that may be changed for cell behavior
-     **/
-    double prolif_scale_factor = 0.07610124; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
-    double KERATINO_EGF_CONSPUMPTION = -0.002269758; //consumption rate by keratinocytes
-    double KERATINO_APOPTOSIS_EGF = 0.3358162; //level at which apoptosis occurs by chance (above this and no apoptosis)
-    double DEATH_PROB = 0.01049936; //Overall Death Probability
-    double MOVEPROBABILITY = 0.3657964; //RN float has to be greater than this to move...
-    double DIVISIONLOCPROB = 0.8315265; // Probability of dividing up vs side to side
     static int pro_count = 0;
     static int pro_count_basal = 0;
     static int loss_count_basal = 0;
@@ -47,6 +38,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         this.Action = STATIONARY;
         // Storing Genome Reference to Parent and Itself if mutation happened
         this.myGenome = myGenome;
+
     }
 
     // Set coords array using this function
@@ -69,10 +61,10 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     // Gets where a cell is dividing if it's a basal cell and is proliferating
     public int ProlifLoc(){
         double divideWhere = G().RN.nextDouble();
-        double OtherOptionProb=(1-DIVISIONLOCPROB)/2.0;
-        if(divideWhere<=DIVISIONLOCPROB){
+        double OtherOptionProb=(1-myGenome.DIVISIONLOCPROB)/2.0;
+        if(divideWhere<=myGenome.DIVISIONLOCPROB){
             return 2; // Dividing up
-        } else if(divideWhere>(DIVISIONLOCPROB+OtherOptionProb)){
+        } else if(divideWhere>(myGenome.DIVISIONLOCPROB+OtherOptionProb)){
             return 0; // Dividing right
         } else {
             return 1; // Dividing Left
@@ -87,7 +79,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         int iDivLoc;
 
         // If EGF is low then next double is likely to be higher...Results in no proliferation
-        if (myType == KERATINOCYTE && G().RN.nextDouble() > G().EGF.SQgetCurr(x, y) * prolif_scale_factor) {
+        if (myType == KERATINOCYTE && G().RN.nextDouble() > G().EGF.SQgetCurr(x, y) * myGenome.prolif_scale_factor) {
             return false;
         }
 
@@ -174,18 +166,18 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             itDead();
             return;
         }
-        if (G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < (Math.pow(1.0 - G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF, 5))) {
+        if (G().EGF.SQgetCurr(x, y) < myGenome.KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < (Math.pow(1.0 - G().EGF.SQgetCurr(x, y) / myGenome.KERATINO_APOPTOSIS_EGF, 5))) {
             //DEATH FROM LACK OF NUTRIENTS KERATINOCYTE
             itDead();
             return;
         }
-        if(RN.nextDouble() < DEATH_PROB){
+        if(RN.nextDouble() < myGenome.DEATH_PROB){
             //Random Fucked
             itDead();
             return;
         }
 
-        if (G().RN.nextFloat() >= MOVEPROBABILITY) {
+        if (G().RN.nextFloat() >= myGenome.MOVEPROBABILITY) {
             int iMoveCoord = GetMoveCoords(); // -1 if not moving
             if (iMoveCoord != -1) {
                 Move(G().inBounds[iMoveCoord]); // We are moving

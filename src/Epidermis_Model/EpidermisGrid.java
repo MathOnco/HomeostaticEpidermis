@@ -196,7 +196,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         EGF.Diffuse(EGF_DIFFUSION_RATE,false,0,true);
         //CELL CONSUMPTION
         for (EpidermisCell c: this) {
-                EGF.IaddNext(c.Isq(), c.KERATINO_EGF_CONSPUMPTION*EGF.IgetCurr(c.Isq()));
+                EGF.IaddNext(c.Isq(), c.myGenome.KERATINO_EGF_CONSPUMPTION*EGF.IgetCurr(c.Isq()));
         }
 
         //DECAY RATE
