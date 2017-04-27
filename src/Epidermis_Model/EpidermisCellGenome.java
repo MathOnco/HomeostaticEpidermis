@@ -30,7 +30,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     private static final long[][][] BaseIndex = ParseBaseIndexes();
     private static final String[] Base = new String[]{"A","C","G","T"};
     static final Random RN=new Random();
-    static final Beta beta_dist = new Beta(15, 1, RNEngine);
+    static final Beta beta_dist = new Beta(25, 10, RNEngine);
     String PrivateGenome;
     float r;
     float b;
@@ -62,7 +62,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
         StringBuilder MutsObtained = new StringBuilder();
         for(int j=0; j<ExpectedMuts.length; j++){
             if (j!=0) {
-                Poisson poisson_dist = new Poisson(ExpectedMuts[j]/2, RNEngine); // Setup the Poisson distributions for each gene.
+                Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
                 int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for each gene
                 for(int hits=0; hits<mutations; hits++){
                     int MutatedBaseKind = Utils.RandomVariable(BaseMutProb, RN);
@@ -94,16 +94,19 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
 //            }
         }
         String PrivGenome = MutsObtained.toString();
-        System.out.println(prolif_scale_factor);
-        if(PrivGenome.length()>0){
-            double PSFChange = (beta_dist.nextDouble() - 0.9995);
 
+        if(PrivGenome.length()>0){
             EpidermisCellGenome child=this.NewMutantGenome();
 
-            child.prolif_scale_factor = this.prolif_scale_factor + PSFChange / 10;
+            // Random DFE from Beta Distribution effecting the proliferation scale factor.
+            double PSFChange = (beta_dist.nextDouble() - 0.825);
+            if (PSFChange > 0.0){
+                child.prolif_scale_factor = this.prolif_scale_factor + PSFChange;
+            } else if (PSFChange < -0.15) {
+                child.prolif_scale_factor = this.prolif_scale_factor + PSFChange + 0.15;
+            }
 
             child.initEpidermisCellGenome(RN.nextFloat() * 0.9f + 0.1f, RN.nextFloat() * 0.9f + 0.1f, RN.nextFloat() * 0.9f + 0.1f, PrivGenome);
-            // Random DFE from Beta Distribution effecting the proliferation scale factor.
             return child;
 
         } else{
