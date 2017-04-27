@@ -33,6 +33,7 @@ class EpidermisConst{
     static final boolean JarFile = true; // Set to true if running from command line as jar file
     static final boolean RecordParents = true; // use when you want parents information
     static final boolean RecordLineages = true; // use when you want
+    static final boolean TrackAll = true; // Record even outside the GOI
     static final boolean RecordPopSizes = true; // Use to record clone population sizes
     static final boolean get_r_lambda = true; // use when you want the r_lambda value
     static final boolean writeValues = true; // Use when you want to write the output
