@@ -76,7 +76,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
                     MutsObtained.append(MutOut);
                 }
             }
-//            else {
+//            /*else {
 //                if(EpidermisConst.GuiOn == false) {
 //                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
 //                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
@@ -91,7 +91,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
 //                        MutsObtained.append(MutOut);
 //                    }
 //                }
-//            }
+//            }*/
         }
         String PrivGenome = MutsObtained.toString();
 
