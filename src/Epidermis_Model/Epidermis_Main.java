@@ -31,9 +31,10 @@ class EpidermisConst{
 
     static final boolean GuiOn = false; // use for visualization
     static final boolean JarFile = true; // Set to true if running from command line as jar file
+    static final boolean RecordAllPopSizes = false; // use to record all clone populations
+    static final boolean TrackAll = false; // Use this if you want to record mutations outside the genes of interest.
     static final boolean RecordParents = true; // use when you want parents information
     static final boolean RecordLineages = true; // use when you want
-    static final boolean TrackAll = true; // Record even outside the GOI
     static final boolean RecordPopSizes = true; // Use to record clone population sizes
     static final boolean get_r_lambda = true; // use when you want the r_lambda value
     static final boolean writeValues = true; // Use when you want to write the output
@@ -217,12 +218,9 @@ public class Epidermis_Main {
             /*
             All Model Data Recording Is Below This line
              */
-            if(Epidermis.GetTick()%50==0){
-                Epidermis.GenomeStore.RecordClonePops();
-            } else if(Epidermis.GetTick()==EpidermisConst.RecordTime){
+            if(EpidermisConst.RecordAllPopSizes == true){
                 Epidermis.GenomeStore.RecordClonePops();
             }
-
             if(EpidermisConst.writeValues==true) {
                 if (EpidermisConst.RecordParents == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
                     FileIO ParentOut = new FileIO(ParentFile, "w");
@@ -238,7 +236,9 @@ public class Epidermis_Main {
                 }
                 if (EpidermisConst.RecordPopSizes == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
                     FileIO PopSizeOut = new FileIO(PopSizes, "w");
-                    //Epidermis.GenomeStore.RecordClonePops(); // Used when you only what last time point
+                    if (EpidermisConst.RecordAllPopSizes == false) {
+                        Epidermis.GenomeStore.RecordClonePops(); // Used when you only what last time point
+                    }
                     Epidermis.GenomeStore.WriteClonePops(PopSizeOut, ",", "\n");
                     PopSizeOut.Close();
                     System.out.println("Population sizes written to file.");
