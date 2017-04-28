@@ -217,7 +217,11 @@ public class Epidermis_Main {
             /*
             All Model Data Recording Is Below This line
              */
-            Epidermis.GenomeStore.RecordClonePops();
+            if(Epidermis.GetTick()%50==0){
+                Epidermis.GenomeStore.RecordClonePops();
+            } else if(Epidermis.GetTick()==EpidermisConst.RecordTime){
+                Epidermis.GenomeStore.RecordClonePops();
+            }
 
             if(EpidermisConst.writeValues==true) {
                 if (EpidermisConst.RecordParents == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
