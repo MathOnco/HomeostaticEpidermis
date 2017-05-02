@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=150; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=200; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -23,21 +23,21 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=50; // time in years.
+    static int years=65; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = false; // use for visualization
-    static final boolean JarFile = true; // Set to true if running from command line as jar file
+    static final boolean GuiOn = true; // use for visualization
+    static final boolean JarFile = false; // Set to true if running from command line as jar file
     static final boolean RecordAllPopSizes = false; // use to record all clone populations
     static final boolean TrackAll = false; // Use this if you want to record mutations outside the genes of interest.
-    static final boolean RecordParents = true; // use when you want parents information
-    static final boolean RecordLineages = true; // use when you want
-    static final boolean RecordPopSizes = true; // Use to record clone population sizes
+    static final boolean RecordParents = false; // use when you want parents information
+    static final boolean RecordLineages = false; // use when you want
+    static final boolean RecordPopSizes = false; // Use to record clone population sizes
     static final boolean get_r_lambda = true; // use when you want the r_lambda value
-    static final boolean writeValues = true; // Use when you want to write the output
+    static final boolean writeValues = false; // Use when you want to write the output
 }
 
 public class Epidermis_Main {
