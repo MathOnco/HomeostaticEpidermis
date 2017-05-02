@@ -137,7 +137,6 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         return Age/aliveCells;
     }
 
-
     public void DrawCellActivity(GuiVis vis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
         long time = System.currentTimeMillis();
         for (int x = 0; x < xDim; x++) {
@@ -161,6 +160,19 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
                     CellDraw.DrawCellonGridPop(vis, c);
                 } else {
                     CellDraw.DrawEmptyCell(vis, x, y);
+                }
+            }
+        }
+    }
+
+    public void DrawCellPopsBottom(GuiVis vis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw){
+        for(int x=0; x < xDim; x++) {
+            for(int z=0; z<zDim; z++) {
+                EpidermisCell c = Epidermis.GetAgent(x, 0, z);
+                if (c != null){
+                    CellDraw.DrawCellonGridPopZ(vis, c);
+                } else {
+                    CellDraw.DrawEmptyCell(vis, x, z);
                 }
             }
         }

@@ -65,7 +65,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
                 }
             }
             else {
-                if(EpidermisConst.GuiOn == true) {
+                if(EpidermisConst.RecordAll == true && EpidermisConst.GuiOn == true) {
                     Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
                     int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
                     for (int hits = 0; hits < mutations; hits++) {
