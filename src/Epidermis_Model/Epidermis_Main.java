@@ -145,7 +145,9 @@ public class Epidermis_Main {
         TickRateTimer tickIt = new TickRateTimer();
         while(Epidermis.GetTick() < EpidermisConst.ModelTime){
 
-            tickIt.TickPause(0); // Adjusting a frame rate
+//            if (Epidermis.GetTick()==30){
+//                tickIt.TickPause(100000); // Adjusting a frame rate
+//            }
 
             // Main Running of the steps within the model
             Epidermis.RunStep();
@@ -153,23 +155,24 @@ public class Epidermis_Main {
             /*
             All Injuries Occuring Here!
              */
-//            int healTick=0;
-//
-//            if(Healed && Epidermis.GetTick()%365==0){
-//                Epidermis.inflict_wound();
-//                woundTick=Epidermis.GetTick();
-//                Healed = false;
-//            }
-//
-//            if(!Healed && Epidermis.GetTick()%365!=0) {
-//                Healed = Epidermis.checkWoundHeal((int) avgHeight);
-//                healTick = Epidermis.GetTick();
-//                if (Healed && HealLab != null) {
-//                    if (HealLab != null) {
-//                        HealLab.setText("Heal Time (Days): " + new DecimalFormat("#.0").format((healTick - woundTick)));
-//                    }
-//                }
-//            }
+            int healTick=0;
+
+            if(Healed && Epidermis.GetTick()==735){
+                Epidermis.inflict_wound();
+                tickIt.TickPause(0); // Adjusting a frame rate
+                woundTick=Epidermis.GetTick();
+                Healed = false;
+            }
+
+            if(!Healed && Epidermis.GetTick()!=15) {
+                Healed = Epidermis.checkWoundHeal((int) avgHeight);
+                healTick = Epidermis.GetTick();
+                if (Healed && HealLab != null) {
+                    if (HealLab != null) {
+                        HealLab.setText("Heal Time (Days): " + new DecimalFormat("#.0").format((healTick - woundTick)));
+                    }
+                }
+            }
 
 
             /*
