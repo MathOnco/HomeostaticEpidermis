@@ -205,7 +205,9 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         EGF.Diffuse(EGF_DIFFUSION_RATE,false,0,true);
         //CELL CONSUMPTION
         for (EpidermisCell c: this) {
-                EGF.AddNext(c.Xsq(),c.Ysq(),c.Zsq(), c.KERATINO_EGF_CONSPUMPTION*EGF.GetCurr(c.Xsq(), c.Ysq(), c.Zsq()));
+//                EGF.AddNext(c.Xsq(),c.Ysq(),c.Zsq(), c.KERATINO_EGF_CONSPUMPTION*EGF.GetCurr(c.Xsq(), c.Ysq(), c.Zsq()));
+                EGF.AddNext(c.Xsq(),c.Ysq(),c.Zsq(), -0.05*EGF.GetCurr(c.Xsq(), c.Ysq(), c.Zsq()));
+
         }
 
         //DECAY RATE

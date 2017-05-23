@@ -174,7 +174,7 @@ public class Epidermis_Main {
 //                    }
 //                }
 //            }
-            Epidermis.GetEGFVal();
+            if(Epidermis.GetTick()<=365){Epidermis.GetEGFVal();}
 
             /*
             rLambda Value calculations, output, and recording
