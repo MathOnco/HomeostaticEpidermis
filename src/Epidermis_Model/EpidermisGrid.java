@@ -212,4 +212,13 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         //SWAP CURRENT FOR NEXT
         EGF.SwapNextCurr();
     }
+
+    public void GetEGFVal(){
+        StringBuilder EGFCons = new StringBuilder();
+        for (int y=0; y < yDim; y++) {
+            String out = String.valueOf(EGF.SQgetCurr(xDim/2, y)) + "\t";
+            EGFCons.append(out);
+        }
+        System.out.println(EGFCons.toString());
+    }
 }
