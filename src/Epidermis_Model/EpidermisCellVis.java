@@ -21,6 +21,15 @@ public class EpidermisCellVis {
         }
     }
 
+    public void DrawCellonGridPopZ(GuiVis vis, EpidermisCell theCell){
+        for(int z=0;z<5;z++){
+            for(int x=0;x<5;x++){
+                int cVal=stationary_vis[x+z*5];
+                vis.SetColor(theCell.Xsq()*5+x, theCell.Zsq()*5+z,cVal*theCell.myGenome.r,cVal*theCell.myGenome.g,cVal*theCell.myGenome.b);
+            }
+        }
+    }
+
     public void DrawCellonGrid(GuiVis vis, EpidermisCell theCell){
         switch (theCell.Action) {
             case EpidermisConst.DIVIDE:

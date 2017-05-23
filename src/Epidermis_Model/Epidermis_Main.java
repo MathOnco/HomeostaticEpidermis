@@ -37,6 +37,7 @@ class EpidermisConst{
     static final boolean RecordPopSizes = false; // Use to record clone population sizes
     static final boolean get_r_lambda = true; // use when you want the r_lambda value
     static final boolean writeValues = false;
+    static final boolean RecordAll = false;
 }
 
 public class Epidermis_Main {
@@ -60,6 +61,7 @@ public class Epidermis_Main {
         GuiVis DeathVis = null;
         GuiVis DeathLayerVis = null;
         GuiVis ClonalVis = null;
+        GuiVis BottomVis = null;
         GuiLabel YearLab = null;
         GuiLabel rLambda_Label = null;
         GuiLabel OldestCell = null;
@@ -109,6 +111,7 @@ public class Epidermis_Main {
             DeathVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
             DeathLayerVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
             ActivityVis = new GuiVis(EpidermisConst.xSize * 5, EpidermisConst.ySize * 5, 1, 2, 1); // Main Epidermis visualization window
+            BottomVis = new GuiVis(EpidermisConst.xSize*5, EpidermisConst.zSize*5, 1,1,1);
             EGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
             YearLab = LabelGuiSet("Age (Yrs.): ", 1, 1);
             MainGUI.AddCol(YearLab, 0);
@@ -121,6 +124,7 @@ public class Epidermis_Main {
             MainGUI.AddCol(rLambda_Label, 1);
             MainGUI.AddCol(OldestCell, 1);
             MainGUI.AddCol(LabelGuiSet("Population", 2, 1), 0);
+            MainGUI.AddCol(BottomVis, 0);
             MainGUI.AddCol(ClonalVis, 0);
             MainGUI.AddCol(LabelGuiSet("Division (per week)", 1, 1), 0);
             MainGUI.AddCol(DivVis, 0);
@@ -209,6 +213,7 @@ public class Epidermis_Main {
             if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);} // 3D Good
             if(OldestCell!=null){OldestCell.setText("Mean cell age (days): " + new DecimalFormat("#.00").format(Epidermis.GetOldestCell(Epidermis)));}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
+            if(BottomVis!=null){Epidermis.DrawCellPopsBottom(BottomVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);} // 3D Good
             if(Epidermis.GetTick()==26){
                 avgHeight=(Epidermis.popSum*1.0/Epidermis.GetTick())/Epidermis.xDim;
