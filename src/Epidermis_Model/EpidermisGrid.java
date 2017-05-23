@@ -223,4 +223,13 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         //SWAP CURRENT FOR NEXT
         EGF.SwapNextCurr();
     }
+
+    public void GetEGFVal(){
+        StringBuilder EGFCons = new StringBuilder();
+        for (int y=0; y < yDim; y++) {
+            String out = String.valueOf(EGF.GetCurr(xDim/2, y, zDim/2)) + "\t";
+            EGFCons.append(out);
+        }
+        System.out.println(EGFCons.toString());
+    }
 }
