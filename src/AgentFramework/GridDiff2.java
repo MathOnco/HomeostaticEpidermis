@@ -118,8 +118,8 @@ public class GridDiff2 extends GridBase {
      * @param boundaryValue only applies when boundaryCond is true, the boundary condition value
      * @param wrapX whether to wrap the field over the left and right boundaries
      */
-    public void Diffuse(double diffRate,boolean boundaryCond,double boundaryValue,boolean wrapX){
-        Utils.Diffusion(field,swap,xDim,yDim,diffRate,boundaryCond,boundaryValue,wrapX);
+    public void Diffuse(double diffRate,boolean boundaryCond,double boundaryValue,boolean wrapX, boolean wrapY){
+        Utils.Diffusion(field,swap,xDim,yDim,diffRate,boundaryCond,boundaryValue,wrapX, wrapY);
     }
 
     /**
