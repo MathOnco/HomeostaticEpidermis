@@ -62,11 +62,13 @@ public class Epidermis_Main {
         GuiVis DeathLayerVis = null;
         GuiVis ClonalVis = null;
         GuiVis BottomVis = null;
+        GuiVis BottomVisMove = null;
         GuiLabel YearLab = null;
         GuiLabel rLambda_Label = null;
         GuiLabel OldestCell = null;
         GuiLabel HealLab = null;
         GuiLabel HeightLab = null;
+        GuiLabel NullLabel = null;
         EpidermisCellVis CellDraw = null;
         ArrayList<Float> r_lambda_WriteValue = new ArrayList();
         int r_lambda_index = 0;
@@ -111,7 +113,8 @@ public class Epidermis_Main {
             DeathVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
             DeathLayerVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
             ActivityVis = new GuiVis(EpidermisConst.xSize * 5, EpidermisConst.ySize * 5, 1, 2, 1); // Main Epidermis visualization window
-            BottomVis = new GuiVis(EpidermisConst.xSize*5, EpidermisConst.zSize*5, 1,1,1);
+            BottomVis = new GuiVis(EpidermisConst.xSize*6, EpidermisConst.zSize*6, 1,1,1);
+            BottomVisMove = new GuiVis(EpidermisConst.xSize*6, EpidermisConst.zSize*6, 1,1,1);
             EGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
             YearLab = LabelGuiSet("Age (Yrs.): ", 1, 1);
             MainGUI.AddCol(YearLab, 0);
@@ -121,10 +124,13 @@ public class Epidermis_Main {
             MainGUI.AddCol(HeightLab, 0);
             OldestCell = LabelGuiSet("Oldest Cell: ", 1, 1);
             rLambda_Label = LabelGuiSet("rLambda: ", 1, 1);
-//            MainGUI.AddCol(rLambda_Label, 1);
-//            MainGUI.AddCol(OldestCell, 1);
-            MainGUI.AddCol(LabelGuiSet("Population", 2, 1), 0);
+            MainGUI.AddCol(rLambda_Label, 1);
+            MainGUI.AddCol(OldestCell, 1);
+            NullLabel = LabelGuiSet(" ", 1, 1);
+            MainGUI.AddCol(NullLabel,1);
             MainGUI.AddCol(BottomVis, 0);
+            MainGUI.AddCol(BottomVisMove, 1);
+            MainGUI.AddCol(LabelGuiSet("Population", 2, 1), 0);
             MainGUI.AddCol(ClonalVis, 0);
             MainGUI.AddCol(LabelGuiSet("Division (per week)", 1, 1), 0);
             MainGUI.AddCol(DivVis, 0);
@@ -217,9 +223,10 @@ public class Epidermis_Main {
             if(OldestCell!=null){OldestCell.setText("Mean cell age (days): " + new DecimalFormat("#.00").format(Epidermis.GetOldestCell(Epidermis)));}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(BottomVis!=null){Epidermis.DrawCellPopsBottom(BottomVis, Epidermis, CellDraw);}
+            if(BottomVisMove!=null){Epidermis.DrawCellPopsBottomActivity(BottomVisMove, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);} // 3D Good
             if(Epidermis.GetTick()==26){
-                avgHeight=(Epidermis.popSum*1.0/Epidermis.GetTick())/Epidermis.xDim;
+                avgHeight=(Epidermis.popSum*1.0/Epidermis.GetTick())/Epidermis.xDim/Epidermis.zDim;
                 if(HeightLab!=null){HeightLab.setText("Height: " + new DecimalFormat("#.00").format(avgHeight));}
             }
 

@@ -64,6 +64,40 @@ public class EpidermisCellVis {
         }
     }
 
+    public void DrawCellonGrid3D(GuiVis vis, EpidermisCell theCell){
+        switch (theCell.Action) {
+            case EpidermisConst.DIVIDE:
+                for(int z=0;z<5;z++){
+                    for(int x=0;x<5;x++){
+                        int cVal=division_vis[x+z*5];
+                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.r,cVal*theCell.g,cVal*theCell.b);
+                        vis.SetColor(theCell.Xsq()*5+x, theCell.Zsq()*5+z,cVal*1f,cVal*0f,cVal* 0f);
+                    }
+                }
+                break;
+            case EpidermisConst.MOVING:
+                for(int z=0;z<5;z++){
+                    for(int x=0;x<5;x++){
+                        int cVal=movement_vis[x+z*5];
+                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.r,cVal*theCell.g,cVal*theCell.b);
+                        vis.SetColor(theCell.Xsq()*5+x, theCell.Zsq()*5+z,cVal*.5f,cVal*1f,cVal* 0f);
+                    }
+                }
+                break;
+            case EpidermisConst.STATIONARY:
+                for(int z=0;z<5;z++){
+                    for(int x=0;x<5;x++){
+                        int cVal=stationary_vis[x+z*5];
+                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.r,cVal*theCell.g,cVal*theCell.b);
+                        vis.SetColor(theCell.Xsq()*5+x, theCell.Zsq()*5+z,cVal*0f,cVal*0f,cVal* 1f);
+                    }
+                }
+                break;
+            default:
+                System.out.println("ERROR: Unable to draw cell. Cell Action not found.");
+        }
+    }
+
     public void DrawEmptyCell(GuiVis vis, int x, int y){
         for(int i=0; i<5; i++){
             for(int j=0; j<5; j++){

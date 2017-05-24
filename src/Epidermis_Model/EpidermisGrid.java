@@ -178,7 +178,21 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         }
     }
 
-    // Inflicting a wound to simulate wound repair...
+    public void DrawCellPopsBottomActivity(GuiVis vis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
+        long time = System.currentTimeMillis();
+        for (int x = 0; x < xDim; x++) {
+            for (int z = 0; z < zDim; z++) {
+                EpidermisCell c = Epidermis.GetAgent(x, 0, z);
+                if (c != null) {
+                    CellDraw.DrawCellonGrid3D(vis, c);
+                } else {
+                    CellDraw.DrawEmptyCell(vis, x, z);
+                }
+            }
+        }
+    }
+
+        // Inflicting a wound to simulate wound repair...
     public void inflict_wound(){
         for (int x = 37; x < 37*3; x++){
             for (int y=0; y < yDim; y++) {
