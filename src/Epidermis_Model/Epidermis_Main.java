@@ -24,7 +24,7 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=1; // time in years.
+    static int years=5; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
@@ -121,8 +121,8 @@ public class Epidermis_Main {
             MainGUI.AddCol(HeightLab, 0);
             OldestCell = LabelGuiSet("Oldest Cell: ", 1, 1);
             rLambda_Label = LabelGuiSet("rLambda: ", 1, 1);
-            MainGUI.AddCol(rLambda_Label, 1);
-            MainGUI.AddCol(OldestCell, 1);
+//            MainGUI.AddCol(rLambda_Label, 1);
+//            MainGUI.AddCol(OldestCell, 1);
             MainGUI.AddCol(LabelGuiSet("Population", 2, 1), 0);
             MainGUI.AddCol(BottomVis, 0);
             MainGUI.AddCol(ClonalVis, 0);
@@ -266,6 +266,7 @@ public class Epidermis_Main {
                 }
             }
         }
+
         Utils.PrintMemoryUsage();
     }
 }

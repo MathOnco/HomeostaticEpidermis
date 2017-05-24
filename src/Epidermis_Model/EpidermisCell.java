@@ -75,16 +75,19 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         double OtherOptionProb=(1-DIVISIONLOCPROB)/4.0;
         if(divideWhere<=DIVISIONLOCPROB){
             return 2; // Dividing up
-        } else if(divideWhere>(DIVISIONLOCPROB+OtherOptionProb)){
+        } else if(divideWhere <= (DIVISIONLOCPROB+OtherOptionProb)){
+
             return 0; // Dividing right
-        } else if (divideWhere>(DIVISIONLOCPROB+OtherOptionProb) && divideWhere <= (DIVISIONLOCPROB+OtherOptionProb*2)){
+        } else if (divideWhere <= (DIVISIONLOCPROB+OtherOptionProb*2)){
+
             return 1; // Dividing Left
-        } else if (divideWhere>(DIVISIONLOCPROB+OtherOptionProb*2) && divideWhere <= (DIVISIONLOCPROB+OtherOptionProb*3)) {
+        } else if (divideWhere <= (DIVISIONLOCPROB+OtherOptionProb*3)) {
+
             return 3; // Dividing front
         } else {
+
             return 4; // Dividing back
         }
-        //TODO Need to fix this probability so that the probability is shared in the x and z dimentsions
     }
 
 
