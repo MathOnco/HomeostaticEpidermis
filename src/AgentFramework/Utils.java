@@ -760,7 +760,7 @@ public final class Utils {
      * @param xDim x dimenison of the inGrid and outGrid
      * @param yDim y dimension of the inGrid and outGrid
      * @param zDim z dimension of the inGrid and outGrid
-     * @param diffRate diffusion rate for the diffusion equaition
+     * @param diffRate diffusion rate for the diffusion equation
      * @param boundaryCond defines whether a constant boundary condition value should diffuse in from the boundaries
      * @param boundaryValue only impacts diffusion if boundaryCond is true, sets the boundary condition value
      * @param wrapXZ whether to wrap around diffusion over the left and right and front and back boundaries

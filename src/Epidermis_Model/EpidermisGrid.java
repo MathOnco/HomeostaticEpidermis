@@ -197,6 +197,8 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         //CELL CONSUMPTION
         for (EpidermisCell c: this) {
                 EGF.IaddNext(c.Isq(), c.KERATINO_EGF_CONSPUMPTION*EGF.IgetCurr(c.Isq()));
+//                EGF.IaddNext(c.Isq(), -0.05*EGF.IgetCurr(c.Isq()));
+
         }
 
         //DECAY RATE
