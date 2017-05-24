@@ -741,90 +741,78 @@ public final class Utils {
      * @param diffRate diffusion rate for the diffusion equation
      * @param boundaryCond defines whether a constant boundary condition value should diffuse in from the boundaries
      * @param boundaryValue only impacts diffusion if boundaryCond is true, sets the boundary condition value
-     * @param wrapXZ whether to wrap around diffusion over the left and right and front and back boundaries
+     * @param wrapX whether to wrap around diffusion over the left and right and front and back boundaries
      */
-    public static void Diffusion3(double []inGrid,double[]outGrid,int xDim, int yDim,int zDim,double
-            diffRate, boolean boundaryCond,double boundaryValue,boolean wrapXZ) {
-        int x,y,z,count;
+    public static void Diffusion3(final double[] inGrid, final double[] outGrid, final int xDim, final int yDim, final int zDim, final double
+            diffRate, final boolean boundaryCond, final double boundaryValue, final boolean wrapX,final boolean wrapY,final boolean wrapZ) {
+        int x, y, z;
         double valSum;
         for (x = 0; x < xDim; x++) {
             for (y = 0; y < yDim; y++) {
                 for (z = 0; z < zDim; z++) {
                     //6 squares to check
-                    count=0;
-                    valSum=0;
-                    if(InDim(xDim,x+1)){
-                        valSum+=inGrid[(x+1)*yDim*zDim+(y)*zDim+(z)];
-                        count++;
-                    }
-                    else if(wrapXZ){
-                        valSum+=inGrid[(0)*yDim*zDim+(y)*zDim+(z)];
-                        count++;
-                    }
-                    else if(boundaryCond){
-                        valSum+=boundaryValue;
-                        count++;
-                    }
-
-                    if(InDim(xDim,x-1)){
+                    valSum = 0;
+                    if (InDim(xDim, x + 1)) {
+                        valSum += inGrid[(x + 1) * yDim * zDim + (y) * zDim + (z)];
+                    }  else if (boundaryCond) {
+                        valSum += boundaryValue;
+                    }else if (wrapX) {
+                        valSum += inGrid[(0) * yDim * zDim + (y) * zDim + (z)];
+                    } else{
                         valSum+=inGrid[(x-1)*yDim*zDim+(y)*zDim+(z)];
-                        count++;
-                    }
-                    else if(wrapXZ){
-                        valSum+=inGrid[(xDim-1)*yDim*zDim+(y)*zDim+(z)];
-                        count++;
-                    }
-                    else if(boundaryCond){
-                        valSum+=boundaryValue;
-                        count++;
                     }
 
-                    if(InDim(yDim,y+1)){
-                        valSum+=inGrid[(x)*yDim*zDim+(y+1)*zDim+(z)];
-                        count++;
-                    }
-                    else if(boundaryCond){
-                        valSum+=boundaryValue;
-                        count++;
-                    }
-
-                    if(InDim(yDim,y-1)){
-                        valSum+=inGrid[(x)*yDim*zDim+(y-1)*zDim+(z)];
-                        count++;
-                    }
-                    else if(boundaryCond){
-                        valSum+=boundaryValue;
-                        count++;
+                    if (InDim(xDim, x - 1)) {
+                        valSum += inGrid[(x - 1) * yDim * zDim + (y) * zDim + (z)];
+                    }  else if (boundaryCond) {
+                        valSum += boundaryValue;
+                    }else if (wrapX) {
+                        valSum += inGrid[(xDim - 1) * yDim * zDim + (y) * zDim + (z)];
+                    } else{
+                        valSum += inGrid[(x + 1) * yDim * zDim + (y) * zDim + (z)];
                     }
 
-                    if(InDim(zDim,z+1)){
-                        valSum+=inGrid[(x)*yDim*zDim+(y)*zDim+(z+1)];
-                        count++;
-                    }
-                    else if(wrapXZ){
-                        valSum+=inGrid[(x)*yDim*zDim+(y)*zDim+(0)];
-                        count++;
-                    }
-                    else if(boundaryCond){
-                        valSum+=boundaryValue;
-                        count++;
+                    if (InDim(yDim, y + 1)) {
+                        valSum += inGrid[(x) * yDim * zDim + (y + 1) * zDim + (z)];
+                    } else if (boundaryCond) {
+                        valSum += boundaryValue;
+                    } else if(wrapY){
+                        valSum += inGrid[(x) * yDim * zDim + (0) * zDim + (z)];
+                    } else{
+                        valSum += inGrid[(x) * yDim * zDim + (y-1) * zDim + (z)];
                     }
 
-                    if(InDim(zDim,z-1)){
-                        valSum+=inGrid[(x)*yDim*zDim+(y)*zDim+(z-1)];
-                        count++;
-                    }
-                    else if(wrapXZ){
-                        valSum+=inGrid[(xDim-1)*yDim*zDim+(y)*zDim+(zDim-1)];
-                        count++;
-                    }
-                    else if(boundaryCond){
-                        valSum+=boundaryValue;
-                        count++;
+                    if (InDim(yDim, y - 1)) {
+                        valSum += inGrid[(x) * yDim * zDim + (y - 1) * zDim + (z)];
+                    } else if (boundaryCond) {
+                        valSum += boundaryValue;
+                    } else if(wrapY){
+                        valSum += inGrid[(x) * yDim * zDim + (yDim-1) * zDim + (z)];
+                    } else{
+                        valSum += inGrid[(x) * yDim * zDim + (y+1) * zDim + (z)];
                     }
 
-                    int i=x*yDim*zDim+y*zDim+z;
-                    outGrid[i]=inGrid[i]+diffRate*(-inGrid[i]*count+valSum);
+                    if (InDim(zDim, z + 1)) {
+                        valSum += inGrid[(x) * yDim * zDim + (y) * zDim + (z+1)];
+                    } else if (boundaryCond) {
+                        valSum += boundaryValue;
+                    } else if(wrapZ){
+                        valSum += inGrid[(x) * yDim * zDim + (y) * zDim + (0)];
+                    } else{
+                        valSum += inGrid[(x) * yDim * zDim + (y) * zDim + (z-1)];
+                    }
+
+                    if (InDim(zDim, z - 1)) {
+                        valSum += inGrid[(x) * yDim * zDim + (y) * zDim + (z-1)];
+                    } else if (boundaryCond) {
+                        valSum += boundaryValue;
+                    } else if(wrapZ){
+                        valSum += inGrid[(x) * yDim * zDim + (y) * zDim + (zDim-1)];
+                    } else{
+                        valSum += inGrid[(x) * yDim * zDim + (y) * zDim + (z+1)];
+                    }
+                    int i = x * yDim * zDim + y * zDim + z;
+                    outGrid[i] = inGrid[i] + diffRate * (-inGrid[i] * 6 + valSum);
                 }
             }
         }
