@@ -9,42 +9,15 @@ import java.util.Arrays;
  * the intended usage is that during a diffusion step, the current values will be read, and the next values will be written to
  * after updates, SwapNextCurr is called to set the next field as the current field.
  */
-public class GridDiff3 extends GridBase {
-    final public int xDim;
-    final public int yDim;
-    final public int zDim;
-    final public int length;
+public class GridDiff3 extends GridBase3D {
     public double[] field;
     public double[] swap;
     public GridDiff3(int xDim, int yDim, int zDim){
-        this.xDim =xDim;
-        this.yDim =yDim;
-        this.zDim =zDim;
-        length=xDim*yDim*zDim;
+        super(xDim,yDim,zDim);
         field=new double[this.xDim * this.yDim * this.zDim];
         swap=new double[this.xDim * this.yDim * this.zDim];
     }
 
-    /**
-     * gets the x component of the voxel at the specified index
-     */
-    public int ItoX(int i){
-        return i/(yDim*zDim);
-    }
-
-    /**
-     * gets the y component of the voxel at the specified index
-     */
-    public int ItoY(int i){
-        return (i%xDim)/zDim;
-    }
-
-    /**
-     * gets the z component of the voxel at the specified index
-     */
-    public int ItoZ(int i){
-        return i%zDim;
-    }
     /**
      * gets the current field value at the specified index
      */
@@ -109,7 +82,7 @@ public class GridDiff3 extends GridBase {
     public void SwapNextCurr(){
         double[] temp=field;
         field=swap;
-        temp=field;
+        swap=temp;
     }
 
     /**
@@ -125,21 +98,24 @@ public class GridDiff3 extends GridBase {
      * @param diffRate rate of diffusion
      * @param boundaryCond whether a boundary condition value will diffuse in from the field boundaries
      * @param boundaryValue only applies when boundaryCond is true, the boundary condition value
-     * @param WrapXZ whether to wrap the field over the left and right and top and bottom
+     * @param wrapX whether to wrap the field over the x axis
+     * @param wrapY whether to wrap the field over the y axis
+     * @param wrapZ whether to wrap the field over the z axis
      */
-    public void Diffuse(double diffRate,boolean boundaryCond,double boundaryValue,boolean WrapXZ){
-        Utils.Diffusion3(field,swap,xDim,yDim,zDim,diffRate,boundaryCond,boundaryValue,WrapXZ);
-        double[] temp=field;
+    public void Diffuse(double diffRate,boolean boundaryCond,double boundaryValue,boolean wrapX,boolean wrapY,boolean wrapZ){
+        Utils.Diffusion3(field,swap,xDim,yDim,zDim,diffRate,boundaryCond,boundaryValue,wrapX,wrapY,wrapZ);
     }
     /**
      * Runs diffusion on the current field, putting the results into the next field, then swaps them
      * @param diffRate rate of diffusion
      * @param boundaryCond whether a boundary condition value will diffuse in from the field boundaries
      * @param boundaryValue only applies when boundaryCond is true, the boundary condition value
-     * @param WrapXZ whether to wrap the field over the left and right and top and bottom
+     * @param wrapX whether to wrap the field over the x axis
+     * @param wrapY whether to wrap the field over the y axis
+     * @param wrapZ whether to wrap the field over the z axis
      */
-    public void DiffSwap(double diffRate,boolean boundaryCond,double boundaryValue,boolean WrapXZ){
-        Utils.Diffusion3(field,swap,xDim,yDim,zDim,diffRate,boundaryCond,boundaryValue,WrapXZ);
+    public void DiffSwap(double diffRate,boolean boundaryCond,double boundaryValue,boolean wrapX,boolean wrapY,boolean wrapZ){
+        Utils.Diffusion3(field,swap,xDim,yDim,zDim,diffRate,boundaryCond,boundaryValue,wrapX,wrapY,wrapZ);
         SwapNextCurr();
     }
     /**
@@ -147,10 +123,12 @@ public class GridDiff3 extends GridBase {
      * @param diffRate rate of diffusion
      * @param boundaryCond whether a boundary condition value will diffuse in from the field boundaries
      * @param boundaryValue only applies when boundaryCond is true, the boundary condition value
-     * @param WrapXZ whether to wrap the field over the left and right and top and bottom
+     * @param wrapX whether to wrap the field over the x axis
+     * @param wrapY whether to wrap the field over the y axis
+     * @param wrapZ whether to wrap the field over the z axis
      */
-    public void DiffSwapInc(double diffRate,boolean boundaryCond,double boundaryValue,boolean WrapXZ){
-        Utils.Diffusion3(field,swap,xDim,yDim,zDim,diffRate,boundaryCond,boundaryValue,WrapXZ);
+    public void DiffSwapInc(double diffRate,boolean boundaryCond,double boundaryValue,boolean wrapX,boolean wrapY,boolean wrapZ){
+        Utils.Diffusion3(field,swap,xDim,yDim,zDim,diffRate,boundaryCond,boundaryValue,wrapX,wrapY,wrapZ);
         SwapNextCurr();
         IncTick();
     }

@@ -202,11 +202,11 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
 
     public void ChemicalLoop(){
         //DIFFUSION
-        EGF.Diffuse(EGF_DIFFUSION_RATE,false,0,true);
+        EGF.Diffuse(EGF_DIFFUSION_RATE,false,0,true, false, true);
         //CELL CONSUMPTION
         for (EpidermisCell c: this) {
-//                EGF.AddNext(c.Xsq(),c.Ysq(),c.Zsq(), c.KERATINO_EGF_CONSPUMPTION*EGF.GetCurr(c.Xsq(), c.Ysq(), c.Zsq()));
-                EGF.AddNext(c.Xsq(),c.Ysq(),c.Zsq(), -0.05*EGF.GetCurr(c.Xsq(), c.Ysq(), c.Zsq()));
+                EGF.AddNext(c.Xsq(),c.Ysq(),c.Zsq(), c.KERATINO_EGF_CONSPUMPTION*EGF.GetCurr(c.Xsq(), c.Ysq(), c.Zsq()));
+//                EGF.AddNext(c.Xsq(),c.Ysq(),c.Zsq(), -0.05*EGF.GetCurr(c.Xsq(), c.Ysq(), c.Zsq()));
 
         }
 
