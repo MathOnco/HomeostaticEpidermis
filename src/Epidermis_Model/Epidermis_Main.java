@@ -174,7 +174,10 @@ public class Epidermis_Main {
 //                    }
 //                }
 //            }
-            if(Epidermis.GetTick()<=365){Epidermis.GetEGFVal();}
+            /*
+            Get the Diffusion Values for examining 2D versus 3D differences
+             */
+//            if(Epidermis.GetTick()<=365){Epidermis.GetEGFVal();}
 
             /*
             rLambda Value calculations, output, and recording
