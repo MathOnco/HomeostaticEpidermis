@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=15; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=20; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -38,6 +38,7 @@ class EpidermisConst{
     static final boolean get_r_lambda = true; // use when you want the r_lambda value
     static final boolean writeValues = false;
     static final boolean RecordAll = false;
+    static final boolean GetImageData = true;
 }
 
 public class Epidermis_Main {
@@ -78,6 +79,7 @@ public class Epidermis_Main {
         String PopSizes = System.getProperty("user.dir") + "/TestOutput/PopSizes.csv";
         String MutationFile = System.getProperty("user.dir") + "/TestOutput/MutationFile.csv";
         String r_lambda_file = System.getProperty("user.dir") + "/TestOutput/R_Lambda_Values.csv";
+        String Image_file = System.getProperty("user.dir") + "/TestOutput/VisFile.txt";
         /*
         Sets up Data Files if on cluster or if ran locally
          */
@@ -230,6 +232,37 @@ public class Epidermis_Main {
                 if(HeightLab!=null){HeightLab.setText("Height: " + new DecimalFormat("#.00").format(avgHeight));}
             }
 
+            if(EpidermisConst.GetImageData && EpidermisConst.RecordTime == Epidermis.GetTick()){
+                Epidermis.BuildMathematicaArray();
+                FileIO VisOut = new FileIO(Image_file, "w");
+                String open="{\n";
+                String closer="}\n";
+                for(int y=EpidermisConst.ySize-1; y >= 0;y--){
+//                    VisOut.Write(open);
+                    for(int x=0; x < EpidermisConst.xSize;x++){
+//                        VisOut.Write(open);
+                        for(int z=0; z < EpidermisConst.zSize;z++){
+//                            String outLine = String.valueOf(y) + "\t" + String.valueOf(x) + "\t" + String.valueOf(z) + "\t" +
+                            String outLine =
+                                    Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
+                                    "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3] +
+                                    "\n";
+                            VisOut.Write(outLine);
+                        }
+//                        VisOut.Write(closer);
+                    }
+//                    VisOut.Write(closer);
+                }
+
+                VisOut.Close();
+            }
+
+            /*
+            file=Import["VisFile(2).txt","Data"]
+            matrix = ArrayReshape[file,{19,14,14,4}]
+            Image3D[matrix, ImageSize->Large,ColorSpace->"RGB", Axes->True,Boxed->False, Method-> {"InterpolateValues" -> False},Background->Black]
+             */
+
             /*
             All Model Data Recording Is Below This line
              */
@@ -272,6 +305,9 @@ public class Epidermis_Main {
                     System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(MeanWeekPrint / meanCellAgeIndex) + "\n");
                 }
             }
+        }
+        for (int num:EpidermisCell.dipshit) {
+            System.out.println(num/(EpidermisCell.dipshitCount*1.0));
         }
 
         Utils.PrintMemoryUsage();

@@ -23,12 +23,13 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     static final int[] divHoodBasal={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,1,0}; // Coordinate set for two beside and one above and two front and back [x,y,z,x,y,z...]
     static final int[] divHood={1,0,0, -1,0,0, 0,1,0, 0,-1,0, 0,0,-1, 0,0,1}; // Coordinate set for two beside and one above and one below [x,y,x,y...]
     static final int[] moveHood={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,-1,0};
-    static final int[] inBounds= new int[6];
+    static final int[] inBounds= new int[5];
     static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
     static final double DECAY_RATE=0.001; //chemical decay rate of growth factors
     static final double SOURCE_EGF=1; //constant level at basement
     static final int AIR_HEIGHT=15; //air, keratinocyte death! (threshold level for placement of keratinocytes essentially)
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
+    static double[][][][] ImageArray = new double[EpidermisConst.ySize][EpidermisConst.xSize][EpidermisConst.zSize][4];
     boolean running;
     float r_lambda_weekly = 0;
     int xDim;
@@ -188,6 +189,30 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
                 } else {
                     CellDraw.DrawEmptyCell(vis, x, z);
                 }
+            }
+        }
+    }
+
+    public void BuildMathematicaArray(){
+        for(int i=0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize);i++){
+            EpidermisCell c = GetAgent(i);
+            if (c != null){
+                if(c.myGenome.r==1.0){
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][0] = 1.0;
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][1] = 1.0;
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][2] = 1.0;
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][3] = 0.1;
+                } else {
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][0] = c.myGenome.r;
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][1] = c.myGenome.g;
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][2] = c.myGenome.b;
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][3] = 0.80;
+                }
+            } else {
+                ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][0] = 0.0;
+                ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][1] = 0.0;
+                ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][2] = 0.0;
+                ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][3] = 0.0;
             }
         }
     }

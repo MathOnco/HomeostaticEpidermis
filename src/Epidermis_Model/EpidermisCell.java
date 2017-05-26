@@ -36,6 +36,8 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     final static boolean[][] existsArrs=new boolean[10][20];
     final static int[] colTops=new int[10];
     static int iRec=0;
+    static int[] dipshit = new int[5];
+    static int dipshitCount = 0;
     int myType; //cell type
     int Action; //cells action
     static public RandomEngine RNEngine = new DRand();
@@ -169,9 +171,16 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     // Sets the coordinates for a cell that is moving.
     public int GetMoveCoords() {
         int iMoveCoord=-1;  //when it's time to move, it is the index of coordinate that is picked from Coords array above. -1 == Not Moving
-        int MoveOptions=GetEmptyVNSquares(Xsq(),Ysq(), Zsq(),true, G().moveHood, G().inBounds);
-        if(MoveOptions>0&&myType==KERATINOCYTE) {
-            iMoveCoord=G().RN.nextInt(MoveOptions);
+        int finalCount=0;
+        int inBoundsCount = G().SQstoLocalIs(G().moveHood, G().inBounds,Xsq(),Ysq(), Zsq(), true, false, true); // Gets all inbound indices
+        for (int i=0; i<inBoundsCount; i++){
+            if(G().GetAgent(G().inBounds[i]) == null){
+                G().inBounds[finalCount]=G().inBounds[i];
+                finalCount++;
+            }
+        }
+        if(finalCount>0&&myType==KERATINOCYTE) {
+            iMoveCoord=G().RN.nextInt(finalCount);
         }
         return iMoveCoord;
     }
@@ -208,6 +217,8 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             int iMoveCoord = GetMoveCoords(); // -1 if not moving
             if (iMoveCoord != -1) {
                 Move(G().inBounds[iMoveCoord]); // We are moving
+                dipshit[iMoveCoord] += 1;
+                dipshitCount += 1;
                 Action = MOVING;
                 if (Ysq() != 0 && y == 0) {
                     loss_count_basal++;
