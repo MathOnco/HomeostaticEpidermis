@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=20; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=30; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -24,9 +24,9 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=5; // time in years.
+    static int years=35; // time in years.
     static int RecordTime=years*365;
-    static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
+    static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
@@ -162,18 +162,18 @@ public class Epidermis_Main {
             // Main Running of the steps within the model
             Epidermis.RunStep();
 
-//            /*
-//            All Injuries Occuring Here!
-//             */
+            /*
+            All Injuries Occuring Here!
+             */
 //            int healTick=0;
 //
-//            if(Healed && Epidermis.GetTick()%365==0){
-//                Epidermis.inflict_wound();
+//            if(Healed && Epidermis.GetTick()%50==0){
+//                Epidermis.inflict_wound(EpidermisConst.xSize/4);
 //                woundTick=Epidermis.GetTick();
 //                Healed = false;
 //            }
 //
-//            if(!Healed && Epidermis.GetTick()%365!=0) {
+//            if(!Healed && Epidermis.GetTick()%50!=0) {
 //                Healed = Epidermis.checkWoundHeal((int) avgHeight);
 //                healTick = Epidermis.GetTick();
 //                if (Healed && HealLab != null) {
@@ -192,11 +192,11 @@ public class Epidermis_Main {
              */
             if (EpidermisConst.get_r_lambda) {
                 if (Epidermis.GetTick() % 7f == 0) {
-                    r_lambda_WriteValue.add(r_lambda_index, Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f);
+                    r_lambda_WriteValue.add(r_lambda_index, Epidermis.r_lambda_weekly/(EpidermisConst.xSize*EpidermisConst.zSize)/7f);
                     r_lambda_index += 1;
                     meanCellAge.add(meanCellAgeIndex, Epidermis.GetOldestCell(Epidermis));
                     meanCellAgeIndex += 1;
-                    if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format((Epidermis.r_lambda_weekly/(EpidermisConst.xSize*2))/7f));}
+                    if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda: " + new DecimalFormat("#.000").format( (Epidermis.r_lambda_weekly/(EpidermisConst.xSize*EpidermisConst.zSize)) / 7f) );}
                     EpidermisCell.loss_count_basal=0;
                     Epidermis.r_lambda_weekly = 0;
                 } else {
@@ -222,7 +222,7 @@ public class Epidermis_Main {
             if(DeathVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DeathVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(DeathLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DeathLayerVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);} // 3D Good
-            if(OldestCell!=null){OldestCell.setText("Mean cell age (days): " + new DecimalFormat("#.00").format(Epidermis.GetOldestCell(Epidermis)));}
+            if(OldestCell!=null){OldestCell.setText("Mean cell age: " + new DecimalFormat("#.00").format(Epidermis.GetOldestCell(Epidermis)));}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(BottomVis!=null){Epidermis.DrawCellPopsBottom(BottomVis, Epidermis, CellDraw);}
             if(BottomVisMove!=null){Epidermis.DrawCellPopsBottomActivity(BottomVisMove, Epidermis, CellDraw);}
@@ -232,36 +232,31 @@ public class Epidermis_Main {
                 if(HeightLab!=null){HeightLab.setText("Height: " + new DecimalFormat("#.00").format(avgHeight));}
             }
 
+            // Use this to get the information for 3D visualizations
             if(EpidermisConst.GetImageData && EpidermisConst.RecordTime == Epidermis.GetTick()){
                 Epidermis.BuildMathematicaArray();
                 FileIO VisOut = new FileIO(Image_file, "w");
                 String open="{\n";
                 String closer="}\n";
                 for(int y=EpidermisConst.ySize-1; y >= 0;y--){
-//                    VisOut.Write(open);
                     for(int x=0; x < EpidermisConst.xSize;x++){
-//                        VisOut.Write(open);
                         for(int z=0; z < EpidermisConst.zSize;z++){
-//                            String outLine = String.valueOf(y) + "\t" + String.valueOf(x) + "\t" + String.valueOf(z) + "\t" +
                             String outLine =
                                     Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
                                     "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3] +
                                     "\n";
                             VisOut.Write(outLine);
                         }
-//                        VisOut.Write(closer);
                     }
-//                    VisOut.Write(closer);
                 }
 
                 VisOut.Close();
+                /* Use this code snippit to get the threeD vis on mathematica
+                file=Import["VisFile(2).txt","Data"]
+                matrix = ArrayReshape[file,{19,14,14,4}]
+                Image3D[matrix, ImageSize->Large,ColorSpace->"RGB", Axes->True,Boxed->False, Method-> {"InterpolateValues" -> False},Background->Black]
+                 */
             }
-
-            /*
-            file=Import["VisFile(2).txt","Data"]
-            matrix = ArrayReshape[file,{19,14,14,4}]
-            Image3D[matrix, ImageSize->Large,ColorSpace->"RGB", Axes->True,Boxed->False, Method-> {"InterpolateValues" -> False},Background->Black]
-             */
 
             /*
             All Model Data Recording Is Below This line
@@ -306,9 +301,9 @@ public class Epidermis_Main {
                 }
             }
         }
-        for (int num:EpidermisCell.dipshit) {
-            System.out.println(num/(EpidermisCell.dipshitCount*1.0));
-        }
+
+        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshit));
+        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshitDiv));
 
         Utils.PrintMemoryUsage();
     }

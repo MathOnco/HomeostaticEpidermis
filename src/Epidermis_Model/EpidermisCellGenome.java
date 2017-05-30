@@ -7,6 +7,7 @@ import cern.jet.random.Poisson;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static AgentFramework.Utils.HSBtoRGB;
 import static Epidermis_Model.EpidermisCell.RNEngine;
 
 /**
@@ -29,63 +30,99 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     private static final double[] BaseMutProb = new double[]{1.0/6,3/6.,1.0/6,1.0/6};
     private static final long[][][] BaseIndex = ParseBaseIndexes();
     private static final String[] Base = new String[]{"A","C","G","T"};
+    private static final boolean QuickMut = true;
+    private static final double QuickMutRate = 0.032;
     static final Random RN=new Random();
     String PrivateGenome;
-    float r;
-    float b;
-    float g;
+    float h;
+    float s;
+    float v;
+    private static final float num1 = 0.9f;
+    private static final float num2 = 0.1f;
     /*
     End New Information To Keep Inside the Model!!!!!
      */
 
-    EpidermisCellGenome(float r, float b, float g, String PrivateGenome) {
-        this.r = r;
-        this.b = b;
-        this.g = g;
+    EpidermisCellGenome(float h, float s, float v, String PrivateGenome) {
+        this.h = h;
+        this.s = s;
+        this.v = v;
         this.PrivateGenome = PrivateGenome;
     }
 
     @Override
     public EpidermisCellGenome _RunPossibleMutation() {
         StringBuilder MutsObtained = new StringBuilder();
-        for(int j=0; j<ExpectedMuts.length; j++){
-            if (j!=0) {
-                Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
-                int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for each gene
-                for(int hits=0; hits<mutations; hits++){
-                    int MutatedBaseKind = Utils.RandomVariable(BaseMutProb, RN);
-                    long mutIndex = BaseIndex[j-1][MutatedBaseKind][RN.nextInt(BaseIndex[j-1][MutatedBaseKind].length)];
-                    String MutOut = "";
-                    if(j==ExpectedMuts.length-1){
-                        MutOut = j + "." + Base[MutatedBaseKind] + "." + mutIndex;
-                    } else {
-                        MutOut = j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
+        if (QuickMut == false) {
+            for (int j = 0; j < ExpectedMuts.length; j++) {
+                if (j != 0) {
+                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
+                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for each gene
+                    for (int hits = 0; hits < mutations; hits++) {
+                        int MutatedBaseKind = Utils.RandomVariable(BaseMutProb, RN);
+                        long mutIndex = BaseIndex[j - 1][MutatedBaseKind][RN.nextInt(BaseIndex[j - 1][MutatedBaseKind].length)];
+                        String MutOut = "";
+                        if (j == ExpectedMuts.length - 1) {
+                            MutOut = j + "." + Base[MutatedBaseKind] + "." + mutIndex;
+                        } else {
+                            MutOut = j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
+                        }
+                        MutsObtained.append(MutOut);
                     }
-                    MutsObtained.append(MutOut);
                 }
+                //            else {
+                //                if(EpidermisConst.GuiOn == true) {
+                //                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
+                //                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
+                //                    for (int hits = 0; hits < mutations; hits++) {
+                //                        long mutIndex = RN.nextLong();
+                //                        String MutOut = "";
+                //                        if(j==ExpectedMuts.length-1){
+                //                            MutOut = j + "." + ".N." + "." + mutIndex;
+                //                        } else {
+                //                            MutOut = j + "." + ".N." + "." + mutIndex + ",";
+                //                        }
+                //                        MutsObtained.append(MutOut);
+                //                    }
+                //                }
+                //            }}
+
+
             }
-//            else {
-//                if(EpidermisConst.GuiOn == true) {
-//                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
-//                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
-//                    for (int hits = 0; hits < mutations; hits++) {
-//                        long mutIndex = RN.nextLong();
-//                        String MutOut = "";
-//                        if(j==ExpectedMuts.length-1){
-//                            MutOut = j + "." + ".N." + "." + mutIndex;
-//                        } else {
-//                            MutOut = j + "." + ".N." + "." + mutIndex + ",";
-//                        }
-//                        MutsObtained.append(MutOut);
-//                    }
-//                }
-//            }
-        }
-        String PrivGenome = MutsObtained.toString();
-        if(PrivGenome.length()>0){
-            return new EpidermisCellGenome(RN.nextFloat() * 0.9f + 0.1f, RN.nextFloat() * 0.9f + 0.1f, RN.nextFloat() * 0.9f + 0.1f, PrivGenome);
-        } else{
-            return null; // If No Mutation Occurs
+            String PrivGenome = MutsObtained.toString();
+            if (PrivGenome.length() > 0) {
+                if (h == 1f && s == 1f && v == 1f) {
+                    return new EpidermisCellGenome(RN.nextFloat() * num1 + num2, RN.nextFloat() * num1 + num2, RN.nextFloat() * num1 + num2, PrivGenome);
+                } else {
+                    return new EpidermisCellGenome(h * 0.95f, s * 0.95f, v * 0.95f, PrivGenome);
+                }
+            } else {
+                return null; // If No Mutation Occurs
+            }
+        } else {
+            if(RN.nextDouble()<QuickMutRate){
+                String EmptyGenome = "";
+                if (h == 0f && s == 0f && v == 1f) {
+                    float hue = RN.nextFloat();
+                    System.out.println(java.util.Arrays.toString(HSBtoRGB(0f,0f,1f)));
+
+                    return new EpidermisCellGenome(RN.nextFloat() * num1 + num2, RN.nextFloat() * num1 + num2, RN.nextFloat() * num1 + num2, EmptyGenome);
+
+
+//                    if (picker==0){ return new EpidermisCellGenome(1f, 1 - RN.nextFloat(), 1 - RN.nextFloat(), EmptyGenome); }
+//                    if (picker==1){ return new EpidermisCellGenome(1 - RN.nextFloat(), 1f , 1 - RN.nextFloat(), EmptyGenome); }
+//                    if (picker==2){ return new EpidermisCellGenome(1 - RN.nextFloat(), 1 - RN.nextFloat(), 1f, EmptyGenome); }
+//                    return null;
+//                    return new EpidermisCellGenome(RN.nextFloat() * num1 + num2, RN.nextFloat() * num1 + num2, RN.nextFloat() * num1 + num2, EmptyGenome);
+                } else {
+                    if (h ==1f){ return new EpidermisCellGenome(1f*0.95f, s * 0.95f, v * 0.95f, EmptyGenome); }
+                    if (v ==1f){ return new EpidermisCellGenome(h * 0.95f, 1f*0.95f , v * 0.95f, EmptyGenome); }
+                    if (s ==1f){ return new EpidermisCellGenome(h * 0.95f, s * 0.95f, 1f*0.95f, EmptyGenome); }
+                    return null;
+                }
+            } else {
+                return null;
+            }
         }
     }
 
@@ -110,7 +147,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
 
     // Parses Base Mutation Function Information
 //    public String long[][] ParseMutationInfo(){
-//        FileIO reader = new FileIO(BaseIndexFile, "r");
+//        FileIO reader = new FileIO(BaseIndexFile, "h");
 //        ArrayList<long[]> data = new ArrayList<>(reader.ReadBinString(",")));
 //    }
 }

@@ -144,4 +144,18 @@ public class GuiVis extends JPanel implements GuiComp {
         ((Graphics2D)g).drawImage(buff.getScaledInstance(scale*xDim,scale*yDim,Image.SCALE_FAST),null,null);
         repaint();
     }
+
+    /** * Converts HSV values to RGB values
+     * hue: 0->1 (Picks Color)
+     * saturation: 0->1
+     * brightness: 0->1
+     **/
+    public void SetColorHSV(int x,int y,float hue,float saturation,float brightness){
+        float scale = 255f;
+        int rgb = Color.HSBtoRGB(hue, saturation, brightness);
+        int r = (rgb >> 16) & 0xFF;
+        int g = (rgb >> 8) & 0xFF;
+        int b = rgb & 0xFF;
+        SetColor(x,y,r/scale,g/scale,b/scale);
+    }
 }

@@ -3,13 +3,10 @@ package Epidermis_Model;
 import AgentFramework.GenomeTracker;
 import AgentFramework.Grid3unstackable;
 import AgentFramework.GridDiff3;
-import AgentFramework.Gui.Gui;
 import AgentFramework.Gui.GuiVis;
-import static AgentFramework.Utils.*;
+
 import static Epidermis_Model.EpidermisConst.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -21,7 +18,6 @@ import java.util.Random;
 class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     final Random RN=new Random();
     static final int[] divHoodBasal={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,1,0}; // Coordinate set for two beside and one above and two front and back [x,y,z,x,y,z...]
-    static final int[] divHood={1,0,0, -1,0,0, 0,1,0, 0,-1,0, 0,0,-1, 0,0,1}; // Coordinate set for two beside and one above and one below [x,y,x,y...]
     static final int[] moveHood={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,-1,0};
     static final int[] inBounds= new int[5];
     static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
@@ -48,7 +44,7 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         yDim = y;
         zDim = z;
         EGF = new GridDiff3(x, y, z);
-        GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(1,1,1,""), true, true);
+        GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(0f,0f,1f,""), true, true);
         PlaceCells();
     }
 
@@ -197,15 +193,15 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         for(int i=0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize);i++){
             EpidermisCell c = GetAgent(i);
             if (c != null){
-                if(c.myGenome.r==1.0){
+                if(c.myGenome.h ==1.0){
                     ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][0] = 1.0;
                     ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][1] = 1.0;
                     ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][2] = 1.0;
                     ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][3] = 0.1;
                 } else {
-                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][0] = c.myGenome.r;
-                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][1] = c.myGenome.g;
-                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][2] = c.myGenome.b;
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][0] = c.myGenome.h;
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][1] = c.myGenome.v;
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][2] = c.myGenome.s;
                     ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][3] = 0.80;
                 }
             } else {
@@ -218,10 +214,10 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     }
 
         // Inflicting a wound to simulate wound repair...
-    public void inflict_wound(){
-        for (int x = 37; x < 37*3; x++){
-            for (int y=0; y < yDim; y++) {
-                for (int z = 37; z < 37 *3; z++){
+    public void inflict_wound(int size){
+        for (int x = EpidermisConst.xSize/2 - size; x < EpidermisConst.xSize/2 + size; x++){
+            for (int z = EpidermisConst.zSize/2 - size; z < EpidermisConst.zSize/2 + size; z++){
+                for (int y=0; y < yDim; y++) {
                     EpidermisCell c = GetAgent(x, y, z);
                     if (c != null) {
                         c.itDead();

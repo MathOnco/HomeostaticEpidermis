@@ -16,7 +16,7 @@ public class EpidermisCellVis {
         for(int y=0;y<5;y++){
             for(int x=0;x<5;x++){
                 int cVal=stationary_vis[x+y*5];
-                vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.myGenome.r,cVal*theCell.myGenome.g,cVal*theCell.myGenome.b);
+                vis.SetColorHSV(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.myGenome.h,cVal*theCell.myGenome.v,cVal*theCell.myGenome.s);
             }
         }
     }
@@ -25,7 +25,7 @@ public class EpidermisCellVis {
         for(int z=0;z<5;z++){
             for(int x=0;x<5;x++){
                 int cVal=stationary_vis[x+z*5];
-                vis.SetColor(theCell.Xsq()*5+x, theCell.Zsq()*5+z,cVal*theCell.myGenome.r,cVal*theCell.myGenome.g,cVal*theCell.myGenome.b);
+                vis.SetColorHSV(theCell.Xsq()*5+x, theCell.Zsq()*5+z,cVal*theCell.myGenome.h,cVal*theCell.myGenome.v,cVal*theCell.myGenome.s);
             }
         }
     }
@@ -36,7 +36,7 @@ public class EpidermisCellVis {
                 for(int y=0;y<5;y++){
                     for(int x=0;x<5;x++){
                         int cVal=division_vis[x+y*5];
-                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.r,cVal*theCell.g,cVal*theCell.b);
+                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.h,cVal*theCell.v,cVal*theCell.s);
                         vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*1f,cVal*0f,cVal* 0f);
                     }
                 }
@@ -45,7 +45,7 @@ public class EpidermisCellVis {
                 for(int y=0;y<5;y++){
                     for(int x=0;x<5;x++){
                         int cVal=movement_vis[x+y*5];
-                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.r,cVal*theCell.g,cVal*theCell.b);
+                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.h,cVal*theCell.v,cVal*theCell.s);
                         vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*.5f,cVal*1f,cVal* 0f);
                     }
                 }
@@ -54,7 +54,7 @@ public class EpidermisCellVis {
                 for(int y=0;y<5;y++){
                     for(int x=0;x<5;x++){
                         int cVal=stationary_vis[x+y*5];
-                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.r,cVal*theCell.g,cVal*theCell.b);
+                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.h,cVal*theCell.v,cVal*theCell.s);
                         vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*0f,cVal*0f,cVal* 1f);
                     }
                 }
@@ -70,7 +70,7 @@ public class EpidermisCellVis {
                 for(int z=0;z<5;z++){
                     for(int x=0;x<5;x++){
                         int cVal=division_vis[x+z*5];
-                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.r,cVal*theCell.g,cVal*theCell.b);
+                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.h,cVal*theCell.v,cVal*theCell.s);
                         vis.SetColor(theCell.Xsq()*5+x, theCell.Zsq()*5+z,cVal*1f,cVal*0f,cVal* 0f);
                     }
                 }
@@ -79,7 +79,7 @@ public class EpidermisCellVis {
                 for(int z=0;z<5;z++){
                     for(int x=0;x<5;x++){
                         int cVal=movement_vis[x+z*5];
-                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.r,cVal*theCell.g,cVal*theCell.b);
+                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.h,cVal*theCell.v,cVal*theCell.s);
                         vis.SetColor(theCell.Xsq()*5+x, theCell.Zsq()*5+z,cVal*.5f,cVal*1f,cVal* 0f);
                     }
                 }
@@ -88,7 +88,7 @@ public class EpidermisCellVis {
                 for(int z=0;z<5;z++){
                     for(int x=0;x<5;x++){
                         int cVal=stationary_vis[x+z*5];
-                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.r,cVal*theCell.g,cVal*theCell.b);
+                        //vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.h,cVal*theCell.v,cVal*theCell.s);
                         vis.SetColor(theCell.Xsq()*5+x, theCell.Zsq()*5+z,cVal*0f,cVal*0f,cVal* 1f);
                     }
                 }
@@ -101,7 +101,7 @@ public class EpidermisCellVis {
     public void DrawEmptyCell(GuiVis vis, int x, int y){
         for(int i=0; i<5; i++){
             for(int j=0; j<5; j++){
-                vis.SetColor(i+x*5, j+y*5, 0f, 0f, 0f);
+                vis.SetColorHSV(i+x*5, j+y*5, 0f, 0f, 0f);
             }
         }
     }

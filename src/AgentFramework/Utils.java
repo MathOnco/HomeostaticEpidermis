@@ -2,6 +2,7 @@ package AgentFramework;
 
 import AgentFramework.Interfaces.Sortable;
 
+import java.awt.*;
 import java.lang.reflect.Array;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -828,6 +829,22 @@ public final class Utils {
         System.out.println("Free Momory: "+rt.freeMemory()/mb+" mb");
         System.out.println("Total Memory: "+rt.totalMemory()/mb+" mb");
         System.out.println("Max  Memory: "+rt.maxMemory()/mb+" mb");
+    }
+
+    /**
+     * Converts HSV values to RGB values
+     * hue: 0->1 (Picks Color)
+     * saturation: 0->1
+     * brightness: 0->1
+     **/
+    public static float[] HSBtoRGB(float hue, float saturation, float brightness) {
+        float scale = 255f;
+        int rgb = Color.HSBtoRGB(hue, saturation, brightness);
+        int r = (rgb >> 16) & 0xFF;
+        int g = (rgb >> 8) & 0xFF;
+        int b = rgb & 0xFF;
+        float[] RGBreturn = {r/scale,g/scale,b/scale};
+        return RGBreturn;
     }
 
 }

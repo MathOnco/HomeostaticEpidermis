@@ -37,6 +37,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     final static int[] colTops=new int[10];
     static int iRec=0;
     static int[] dipshit = new int[5];
+    static int[] dipshitDiv = new int[5];
     static int dipshitCount = 0;
     int myType; //cell type
     int Action; //cells action
@@ -76,19 +77,20 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         double divideWhere = G().RN.nextDouble();
         double OtherOptionProb=(1-DIVISIONLOCPROB)/4.0;
         if(divideWhere<=DIVISIONLOCPROB){
-            return 2; // Dividing up
+            dipshitDiv[4] ++;
+            return 4; // Dividing up
         } else if(divideWhere <= (DIVISIONLOCPROB+OtherOptionProb)){
-
+            dipshitDiv[0] ++;
             return 0; // Dividing right
         } else if (divideWhere <= (DIVISIONLOCPROB+OtherOptionProb*2)){
-
+            dipshitDiv[1] ++;
             return 1; // Dividing Left
         } else if (divideWhere <= (DIVISIONLOCPROB+OtherOptionProb*3)) {
-
+            dipshitDiv[3] ++;
             return 3; // Dividing front
         } else {
-
-            return 4; // Dividing back
+            dipshitDiv[2] ++;
+            return 2; // Dividing back
         }
     }
 
@@ -105,23 +107,15 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             return false;
         }
 
-//        if(y==0){
-            int divOptions = GetEmptyVNSquares(x, y, z, false, G().divHoodBasal, G().inBounds); // Number of coordinates you could divide into
-            iDivLoc = ProlifLoc(); // Where the new cell is going to be (which index) if basal cell
-            if(iDivLoc==0 || iDivLoc==1 || iDivLoc==3 || iDivLoc==4 && y==0){
-                loss_count_basal+=1;
-            }
-            boolean Pushed = CellPush(iDivLoc);
-            if(Pushed==false){
-                return false; // Only false if melanocyte there
-            }
-
-//        } else{
-//            int divOptions = GetEmptyVNSquares(x, y, true, G().divHood, G().inBounds); // Number of coordinates you could divide into
-//            if(divOptions>0){iDivLoc = G().RN.nextInt(divOptions);} else {return false;} //Where the new cell is going to be (which coordinate)
-//
-//
-//        }
+        int divOptions = GetEmptyVNSquares(x, y, z, false, G().divHoodBasal, G().inBounds); // Number of coordinates you could divide into
+        iDivLoc = ProlifLoc(); // Where the new cell is going to be (which index) if basal cell
+        if(iDivLoc==0 || iDivLoc==1 || iDivLoc==3 || iDivLoc==2 && y==0){
+            loss_count_basal+=1;
+        }
+        boolean Pushed = CellPush(iDivLoc);
+        if(Pushed==false){
+            return false; // Only false if melanocyte there
+        }
 
         EpidermisCell newCell = G().NewAgent(G().inBounds[iDivLoc]);
 
@@ -216,9 +210,10 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         if (G().RN.nextFloat() >= MOVEPROBABILITY) {
             int iMoveCoord = GetMoveCoords(); // -1 if not moving
             if (iMoveCoord != -1) {
+                dipshit[ DirectionTracker(G().inBounds[iMoveCoord]) ] ++;
                 Move(G().inBounds[iMoveCoord]); // We are moving
-                dipshit[iMoveCoord] += 1;
-                dipshitCount += 1;
+//                dipshit[iMoveCoord] += 1;
+//                dipshitCount += 1;
                 Action = MOVING;
                 if (Ysq() != 0 && y == 0) {
                     loss_count_basal++;
@@ -231,6 +226,18 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             Action = DIVIDE;
         }
 
+    }
+
+    public int DirectionTracker(int NextMoveIndex){
+        int x=G().ItoX(NextMoveIndex);
+        int z=G().ItoZ(NextMoveIndex);
+        int dx = Xsq()-x;
+        int dz = Zsq()-z;
+        if (dx == 1) { return 0; }
+        if (dx == -1) { return 1; }
+        if (dz == 1) { return 2; }
+        if (dz == -1) { return 3; }
+        return 4;
     }
 
 //    // Builds my genome information for data analysis
