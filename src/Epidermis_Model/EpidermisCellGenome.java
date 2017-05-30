@@ -30,15 +30,13 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     private static final double[] BaseMutProb = new double[]{1.0/6,3/6.,1.0/6,1.0/6};
     private static final long[][][] BaseIndex = ParseBaseIndexes();
     private static final String[] Base = new String[]{"A","C","G","T"};
-    private static final boolean QuickMut = true;
+    private static final boolean QuickMut = false;
     private static final double QuickMutRate = 0.032;
     static final Random RN=new Random();
     String PrivateGenome;
     float h;
     float s;
     float v;
-    private static final float num1 = 0.9f;
-    private static final float num2 = 0.1f;
     /*
     End New Information To Keep Inside the Model!!!!!
      */
@@ -91,10 +89,10 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
             }
             String PrivGenome = MutsObtained.toString();
             if (PrivGenome.length() > 0) {
-                if (h == 1f && s == 1f && v == 1f) {
-                    return new EpidermisCellGenome(RN.nextFloat() * num1 + num2, RN.nextFloat() * num1 + num2, RN.nextFloat() * num1 + num2, PrivGenome);
+                if (h == 0f && s == 0f && v == 1f) {
+                    return new EpidermisCellGenome(RN.nextFloat(), 1f , 0.75f, PrivGenome);
                 } else {
-                    return new EpidermisCellGenome(h * 0.95f, s * 0.95f, v * 0.95f, PrivGenome);
+                    return new EpidermisCellGenome(h, RN.nextFloat()*0.3f+0.6f, RN.nextFloat()*0.55f+0.3f, PrivGenome);
                 }
             } else {
                 return null; // If No Mutation Occurs
@@ -103,22 +101,9 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
             if(RN.nextDouble()<QuickMutRate){
                 String EmptyGenome = "";
                 if (h == 0f && s == 0f && v == 1f) {
-                    float hue = RN.nextFloat();
-                    System.out.println(java.util.Arrays.toString(HSBtoRGB(0f,0f,1f)));
-
-                    return new EpidermisCellGenome(RN.nextFloat() * num1 + num2, RN.nextFloat() * num1 + num2, RN.nextFloat() * num1 + num2, EmptyGenome);
-
-
-//                    if (picker==0){ return new EpidermisCellGenome(1f, 1 - RN.nextFloat(), 1 - RN.nextFloat(), EmptyGenome); }
-//                    if (picker==1){ return new EpidermisCellGenome(1 - RN.nextFloat(), 1f , 1 - RN.nextFloat(), EmptyGenome); }
-//                    if (picker==2){ return new EpidermisCellGenome(1 - RN.nextFloat(), 1 - RN.nextFloat(), 1f, EmptyGenome); }
-//                    return null;
-//                    return new EpidermisCellGenome(RN.nextFloat() * num1 + num2, RN.nextFloat() * num1 + num2, RN.nextFloat() * num1 + num2, EmptyGenome);
+                    return new EpidermisCellGenome(RN.nextFloat(), 1f , 0.75f, EmptyGenome);
                 } else {
-                    if (h ==1f){ return new EpidermisCellGenome(1f*0.95f, s * 0.95f, v * 0.95f, EmptyGenome); }
-                    if (v ==1f){ return new EpidermisCellGenome(h * 0.95f, 1f*0.95f , v * 0.95f, EmptyGenome); }
-                    if (s ==1f){ return new EpidermisCellGenome(h * 0.95f, s * 0.95f, 1f*0.95f, EmptyGenome); }
-                    return null;
+                    return new EpidermisCellGenome(h, RN.nextFloat()*0.3f+0.6f, RN.nextFloat()*0.55f+0.3f, EmptyGenome);
                 }
             } else {
                 return null;

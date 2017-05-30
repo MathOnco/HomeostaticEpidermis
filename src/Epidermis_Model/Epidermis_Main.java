@@ -6,6 +6,8 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import static AgentFramework.Utils.GetHSBtoRGB;
+
 /**
  * Created by schencro on 3/24/17.
  */

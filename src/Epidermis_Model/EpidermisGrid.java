@@ -5,7 +5,9 @@ import AgentFramework.Grid3unstackable;
 import AgentFramework.GridDiff3;
 import AgentFramework.Gui.GuiVis;
 
+import static AgentFramework.Utils.GetHSBtoRGB;
 import static Epidermis_Model.EpidermisConst.*;
+import static java.awt.Color.HSBtoRGB;
 
 import java.util.Random;
 
@@ -199,9 +201,9 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
                     ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][2] = 1.0;
                     ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][3] = 0.1;
                 } else {
-                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][0] = c.myGenome.h;
-                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][1] = c.myGenome.v;
-                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][2] = c.myGenome.s;
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][0] = GetHSBtoRGB(c.myGenome.h,c.myGenome.s,c.myGenome.v)[0];
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][1] = GetHSBtoRGB(c.myGenome.h,c.myGenome.s,c.myGenome.v)[1];
+                    ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][2] = GetHSBtoRGB(c.myGenome.h,c.myGenome.s,c.myGenome.v)[2];
                     ImageArray[ItoY(i)][ItoX(i)][ItoZ(i)][3] = 0.80;
                 }
             } else {

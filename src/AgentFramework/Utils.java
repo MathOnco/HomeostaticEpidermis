@@ -837,7 +837,7 @@ public final class Utils {
      * saturation: 0->1
      * brightness: 0->1
      **/
-    public static float[] HSBtoRGB(float hue, float saturation, float brightness) {
+    public static float[] GetHSBtoRGB(float hue, float saturation, float brightness) {
         float scale = 255f;
         int rgb = Color.HSBtoRGB(hue, saturation, brightness);
         int r = (rgb >> 16) & 0xFF;
