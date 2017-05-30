@@ -26,7 +26,7 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=35; // time in years.
+    static int years=5; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
@@ -234,7 +234,8 @@ public class Epidermis_Main {
                 if(HeightLab!=null){HeightLab.setText("Height: " + new DecimalFormat("#.00").format(avgHeight));}
             }
 
-            // Use this to get the information for 3D visualizations
+
+            // Use this to get the information for 3D visualizations for OpenGL
             if(EpidermisConst.GetImageData && EpidermisConst.RecordTime == Epidermis.GetTick()){
                 Epidermis.BuildMathematicaArray();
                 FileIO VisOut = new FileIO(Image_file, "w");
@@ -244,9 +245,10 @@ public class Epidermis_Main {
                     for(int x=0; x < EpidermisConst.xSize;x++){
                         for(int z=0; z < EpidermisConst.zSize;z++){
                             String outLine =
+                                    x + "\t" + z + "\t" + y + "\t" +
                                     Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
-                                    "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3] +
-                                    "\n";
+                                            "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3] +
+                                            "\n";
                             VisOut.Write(outLine);
                         }
                     }
@@ -259,6 +261,32 @@ public class Epidermis_Main {
                 Image3D[matrix, ImageSize->Large,ColorSpace->"RGB", Axes->True,Boxed->False, Method-> {"InterpolateValues" -> False},Background->Black]
                  */
             }
+
+            // Use this to get the information for 3D visualizations
+//            if(EpidermisConst.GetImageData && EpidermisConst.RecordTime == Epidermis.GetTick()){
+//                Epidermis.BuildMathematicaArray();
+//                FileIO VisOut = new FileIO(Image_file, "w");
+//                String open="{\n";
+//                String closer="}\n";
+//                for(int y=EpidermisConst.ySize-1; y >= 0;y--){
+//                    for(int x=0; x < EpidermisConst.xSize;x++){
+//                        for(int z=0; z < EpidermisConst.zSize;z++){
+//                            String outLine =
+//                                    Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
+//                                    "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3] +
+//                                    "\n";
+//                            VisOut.Write(outLine);
+//                        }
+//                    }
+//                }
+//
+//                VisOut.Close();
+//                /* Use this code snippit to get the threeD vis on mathematica
+//                file=Import["VisFile(2).txt","Data"]
+//                matrix = ArrayReshape[file,{19,14,14,4}]
+//                Image3D[matrix, ImageSize->Large,ColorSpace->"RGB", Axes->True,Boxed->False, Method-> {"InterpolateValues" -> False},Background->Black]
+//                 */
+//            }
 
             /*
             All Model Data Recording Is Below This line

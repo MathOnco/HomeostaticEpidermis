@@ -7,7 +7,7 @@ import cern.jet.random.Poisson;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static AgentFramework.Utils.HSBtoRGB;
+import static AgentFramework.Utils.GetHSBtoRGB;
 import static Epidermis_Model.EpidermisCell.RNEngine;
 
 /**
@@ -30,7 +30,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     private static final double[] BaseMutProb = new double[]{1.0/6,3/6.,1.0/6,1.0/6};
     private static final long[][][] BaseIndex = ParseBaseIndexes();
     private static final String[] Base = new String[]{"A","C","G","T"};
-    private static final boolean QuickMut = false;
+    private static final boolean QuickMut = true;
     private static final double QuickMutRate = 0.032;
     static final Random RN=new Random();
     String PrivateGenome;
