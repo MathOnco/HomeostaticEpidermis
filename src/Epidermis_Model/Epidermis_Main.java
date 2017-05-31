@@ -14,7 +14,7 @@ import static AgentFramework.Utils.GetHSBtoRGB;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=20; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=5; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -40,7 +40,7 @@ class EpidermisConst{
     static final boolean get_r_lambda = true; // use when you want the r_lambda value
     static final boolean writeValues = false;
     static final boolean RecordAll = false;
-    static final boolean GetImageData = true;
+    static final boolean GetImageData = true; // Use for 3D data for visualization
 }
 
 public class Epidermis_Main {
@@ -239,17 +239,17 @@ public class Epidermis_Main {
             if(EpidermisConst.GetImageData){
                 Epidermis.BuildMathematicaArray();
                 //FileIO VisOut = new FileIO(Image_file + "." + Epidermis.GetTick() + ".txt", "w");
-                for(int y=EpidermisConst.ySize-1; y >= 0;y--){
-                    for(int x=0; x < EpidermisConst.xSize;x++){
+                for(int x=0; x < EpidermisConst.xSize;x++){
+                    for(int y=0; y < EpidermisConst.ySize;y++){
                         for(int z=0; z < EpidermisConst.zSize;z++){
-                            if (Epidermis.ImageArray[y][x][z][0] != 0.0f && Epidermis.ImageArray[y][x][z][1] != 0.0f && Epidermis.ImageArray[y][x][z][2] != 0.0f && Epidermis.ImageArray[y][x][z][3] != 0.0f){
+//                            if (Epidermis.ImageArray[y][x][z][0] != 0.0f && Epidermis.ImageArray[y][x][z][1] != 0.0f && Epidermis.ImageArray[y][x][z][2] != 0.0f && Epidermis.ImageArray[y][x][z][3] != 0.0f){
                                 String outLine =
-                                    x + "\t" + z + "\t" + y + "\t" +
+//                                    x + "\t" + z + "\t" + y + "\t" +
                                     Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
                                             "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3];
                                 System.out.println(outLine);
                                 //VisOut.Write(outLine);
-                            }
+//                            }
                         }
                     }
                 }

@@ -31,7 +31,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     private static final long[][][] BaseIndex = ParseBaseIndexes();
     private static final String[] Base = new String[]{"A","C","G","T"};
     private static final boolean QuickMut = true;
-    private static final double QuickMutRate = 0.032;
+    private static final double QuickMutRate = 0.1;
     static final Random RN=new Random();
     String PrivateGenome;
     float h;
