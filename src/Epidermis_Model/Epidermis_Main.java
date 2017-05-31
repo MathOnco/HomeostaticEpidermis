@@ -14,7 +14,7 @@ import static AgentFramework.Utils.GetHSBtoRGB;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=30; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=20; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -32,7 +32,7 @@ class EpidermisConst{
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = true; // use for visualization
+    static final boolean GuiOn = false; // use for visualization
     static final boolean JarFile = false; // Set to true if running from command line as jar file
     static final boolean RecordParents = false; // use when you want parents information
     static final boolean RecordLineages = false; // use when you want
@@ -97,7 +97,7 @@ public class Epidermis_Main {
             EpidermisConst.ModelTime = Time * 365 + 10;
             EpidermisConst.RecordTime = Time * 365;
         }
-        if(EpidermisConst.GuiOn == false){
+        if(EpidermisConst.GuiOn == false && EpidermisConst.GetImageData == false){
             System.out.println("xSize and zSize: " + EpidermisConst.xSize);
             System.out.println("Years: " + EpidermisConst.years);
         }
@@ -159,7 +159,7 @@ public class Epidermis_Main {
         TickRateTimer tickIt = new TickRateTimer();
         while(Epidermis.GetTick() < EpidermisConst.ModelTime){
 
-            tickIt.TickPause(0); // Adjusting a frame rate
+            tickIt.TickPause(60); // Adjusting a frame rate
 
             // Main Running of the steps within the model
             Epidermis.RunStep();
@@ -236,30 +236,26 @@ public class Epidermis_Main {
 
 
             // Use this to get the information for 3D visualizations for OpenGL
-            if(EpidermisConst.GetImageData && EpidermisConst.RecordTime == Epidermis.GetTick()){
+            if(EpidermisConst.GetImageData){
                 Epidermis.BuildMathematicaArray();
-                FileIO VisOut = new FileIO(Image_file, "w");
-                String open="{\n";
-                String closer="}\n";
+                //FileIO VisOut = new FileIO(Image_file + "." + Epidermis.GetTick() + ".txt", "w");
                 for(int y=EpidermisConst.ySize-1; y >= 0;y--){
                     for(int x=0; x < EpidermisConst.xSize;x++){
                         for(int z=0; z < EpidermisConst.zSize;z++){
-                            String outLine =
+                            if (Epidermis.ImageArray[y][x][z][0] != 0.0f && Epidermis.ImageArray[y][x][z][1] != 0.0f && Epidermis.ImageArray[y][x][z][2] != 0.0f && Epidermis.ImageArray[y][x][z][3] != 0.0f){
+                                String outLine =
                                     x + "\t" + z + "\t" + y + "\t" +
                                     Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
-                                            "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3] +
-                                            "\n";
-                            VisOut.Write(outLine);
+                                            "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3];
+                                System.out.println(outLine);
+                                //VisOut.Write(outLine);
+                            }
                         }
                     }
                 }
 
-                VisOut.Close();
-                /* Use this code snippit to get the threeD vis on mathematica
-                file=Import["VisFile(2).txt","Data"]
-                matrix = ArrayReshape[file,{19,14,14,4}]
-                Image3D[matrix, ImageSize->Large,ColorSpace->"RGB", Axes->True,Boxed->False, Method-> {"InterpolateValues" -> False},Background->Black]
-                 */
+                //VisOut.Close();
+                System.out.println("Done");
             }
 
             // Use this to get the information for 3D visualizations
@@ -332,9 +328,9 @@ public class Epidermis_Main {
             }
         }
 
-        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshit));
-        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshitDiv));
-
-        Utils.PrintMemoryUsage();
+//        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshit));
+//        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshitDiv));
+//
+//        Utils.PrintMemoryUsage();
     }
 }
