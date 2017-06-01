@@ -30,7 +30,6 @@ public class Window {
         this.vSync = vSync;
         this.resized = false;
     }
-
     public void init() {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
@@ -85,6 +84,7 @@ public class Window {
             // Enable v-sync
             glfwSwapInterval(1);
         }
+
 
         // Make the window visible
         glfwShowWindow(windowHandle);

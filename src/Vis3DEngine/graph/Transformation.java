@@ -1,15 +1,15 @@
 package Vis3DEngine.graph;
 
+import Vis3DEngine.GameItem;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import Vis3DEngine.GameItem;
 
 public class Transformation {
 
     private final Matrix4f projectionMatrix;
 
     private final Matrix4f modelViewMatrix;
-    
+
     private final Matrix4f viewMatrix;
 
     public Transformation() {
@@ -19,16 +19,16 @@ public class Transformation {
     }
 
     public final Matrix4f getProjectionMatrix(float fov, float width, float height, float zNear, float zFar) {
-        float aspectRatio = width / height;        
+        float aspectRatio = width / height;
         projectionMatrix.identity();
         projectionMatrix.perspective(fov, aspectRatio, zNear, zFar);
         return projectionMatrix;
     }
-    
+
     public Matrix4f getViewMatrix(Camera camera) {
         Vector3f cameraPos = camera.getPosition();
         Vector3f rotation = camera.getRotation();
-        
+
         viewMatrix.identity();
         // First do the rotation so camera rotates over its position
         viewMatrix.rotate((float)Math.toRadians(rotation.x), new Vector3f(1, 0, 0))

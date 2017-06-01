@@ -36,7 +36,7 @@ public class Texture {
         decoder.decode(buf, decoder.getWidth() * 4, Format.RGBA);
         buf.flip();
 
-        // Create a new OpenGL texture 
+        // Create a new OpenGL texture
         int textureId = glGenTextures();
         // Bind the texture
         glBindTexture(GL_TEXTURE_2D, textureId);

@@ -2,10 +2,11 @@ package Vis3DEngine;
 /**
  * Created by schencro on 5/31/17.
  */
+
 public class Timer {
 
     private double lastLoopTime;
-    
+
     public void init() {
         lastLoopTime = getTime();
     }

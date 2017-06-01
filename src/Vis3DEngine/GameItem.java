@@ -8,9 +8,9 @@ import Vis3DEngine.graph.Mesh;
 public class GameItem {
 
     private final Mesh mesh;
-    
+
     private final Vector3f position;
-    
+
     private float scale;
 
     private final Vector3f rotation;
@@ -49,7 +49,7 @@ public class GameItem {
         this.rotation.y = y;
         this.rotation.z = z;
     }
-    
+
     public Mesh getMesh() {
         return mesh;
     }
