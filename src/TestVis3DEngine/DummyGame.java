@@ -75,7 +75,7 @@ public class DummyGame implements IGameLogic {
         }
 
         ambientLight = new Vector3f(0.3f, 0.3f, 0.3f);
-        Vector3f lightColour = new Vector3f(1, 1, 1);
+        Vector3f lightColour = new Vector3f(1, 0, 0);
         Vector3f lightPosition = new Vector3f(0, 0, 1);
         float lightIntensity = 1.0f;
         pointLight = new PointLight(lightColour, lightPosition, lightIntensity);
@@ -83,7 +83,7 @@ public class DummyGame implements IGameLogic {
         pointLight.setAttenuation(att);
 
         lightPosition = new Vector3f(-1, 0, 0);
-        lightColour = new Vector3f(1, 1, 1);
+        lightColour = new Vector3f(1, 0, 0);
         directionalLight = new DirectionalLight(lightColour, lightPosition, lightIntensity);
     }
 
@@ -139,8 +139,8 @@ public class DummyGame implements IGameLogic {
         } else {
             directionalLight.setIntensity(1);
             directionalLight.getColor().x = 1;
-            directionalLight.getColor().y = 1;
-            directionalLight.getColor().z = 1;
+            directionalLight.getColor().y = 0;
+            directionalLight.getColor().z = 0;
         }
         double angRad = Math.toRadians(lightAngle);
         directionalLight.getDirection().x = (float) Math.sin(angRad);
