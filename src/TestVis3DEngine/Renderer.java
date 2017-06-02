@@ -57,6 +57,8 @@ public class Renderer {
         shaderProgram.createUniform("ambientLight");
         shaderProgram.createPointLightUniform("pointLight");
         shaderProgram.createDirectionalLightUniform("directionalLight");
+        // Create fog related uniforms;
+//        shaderProgram.createFogUniform("fog");
 
         setupHudShader();
     }
@@ -115,6 +117,8 @@ public class Renderer {
             shaderProgram.setUniform("material", mesh.getMaterial());
             mesh.render();
         }
+
+//        shaderProgram.setUniform("fog", DummyGame.getFog());
 
         for (Hud hud: hudList) {
             renderHud(window, hud);

@@ -38,6 +38,13 @@ struct Material
     float reflectance;
 };
 
+struct Fog
+{
+    int activeFog;
+    vec3 colour;
+    float density;
+};
+
 uniform sampler2D texture_sampler;
 uniform vec3 ambientLight;
 uniform float specularPower;

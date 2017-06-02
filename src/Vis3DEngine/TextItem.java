@@ -22,6 +22,8 @@ public class TextItem extends GameItem {
 
     private FontTexture fontTexture;
 
+    private float[] test = new float[]{1,1,1};
+
     private float startx;
 
     private float starty;
@@ -89,7 +91,7 @@ public class TextItem extends GameItem {
         float[] posArr = Utils.listToArray(positions);
         float[] textCoordsArr = Utils.listToArray(textCoords);
         int[] indicesArr = indices.stream().mapToInt(i->i).toArray();
-        VAO mesh = new VAO(posArr, textCoordsArr, normals, indicesArr);
+        VAO mesh = new VAO(posArr, textCoordsArr, test, normals, indicesArr);
         mesh.setMaterial(new Material(fontTexture.getTexture()));
         return mesh;
     }

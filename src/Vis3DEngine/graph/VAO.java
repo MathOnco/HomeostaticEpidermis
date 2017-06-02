@@ -23,9 +23,10 @@ public class VAO {
 
     private Material material;
 
-    public VAO(float[] positions, float[] textCoords, float[] normals, int[] indices) {
+    public VAO(float[] positions, float[] textCoords, float[] colours, float[] normals, int[] indices) {
         FloatBuffer posBuffer = null;
         FloatBuffer textCoordsBuffer = null;
+        FloatBuffer colourBuffer = null;
         FloatBuffer vecNormalsBuffer = null;
         IntBuffer indicesBuffer = null;
         try {
@@ -54,6 +55,15 @@ public class VAO {
             glBufferData(GL_ARRAY_BUFFER, textCoordsBuffer, GL_STATIC_DRAW);
             glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
 
+            // Colour VBO
+            vboId = glGenBuffers();
+            vboIdList.add(vboId);
+            colourBuffer = MemoryUtil.memAllocFloat(colours.length);
+            colourBuffer.put(colours).flip();
+            glBindBuffer(GL_ARRAY_BUFFER, vboId);
+            glBufferData(GL_ARRAY_BUFFER, colourBuffer, GL_STATIC_DRAW);
+            glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, 0);
+
             // Vertex normals VBO
             vboId = glGenBuffers();
             vboIdList.add(vboId);
@@ -61,7 +71,7 @@ public class VAO {
             vecNormalsBuffer.put(normals).flip();
             glBindBuffer(GL_ARRAY_BUFFER, vboId);
             glBufferData(GL_ARRAY_BUFFER, vecNormalsBuffer, GL_STATIC_DRAW);
-            glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, 0);
+            glVertexAttribPointer(3, 3, GL_FLOAT, false, 0, 0);
 
             // Index VBO
             vboId = glGenBuffers();
@@ -85,6 +95,9 @@ public class VAO {
             }
             if (indicesBuffer != null) {
                 MemoryUtil.memFree(indicesBuffer);
+            }
+            if (colourBuffer != null) {
+                MemoryUtil.memFree(colourBuffer);
             }
         }
     }
@@ -150,6 +163,7 @@ public class VAO {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         glEnableVertexAttribArray(2);
+        glEnableVertexAttribArray(3);
 
         glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0);
 
@@ -157,6 +171,7 @@ public class VAO {
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(2);
+        glDisableVertexAttribArray(3);
         glBindVertexArray(0);
         glBindTexture(GL_TEXTURE_2D, 0);
     }

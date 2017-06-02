@@ -26,6 +26,11 @@ public class DummyGame implements IGameLogic {
     private Hud hud;
     private Hud hud2;
     private Hud[] hudList;
+
+    private int iter = 0;
+
+    private Fog fog;
+
     private GameItem[] gameItems = new GameItem[5*5*5];
 
     private final Camera camera;
@@ -46,7 +51,8 @@ public class DummyGame implements IGameLogic {
         renderer = new Renderer();
         camera = new Camera();
         cameraInc = new Vector3f(0.0f, 0.0f, 0.0f);
-        lightAngle = -90;
+        lightAngle = -45;
+        fog = Fog.NOFOG;
     }
 
     @Override
@@ -65,14 +71,14 @@ public class DummyGame implements IGameLogic {
                 for (int z = 0; z < 5; z++) {
                     GameItem gameItem = new GameItem(mesh);
                     gameItem.setScale(0.5f);
-                    gameItem.setPosition(RN.nextInt(5)-5, RN.nextInt(5)-5, RN.nextInt(5)-5);
+                    gameItem.setPosition(RN.nextInt(100)-100, RN.nextInt(100)-100, RN.nextInt(100)-100);
                     gameItems[i]=gameItem;
                     i++;
                 }
             }
         }
 
-        ambientLight = new Vector3f(0.3f, 0.3f, 0.3f);
+        ambientLight = new Vector3f(0.7f, 0.3f, 0.3f);
         Vector3f lightColour = new Vector3f(1, 0, 0);
         Vector3f lightPosition = new Vector3f(0, 0, 1);
         float lightIntensity = 1.0f;
@@ -81,7 +87,7 @@ public class DummyGame implements IGameLogic {
         pointLight.setAttenuation(att);
 
         lightPosition = new Vector3f(-1, 0, 0);
-        lightColour = new Vector3f(1, 0, 0);
+        lightColour = new Vector3f(0, 0, 1);
         directionalLight = new DirectionalLight(lightColour, lightPosition, lightIntensity);
 
         // Create HUD
@@ -117,6 +123,7 @@ public class DummyGame implements IGameLogic {
 
     @Override
     public void update(float interval, MouseInput mouseInput) {
+        iter ++;
         // Update camera position
         camera.movePosition(cameraInc.x * CAMERA_POS_STEP, cameraInc.y * CAMERA_POS_STEP, cameraInc.z * CAMERA_POS_STEP);
 
@@ -126,14 +133,21 @@ public class DummyGame implements IGameLogic {
             camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
         }
 
-
-        for (int j = 0; j < 20; j++) {
-            int i = RN.nextInt(125);
-            gameItems[i].setPosition(RN.nextInt(5)-5, RN.nextInt(5)-5, RN.nextInt(5)-5);
+        if(iter >= 200){
+            for (int j = 0; j < 5; j++) {
+                int i = RN.nextInt(125);
+                gameItems[i].setPosition(RN.nextInt(10)-10, RN.nextInt(10)-10, RN.nextInt(10)-10);
+            }
+        } else {
+            for (int j = 0; j < 5; j++) {
+                int i = RN.nextInt(125);
+                gameItems[i].setPosition(RN.nextInt(200)-200, RN.nextInt(200)-200, RN.nextInt(200)-200);
+            }
         }
 
+
         // Update directional light direction, intensity and colour
-        lightAngle += 1.1f;
+        lightAngle += 0.5f;
         if (lightAngle > 90) {
             directionalLight.setIntensity(0);
             if (lightAngle >= 360) {
@@ -175,6 +189,7 @@ public class DummyGame implements IGameLogic {
         hud2.cleanup();
         hud.cleanup();
     }
+
 
 }
 

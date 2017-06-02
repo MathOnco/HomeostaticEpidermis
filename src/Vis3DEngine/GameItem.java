@@ -9,11 +9,11 @@ public class GameItem {
 
     private VAO mesh;
 
-    private final Vector3f position;
+    private Vector3f position;
 
     private float scale;
 
-    private final Vector3f rotation;
+    private Vector3f rotation;
 
     public GameItem(){
         position = new Vector3f(0, 0, 0);

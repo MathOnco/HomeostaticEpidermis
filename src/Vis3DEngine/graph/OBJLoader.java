@@ -11,6 +11,8 @@ import Vis3DEngine.Utils;
 
 public class OBJLoader {
 
+
+
     public static VAO loadMesh(String fileName) throws Exception {
         List<String> lines = Utils.readAllLines(fileName);
 
@@ -82,7 +84,13 @@ public class OBJLoader {
         }
         int[] indicesArr = new int[indices.size()];
         indicesArr = indices.stream().mapToInt((Integer v) -> v).toArray();
-        VAO mesh = new VAO(posArr, textCoordArr, normArr, indicesArr);
+        float[] colours = new float[]{
+                0.5f, 0.0f, 0.0f,
+                0.0f, 0.5f, 0.0f,
+                0.0f, 0.0f, 0.5f,
+                0.0f, 0.5f, 0.5f,
+        };
+        VAO mesh = new VAO(posArr, textCoordArr, colours, normArr, indicesArr);
         return mesh;
     }
 
