@@ -8,7 +8,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import static org.lwjgl.glfw.GLFW.*;
 
-import Vis3DEngine.graph.Mesh;
+import Vis3DEngine.graph.VAO;
 
 import java.time.LocalDateTime;
 import java.util.Random;
@@ -54,7 +54,7 @@ public class DummyGame implements IGameLogic {
         renderer.init(window);
 
         float reflectance = 1f;
-        Mesh mesh = OBJLoader.loadMesh("/models/cube.obj");
+        VAO mesh = OBJLoader.loadMesh("/models/cube.obj");
         Texture texture = new Texture("/textures/FaceBlock.png");
         Material material = new Material(texture, reflectance);
 

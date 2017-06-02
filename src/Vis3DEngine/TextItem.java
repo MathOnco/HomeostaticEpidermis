@@ -5,10 +5,9 @@ package Vis3DEngine;
  */
 import Vis3DEngine.graph.FontTexture;
 import Vis3DEngine.graph.Material;
-import Vis3DEngine.graph.Mesh;
+import Vis3DEngine.graph.VAO;
 import Vis3DEngine.graph.Texture;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class TextItem extends GameItem {
         setMesh(buildMesh(this.startx, this.starty));
     }
 
-    private Mesh buildMesh(float startx, float starty) {
+    private VAO buildMesh(float startx, float starty) {
         List<Float> positions = new ArrayList();
         List<Float> textCoords = new ArrayList();
         float[] normals   = new float[0];
@@ -90,7 +89,7 @@ public class TextItem extends GameItem {
         float[] posArr = Utils.listToArray(positions);
         float[] textCoordsArr = Utils.listToArray(textCoords);
         int[] indicesArr = indices.stream().mapToInt(i->i).toArray();
-        Mesh mesh = new Mesh(posArr, textCoordsArr, normals, indicesArr);
+        VAO mesh = new VAO(posArr, textCoordsArr, normals, indicesArr);
         mesh.setMaterial(new Material(fontTexture.getTexture()));
         return mesh;
     }

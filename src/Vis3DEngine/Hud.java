@@ -3,14 +3,7 @@ package Vis3DEngine;
 /**
  * Created by schencro on 6/1/17.
  */
-import Vis3DEngine.GameItem;
-import Vis3DEngine.IHud;
-import Vis3DEngine.TextItem;
-import Vis3DEngine.Window;
 import Vis3DEngine.graph.FontTexture;
-import Vis3DEngine.graph.Material;
-import Vis3DEngine.graph.Mesh;
-import Vis3DEngine.graph.OBJLoader;
 import org.joml.Vector4f;
 
 import java.awt.*;

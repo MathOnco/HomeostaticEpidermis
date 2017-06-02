@@ -13,7 +13,7 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 import org.lwjgl.system.MemoryUtil;
 
-public class Mesh {
+public class VAO {
 
     private final int vaoId;
 
@@ -23,7 +23,7 @@ public class Mesh {
 
     private Material material;
 
-    public Mesh(float[] positions, float[] textCoords, float[] normals, int[] indices) {
+    public VAO(float[] positions, float[] textCoords, float[] normals, int[] indices) {
         FloatBuffer posBuffer = null;
         FloatBuffer textCoordsBuffer = null;
         FloatBuffer vecNormalsBuffer = null;
@@ -34,6 +34,7 @@ public class Mesh {
 
             vaoId = glGenVertexArrays();
             glBindVertexArray(vaoId);
+
 
             // Position VBO
             int vboId = glGenBuffers();
@@ -102,6 +103,37 @@ public class Mesh {
 
     public int getVertexCount() {
         return vertexCount;
+    }
+
+    private int createVBO(float[] data,int elemLen,int index){
+        int vboID=0;
+        FloatBuffer MemBuffer=null;
+        try {
+            vboID = glGenBuffers();
+            MemBuffer = MemoryUtil.memAllocFloat(data.length);
+            MemBuffer.put(data).flip();
+            glBindBuffer(GL_ARRAY_BUFFER, getVaoId());
+            glBufferData(GL_ARRAY_BUFFER, MemBuffer, GL_STATIC_DRAW);
+            glVertexAttribPointer(index, elemLen, GL_FLOAT, false, 0, 0);
+        } finally {
+            MemoryUtil.memFree(MemBuffer);
+        }
+        return vboID;
+    }
+    private int createVBO(int[] data,int elemLen,int index){
+        int vboID=-1;
+        IntBuffer MemBuffer=null;
+        try {
+            vboID = glGenBuffers();
+            MemBuffer = MemoryUtil.memAllocInt(data.length);
+            MemBuffer.put(data).flip();
+            glBindBuffer(GL_ARRAY_BUFFER, getVaoId());
+            glBufferData(GL_ARRAY_BUFFER, MemBuffer, GL_STATIC_DRAW);
+            glVertexAttribPointer(index, elemLen, GL_INT, false, 0, 0);
+        } finally {
+            MemoryUtil.memFree(MemBuffer);
+        }
+        return vboID;
     }
 
     public void render() {

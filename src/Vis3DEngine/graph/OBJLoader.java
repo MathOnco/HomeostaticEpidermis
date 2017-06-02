@@ -11,7 +11,7 @@ import Vis3DEngine.Utils;
 
 public class OBJLoader {
 
-    public static Mesh loadMesh(String fileName) throws Exception {
+    public static VAO loadMesh(String fileName) throws Exception {
         List<String> lines = Utils.readAllLines(fileName);
 
         List<Vector3f> vertices = new ArrayList<>();
@@ -57,8 +57,8 @@ public class OBJLoader {
         return reorderLists(vertices, textures, normals, faces);
     }
 
-    private static Mesh reorderLists(List<Vector3f> posList, List<Vector2f> textCoordList,
-                                     List<Vector3f> normList, List<Face> facesList) {
+    private static VAO reorderLists(List<Vector3f> posList, List<Vector2f> textCoordList,
+                                    List<Vector3f> normList, List<Face> facesList) {
 
         List<Integer> indices = new ArrayList();
         // Create position array in the order it has been declared
@@ -82,7 +82,7 @@ public class OBJLoader {
         }
         int[] indicesArr = new int[indices.size()];
         indicesArr = indices.stream().mapToInt((Integer v) -> v).toArray();
-        Mesh mesh = new Mesh(posArr, textCoordArr, normArr, indicesArr);
+        VAO mesh = new VAO(posArr, textCoordArr, normArr, indicesArr);
         return mesh;
     }
 

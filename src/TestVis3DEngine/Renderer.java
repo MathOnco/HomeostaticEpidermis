@@ -11,7 +11,7 @@ import Vis3DEngine.graph.ShaderProgram;
 import Vis3DEngine.graph.Transformation;
 import org.joml.Vector3f;
 import Vis3DEngine.graph.DirectionalLight;
-import Vis3DEngine.graph.Mesh;
+import Vis3DEngine.graph.VAO;
 import Vis3DEngine.graph.PointLight;
 import org.joml.Vector4f;
 
@@ -107,7 +107,7 @@ public class Renderer {
         shaderProgram.setUniform("texture_sampler", 0);
         // Render each gameItem
         for(GameItem gameItem : gameItems) {
-            Mesh mesh = gameItem.getMesh();
+            VAO mesh = gameItem.getMesh();
             // Set model view matrix for this item
             Matrix4f modelViewMatrix = transformation.getModelViewMatrix(gameItem, viewMatrix);
             shaderProgram.setUniform("modelViewMatrix", modelViewMatrix);
@@ -141,7 +141,7 @@ public class Renderer {
 
         Matrix4f ortho = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
         for (GameItem gameItem : hud.getGameItems()) {
-            Mesh mesh = gameItem.getMesh();
+            VAO mesh = gameItem.getMesh();
             // Set ortohtaphic and model matrix for this HUD item
             Matrix4f projModelMatrix = transformation.getOrthoProjModelMatrix(gameItem, ortho);
             hudShaderProgram.setUniform("projModelMatrix", projModelMatrix);

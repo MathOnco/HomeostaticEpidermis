@@ -3,11 +3,11 @@ package Vis3DEngine;
  * Created by schencro on 5/31/17.
  */
 import org.joml.Vector3f;
-import Vis3DEngine.graph.Mesh;
+import Vis3DEngine.graph.VAO;
 
 public class GameItem {
 
-    private Mesh mesh;
+    private VAO mesh;
 
     private final Vector3f position;
 
@@ -21,7 +21,7 @@ public class GameItem {
         rotation = new Vector3f(0, 0, 0);
     }
 
-    public GameItem(Mesh mesh) {
+    public GameItem(VAO mesh) {
         this();
         this.mesh=mesh;
     }
@@ -54,9 +54,9 @@ public class GameItem {
         this.rotation.z = z;
     }
 
-    public Mesh getMesh() {
+    public VAO getMesh() {
         return mesh;
     }
 
-    public void setMesh(Mesh mesh){ this.mesh = mesh; }
+    public void setMesh(VAO mesh){ this.mesh = mesh; }
 }
