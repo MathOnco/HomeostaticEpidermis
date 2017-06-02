@@ -2,11 +2,10 @@ package TestVis3DEngine;
 /**
  * Created by schencro on 5/31/17.
  */
+import Vis3DEngine.*;
 import org.joml.Matrix4f;
 import static org.lwjgl.opengl.GL11.*;
-import Vis3DEngine.GameItem;
-import Vis3DEngine.Utils;
-import Vis3DEngine.Window;
+
 import Vis3DEngine.graph.Camera;
 import Vis3DEngine.graph.ShaderProgram;
 import Vis3DEngine.graph.Transformation;
@@ -30,6 +29,8 @@ public class Renderer {
     private final Transformation transformation;
 
     private ShaderProgram shaderProgram;
+
+    private ShaderProgram hudShaderProgram;
 
     private final float specularPower;
 
@@ -56,6 +57,8 @@ public class Renderer {
         shaderProgram.createUniform("ambientLight");
         shaderProgram.createPointLightUniform("pointLight");
         shaderProgram.createDirectionalLightUniform("directionalLight");
+
+        setupHudShader();
     }
 
     public void clear() {
@@ -63,7 +66,7 @@ public class Renderer {
     }
 
     public void render(Window window, Camera camera, GameItem[] gameItems, Vector3f ambientLight,
-                       PointLight pointLight, DirectionalLight directionalLight) {
+                       PointLight pointLight, DirectionalLight directionalLight, Hud[] hudList) {
 
         clear();
 
@@ -113,7 +116,42 @@ public class Renderer {
             mesh.render();
         }
 
+        for (Hud hud: hudList) {
+            renderHud(window, hud);
+        }
+//        renderHud(window, hud);
+
         shaderProgram.unbind();
+    }
+
+    private void setupHudShader() throws Exception {
+        hudShaderProgram = new ShaderProgram();
+
+        hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud_vertex.vs"));
+        hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud_fragment.fs"));
+        hudShaderProgram.link();
+
+        // Create uniforms for Ortographic-model projection matrix and base colour
+        hudShaderProgram.createUniform("projModelMatrix");
+        hudShaderProgram.createUniform("colour");
+    }
+
+    private void renderHud(Window window, IHud hud) {
+        hudShaderProgram.bind();
+
+        Matrix4f ortho = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
+        for (GameItem gameItem : hud.getGameItems()) {
+            Mesh mesh = gameItem.getMesh();
+            // Set ortohtaphic and model matrix for this HUD item
+            Matrix4f projModelMatrix = transformation.getOrthoProjModelMatrix(gameItem, ortho);
+            hudShaderProgram.setUniform("projModelMatrix", projModelMatrix);
+            hudShaderProgram.setUniform("colour", gameItem.getMesh().getMaterial().getAmbientColour());
+
+            // Render the mesh for this HUD item
+            mesh.render();
+        }
+
+        hudShaderProgram.unbind();
     }
 
     public void cleanup() {
