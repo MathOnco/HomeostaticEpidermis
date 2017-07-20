@@ -1,5 +1,6 @@
 package Epidermis_Model;
 
+import AgentFramework.FileIO;
 import AgentFramework.GenomeTracker;
 import AgentFramework.Grid3unstackable;
 import AgentFramework.GridDiff3;
@@ -9,6 +10,7 @@ import static AgentFramework.Utils.GetHSBtoRGB;
 import static Epidermis_Model.EpidermisConst.*;
 import static java.awt.Color.HSBtoRGB;
 
+import java.io.FileWriter;
 import java.util.Random;
 
 /**
@@ -215,16 +217,12 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         }
     }
 
-        // Inflicting a wound to simulate wound repair...
+    // Inflicting a wound to simulate wound repair...
     public void inflict_wound(int size){
-        for (int x = EpidermisConst.xSize/2 - size; x < EpidermisConst.xSize/2 + size; x++){
-            for (int z = EpidermisConst.zSize/2 - size; z < EpidermisConst.zSize/2 + size; z++){
-                for (int y=0; y < yDim; y++) {
-                    EpidermisCell c = GetAgent(x, y, z);
-                    if (c != null) {
-                        c.itDead();
-                    }
-                }
+        for(int i=0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize);i++) {
+            EpidermisCell c = GetAgent(i);
+            if(c!=null){
+                String OutString = ItoX(i) + "," + ItoY(i) + "," + ItoZ(i) + "," + c.myGenome.
             }
         }
     }
@@ -234,6 +232,16 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void GetCellPositions(FileIO PositionOut){
+        for(int x=0; x < EpidermisConst.xSize;x++) {
+            for (int y = 0; y < EpidermisConst.ySize; y++) {
+                for (int z = 0; z < EpidermisConst.zSize; z++) {
+
+                }
+            }
         }
     }
 
