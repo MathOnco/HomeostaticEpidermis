@@ -40,5 +40,7 @@
         <jarDirectory url="file://$MODULE_DIR$/lib/lwgjl-3.1.2" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="R User Library" level="project" />
+    <orderEntry type="library" name="R Skeletons" level="application" />
   </component>
 </module>
