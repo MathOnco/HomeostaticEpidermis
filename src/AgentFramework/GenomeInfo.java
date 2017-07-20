@@ -3,7 +3,7 @@ package AgentFramework;
  * should be declared myType extends GenomeInfo <myType>
  */
 public abstract class GenomeInfo <T extends GenomeInfo> {
-    int id;
+    public int id;
     int popSize;
     T next;
     T prev;

@@ -222,7 +222,7 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         for(int i=0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize);i++) {
             EpidermisCell c = GetAgent(i);
             if(c!=null){
-                String OutString = ItoX(i) + "," + ItoY(i) + "," + ItoZ(i) + "," + c.myGenome.
+                continue;
             }
         }
     }
@@ -236,11 +236,11 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     }
 
     public void GetCellPositions(FileIO PositionOut){
-        for(int x=0; x < EpidermisConst.xSize;x++) {
-            for (int y = 0; y < EpidermisConst.ySize; y++) {
-                for (int z = 0; z < EpidermisConst.zSize; z++) {
-
-                }
+        for(int i=0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize);i++) {
+            EpidermisCell c = GetAgent(i);
+            if(c!=null){
+                String OutString = ItoX(i) + "," + ItoY(i) + "," + ItoZ(i) + "," + c.myGenome.id + "\n";
+                PositionOut.Write(OutString);
             }
         }
     }
