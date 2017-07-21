@@ -14,7 +14,7 @@ import static AgentFramework.Utils.GetHSBtoRGB;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=20; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=10; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -32,13 +32,13 @@ class EpidermisConst{
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = true; // use for visualization, set to false for jar file / multiple runs
-    static final boolean JarFile = false; // Set to true if running from command line as jar file!!!!!!!!
-    static final boolean RecordParents = false; // use when you want parents information
-    static final boolean RecordLineages = false; // use when you want
-    static final boolean RecordPopSizes = false; // Use to record clone population sizes
+    static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
+    static final boolean JarFile = true; // Set to true if running from command line as jar file!!!!!!!!
+    static final boolean RecordParents = true; // use when you want parents information
+    static final boolean RecordLineages = true; // use when you want
+    static final boolean RecordPopSizes = true; // Use to record clone population sizes
     static final boolean get_r_lambda = true; // use when you want the r_lambda value for the visualization
-    static final boolean writeValues = false; // use this when you want the data to be saved!
+    static final boolean writeValues = true; // use this when you want the data to be saved!
     static final boolean sliceOnly = true; // use this when you want only a slice of the 3D model to be output!!!!!!!!!!!!!!
     static final boolean SliceAndFull = true; // use this when you want a slice out of the 3D model and the full data of the modeled cells!!!!
     static final boolean GetImageData = false; // Use for 3D data for visualization
@@ -331,7 +331,7 @@ public class Epidermis_Main {
                     }
                     System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(MeanWeekPrint / meanCellAgeIndex) + "\n");
                 }
-                if (EpidermisConst.sliceOnly==false && EpidermisConst.RecordTime == Epidermis.GetTick()){
+                if (EpidermisConst.sliceOnly==true && EpidermisConst.RecordTime == Epidermis.GetTick()){
                     FileIO PositionOut = new FileIO(PositionFile, "w");
                     Epidermis.GetCellPositions(PositionOut);
                     PositionOut.Close();
