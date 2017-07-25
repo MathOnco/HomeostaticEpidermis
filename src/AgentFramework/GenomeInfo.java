@@ -68,4 +68,6 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
      * returns a string with info about the genome to be stored
      */
     public abstract String GenomeInfoStr();
+
+    public int IDGetter(){ return id; }
 }

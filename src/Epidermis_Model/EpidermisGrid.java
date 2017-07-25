@@ -239,7 +239,7 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         for(int i=0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize);i++) {
             EpidermisCell c = GetAgent(i);
             if(c!=null){
-                String OutString = ItoX(i) + "," + ItoY(i) + "," + ItoZ(i) + "," + c.myGenome.id + "\n";
+                String OutString = ItoX(i) + "," + ItoY(i) + "," + ItoZ(i) + "," + c.myGenome.IDGetter() + "\n";
                 PositionOut.Write(OutString);
             }
         }
