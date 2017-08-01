@@ -45,7 +45,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         xDim = x;
         yDim = y;
         EGF = new GridDiff2(x, y);
-        GenomeStore = new GenomeTracker<>(new EpidermisCellGenome().initEpidermisCellGenome(1,1,1,""), true, true);
+        GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(0f,0f,1f,"", this), true, true);
         PlaceCells();
     }
 

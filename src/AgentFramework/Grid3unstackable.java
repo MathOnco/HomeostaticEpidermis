@@ -50,15 +50,13 @@ public class Grid3unstackable<T extends AgentSQ3unstackable> extends GridBase im
      * gets the x component of the voxel at the specified index
      */
     public int ItoX(int i){
-        return i%(yDim*zDim);
+        return i/(yDim*zDim);
     }
 
     /**
      * gets the y component of the voxel at the specified index
      */
-    public int ItoY(int i){
-        return (i/zDim)%xDim;
-    }
+    public int ItoY(int i){return (i/zDim)%yDim;}
 
     /**
      * gets the z component of the voxel at the specified index
@@ -203,7 +201,7 @@ public class Grid3unstackable<T extends AgentSQ3unstackable> extends GridBase im
         //moves coordinates to be around origin
         //if any of the coordinates are outside the bounds, they will not be added
         int ptCt = 0;
-        for (int i = 0; i < SQs.length / 2; i++) {
+        for (int i = 0; i < SQs.length / 3; i++) {
             int x = SQs[i * 3] + centerX;
             int y = SQs[i * 3 + 1] + centerY;
             int z = SQs[i * 3 + 2] + centerZ;

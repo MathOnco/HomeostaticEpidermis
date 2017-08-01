@@ -33,6 +33,20 @@ public abstract class AgentSQ3unstackable<T extends Grid3unstackable> extends Ag
         this.xSq=x;
         this.ySq=y;
         this.zSq=z;
+        this.iSq=iNewPos;
+    }
+
+    /**
+     * Moves the agent to the specified coordinates
+     */
+    public void Move(int i){
+        //moves agent discretely
+        myGrid.RemAgentFromSquare(this,iSq);
+        myGrid.AddAgentToSquare(this,i);
+        this.xSq=G().ItoX(i);
+        this.ySq=G().ItoY(i);
+        this.zSq=G().ItoZ(i);
+        this.iSq=i;
     }
 
     /**
@@ -76,6 +90,11 @@ public abstract class AgentSQ3unstackable<T extends Grid3unstackable> extends Ag
     public double Ypt(){
         return ySq+0.5;
     }
+
+    /**
+     * Gets the index of the square that the agent occupies
+     */
+    public int Isq(){return iSq;}
 
     /**
      * gets the z coordinate of the agent

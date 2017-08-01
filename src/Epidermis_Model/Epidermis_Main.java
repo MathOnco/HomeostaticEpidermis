@@ -23,7 +23,7 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=1; // time in years.
+    static int years=5; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
@@ -33,11 +33,11 @@ class EpidermisConst{
     static final boolean JarFile = false; // Set to true if running from command line as jar file
     static final boolean RecordAllPopSizes = false; // use to record all clone populations
     static final boolean TrackAll = false; // Use this if you want to record mutations outside the genes of interest.
-    static final boolean RecordParents = false; // use when you want parents information
-    static final boolean RecordLineages = false; // use when you want
-    static final boolean RecordPopSizes = false; // Use to record clone population sizes
+    static final boolean RecordParents = true; // use when you want parents information
+    static final boolean RecordLineages = true; // use when you want
+    static final boolean RecordPopSizes = true; // Use to record clone population sizes
     static final boolean get_r_lambda = true; // use when you want the r_lambda value
-    static final boolean writeValues = false; // Use when you want to write the output
+    static final boolean writeValues = true; // Use when you want to write the output
 }
 
 public class Epidermis_Main {

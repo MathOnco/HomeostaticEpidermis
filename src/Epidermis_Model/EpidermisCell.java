@@ -116,7 +116,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             pro_count_basal++;
         }
 
-        newCell.init(myType, myGenome.NewClone().PossiblyMutate()); // initializes a new skin cell, pass the cellID for a new value each time.
+        newCell.init(myType, myGenome.NewChild().PossiblyMutate()); // initializes a new skin cell, pass the cellID for a new value each time.
         myGenome = myGenome.PossiblyMutate(); // Check if this daughter cell, i.e. the progenitor gets mutations during this proliferation step.
         pro_count += 1;
         return true;

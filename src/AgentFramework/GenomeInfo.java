@@ -1,16 +1,17 @@
 package AgentFramework;
 
-import java.util.Iterator;
+import Epidermis_Model.Epidermis_Main;
 
 /**
  * should be declared myType extends GenomeInfo <myType>
  */
 public abstract class GenomeInfo <T extends GenomeInfo> {
-    int id;
+    public int id;
     int popSize;
     T next;
     T prev;
-    GenomeTracker<T> myTracker;
+    GenomeTracker myTracker;
+
 
     /**
      * gets the current number of clones that share this genome
@@ -22,7 +23,7 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
     /**
      * ignore
      */
-    void _Init(GenomeTracker myTracker,int id,T next,T prev){
+    void _Init(GenomeTracker myTracker, int id, T next, T prev){
         this.myTracker=myTracker;
         this.id=id;
         this.next=next;
@@ -34,13 +35,13 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
      * removes clone from GenomeInfo population
      */
     public void DisposeClone(){
-        myTracker.DisposeClone((T)this);
+        myTracker.DisposeClone(this);
     }
 
     /**
      * adds new clone to GenomeInfo population
      */
-    public T NewClone(){
+    public T NewChild(){
         popSize++;
         return (T)this;
     }
@@ -53,13 +54,9 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
         if(nextGenome==null){
             return (T)this;
         }
-        myTracker.AddMutant((T)this,nextGenome);
         DisposeClone();
+        myTracker.AddMutant(this,nextGenome);
         return nextGenome;
-    }
-
-    public T NewMutantGenome(){
-        return myTracker.NewMutant((T)this);
     }
     public String FullLineageInfoStr(String delim){
         return myTracker.FullLineageInfoStr(id,delim);
@@ -67,7 +64,7 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
 
     /**
      * a potential mutation event, return null if the genome did not change, otherwise return a new genome with the change inside
-     * do not change the parent genome!!!!!!!!!!!!!!
+     * do not change the calling genome!!!!!!!!!!!!!!
      */
     public abstract T _RunPossibleMutation();
 
@@ -75,4 +72,6 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
      * returns a string with info about the genome to be stored
      */
     public abstract String GenomeInfoStr();
+
+    public int IDGetter(){ return id; }
 }
