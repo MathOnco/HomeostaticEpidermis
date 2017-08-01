@@ -1,5 +1,6 @@
 package Epidermis_Model;
 
+import AgentFramework.FileIO;
 import AgentFramework.GenomeTracker;
 import AgentFramework.Grid2;
 import AgentFramework.GridDiff2;
@@ -170,6 +171,15 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
                 if (c != null) {
                     c.itDead();
                 }
+            }
+        }
+    }
+
+    public void GetCellPositions(FileIO PositionOut){
+        for (EpidermisCell c: this) {
+            if(c!=null){
+                String OutString = c.Xsq() + "," + c.Ysq() + "," + c.myGenome.IDGetter() + "\n";
+                PositionOut.Write(OutString);
             }
         }
     }

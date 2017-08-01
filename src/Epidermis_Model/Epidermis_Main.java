@@ -38,6 +38,7 @@ class EpidermisConst{
     static final boolean RecordPopSizes = true; // Use to record clone population sizes
     static final boolean get_r_lambda = true; // use when you want the r_lambda value
     static final boolean writeValues = true; // Use when you want to write the output
+    static final boolean positionInfo = true; // Use to get positions
 }
 
 public class Epidermis_Main {
@@ -75,6 +76,7 @@ public class Epidermis_Main {
         String PopSizes = System.getProperty("user.dir") + "/TestOutput/PopSizes.csv";
         String MutationFile = System.getProperty("user.dir") + "/TestOutput/MutationFile.csv";
         String r_lambda_file = System.getProperty("user.dir") + "/TestOutput/R_Lambda_Values.csv";
+        String PositionFile = System.getProperty("user.dir") + "/TestOutput/CellPositions.csv";
         /*
         Sets up Data Files if on cluster or if ran locally
          */
@@ -88,6 +90,7 @@ public class Epidermis_Main {
             EpidermisConst.years = Time;
             EpidermisConst.ModelTime = Time * 365 + 10;
             EpidermisConst.RecordTime = Time * 365;
+            PositionFile = args[6];
         }
         if(EpidermisConst.GuiOn == false){
             System.out.println("xSize: " + EpidermisConst.xSize);
@@ -264,6 +267,13 @@ public class Epidermis_Main {
                     }
                     System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(MeanWeekPrint / meanCellAgeIndex) + "\n");
                 }
+                if (EpidermisConst.positionInfo==true && EpidermisConst.RecordTime == Epidermis.GetTick()){
+                    FileIO PositionOut = new FileIO(PositionFile, "w");
+                    Epidermis.GetCellPositions(PositionOut);
+                    PositionOut.Close();
+                    System.out.println("Position Information Saved to File");
+                }
+
             }
         }
         Utils.PrintMemoryUsage();
