@@ -48,7 +48,7 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         yDim = y;
         zDim = z;
         EGF = new GridDiff3(x, y, z);
-        GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(0f,0f,1f,""), true, true);
+        GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(0f,0f,1f,"", this), true, true);
         PlaceCells();
     }
 

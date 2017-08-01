@@ -1,4 +1,7 @@
 package AgentFramework;
+
+import Epidermis_Model.Epidermis_Main;
+
 /**
  * should be declared myType extends GenomeInfo <myType>
  */
@@ -8,6 +11,7 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
     T next;
     T prev;
     GenomeTracker myTracker;
+
 
     /**
      * gets the current number of clones that share this genome
@@ -19,7 +23,7 @@ public abstract class GenomeInfo <T extends GenomeInfo> {
     /**
      * ignore
      */
-    void _Init(GenomeTracker myTracker,int id,T next,T prev){
+    void _Init(GenomeTracker myTracker, int id, T next, T prev){
         this.myTracker=myTracker;
         this.id=id;
         this.next=next;

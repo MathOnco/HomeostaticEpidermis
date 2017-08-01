@@ -33,6 +33,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     private static final boolean QuickMut = false;
     private static final double QuickMutRate = 0.1;
     static final Random RN=new Random();
+    EpidermisGrid theGrid;
     String PrivateGenome;
     float h;
     float s;
@@ -41,11 +42,12 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     End New Information To Keep Inside the Model!!!!!
      */
 
-    EpidermisCellGenome(float h, float s, float v, String PrivateGenome) {
+    EpidermisCellGenome(float h, float s, float v, String PrivateGenome, EpidermisGrid theGrid) {
         this.h = h;
         this.s = s;
         this.v = v;
         this.PrivateGenome = PrivateGenome;
+        this.theGrid = theGrid;
     }
 
     @Override
@@ -61,9 +63,9 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
                         long mutIndex = BaseIndex[j - 1][MutatedBaseKind][RN.nextInt(BaseIndex[j - 1][MutatedBaseKind].length)];
                         String MutOut = "";
                         if (j == ExpectedMuts.length - 1) {
-                            MutOut = j + "." + Base[MutatedBaseKind] + "." + mutIndex;
+                            MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex;
                         } else {
-                            MutOut = j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
+                            MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
                         }
                         MutsObtained.append(MutOut);
                     }
@@ -90,9 +92,9 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
             String PrivGenome = MutsObtained.toString();
             if (PrivGenome.length() > 0) {
                 if (h == 0f && s == 0f && v == 1f) {
-                    return new EpidermisCellGenome(RN.nextFloat(), 1f , 0.75f, PrivGenome);
+                    return new EpidermisCellGenome(RN.nextFloat(), 1f , 0.75f, PrivGenome, theGrid);
                 } else {
-                    return new EpidermisCellGenome(h, RN.nextFloat()*0.3f+0.6f, RN.nextFloat()*0.55f+0.3f, PrivGenome);
+                    return new EpidermisCellGenome(h, RN.nextFloat()*0.3f+0.6f, RN.nextFloat()*0.55f+0.3f, PrivGenome, theGrid);
                 }
             } else {
                 return null; // If No Mutation Occurs
@@ -101,9 +103,9 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
             if(RN.nextDouble()<QuickMutRate){
                 String EmptyGenome = "";
                 if (h == 0f && s == 0f && v == 1f) {
-                    return new EpidermisCellGenome(RN.nextFloat(), 1f , 0.75f, EmptyGenome);
+                    return new EpidermisCellGenome(RN.nextFloat(), 1f , 0.75f, EmptyGenome, theGrid);
                 } else {
-                    return new EpidermisCellGenome(h, RN.nextFloat()*0.3f+0.6f, RN.nextFloat()*0.55f+0.3f, EmptyGenome);
+                    return new EpidermisCellGenome(h, RN.nextFloat()*0.3f+0.6f, RN.nextFloat()*0.55f+0.3f, EmptyGenome, theGrid);
                 }
             } else {
                 return null;
