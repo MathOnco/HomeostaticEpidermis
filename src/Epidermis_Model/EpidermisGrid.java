@@ -231,6 +231,6 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             String out = String.valueOf(EGF.SQgetCurr(xDim/2, y)) + "\t";
             EGFCons.append(out);
         }
-        System.out.println(EGFCons.toString());
+        //System.out.println(EGFCons.toString());
     }
 }

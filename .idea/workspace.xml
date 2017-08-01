@@ -7,6 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6eacc41e-f520-465f-aa6a-25ee1bd78072" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TestOutput/MutationFile.csv" afterPath="$PROJECT_DIR$/TestOutput/MutationFile.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TestOutput/ParentFile.csv" afterPath="$PROJECT_DIR$/TestOutput/ParentFile.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TestOutput/PopSizes.csv" afterPath="$PROJECT_DIR$/TestOutput/PopSizes.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TestOutput/R_Lambda_Values.csv" afterPath="$PROJECT_DIR$/TestOutput/R_Lambda_Values.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java" />
     </list>
@@ -32,8 +37,8 @@
       <file leaf-file-name="Epidermis_Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4020">
-              <caret line="273" column="77" selection-start-line="273" selection-start-column="77" selection-end-line="273" selection-end-column="77" />
+            <state relative-caret-position="390">
+              <caret line="32" column="39" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -42,7 +47,7 @@
       <file leaf-file-name="EpidermisCell.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1545">
+            <state relative-caret-position="173">
               <caret line="115" column="30" selection-start-line="115" selection-start-column="30" selection-end-line="115" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="false" />
@@ -54,8 +59,8 @@
       <file leaf-file-name="EpidermisGrid.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="387">
-              <caret line="179" column="24" selection-start-line="179" selection-start-column="24" selection-end-line="179" selection-end-column="24" />
+            <state relative-caret-position="754">
+              <caret line="233" column="49" selection-start-line="233" selection-start-column="49" selection-end-line="233" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -513,12 +518,12 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26741293" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2672218" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32702497" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.326268" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24856994" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24856994" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="R Packages" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="R Graphics" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -901,16 +906,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AgentFramework.bak/Misc/GuiCloseAction.java" />
-    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1545">
-          <caret line="115" column="30" selection-start-line="115" selection-start-column="30" selection-end-line="115" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellVis.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -961,16 +956,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="179" column="24" selection-start-line="179" selection-start-column="24" selection-end-line="179" selection-end-column="24" />
+        <state relative-caret-position="754">
+          <caret line="233" column="49" selection-start-line="233" selection-start-column="49" selection-end-line="233" selection-end-column="49" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="115" column="30" selection-start-line="115" selection-start-column="30" selection-end-line="115" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4020">
-          <caret line="273" column="77" selection-start-line="273" selection-start-column="77" selection-end-line="273" selection-end-column="77" />
+        <state relative-caret-position="390">
+          <caret line="32" column="39" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
           <folding />
         </state>
       </provider>
