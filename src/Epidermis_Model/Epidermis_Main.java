@@ -26,7 +26,7 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=2; // time in years.
+    static int years=65; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
@@ -40,7 +40,7 @@ class EpidermisConst{
     static final boolean get_r_lambda = true; // use when you want the r_lambda value for the visualization
     static final boolean writeValues = true; // use this when you want the data to be saved!
     static final boolean sliceOnly = true; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
-    static final boolean SliceAndFull = true; // use this when you want a slice out of the 3D model and the full data of the modeled cells!!!!
+    static final boolean RecordStateChange = true;
     static final boolean GetImageData = false; // Use for 3D data for visualization
 }
 
@@ -84,6 +84,7 @@ public class Epidermis_Main {
         String r_lambda_file = System.getProperty("user.dir") + "/TestOutput/R_Lambda_Values.csv";
         String PositionFile = System.getProperty("user.dir") + "/TestOutput/PositionList.csv";
         String Image_file = System.getProperty("user.dir") + "/TestOutput/VisFile.txt";
+        String StateChangeFile = System.getProperty("user.dir") + "/TestOutput/VolatilityMetrics.csv";
         /*
         Sets up Data Files if on cluster or if ran locally
          */
@@ -99,6 +100,7 @@ public class Epidermis_Main {
             EpidermisConst.ModelTime = Time * 365 + 10;
             EpidermisConst.RecordTime = Time * 365;
             PositionFile = args[6];
+            StateChangeFile = args[7];
         }
         if(EpidermisConst.GuiOn == false && EpidermisConst.GetImageData == false){
             System.out.println("xSize and zSize: " + EpidermisConst.xSize);
@@ -337,8 +339,13 @@ public class Epidermis_Main {
                     PositionOut.Close();
                     System.out.println("Position Information Saved to File");
                 }
+                if (EpidermisConst.RecordStateChange==true && EpidermisConst.RecordTime == Epidermis.GetTick()){
+                    FileIO StateOut = new FileIO(StateChangeFile, "w");
+                    Epidermis.WriteStateChange(StateOut);
+                    StateOut.Close();
+                    System.out.println("Volatility Information Recorded");
+                }
             }
-
         }
 
 //        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshit));

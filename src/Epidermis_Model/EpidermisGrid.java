@@ -1,9 +1,6 @@
 package Epidermis_Model;
 
-import AgentFramework.FileIO;
-import AgentFramework.GenomeTracker;
-import AgentFramework.Grid3unstackable;
-import AgentFramework.GridDiff3;
+import AgentFramework.*;
 import AgentFramework.Gui.GuiVis;
 
 import static AgentFramework.Utils.GetHSBtoRGB;
@@ -30,6 +27,8 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     static final int AIR_HEIGHT=15; //air, keratinocyte death! (threshold level for placement of keratinocytes essentially)
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
     static double[][][][] ImageArray = new double[EpidermisConst.ySize][EpidermisConst.xSize][EpidermisConst.zSize][4];
+    static GenomeInfo[][] StateChange = new GenomeInfo[EpidermisConst.xSize][EpidermisConst.zSize]; // Measuring World Volatility
+    static double[] Volatility = new double[RecordTime];
     boolean running;
     float r_lambda_weekly = 0;
     int xDim;
@@ -50,6 +49,7 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         EGF = new GridDiff3(x, y, z);
         GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(0f,0f,1f,"", this), true, true);
         PlaceCells();
+        GetState(StateChange);
     }
 
     public void PlaceCells() {
@@ -65,7 +65,6 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         }
     }
 
-
     public void RunStep() {
         for (int i = 0; i < CHEMICAL_STEPS; i++) {
             ChemicalLoop();
@@ -77,6 +76,7 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         }
         popSum+=Pop();
         CleanShuffInc(RN); // Special Sauce
+        GetState(StateChange);
     }
 
     public void DrawChemicals(GuiVis chemVis, boolean egf, boolean bfgf) {
@@ -242,6 +242,31 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
                 String OutString = ItoX(i) + "," + ItoY(i) + "," + ItoZ(i) + "," + c.myGenome.IDGetter() + "\n";
                 PositionOut.Write(OutString);
             }
+        }
+    }
+
+    public void GetState(GenomeInfo[][] StateArray){
+        int StateChanges = 0;
+        for(int x=0; x<EpidermisConst.xSize; x++){
+            for (int z = 0; z < EpidermisConst.zSize; z++) {
+                EpidermisCell c = GetAgent(x,0,z);
+                if(c!=null){
+                    if(c.myGenome != StateArray[x][z]){
+                        StateChanges++;
+                        StateArray[x][z] = c.myGenome;
+                    }
+                }
+            }
+        }
+        if((StateChanges *1.0)/(EpidermisConst.xSize*EpidermisConst.zSize)!=0.0){
+            Volatility[GetTick()] = (StateChanges *1.0)/(EpidermisConst.xSize*EpidermisConst.zSize);
+        }
+    }
+
+    public void WriteStateChange(FileIO StateChange){
+        for (int i = 0; i < Volatility.length; i++) {
+            String outLine = i + "," + Volatility[i] + "\n";
+            StateChange.Write(outLine);
         }
     }
 
