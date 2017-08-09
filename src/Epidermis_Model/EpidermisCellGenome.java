@@ -40,7 +40,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     float s;
     float v;
     double PushProb = 1.0; // Used for Checking mutations that change the probability of a cell being pushed in basal layer
-    double MutPushProb = 0.1;
+    double MutPushProb = 0.0;
     /*
     End New Information To Keep Inside the Model!!!!!
      */

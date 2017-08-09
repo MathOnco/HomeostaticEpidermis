@@ -136,7 +136,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             // Chunk of code to check for allowing pushing
             if(c.myGenome.PushProb != 1.0){
                 double PushAllowed = 1.0-RN.nextDouble();
-                if(PushAllowed<c.myGenome.PushProb){
+                if(PushAllowed<=c.myGenome.PushProb){
                     return false;
                 }
             }
