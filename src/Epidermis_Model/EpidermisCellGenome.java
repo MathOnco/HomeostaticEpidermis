@@ -3,6 +3,7 @@ import AgentFramework.FileIO;
 import AgentFramework.GenomeInfo;
 import AgentFramework.Utils;
 import cern.jet.random.Poisson;
+import com.sun.org.apache.bcel.internal.generic.PUSH;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -38,6 +39,8 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     float h;
     float s;
     float v;
+    double PushProb = 1.0; // Used for Checking mutations that change the probability of a cell being pushed in basal layer
+    double MutPushProb = 0.1;
     /*
     End New Information To Keep Inside the Model!!!!!
      */
@@ -64,8 +67,18 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
                         String MutOut = "";
                         if (j == ExpectedMuts.length - 1) {
                             MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex;
+                            // Inserts change in fitness to NOTCH genes
+                            if((j==45 || j==44 || j==46) & PushProb==1.0){
+                                PushProb=MutPushProb;
+                                System.out.println("NOTCH Mutation");
+                            }
                         } else {
                             MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
+                            // Inserts change in fitness to NOTCH genes
+                            if((j==45 || j==44 || j==46) & PushProb==1.0){
+                                PushProb=MutPushProb;
+                                System.out.println("NOTCH Mutation");
+                            }
                         }
                         MutsObtained.append(MutOut);
                     }

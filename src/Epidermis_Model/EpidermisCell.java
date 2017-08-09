@@ -114,7 +114,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         }
         boolean Pushed = CellPush(iDivLoc);
         if(Pushed==false){
-            return false; // Only false if melanocyte there
+            return false; // Only false if melanocyte there or can't be moved due to mutation
         }
 
         EpidermisCell newCell = G().NewAgent(G().inBounds[iDivLoc]);
@@ -133,9 +133,18 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         int i = G().inBounds[iDivLoc];
         EpidermisCell c=G().GetAgent(i);
         if(c!=null){
+            // Chunk of code to check for allowing pushing
+            if(c.myGenome.PushProb != 1.0){
+                double PushAllowed = 1.0-RN.nextDouble();
+                if(PushAllowed<c.myGenome.PushProb){
+                    return false;
+                }
+            }
+            // End Chunk of code for allowing pushing
             int x = G().ItoX(i);
             int y = G().ItoY(i);
             int z = G().ItoZ(i);
+
             //look up for empty square
             int colTop=y;
 //            EpidermisCell c=G().ItoAgent(i);
