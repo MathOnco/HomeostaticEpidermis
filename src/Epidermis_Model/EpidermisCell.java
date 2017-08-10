@@ -134,9 +134,9 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         EpidermisCell c=G().GetAgent(i);
         if(c!=null){
             // Chunk of code to check for allowing pushing
-            if(c.myGenome.PushProb != 1.0){
-                double PushAllowed = 1.0-RN.nextDouble();
-                if(PushAllowed<=c.myGenome.PushProb){
+            String thisGenome = c.myGenome.GenomeInfoStr();
+            if(thisGenome.contains(".44.") || thisGenome.contains(".45.") || thisGenome.contains(".46.")){
+                if(0.40 <= RN.nextDouble()){
                     return false;
                 }
             }
