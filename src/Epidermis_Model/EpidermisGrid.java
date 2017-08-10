@@ -245,6 +245,17 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         }
     }
 
+//    TODO FINISH THIS SECTION for calculating time to clonal fixation!!!!
+    public void CheckFixation(){
+        for(i in )
+        for (int i = 0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize); i++) {
+            EpidermisCell c = GetAgent(i);
+            if(c!=null){
+
+            }
+        }
+    }
+
     public void ChemicalLoop(){
         //DIFFUSION
         EGF.Diffuse(EGF_DIFFUSION_RATE,false,0,true, false, true);
