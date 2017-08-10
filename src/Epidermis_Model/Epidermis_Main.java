@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=67; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=67*67; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3 for ; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -39,6 +39,7 @@ class EpidermisConst{
     static final boolean get_r_lambda = true; // use when you want the r_lambda value
     static final boolean writeValues = true; // Use when you want to write the output
     static final boolean positionInfo = true; // Use to get positions
+    static final boolean RecordStateChange = true;
 }
 
 public class Epidermis_Main {
@@ -77,6 +78,7 @@ public class Epidermis_Main {
         String MutationFile = System.getProperty("user.dir") + "/TestOutput/MutationFile.csv";
         String r_lambda_file = System.getProperty("user.dir") + "/TestOutput/R_Lambda_Values.csv";
         String PositionFile = System.getProperty("user.dir") + "/TestOutput/CellPositions.csv";
+        String StateChangeFile = System.getProperty("user.dir") + "/TestOutput/VolatilityMetrics.csv";
         /*
         Sets up Data Files if on cluster or if ran locally
          */
@@ -91,6 +93,7 @@ public class Epidermis_Main {
             EpidermisConst.ModelTime = Time * 365 + 10;
             EpidermisConst.RecordTime = Time * 365;
             PositionFile = args[6];
+            StateChangeFile = args[7];
         }
         if(EpidermisConst.GuiOn == false){
             System.out.println("xSize: " + EpidermisConst.xSize);
@@ -272,6 +275,12 @@ public class Epidermis_Main {
                     Epidermis.GetCellPositions(PositionOut);
                     PositionOut.Close();
                     System.out.println("Position Information Saved to File");
+                }
+                if (EpidermisConst.RecordStateChange==true && EpidermisConst.RecordTime == Epidermis.GetTick()){
+                    FileIO StateOut = new FileIO(StateChangeFile, "w");
+                    Epidermis.WriteStateChange(StateOut);
+                    StateOut.Close();
+                    System.out.println("Volatility Information Recorded");
                 }
 
             }

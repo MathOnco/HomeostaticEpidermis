@@ -1,9 +1,6 @@
 package Epidermis_Model;
 
-import AgentFramework.FileIO;
-import AgentFramework.GenomeTracker;
-import AgentFramework.Grid2;
-import AgentFramework.GridDiff2;
+import AgentFramework.*;
 import AgentFramework.Gui.Gui;
 import AgentFramework.Gui.GuiVis;
 import static AgentFramework.Utils.*;
@@ -39,6 +36,8 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     int[] MeanDeath = new int[EpidermisConst.xSize * EpidermisConst.ySize];
     GenomeTracker<EpidermisCellGenome> GenomeStore;
     GridDiff2 EGF;
+    static GenomeInfo[] StateChange = new GenomeInfo[EpidermisConst.xSize]; // Measuring World Volatility
+    static double[] Volatility = new double[RecordTime];
 
     public EpidermisGrid(int x, int y) {
         super(x,y,EpidermisCell.class);
@@ -200,6 +199,30 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             return false;
         }
     }
+
+    public void GetState(GenomeInfo[] StateArray){
+        int StateChanges = 0;
+        for(int x=0; x<EpidermisConst.xSize; x++){
+            EpidermisCell c = SQtoAgent(x,0);
+            if(c!=null){
+                if(c.myGenome != StateArray[x]){
+                    StateChanges++;
+                    StateArray[x] = c.myGenome;
+                }
+            }
+        }
+        if((StateChanges *1.0)/(EpidermisConst.xSize)!=0.0){
+            Volatility[GetTick()] = (StateChanges *1.0)/(EpidermisConst.xSize);
+        }
+    }
+
+    public void WriteStateChange(FileIO StateChange){
+        for (int i = 0; i < Volatility.length; i++) {
+            String outLine = i + "," + Volatility[i] + "\n";
+            StateChange.Write(outLine);
+        }
+    }
+
 
     public void ChemicalLoop(){
         //DIFFUSION
