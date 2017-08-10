@@ -37,7 +37,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     GenomeTracker<EpidermisCellGenome> GenomeStore;
     GridDiff2 EGF;
     static GenomeInfo[] StateChange = new GenomeInfo[EpidermisConst.xSize]; // Measuring World Volatility
-    static double[] Volatility = new double[RecordTime];
+    static double[] Volatility = new double[ModelTime+10];
 
     public EpidermisGrid(int x, int y) {
         super(x,y,EpidermisCell.class);
@@ -47,6 +47,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         EGF = new GridDiff2(x, y);
         GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(0f,0f,1f,"", this), true, true);
         PlaceCells();
+        GetState(StateChange);
     }
 
     public void PlaceCells() {
@@ -72,6 +73,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         }
         popSum+=Pop();
         CleanShuffInc(RN); // Special Sauce
+        GetState(StateChange);
     }
 
     public void DrawChemicals(GuiVis chemVis, boolean egf, boolean bfgf) {
