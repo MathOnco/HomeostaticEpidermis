@@ -14,7 +14,7 @@ import static AgentFramework.Utils.GetHSBtoRGB;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=20; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=10; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -26,7 +26,7 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=10; // time in years.
+    static int years=20; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
@@ -169,15 +169,20 @@ public class Epidermis_Main {
         boolean Healed = true;
         double avgHeight=0;
         int tickSum=0;
+        int FixationTime = 0;
 
         TickRateTimer tickIt = new TickRateTimer();
-        while(Epidermis.GetTick() < EpidermisConst.ModelTime){
+        while(FixationTime == 0){
 
             tickIt.TickPause(60); // Adjusting a frame rate
 
             // Main Running of the steps within the model
             Epidermis.RunStep();
 
+            FixationTime = Epidermis.CheckFixation();
+            if(FixationTime != 0){
+                System.out.println(FixationTime);
+            }
             /*
             All Injuries Occuring Here!
              */

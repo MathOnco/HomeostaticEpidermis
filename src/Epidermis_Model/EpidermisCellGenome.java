@@ -66,8 +66,14 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
                         String MutOut = "";
                         if (j == ExpectedMuts.length - 1) {
                             MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex;
+                            if(j==44 || j==45 || j==46){
+                                theGrid.MutList.add(MutOut);
+                            }
                         } else {
                             MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
+                            if(j==44 || j==45 || j==46){
+                                theGrid.MutList.add(MutOut);
+                            }
                         }
                         MutsObtained.append(MutOut);
                     }

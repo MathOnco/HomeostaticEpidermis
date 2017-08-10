@@ -11,6 +11,7 @@ import static Epidermis_Model.EpidermisConst.*;
 import static java.awt.Color.HSBtoRGB;
 
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -40,6 +41,7 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     int[] MeanDeath = new int[EpidermisConst.xSize * EpidermisConst.ySize * EpidermisConst.zSize];
     GenomeTracker<EpidermisCellGenome> GenomeStore;
     GridDiff3 EGF;
+    ArrayList<String> MutList = new ArrayList<>();
 
     public EpidermisGrid(int x, int y, int z) {
         super(x,y,z,EpidermisCell.class);
@@ -245,14 +247,13 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         }
     }
 
-//    TODO FINISH THIS SECTION for calculating time to clonal fixation!!!!
-    public void CheckFixation(){
-        for(i in )
-        for (int i = 0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize); i++) {
-            EpidermisCell c = GetAgent(i);
-            if(c!=null){
-
-            }
+    public int CheckFixation(){
+        FixationGetter CheckIt = new FixationGetter(this, MutList);
+        if(CheckIt.GetMut()!=null){
+            int time = GetTick() - CheckIt.MutTime();
+            return time;
+        } else {
+            return 0;
         }
     }
 
