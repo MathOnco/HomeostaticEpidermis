@@ -28,7 +28,7 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
     static double[][][][] ImageArray = new double[EpidermisConst.ySize][EpidermisConst.xSize][EpidermisConst.zSize][4];
     static GenomeInfo[][] StateChange = new GenomeInfo[EpidermisConst.xSize][EpidermisConst.zSize]; // Measuring World Volatility
-    static double[] Volatility = new double[RecordTime];
+    static double[] Volatility = new double[ModelTime+10];
     boolean running;
     float r_lambda_weekly = 0;
     int xDim;
