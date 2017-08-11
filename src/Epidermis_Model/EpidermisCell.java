@@ -136,7 +136,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             // Chunk of code to check for allowing pushing
             String thisGenome = c.myGenome.GenomeInfoStr();
             if(thisGenome.contains(".44.") || thisGenome.contains(".45.") || thisGenome.contains(".46.")){
-                if(0.0 <= RN.nextDouble()){
+                if(0.5 <= RN.nextDouble()){
                     return false;
                 }
             }

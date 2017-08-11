@@ -101,8 +101,8 @@ public class Epidermis_Main {
         Sets up Data Files if on cluster or if ran locally
          */
             if (EpidermisConst.JarFile) {
-                d="0";
-//                d=args[0];
+//                d="0";
+                d=args[0];
 //                ParentFile = args[0];
 //                PopSizes = args[1];
 //                MutationFile = args[2];
@@ -200,6 +200,7 @@ public class Epidermis_Main {
                     }
                     if (Epidermis.GetTick() == 65*365){
                         Done = false;
+                        FixedTime = "Clock";
                     }
                 }
 
@@ -408,7 +409,7 @@ public class Epidermis_Main {
         for (int k = 0; k < r_lambda_WriteValue.size(); k++) {
             r_lambOut += r_lambda_WriteValue.get(k);
         }
-        System.out.println(d + "\t" + 0.0 + "\t" + FixedTime + "\t" + Epidermis.GetMeanCellAge(Epidermis) + "\t" + Epidermis.GetMeanCellHeight(Epidermis) + "\t" +(r_lambOut/r_lambda_index));
+        System.out.println(d + "\t" + 0.5 + "\t" + FixedTime + "\t" + Epidermis.GetMeanCellAge(Epidermis) + "\t" + Epidermis.GetMeanCellHeight(Epidermis) + "\t" +(r_lambOut/r_lambda_index));
 
 
 //        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshit));
