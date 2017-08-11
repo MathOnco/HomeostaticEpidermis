@@ -36,6 +36,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     static final Random RN=new Random();
     EpidermisGrid theGrid;
     String PrivateGenome;
+    static int Mutated = 0;
     float h;
     float s;
     float v;
@@ -55,29 +56,35 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
     @Override
     public EpidermisCellGenome _RunPossibleMutation() {
         StringBuilder MutsObtained = new StringBuilder();
+
         if (QuickMut == false) {
-            for (int j = 0; j < ExpectedMuts.length; j++) {
-                if (j != 0) {
-                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
-                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for each gene
-                    for (int hits = 0; hits < mutations; hits++) {
-                        int MutatedBaseKind = Utils.RandomVariable(BaseMutProb, RN);
-                        long mutIndex = BaseIndex[j - 1][MutatedBaseKind][RN.nextInt(BaseIndex[j - 1][MutatedBaseKind].length)];
-                        String MutOut = "";
-                        if (j == ExpectedMuts.length - 1) {
-                            MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex;
-                            if(j==44 || j==45 || j==46){
-                                theGrid.MutList.add(MutOut);
-                            }
-                        } else {
-                            MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
-                            if(j==44 || j==45 || j==46){
-                                theGrid.MutList.add(MutOut);
-                            }
-                        }
-                        MutsObtained.append(MutOut);
-                    }
-                }
+            if(Mutated==0){
+                String MutOut = theGrid.GetTick()+"." + "44" + "." + "C" + "." + "4500" + ",";
+                Mutated++;
+                MutsObtained.append(MutOut);
+            }
+//            for (int j = 0; j < ExpectedMuts.length; j++) {
+//                if (j != 0) {
+//                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
+//                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for each gene
+//                    for (int hits = 0; hits < mutations; hits++) {
+//                        int MutatedBaseKind = Utils.RandomVariable(BaseMutProb, RN);
+//                        long mutIndex = BaseIndex[j - 1][MutatedBaseKind][RN.nextInt(BaseIndex[j - 1][MutatedBaseKind].length)];
+//                        String MutOut = "";
+//                        if (j == ExpectedMuts.length - 1) {
+//                            MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex;
+//                            if(j==44 || j==45 || j==46){
+//                                theGrid.MutList.add(MutOut);
+//                            }
+//                        } else {
+//                            MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
+//                            if(j==44 || j==45 || j==46){
+//                                theGrid.MutList.add(MutOut);
+//                            }
+//                        }
+//                        MutsObtained.append(MutOut);
+//                    }
+//                }
                 //            else {
                 //                if(EpidermisConst.GuiOn == true) {
                 //                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
@@ -96,7 +103,7 @@ public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
                 //            }}
 
 
-            }
+//            }
             String PrivGenome = MutsObtained.toString();
             if (PrivGenome.length() > 0) {
                 if (h == 0f && s == 0f && v == 1f) {
