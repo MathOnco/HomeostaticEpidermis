@@ -19,6 +19,7 @@ public class FixationGetter {
         CheckFixation();
     }
 
+    // TODO Figure out why this isn't working?!?!?!?!?!?!?!?!?!?!?!
     private void CheckFixation(){
         int MutCells = 0;
         int CellCount = 0;
