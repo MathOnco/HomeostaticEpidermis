@@ -128,16 +128,34 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
             }
     }
 
-    public float GetOldestCell(EpidermisGrid Epidermis){
+    public float GetMeanCellAge(EpidermisGrid Epidermis){
         float Age = 0;
         int aliveCells = 0;
-        for (EpidermisCell c: this) {
+        for (int i = 0; i < EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize; i++) {
+            EpidermisCell c = Epidermis.GetAgent(i);
             if(c!=null){
                 Age += c.Age();
                 aliveCells += 1;
             }
         }
         return Age/aliveCells;
+    }
+
+    public double GetMeanCellHeight(EpidermisGrid Epidermis){
+        int allColumns = 0;
+        for (int x = 0; x < xDim; x++) {
+            for (int z = 0; z < zDim; z++) {
+                int column = 0;
+                for (int y = 0; y < yDim; y++) {
+                    EpidermisCell c = Epidermis.GetAgent(x, y , z);
+                    if(c!=null){
+                        column++;
+                    }
+                }
+                allColumns += column;
+            }
+        }
+        return (allColumns*1.0)/(xDim*zDim);
     }
 
     public void DrawCellActivity(GuiVis vis, EpidermisGrid Epidermis, EpidermisCellVis CellDraw) {
@@ -247,14 +265,9 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         }
     }
 
-    public int CheckFixation(){
+    public FixationGetter CheckFixation(){
         FixationGetter CheckIt = new FixationGetter(this, MutList);
-        if(CheckIt.GetMut()!=null){
-            int time = GetTick() - CheckIt.MutTime();
-            return time;
-        } else {
-            return 0;
-        }
+        return CheckIt;
     }
 
     public void ChemicalLoop(){

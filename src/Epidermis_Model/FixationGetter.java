@@ -8,18 +8,18 @@ import java.util.ArrayList;
  * Created by schencro on 8/10/17.
  */
 public class FixationGetter {
-    private double Frequency;
+    private double Frequency = 0.0;
     private String Mutation;
     EpidermisGrid theGrid;
     ArrayList<String> MutList;
 
     public FixationGetter(EpidermisGrid theGrid, ArrayList<String> muts) {
-        this.theGrid = theGrid;
         this.MutList = muts;
+        this.MutList.add("1.44.C.4500,");
+        this.theGrid = theGrid;
         CheckFixation();
     }
 
-    // TODO Figure out why this isn't working?!?!?!?!?!?!?!?!?!?!?!
     private void CheckFixation(){
         int MutCells = 0;
         int CellCount = 0;
@@ -35,11 +35,15 @@ public class FixationGetter {
                     CellCount++;
                 }
             }
-            if(MutCells*1.0/CellCount==1.0){
-                Frequency = MutCells*1.0/CellCount;
+//            if(MutCells*1.0/CellCount>0.0){
+//                System.out.println(MutCells*1.0/CellCount);
+//            }
+            if((MutCells*1.0)/CellCount>0){
+                Frequency = (MutCells*1.0/CellCount);
                 Mutation = MutList.get(g);
             } else {
                 Mutation = null;
+                Frequency = 5.0;
             }
         }
     }
