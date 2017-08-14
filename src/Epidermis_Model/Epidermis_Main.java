@@ -409,7 +409,7 @@ public class Epidermis_Main {
         for (int k = 0; k < r_lambda_WriteValue.size(); k++) {
             r_lambOut += r_lambda_WriteValue.get(k);
         }
-        System.out.println(d + "\t" + 0.5 + "\t" + FixedTime + "\t" + Epidermis.GetMeanCellAge(Epidermis) + "\t" + Epidermis.GetMeanCellHeight(Epidermis) + "\t" +(r_lambOut/r_lambda_index));
+        System.out.println(d + "\t" + 1.0 + "\t" + FixedTime + "\t" + Epidermis.GetMeanCellAge(Epidermis) + "\t" + Epidermis.GetMeanCellHeight(Epidermis) + "\t" +(r_lambOut/r_lambda_index));
 
 
 //        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshit));
