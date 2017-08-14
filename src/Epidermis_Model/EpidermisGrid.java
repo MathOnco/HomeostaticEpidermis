@@ -39,6 +39,7 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     int[] MeanProlif = new int[EpidermisConst.xSize * EpidermisConst.ySize * EpidermisConst.zSize];
     int[] MeanDeath = new int[EpidermisConst.xSize * EpidermisConst.ySize * EpidermisConst.zSize];
     GenomeTracker<EpidermisCellGenome> GenomeStore;
+    LossReplace Turnover;
     GridDiff3 EGF;
 
     public EpidermisGrid(int x, int y, int z) {
@@ -49,6 +50,7 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
         zDim = z;
         EGF = new GridDiff3(x, y, z);
         GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(0f,0f,1f,"", this), true, true);
+        Turnover = new LossReplace(this, ModelTime, 7);
         PlaceCells();
     }
 

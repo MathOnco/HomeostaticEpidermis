@@ -29,10 +29,6 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     double DEATH_PROB = 0.01049936; //Overall Death Probability
     double MOVEPROBABILITY = 0.0; //RN float has to be greater than this to move...
     double DIVISIONLOCPROB = 0.8315265; // Probability of dividing up vs side to side
-    static int pro_count = 0;
-    static int pro_count_basal = 0;
-    static int loss_count_basal = 0;
-    static int death_count = 0;
     final static boolean[][] existsArrs=new boolean[10][20];
     final static int[] colTops=new int[10];
     static int iRec=0;
@@ -107,25 +103,24 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             return false;
         }
 
-        int divOptions = GetEmptyVNSquares(x, y, z, false, G().divHoodBasal, G().inBounds); // Number of coordinates you could divide into
         iDivLoc = ProlifLoc(); // Where the new cell is going to be (which index) if basal cell
-        if(iDivLoc==0 || iDivLoc==1 || iDivLoc==3 || iDivLoc==2 && y==0){
-            loss_count_basal+=1;
-        }
+
         boolean Pushed = CellPush(iDivLoc);
+        EpidermisCell c = G().GetAgent(G().inBounds[iDivLoc]);
+        if(c!=null && Pushed!=false){
+            G().Turnover.RecordLoss(c.Ysq()); // Record Cell Loss
+        }
         if(Pushed==false){
             return false; // Only false if melanocyte there
         }
 
         EpidermisCell newCell = G().NewAgent(G().inBounds[iDivLoc]);
 
-        if (y == 0) {
-            pro_count_basal++;
-        }
-
         newCell.init(myType, myGenome.NewChild().PossiblyMutate()); // initializes a new skin cell, pass the cellID for a new value each time.
         myGenome = myGenome.PossiblyMutate(); // Check if this duaghter cell, i.e. the progenitor gets mutations during this proliferation step.
-        pro_count += 1;
+
+        G().Turnover.RecordDivide(newCell.Ysq()); // Record Cell Division
+
         return true;
     }
 
@@ -182,11 +177,10 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     public void itDead(){
         myGenome.DisposeClone(); // Decrements Population
         Dispose();
-        death_count+=1;
+
         G().MeanDeath[Isq()] += 1;
-        if (Ysq()==0){
-            loss_count_basal++;
-        }
+
+        G().Turnover.RecordLoss(Ysq());
     }
 
     public void CellStep(){
@@ -216,7 +210,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
 //                dipshitCount += 1;
                 Action = MOVING;
                 if (Ysq() != 0 && y == 0) {
-                    loss_count_basal++;
+                    G().Turnover.RecordLoss(-1);
                 }
             }
         }
