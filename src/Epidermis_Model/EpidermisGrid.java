@@ -6,6 +6,9 @@ import AgentFramework.Grid2;
 import AgentFramework.GridDiff2;
 import AgentFramework.Gui.Gui;
 import AgentFramework.Gui.GuiVis;
+
+import javax.sound.midi.Track;
+
 import static AgentFramework.Utils.*;
 import static Epidermis_Model.EpidermisConst.*;
 
@@ -31,13 +34,14 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     static final int AIR_HEIGHT=15; //air, keratinocyte death! (threshold level for placement of keratinocytes essentially)
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
     boolean running;
-    float r_lambda_weekly = 0;
     int xDim;
     int yDim;
     long popSum=0;
     int[] MeanProlif = new int[EpidermisConst.xSize * EpidermisConst.ySize];
     int[] MeanDeath = new int[EpidermisConst.xSize * EpidermisConst.ySize];
     GenomeTracker<EpidermisCellGenome> GenomeStore;
+    LossReplace Turnover;
+    AgeTracker TrackAge;
     GridDiff2 EGF;
 
     public EpidermisGrid(int x, int y) {
@@ -47,6 +51,8 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         yDim = y;
         EGF = new GridDiff2(x, y);
         GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(0f,0f,1f,"", this), true, true);
+        Turnover = new LossReplace(this, ModelTime, 7);
+        TrackAge = new AgeTracker(this, xDim, yDim);
         PlaceCells();
     }
 
@@ -61,7 +67,6 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         }
     }
 
-
     public void RunStep() {
         for (int i = 0; i < CHEMICAL_STEPS; i++) {
             ChemicalLoop();
@@ -69,10 +74,22 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         for (EpidermisCell c: this) {
             c.CellStep();
             MeanProlif(c);
-//            MeanDeath();
         }
         popSum+=Pop();
         CleanShuffInc(RN); // Special Sauce
+
+        for (int i = 0; i < xDim*yDim; i++) {
+            EpidermisCell c = ItoAgent(i);
+            if(c!=null){
+                TrackAge.SetAge(i,c.Age());
+            } else {
+                TrackAge.SetAge(i,0);
+            }
+        }
+        Turnover.RecordBasalRate("Death");
+        Turnover.RecordBasalRate("Birth");
+        Turnover.RecordTissueRate("Birth");
+        Turnover.RecordTissueRate("Death");
     }
 
     public void DrawChemicals(GuiVis chemVis, boolean egf, boolean bfgf) {
@@ -122,16 +139,19 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             }
     }
 
-    public float GetOldestCell(EpidermisGrid Epidermis){
-        float Age = 0;
-        int aliveCells = 0;
-        for (EpidermisCell c: this) {
-            if(c!=null){
-                Age += c.Age();
-                aliveCells += 1;
+    public double GetMeanCellHeight(){
+        int allColumns = 0;
+        for (int x = 0; x < xDim; x++) {
+                int column = 0;
+                for (int y = 0; y < yDim; y++) {
+                    EpidermisCell c = SQtoAgent(x, y);
+                    if(c!=null){
+                        column++;
+                    }
+                }
+                allColumns += column;
             }
-        }
-        return Age/aliveCells;
+        return (allColumns*1.0)/(xDim);
     }
 
 

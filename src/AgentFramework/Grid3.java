@@ -247,7 +247,7 @@ public class Grid3 <T extends AgentSQ3> extends GridBase implements Iterable<T>{
             }
             if (!Utils.InDim(zDim, z)) {
                 if (wrapZ) {
-                    z = Utils.ModWrap(z, yDim);
+                    z = Utils.ModWrap(z, zDim);
                 } else {
                     continue;
                 }

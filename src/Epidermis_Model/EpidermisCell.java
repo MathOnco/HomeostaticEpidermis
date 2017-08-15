@@ -30,10 +30,6 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     double DEATH_PROB = 0.01049936; //Overall Death Probability
     double MOVEPROBABILITY = 0.3657964; //RN float has to be greater than this to move...
     double DIVISIONLOCPROB = 0.8315265; // Probability of dividing up vs side to side
-    static int pro_count = 0;
-    static int pro_count_basal = 0;
-    static int loss_count_basal = 0;
-    static int death_count = 0;
     int myType; //cell type
     int Action; //cells action
     static public RandomEngine RNEngine = new DRand();
@@ -92,33 +88,28 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             return false;
         }
 
-//        if(y==0){
-            int divOptions = GetEmptyVNSquares(x, y, false, G().divHoodBasal, G().inBounds); // Number of coordinates you could divide into
-            iDivLoc = ProlifLoc(); // Where the new cell is going to be (which index) if basal cell
-            if(iDivLoc==0 || iDivLoc==1 && y==0){
-                loss_count_basal+=1;
-            }
-            boolean Pushed = CellPush(iDivLoc);
-            if(Pushed==false){
-                return false; // Only false if melanocyte there
-            }
+        iDivLoc = ProlifLoc(); // Where the new cell is going to be (which index) if basal cell
 
-//        } else{
-//            int divOptions = GetEmptyVNSquares(x, y, true, G().divHood, G().inBounds); // Number of coordinates you could divide into
-//            if(divOptions>0){iDivLoc = G().RN.nextInt(divOptions);} else {return false;} //Where the new cell is going to be (which coordinate)
-//
-//
-//        }
+        GetEmptyVNSquares(x,y,false,G().divHoodBasal, G().inBounds);
+
+        boolean Pushed = CellPush(iDivLoc);
+        if(Pushed!=false && y==0){
+            G().Turnover.RecordLossBasal(); // Record Cell Loss from Pushing
+        }
 
         EpidermisCell newCell = G().NewAgent(G().inBounds[iDivLoc]);
 
-        if (y == 0) {
-            pro_count_basal++;
+        newCell.init(myType, myGenome.NewChild().PossiblyMutate()); // initializes a new skin cell, pass the cellID for a new value each time.
+
+        myGenome = myGenome.PossiblyMutate(); // Check if this daughter cell, i.e. the progenitor gets mutations during this proliferation step.
+
+        if(newCell.Ysq()==0){
+            G().Turnover.RecordDivideBasal();
+            G().Turnover.RecordDivideTissue();
+        } else {
+            G().Turnover.RecordDivideTissue();
         }
 
-        newCell.init(myType, myGenome.NewChild().PossiblyMutate()); // initializes a new skin cell, pass the cellID for a new value each time.
-        myGenome = myGenome.PossiblyMutate(); // Check if this daughter cell, i.e. the progenitor gets mutations during this proliferation step.
-        pro_count += 1;
         return true;
     }
 
@@ -128,19 +119,20 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         if(c!=null){
             int x = G().ItoX(i);
             int y = G().ItoY(i);
+
             //look up for empty square
             int colTop=y;
-//            EpidermisCell c=G().ItoAgent(i);
             while(c!=null){
                 colTop++;
                 c=G().SQtoAgent(x,colTop);
             }
-            int colMax=colTop;
+
             //move column of cells up
             for(;colTop>y;colTop--){
                 c=(G().SQtoAgent(x,colTop-1));
                 c.Move(x,colTop);
             }
+
             if(c.Ysq()>= G().yDim-2){c.itDead();}
             return true;
         } else{
@@ -161,11 +153,12 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     public void itDead(){
         myGenome.DisposeClone(); // Decrements Population
         Dispose();
-        death_count+=1;
+
         G().MeanDeath[Isq()] += 1;
-        if (Ysq()==0){
-            loss_count_basal++;
+        if(Ysq()==0){
+            G().Turnover.RecordLossBasal();
         }
+        G().Turnover.RecordLossTissue();
     }
 
     public void CellStep(){
@@ -191,8 +184,8 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             if (iMoveCoord != -1) {
                 Move(G().inBounds[iMoveCoord]); // We are moving
                 Action = MOVING;
-                if (Ysq() != 0 && y == 0) {
-                    loss_count_basal++;
+                if (Ysq() > y) {
+                    throw new RuntimeException("Cell is Moving Up.");
                 }
             }
         }
@@ -203,19 +196,5 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         }
 
     }
-
-//    // Builds my genome information for data analysis
-//    String ToString(){
-//        String cellInfo="{["+createStrID()+"];[";
-//        for(int iGene=0;iGene<myGenome.genomelength;iGene++){
-//            cellInfo+="[";
-//            for(int iMut=0;iMut<myGenome.mut_pos[iGene].size();iMut++){
-//                cellInfo+=myGenome.mut_pos_getter(iGene,iMut)+",";
-//            }
-//            cellInfo+="],";
-//        }
-//        cellInfo+="]}";
-//        return cellInfo;
-//    }
 
 }
