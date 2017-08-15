@@ -52,7 +52,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         EGF = new GridDiff2(x, y);
         GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(0f,0f,1f,"", this), true, true);
         Turnover = new LossReplace(this, ModelTime, 7);
-        TrackAge = new AgeTracker(this, xDim, yDim);
+        TrackAge = new AgeTracker(this, xDim, yDim, ModelTime);
         PlaceCells();
     }
 

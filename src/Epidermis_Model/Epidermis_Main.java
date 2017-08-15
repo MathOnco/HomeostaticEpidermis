@@ -33,12 +33,12 @@ class EpidermisConst{
     static final boolean JarFile = false; // Set to true if running from command line as jar file
     static final boolean RecordAllPopSizes = false; // use to record all clone populations
     static final boolean TrackAll = false; // Use this if you want to record mutations outside the genes of interest.
-    static final boolean RecordParents = false; // use when you want parents information
-    static final boolean RecordLineages = false; // use when you want
-    static final boolean RecordPopSizes = false; // Use to record clone population sizes
-    static final boolean get_r_lambda = false; // use when you want the r_lambda value
-    static final boolean writeValues = false; // Use when you want to write the output
-    static final boolean positionInfo = false; // Use to get positions
+    static final boolean RecordParents = true; // use when you want parents information
+    static final boolean RecordLineages = true; // use when you want
+    static final boolean RecordPopSizes = true; // Use to record clone population sizes
+    static final boolean get_r_lambda = true; // use when you want the r_lambda value
+    static final boolean writeValues = true; // Use when you want to write the output
+    static final boolean positionInfo = true; // Use to get positions
 }
 
 public class Epidermis_Main {
@@ -230,12 +230,16 @@ public class Epidermis_Main {
                 if (EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
                     FileIO RLambdaWriter = new FileIO(r_lambda_file, "w");
                     float r_lamb_print = 0;
+                    int index=0;
                     for (int i = 0; i < Epidermis.Turnover.GetDeathRateBasal().length ; i++) {
-                        RLambdaWriter.Write(Epidermis.Turnover.GetDeathRateBasal()[i] + "\n");
-                        r_lamb_print+=Epidermis.Turnover.GetDeathRateBasal()[i];
+                        if(Epidermis.Turnover.GetDeathRateBasal()[i]!=0){
+                            RLambdaWriter.Write(Epidermis.Turnover.GetDeathRateBasal()[i] + "\n");
+                            r_lamb_print+=Epidermis.Turnover.GetDeathRateBasal()[i];
+                            index++;
+                        }
                     }
                     RLambdaWriter.Close();
-                    System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print / Epidermis.Turnover.GetDeathRateBasal().length) + "\n");
+                    System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print/index));
                 }
                 if (EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
                     System.out.println("Mean Cell Age: " + new DecimalFormat("#.000").format( Epidermis.TrackAge.GetMeanAge() ) + "\n");
