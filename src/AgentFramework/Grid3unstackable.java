@@ -221,7 +221,7 @@ public class Grid3unstackable<T extends AgentSQ3unstackable> extends GridBase im
             }
             if (!Utils.InDim(zDim, z)) {
                 if (wrapZ) {
-                    z = Utils.ModWrap(z, yDim);
+                    z = Utils.ModWrap(z, zDim);
                 } else {
                     continue;
                 }

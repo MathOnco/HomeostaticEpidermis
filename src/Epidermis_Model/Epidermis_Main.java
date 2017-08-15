@@ -37,7 +37,7 @@ class EpidermisConst{
     static final boolean RecordParents = false; // use when you want parents information
     static final boolean RecordLineages = false; // use when you want
     static final boolean RecordPopSizes = false; // Use to record clone population sizes
-    static final boolean get_r_lambda = true; // use when you want the r_lambda value for the visualization
+    static final boolean get_r_lambda = false; // use when you want the r_lambda value for the visualization
     static final boolean writeValues = false; // use this when you want the data to be saved!
     static final boolean sliceOnly = false; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
     static final boolean SliceAndFull = false; // use this when you want a slice out of the 3D model and the full data of the modeled cells!!!!
@@ -193,23 +193,6 @@ public class Epidermis_Main {
 //            if(Epidermis.GetTick()<=365){Epidermis.GetEGFVal();}
 
             /*
-            rLambda Value calculations, output, and recording
-             */
-            if (EpidermisConst.get_r_lambda) {
-                if (Epidermis.GetTick() % 7f == 0) {
-                    r_lambda_WriteValue.add(r_lambda_index, Epidermis.r_lambda_weekly/(EpidermisConst.xSize*EpidermisConst.zSize)/7f);
-                    r_lambda_index += 1;
-                    meanCellAge.add(meanCellAgeIndex, Epidermis.GetOldestCell(Epidermis));
-                    meanCellAgeIndex += 1;
-                    if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda: " + new DecimalFormat("#.000").format( (Epidermis.r_lambda_weekly/(EpidermisConst.xSize*EpidermisConst.zSize)) / 7f) );}
-                    EpidermisCell.loss_count_basal=0;
-                    Epidermis.r_lambda_weekly = 0;
-                } else {
-                    Epidermis.r_lambda_weekly += ((float) EpidermisCell.loss_count_basal);
-                }
-            }
-
-            /*
             Output Time Options
              */
             if(ActivityVis==null){
@@ -221,6 +204,12 @@ public class Epidermis_Main {
             /*
             All Visualization Components are here
              */
+            if(Epidermis.GetTick()%7.0==0){
+                if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda: " + new DecimalFormat("#.000").format( Epidermis.Turnover.RecordBasalRate("Death",7) ));}
+                Epidermis.Turnover.RecordBasalRate("Birth",7);
+                Epidermis.Turnover.RecordTissueRate("Birth",7);
+                Epidermis.Turnover.RecordTissueRate("Death",7);
+            }
             if(ActivityVis!=null){YearLab.setText("Age (yrs.): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
             if(DivVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DivVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
             if(DivLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DivLayerVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
@@ -245,15 +234,15 @@ public class Epidermis_Main {
                 for(int x=0; x < EpidermisConst.xSize;x++){
                     for(int y=0; y < EpidermisConst.ySize;y++){
                         for(int z=0; z < EpidermisConst.zSize;z++){
-//                            if (Epidermis.ImageArray[y][x][z][0] != 0.0f && Epidermis.ImageArray[y][x][z][1] != 0.0f && Epidermis.ImageArray[y][x][z][2] != 0.0f && Epidermis.ImageArray[y][x][z][3] != 0.0f){
+                            //if (Epidermis.ImageArray[y][x][z][0] != 0.0f && Epidermis.ImageArray[y][x][z][1] != 0.0f && Epidermis.ImageArray[y][x][z][2] != 0.0f && Epidermis.ImageArray[y][x][z][3] != 0.0f){
                                 String outLine =
                                     x + "\t" + z + "\t" + y + "\t" +
                                     Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
                                             "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3];
-//                                System.out.println(outLine);
-                                VisOut.Write(outLine);
-//                            }
-                        }
+                                System.out.println(outLine);
+                                //VisOut.Write(outLine);
+                            }
+                        //}
                     }
                 }
 
@@ -315,12 +304,7 @@ public class Epidermis_Main {
                 }
                 if (EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
                     FileIO RLambdaWriter = new FileIO(r_lambda_file, "w");
-                    float r_lamb_print = 0;
-                    for (int i = 0; i < r_lambda_WriteValue.size(); i++) {
-                        r_lamb_print += r_lambda_WriteValue.get(i);
-                        String out = r_lambda_WriteValue.get(i).toString();
-                        RLambdaWriter.Write(out + "\n");
-                    }
+
                     RLambdaWriter.Close();
                     System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print / r_lambda_index) + "\n");
                 }
@@ -329,7 +313,6 @@ public class Epidermis_Main {
                     for (int i = 0; i < meanCellAge.size(); i++) {
                         MeanWeekPrint += meanCellAge.get(i);
                     }
-                    System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(MeanWeekPrint / meanCellAgeIndex) + "\n");
                 }
                 if (EpidermisConst.sliceOnly==true && EpidermisConst.RecordTime == Epidermis.GetTick()){
                     FileIO PositionOut = new FileIO(PositionFile, "w");

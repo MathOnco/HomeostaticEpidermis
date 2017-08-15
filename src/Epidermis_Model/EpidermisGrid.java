@@ -21,7 +21,6 @@ import java.util.Random;
 // Grid specific parameters
 class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     final Random RN=new Random();
-    static final int[] divHoodBasal={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,1,0}; // Coordinate set for two beside and one above and two front and back [x,y,z,x,y,z...]
     static final int[] moveHood={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,-1,0};
     static final int[] inBounds= new int[5];
     static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
@@ -31,7 +30,6 @@ class EpidermisGrid extends Grid3unstackable<EpidermisCell> {
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
     static double[][][][] ImageArray = new double[EpidermisConst.ySize][EpidermisConst.xSize][EpidermisConst.zSize][4];
     boolean running;
-    float r_lambda_weekly = 0;
     int xDim;
     int yDim;
     int zDim;

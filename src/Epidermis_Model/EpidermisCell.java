@@ -29,12 +29,8 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     double DEATH_PROB = 0.01049936; //Overall Death Probability
     double MOVEPROBABILITY = 0.0; //RN float has to be greater than this to move...
     double DIVISIONLOCPROB = 0.8315265; // Probability of dividing up vs side to side
-    final static boolean[][] existsArrs=new boolean[10][20];
-    final static int[] colTops=new int[10];
-    static int iRec=0;
     static int[] dipshit = new int[5];
     static int[] dipshitDiv = new int[5];
-    static int dipshitCount = 0;
     int myType; //cell type
     int Action; //cells action
     static public RandomEngine RNEngine = new DRand();
@@ -49,23 +45,6 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         this.Action = STATIONARY;
         // Storing Genome Reference to Parent and Itself if mutation happened
         this.myGenome = myGenome;
-    }
-
-    // Set coords array using this function
-    // Function gets all cells surrounding it that are empty!! Take-Away
-    public int GetEmptyVNSquares(int x, int y, int z, boolean OnlyEmpty, int[] divHood, int[] inBounds){
-        int finalCount=0;
-        int inBoundsCount = G().SQstoLocalIs(divHood, inBounds, x, y, z, true, false, true); // Gets all inbound indices
-        if(!OnlyEmpty){
-            return inBoundsCount;
-        }
-        for (int i=0; i<inBoundsCount; i++){
-            if(G().GetAgent(inBounds[i]) == null){
-                inBounds[finalCount]=inBounds[i];
-                finalCount++;
-            }
-        }
-        return finalCount;
     }
 
     // Gets where a cell is dividing if it's a basal cell and is proliferating
@@ -89,7 +68,6 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             return 2; // Dividing back
         }
     }
-
 
     //Checking if a cell is going to proliferate...
     public boolean CheckProliferate() {
@@ -138,15 +116,8 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
                 colTop++;
                 c=G().GetAgent(x,colTop,z);
             }
-            int ColMax=colTop;
             //move column of cells up
             for(;colTop>y;colTop--){
-//                for (int j = 0; j < G().yDim; j++) {
-//                    existsArrs[iRec][j]=G().GetAgent(x,j,z)==null?false:true;
-//                }
-//                colTops[iRec]=colTop;
-//                iRec++;
-//                iRec=iRec%10;
                 c=(G().GetAgent(x,colTop-1,z));
                 c.Move(x,colTop,z);
             }
@@ -206,8 +177,6 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             if (iMoveCoord != -1) {
                 dipshit[ DirectionTracker(G().inBounds[iMoveCoord]) ] ++;
                 Move(G().inBounds[iMoveCoord]); // We are moving
-//                dipshit[iMoveCoord] += 1;
-//                dipshitCount += 1;
                 Action = MOVING;
                 if (Ysq() != 0 && y == 0) {
                     G().Turnover.RecordLoss(-1);

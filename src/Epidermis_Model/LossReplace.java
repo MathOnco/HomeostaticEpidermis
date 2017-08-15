@@ -27,10 +27,10 @@ public class LossReplace {
         double Rate=0.0;
         if(Option=="Birth"){
             Rate=(DivisionBasal*1.0)/ (theGrid.xDim*theGrid.zDim * Step);
-            BirthRateBasal[theGrid.GetTick()] = Rate;
+            BirthRateBasal[theGrid.GetTick()/7] = Rate;
         } else if(Option=="Death"){
             Rate=(DeathBasal*1.0)/ (theGrid.xDim*theGrid.zDim * Step);
-            LossRateBasal[theGrid.GetTick()] = Rate;
+            LossRateBasal[theGrid.GetTick()/7] = Rate;
         }
         ResetBasalCounters();
         return Rate;
@@ -40,10 +40,10 @@ public class LossReplace {
         double Rate=0.0;
         if(Option=="Birth"){
             Rate=(DivisionTissue*1.0)/ (theGrid.xDim*theGrid.zDim * Step);
-            BirthRateTissue[theGrid.GetTick()] = Rate;
+            BirthRateTissue[theGrid.GetTick()/7] = Rate;
         } else if(Option=="Death"){
             Rate=(DeathTissue*1.0)/ (theGrid.xDim*theGrid.zDim * Step);
-            LossRateTissue[theGrid.GetTick()] = Rate;
+            LossRateTissue[theGrid.GetTick()/7] = Rate;
         }
         ResetTissueCounters();
         return Rate;
