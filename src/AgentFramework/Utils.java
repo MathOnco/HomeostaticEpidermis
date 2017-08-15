@@ -2,6 +2,7 @@ package AgentFramework;
 
 import AgentFramework.Interfaces.Sortable;
 
+import java.awt.*;
 import java.lang.reflect.Array;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -668,76 +669,54 @@ public final class Utils {
      * @param boundaryValue only impacts diffusion if boundaryCond is true, sets the boundary condition value
      * @param wrapX whether to wrap around diffusion over the left and right boundaries
      */
-    public static void Diffusion(double []inGrid,double[]outGrid,int xDim, int yDim,double diffRate, boolean boundaryCond,double boundaryValue,boolean wrapX){
-        //This code is ugly and repetitive to improve performance by getting around bounds checking
-        int x,y;
-        //first we do the corners
-        if(boundaryCond){
-            outGrid[0]=inGrid[0]+diffRate*(-inGrid[0]*4+inGrid[1]+inGrid[yDim]+2*boundaryValue);
-            outGrid[(xDim-1)*yDim]=inGrid[(xDim-1)*yDim]+diffRate*(-inGrid[(xDim-1)*yDim]*4+inGrid[(xDim-2)*yDim]+inGrid[(xDim-1)*yDim+1]+2*boundaryValue);
-            outGrid[(xDim-1)*yDim+yDim-1]=inGrid[(xDim-1)*yDim+yDim-1]+diffRate*(-inGrid[(xDim-1)*yDim+yDim-1]*4+inGrid[(xDim-2)*yDim+yDim-1]+inGrid[(xDim-1)*yDim+yDim-2]+2*boundaryValue);
-            outGrid[yDim-1]=inGrid[yDim-1]+diffRate*(-inGrid[yDim-1]*4+inGrid[yDim+yDim-1]+inGrid[yDim-2]+2*boundaryValue);
-        }
-        else if(wrapX){
-            outGrid[0]=inGrid[0]+diffRate*(-inGrid[0]*3+inGrid[1]+inGrid[yDim]+inGrid[xDim-1*yDim]);
-            outGrid[(xDim-1)*yDim]=inGrid[(xDim-1)*yDim]+diffRate*(-inGrid[xDim-1*yDim+0]*3+inGrid[xDim-2*yDim]+inGrid[xDim-1*yDim+1]+inGrid[0]);
-            outGrid[(xDim-1)*yDim+yDim-1]=inGrid[(xDim-1)*yDim+yDim-1]+diffRate*(-inGrid[(xDim-1)*yDim+yDim-1]*3+inGrid[(xDim-2)*yDim+yDim-1]+inGrid[(xDim-1)*yDim+yDim-2]+outGrid[yDim-1]);
-            outGrid[yDim-1]=inGrid[yDim-1]+diffRate*(-inGrid[yDim-1]*3+inGrid[yDim+yDim-1]+inGrid[yDim-2]+outGrid[(xDim-1)*yDim+yDim-1]);
-        }
-        else{
-            outGrid[0]=inGrid[0]+diffRate*(-inGrid[0]*2+inGrid[1]+inGrid[yDim]);
-            outGrid[(xDim-1)*yDim]=inGrid[(xDim-1)*yDim]+diffRate*(-inGrid[xDim-1*yDim+0]*2+inGrid[xDim-2*yDim]+inGrid[xDim-1*yDim+1]);
-            outGrid[(xDim-1)*yDim+yDim-1]=inGrid[(xDim-1)*yDim+yDim-1]+diffRate*(-inGrid[(xDim-1)*yDim+yDim-1]*2+inGrid[(xDim-2)*yDim+yDim-1]+inGrid[(xDim-1)*yDim+yDim-2]);
-            outGrid[yDim-1]=inGrid[yDim-1]+diffRate*(-inGrid[yDim-1]*2+inGrid[yDim+yDim-1]+inGrid[yDim-2]);
-        }
-        //then we do the sides
-        if(boundaryCond){
-            x=0; for(y=1;y<yDim-1;y++) {
-                outGrid[x*yDim+y]=inGrid[x*yDim+y]+diffRate*(-inGrid[x*yDim+y]*4+inGrid[(x+1)*yDim+y]+inGrid[x*yDim+y+1]+inGrid[x*yDim+y-1]+boundaryValue);
-            }
-            x=xDim-1; for(y=1;y<yDim-1;y++) {
-                outGrid[x*yDim+y]=inGrid[x*yDim+y]+diffRate*(-inGrid[x*yDim+y]*4+inGrid[(x-1)*yDim+y]+inGrid[x*yDim+y+1]+inGrid[x*yDim+y-1]+boundaryValue);
-            }
-            y=0; for(x=1;x<xDim-1;x++) {
-                outGrid[x*yDim+y]=inGrid[x*yDim+y]+diffRate*(-inGrid[x*yDim+y]*4+inGrid[x*yDim+y+1]+inGrid[(x+1)*yDim+y]+inGrid[(x-1)*yDim+y]+boundaryValue);
-            }
-            y=yDim-1; for(x=1;x<xDim-1;x++) {
-                outGrid[x*yDim+y]=inGrid[x*yDim+y]+diffRate*(-inGrid[x*yDim+y]*4+inGrid[x*yDim+y-1]+inGrid[(x+1)*yDim+y]+inGrid[(x-1)*yDim+y]+boundaryValue);
-            }
-        }
-        else if(wrapX) {
-            x=0; for(y=1;y<yDim-1;y++) {
-                outGrid[x*yDim+y]=inGrid[x*yDim+y]+diffRate*(-inGrid[x*yDim+y]*4+inGrid[(x+1)*yDim+y]+inGrid[x*yDim+y+1]+inGrid[x*yDim+y-1]+inGrid[(xDim-1)*yDim+y]);
-            }
-            x=xDim-1; for(y=1;y<yDim-1;y++) {
-                outGrid[x*yDim+y]=inGrid[x*yDim+y]+diffRate*(-inGrid[x*yDim+y]*4+inGrid[(x-1)*yDim+y]+inGrid[x*yDim+y+1]+inGrid[x*yDim+y-1]+outGrid[0*yDim+y]);
-            }
-            y=0; for(x=1;x<xDim-1;x++) {
-                outGrid[x*yDim+y]=inGrid[x*yDim+y]+diffRate*(-inGrid[x*yDim+y]*3+inGrid[x*yDim+y+1]+inGrid[(x+1)*yDim+y]+inGrid[(x-1)*yDim+y]);
-            }
-            y=yDim-1; for(x=1;x<xDim-1;x++) {
-                outGrid[x*yDim+y]=inGrid[x*yDim+y]+diffRate*(-inGrid[x*yDim+y]*3+inGrid[x*yDim+y-1]+inGrid[(x+1)*yDim+y]+inGrid[(x-1)*yDim+y]);
-            }
-        }
-        else {
-            x=0; for(y=1;y<yDim-1;y++) {
-                outGrid[x*yDim+y]=inGrid[x*yDim+y]+diffRate*(-inGrid[x*yDim+y]*3+inGrid[(x+1)*yDim+y]+inGrid[x*yDim+y+1]+inGrid[x*yDim+y-1]);
-            }
-            x=xDim-1; for(y=1;y<yDim-1;y++) {
-                outGrid[x*yDim+y]=inGrid[x*yDim+y]+diffRate*(-inGrid[x*yDim+y]*3+inGrid[(x-1)*yDim+y]+inGrid[x*yDim+y+1]+inGrid[x*yDim+y-1]);
-            }
-            y=0; for(x=1;x<xDim-1;x++) {
-                outGrid[x*yDim+y]=inGrid[x*yDim+y]+diffRate*(-inGrid[x*yDim+y]*3+inGrid[x*yDim+y+1]+inGrid[(x+1)*yDim+y]+inGrid[(x-1)*yDim+y]);
-            }
-            y=yDim-1; for(x=1;x<xDim-1;x++) {
-                outGrid[x*yDim+y]=inGrid[x*yDim+y]+diffRate*(-inGrid[x*yDim+y]*3+inGrid[x*yDim+y-1]+inGrid[(x+1)*yDim+y]+inGrid[(x-1)*yDim+y]);
-            }
-        }
-        //then we do the middle
-        for (x = 1; x < xDim-1; x++) {
-            for (y = 1; y < yDim-1; y++) {
-                int i=x*yDim+y;
-                outGrid[i]=inGrid[i]+diffRate*(-inGrid[i]*4+inGrid[(x+1)*yDim+y]+inGrid[(x-1)*yDim+y]+inGrid[x*yDim+y+1]+inGrid[x*yDim+y-1]);
+    public static void Diffusion(double []inGrid,double[]outGrid,int xDim, int yDim,double diffRate, boolean boundaryCond,double boundaryValue,boolean wrapX, boolean wrapY){
+        int x, y, z;
+        double valSum;
+        for (x = 0; x < xDim; x++) {
+            for (y = 0; y < yDim; y++) {
+                //4 squares to check
+                valSum = 0;
+                if (InDim(xDim, x + 1)) {
+                    valSum += inGrid[(x + 1) * yDim + (y)];
+                } else if (boundaryCond) {
+                    valSum += boundaryValue;
+                } else if (wrapX) {
+                    valSum += inGrid[(0) * yDim + (y)];
+                } else {
+                    valSum += inGrid[(x - 1) * yDim + (y)];
+                }
+
+                if (InDim(xDim, x - 1)) {
+                    valSum += inGrid[(x - 1) * yDim + (y)];
+                } else if (boundaryCond) {
+                    valSum += boundaryValue;
+                } else if (wrapX) {
+                    valSum += inGrid[(xDim - 1) * yDim + (y)];
+                } else {
+                    valSum += inGrid[(x + 1) * yDim + (y)];
+                }
+
+                if (InDim(yDim, y + 1)) {
+                    valSum += inGrid[(x) * yDim + (y + 1)];
+                } else if (boundaryCond) {
+                    valSum += boundaryValue;
+                } else if (wrapY) {
+                    valSum += inGrid[(x) * yDim + (0)];
+                } else {
+                    valSum += inGrid[(x) * yDim + (y - 1)];
+                }
+
+                if (InDim(yDim, y - 1)) {
+                    valSum += inGrid[(x) * yDim + (y - 1)];
+                } else if (boundaryCond) {
+                    valSum += boundaryValue;
+                } else if (wrapY) {
+                    valSum += inGrid[(x) * yDim + (yDim - 1)];
+                } else {
+                    valSum += inGrid[(x) * yDim + (y + 1)];
+                }
+                int i = x * yDim + y;
+                outGrid[i] = inGrid[i] + diffRate * (-inGrid[i] * 4 + valSum);
             }
         }
     }
@@ -760,93 +739,81 @@ public final class Utils {
      * @param xDim x dimenison of the inGrid and outGrid
      * @param yDim y dimension of the inGrid and outGrid
      * @param zDim z dimension of the inGrid and outGrid
-     * @param diffRate diffusion rate for the diffusion equaition
+     * @param diffRate diffusion rate for the diffusion equation
      * @param boundaryCond defines whether a constant boundary condition value should diffuse in from the boundaries
      * @param boundaryValue only impacts diffusion if boundaryCond is true, sets the boundary condition value
-     * @param wrapXZ whether to wrap around diffusion over the left and right and front and back boundaries
+     * @param wrapX whether to wrap around diffusion over the left and right and front and back boundaries
      */
-    public static void Diffusion3(double []inGrid,double[]outGrid,int xDim, int yDim,int zDim,double
-            diffRate, boolean boundaryCond,double boundaryValue,boolean wrapXZ) {
-        int x,y,z,count;
+    public static void Diffusion3(final double[] inGrid, final double[] outGrid, final int xDim, final int yDim, final int zDim, final double
+            diffRate, final boolean boundaryCond, final double boundaryValue, final boolean wrapX,final boolean wrapY,final boolean wrapZ) {
+        int x, y, z;
         double valSum;
         for (x = 0; x < xDim; x++) {
             for (y = 0; y < yDim; y++) {
                 for (z = 0; z < zDim; z++) {
                     //6 squares to check
-                    count=0;
-                    valSum=0;
-                    if(InDim(xDim,x+1)){
-                        valSum+=inGrid[(x+1)*yDim*zDim+(y)*zDim+(z)];
-                        count++;
-                    }
-                    else if(wrapXZ){
-                        valSum+=inGrid[(0)*yDim*zDim+(y)*zDim+(z)];
-                        count++;
-                    }
-                    else if(boundaryCond){
-                        valSum+=boundaryValue;
-                        count++;
-                    }
-
-                    if(InDim(xDim,x-1)){
+                    valSum = 0;
+                    if (InDim(xDim, x + 1)) {
+                        valSum += inGrid[(x + 1) * yDim * zDim + (y) * zDim + (z)];
+                    }  else if (boundaryCond) {
+                        valSum += boundaryValue;
+                    }else if (wrapX) {
+                        valSum += inGrid[(0) * yDim * zDim + (y) * zDim + (z)];
+                    } else{
                         valSum+=inGrid[(x-1)*yDim*zDim+(y)*zDim+(z)];
-                        count++;
-                    }
-                    else if(wrapXZ){
-                        valSum+=inGrid[(xDim-1)*yDim*zDim+(y)*zDim+(z)];
-                        count++;
-                    }
-                    else if(boundaryCond){
-                        valSum+=boundaryValue;
-                        count++;
                     }
 
-                    if(InDim(yDim,y+1)){
-                        valSum+=inGrid[(x)*yDim*zDim+(y+1)*zDim+(z)];
-                        count++;
-                    }
-                    else if(boundaryCond){
-                        valSum+=boundaryValue;
-                        count++;
-                    }
-
-                    if(InDim(yDim,y-1)){
-                        valSum+=inGrid[(x)*yDim*zDim+(y-1)*zDim+(z)];
-                        count++;
-                    }
-                    else if(boundaryCond){
-                        valSum+=boundaryValue;
-                        count++;
+                    if (InDim(xDim, x - 1)) {
+                        valSum += inGrid[(x - 1) * yDim * zDim + (y) * zDim + (z)];
+                    }  else if (boundaryCond) {
+                        valSum += boundaryValue;
+                    }else if (wrapX) {
+                        valSum += inGrid[(xDim - 1) * yDim * zDim + (y) * zDim + (z)];
+                    } else{
+                        valSum += inGrid[(x + 1) * yDim * zDim + (y) * zDim + (z)];
                     }
 
-                    if(InDim(zDim,z+1)){
-                        valSum+=inGrid[(x)*yDim*zDim+(y)*zDim+(z+1)];
-                        count++;
-                    }
-                    else if(wrapXZ){
-                        valSum+=inGrid[(x)*yDim*zDim+(y)*zDim+(0)];
-                        count++;
-                    }
-                    else if(boundaryCond){
-                        valSum+=boundaryValue;
-                        count++;
+                    if (InDim(yDim, y + 1)) {
+                        valSum += inGrid[(x) * yDim * zDim + (y + 1) * zDim + (z)];
+                    } else if (boundaryCond) {
+                        valSum += boundaryValue;
+                    } else if(wrapY){
+                        valSum += inGrid[(x) * yDim * zDim + (0) * zDim + (z)];
+                    } else{
+                        valSum += inGrid[(x) * yDim * zDim + (y-1) * zDim + (z)];
                     }
 
-                    if(InDim(zDim,z-1)){
-                        valSum+=inGrid[(x)*yDim*zDim+(y)*zDim+(z-1)];
-                        count++;
-                    }
-                    else if(wrapXZ){
-                        valSum+=inGrid[(xDim-1)*yDim*zDim+(y)*zDim+(zDim-1)];
-                        count++;
-                    }
-                    else if(boundaryCond){
-                        valSum+=boundaryValue;
-                        count++;
+                    if (InDim(yDim, y - 1)) {
+                        valSum += inGrid[(x) * yDim * zDim + (y - 1) * zDim + (z)];
+                    } else if (boundaryCond) {
+                        valSum += boundaryValue;
+                    } else if(wrapY){
+                        valSum += inGrid[(x) * yDim * zDim + (yDim-1) * zDim + (z)];
+                    } else{
+                        valSum += inGrid[(x) * yDim * zDim + (y+1) * zDim + (z)];
                     }
 
-                    int i=x*yDim*zDim+y*zDim+z;
-                    outGrid[i]=inGrid[i]+diffRate*(-inGrid[i]*count+valSum);
+                    if (InDim(zDim, z + 1)) {
+                        valSum += inGrid[(x) * yDim * zDim + (y) * zDim + (z+1)];
+                    } else if (boundaryCond) {
+                        valSum += boundaryValue;
+                    } else if(wrapZ){
+                        valSum += inGrid[(x) * yDim * zDim + (y) * zDim + (0)];
+                    } else{
+                        valSum += inGrid[(x) * yDim * zDim + (y) * zDim + (z-1)];
+                    }
+
+                    if (InDim(zDim, z - 1)) {
+                        valSum += inGrid[(x) * yDim * zDim + (y) * zDim + (z-1)];
+                    } else if (boundaryCond) {
+                        valSum += boundaryValue;
+                    } else if(wrapZ){
+                        valSum += inGrid[(x) * yDim * zDim + (y) * zDim + (zDim-1)];
+                    } else{
+                        valSum += inGrid[(x) * yDim * zDim + (y) * zDim + (z+1)];
+                    }
+                    int i = x * yDim * zDim + y * zDim + z;
+                    outGrid[i] = inGrid[i] + diffRate * (-inGrid[i] * 6 + valSum);
                 }
             }
         }
@@ -902,7 +869,20 @@ public final class Utils {
         return sb.toString();
     }
 
+    /**
+     * Converts HSV values to RGB values
+     * hue: 0->1 (Picks Color)
+     * saturation: 0->1
+     * brightness: 0->1
+     **/
+    public static float[] GetHSBtoRGB(float hue, float saturation, float brightness) {
+        float scale = 255f;
+        int rgb = Color.HSBtoRGB(hue, saturation, brightness);
+        int r = (rgb >> 16) & 0xFF;
+        int g = (rgb >> 8) & 0xFF;
+        int b = rgb & 0xFF;
+        float[] RGBreturn = {r/scale,g/scale,b/scale};
+        return RGBreturn;
+    }
+
 }
-
-
-

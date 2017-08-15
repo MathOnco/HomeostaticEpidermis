@@ -1,12 +1,13 @@
 package Epidermis_Model;
 
+import AgentFramework.FileIO;
 import AgentFramework.GenomeTracker;
 import AgentFramework.Grid2;
 import AgentFramework.GridDiff2;
 import AgentFramework.Gui.Gui;
 import AgentFramework.Gui.GuiVis;
-import cern.jet.random.engine.DRand;
-import cern.jet.random.engine.RandomEngine;
+
+import javax.sound.midi.Track;
 
 import static AgentFramework.Utils.*;
 import static Epidermis_Model.EpidermisConst.*;
@@ -22,44 +23,40 @@ import java.util.Random;
 
 // Grid specific parameters
 class EpidermisGrid extends Grid2<EpidermisCell> {
-    final double[] runParams;
-
     final Random RN=new Random();
-    final int[] divHoodBasal={1,0,-1,0,0,1}; // Coordinate set for two beside and one above [x,y,x,y...]
-    final int[] moveHood={1,0,-1,0,0,-1};
-    final int[] inBounds= new int[4];
-    double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
-    double DECAY_RATE=0.001; //chemical decay rate of growth factors
+    static final int[] divHoodBasal={1,0,-1,0,0,1}; // Coordinate set for two beside and one above [x,y,x,y...]
+    static final int[] divHood={1,0,-1,0,0,1,0,-1}; // Coordinate set for two beside and one above and one below [x,y,x,y...]
+    static final int[] moveHood={1,0,-1,0,0,-1};
+    static final int[] inBounds= new int[4];
+    static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
+    static final double DECAY_RATE=0.001; //chemical decay rate of growth factors
     static final double SOURCE_EGF=1; //constant level at basement
     static final int AIR_HEIGHT=15; //air, keratinocyte death! (threshold level for placement of keratinocytes essentially)
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
     boolean running;
-    float r_lambda_weekly = 0;
     int xDim;
     int yDim;
+    long popSum=0;
     int[] MeanProlif = new int[EpidermisConst.xSize * EpidermisConst.ySize];
     int[] MeanDeath = new int[EpidermisConst.xSize * EpidermisConst.ySize];
-    long popSum=0;
-
-    int pro_count = 0;
-    int pro_count_basal = 0;
-    int loss_count_basal = 0;
-    int death_count = 0;
-
-
     GenomeTracker<EpidermisCellGenome> GenomeStore;
+    LossReplace Turnover;
+    AgeTracker TrackAge;
     GridDiff2 EGF;
+    double[] runParams;
 
     public EpidermisGrid(int x, int y, double[] customParams) {
         super(x,y,EpidermisCell.class);
-        runParams = customParams;
-        EGF_DIFFUSION_RATE = customParams[6];
-        DECAY_RATE = customParams[7];
         running = false;
+
+        runParams = customParams;
+
         xDim = x;
         yDim = y;
         EGF = new GridDiff2(x, y);
-        GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(1,1,1,""), true, true);
+        GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(0f,0f,1f,"", this), true, true);
+        Turnover = new LossReplace(this, ModelTime, 7);
+        TrackAge = new AgeTracker(this, xDim, yDim, ModelTime);
         PlaceCells();
     }
 
@@ -74,7 +71,6 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         }
     }
 
-
     public void RunStep() {
         for (int i = 0; i < CHEMICAL_STEPS; i++) {
             ChemicalLoop();
@@ -82,10 +78,22 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         for (EpidermisCell c: this) {
             c.CellStep();
             MeanProlif(c);
-//            MeanDeath();
         }
         popSum+=Pop();
         CleanShuffInc(RN); // Special Sauce
+
+        for (int i = 0; i < xDim*yDim; i++) {
+            EpidermisCell c = ItoAgent(i);
+            if(c!=null){
+                TrackAge.SetAge(i,c.Age());
+            } else {
+                TrackAge.SetAge(i,0);
+            }
+        }
+        Turnover.RecordBasalRate("Death");
+        Turnover.RecordBasalRate("Birth");
+        Turnover.RecordTissueRate("Birth");
+        Turnover.RecordTissueRate("Death");
     }
 
     public void DrawChemicals(GuiVis chemVis, boolean egf, boolean bfgf) {
@@ -135,16 +143,19 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             }
     }
 
-    public float GetOldestCell(EpidermisGrid Epidermis){
-        float Age = 0;
-        int aliveCells = 0;
-        for (EpidermisCell c: this) {
-            if(c!=null){
-                Age += c.Age();
-                aliveCells += 1;
+    public double GetMeanCellHeight(){
+        int allColumns = 0;
+        for (int x = 0; x < xDim; x++) {
+                int column = 0;
+                for (int y = 0; y < yDim; y++) {
+                    EpidermisCell c = SQtoAgent(x, y);
+                    if(c!=null){
+                        column++;
+                    }
+                }
+                allColumns += column;
             }
-        }
-        return Age/aliveCells;
+        return (allColumns*1.0)/(xDim);
     }
 
 
@@ -188,16 +199,26 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         }
     }
 
-    public boolean checkWoundHeal(int AvgHeight){
-        int pop=0;
-        for (int i = 37; i < 37*3; i++){
-            for (int k=0; k < yDim; k++) {
-                if(SQtoAgent(i,k)!=null){
-                    pop++;
-                }
+    public void GetCellPositions(FileIO PositionOut){
+        for (EpidermisCell c: this) {
+            if(c!=null){
+                String OutString = c.Xsq() + "," + c.Ysq() + "," + c.myGenome.IDGetter() + "\n";
+                PositionOut.Write(OutString);
             }
         }
-        if(pop/(37*2) >= AvgHeight){
+    }
+
+    public boolean checkWoundHeal(int AvgHeight){
+//        int pop=0;
+//        for (int i = 37; i < 37*3; i++){
+//            for (int k=0; k < yDim; k++) {
+//                if(SQtoAgent(i,k)!=null){
+//                    pop++;
+//                }
+//            }
+//        }
+//        if(pop/(37*2) >= AvgHeight){
+        if(SQtoAgent(xDim/2, 0)!=null){
             return true;
         } else {
             return false;
@@ -206,10 +227,12 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
 
     public void ChemicalLoop(){
         //DIFFUSION
-        EGF.Diffuse(EGF_DIFFUSION_RATE,false,0,true);
+        EGF.Diffuse(EGF_DIFFUSION_RATE,false,0,true, false);
         //CELL CONSUMPTION
         for (EpidermisCell c: this) {
                 EGF.IaddNext(c.Isq(), c.KERATINO_EGF_CONSPUMPTION*EGF.IgetCurr(c.Isq()));
+//                EGF.IaddNext(c.Isq(), -0.05*EGF.IgetCurr(c.Isq()));
+
         }
 
         //DECAY RATE
@@ -224,5 +247,14 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
 
         //SWAP CURRENT FOR NEXT
         EGF.SwapNextCurr();
+    }
+
+    public void GetEGFVal(){
+        StringBuilder EGFCons = new StringBuilder();
+        for (int y=0; y < yDim; y++) {
+            String out = String.valueOf(EGF.SQgetCurr(xDim/2, y)) + "\t";
+            EGFCons.append(out);
+        }
+        //System.out.println(EGFCons.toString());
     }
 }
