@@ -23,8 +23,8 @@ getColored <- function(dfInput, dfOutcome, testDF){
   
   for( i in 1:length(dfInput$PSF)){
     dfOutcomeTest <- dfOutcome[i,]
-    if(gradient(dfOutcomeTest$rlambda, 0.16, 0.04)==0){outputDF[i,3]="red"}
-      else if(gradient(dfOutcomeTest$rlambda, 0.16, 0.04)==-1 || gradient(dfOutcomeTest$rlambda, 0.16, 0.04)==+1){outputDF[i,3]="royalblue4"}
+    if(gradient(dfOutcomeTest$rlambda, 0.02404, 0.004)==0){outputDF[i,3]="red"}
+      else if(gradient(dfOutcomeTest$rlambda, 0.02404, 0.004)==-1 || gradient(dfOutcomeTest$rlambda, 0.02404, 0.004)==+1){outputDF[i,3]="royalblue4"}
       else{outputDF[i,3]="grey"}
     if(gradient(dfOutcomeTest$mean, 28, 4)==0){outputDF[i,2]="red"}
       else if(gradient(dfOutcomeTest$mean, 28, 4)==-1 || gradient(dfOutcomeTest$mean, 28, 4)==+1){outputDF[i,2]="royalblue4"}
@@ -32,9 +32,9 @@ getColored <- function(dfInput, dfOutcome, testDF){
     if(gradient(dfOutcomeTest$height, 14, 2)==0){outputDF[i,1]="red"}
       else if(gradient(dfOutcomeTest$height, 14, 2)==-1 || gradient(dfOutcomeTest$height, 14, 2)==+1){outputDF[i,1]="royalblue4"}
       else{outputDF[i,2]="grey"}
-    if(gradient(dfOutcomeTest$heal, 2, 8)==0){outputDF[i,4]="red"}
-      else if(gradient(dfOutcomeTest$heal, 2, 8)==-1 || gradient(dfOutcomeTest$heal, 2, 8)==+1){outputDF[i,4]="royalblue4"}
-      else{outputDF[i,4]="grey"}
+    #if(gradient(dfOutcomeTest$heal, 2, 8)==0){outputDF[i,4]="red"}
+    #  else if(gradient(dfOutcomeTest$heal, 2, 8)==-1 || gradient(dfOutcomeTest$heal, 2, 8)==+1){outputDF[i,4]="royalblue4"}
+      #else{outputDF[i,4]="grey"}
   }
   dfOutcomeVariables <- cbind(dfOutcome, outputDF)
   testDF <- cbind(testDF, dfOutcomeVariables)
@@ -42,11 +42,11 @@ getColored <- function(dfInput, dfOutcome, testDF){
 }
 
 OrdiPlot <- function(df){
-  dfOutcome <- df[7:10]
+  dfOutcome <- df[7:9]
   dfOutcome$height <- as.numeric(lapply(dfOutcome$height, function(x) round(x,0)))
   dfOutcome$rlambda <- as.numeric(lapply(dfOutcome$rlambda, function(x) round(x,2)))
   dfOutcome$mean <- as.numeric(lapply(dfOutcome$mean, function(x) round(x,0)))
-  dfOutcome$heal <- as.numeric(lapply(dfOutcome$heal, function(x) round(x,0)))
+  #dfOutcome$heal <- as.numeric(lapply(dfOutcome$heal, function(x) round(x,0)))
   dfInput <- df[1:6]
   #dfInput <- log(df[,1:6]+1)
   
@@ -85,9 +85,9 @@ OrdiPlot <- function(df){
   text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
   #legend(-3,2,unique(testDF$height),col=1:length(testDF$height),pch=1)
   
-  plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="RDA: Heal Time", ylim = c(-2,2), xlim=c(-3,3))
-  points(testDF$RDA1, testDF$RDA2, col=testDF$healSat, cex=2/5)
-  text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
+  #plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="RDA: Heal Time", ylim = c(-2,2), xlim=c(-3,3))
+  #points(testDF$RDA1, testDF$RDA2, col=testDF$healSat, cex=2/5)
+  #text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
   #legend(-3,2,unique(testDF$height),col=1:length(testDF$height),pch=1)
   
   VectorStats <- envfit(ccaData ~ PSF, data = dfInput, permutations=c(10000))
@@ -251,12 +251,13 @@ textLab <- function(df){
 ###### END Functions! #####
 
 #Paramaterization (Round 5 is actually Round 1)
-df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/ParamSweep_Ordination_Round15.txt", sep = "\t", header = FALSE)
-df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/All_Parameters_Constant_Round16.txt", sep = "\t", header = FALSE)
-df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/GridParams_Round1.txt", sep = "\t", header = FALSE)
+#df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/GridParams_Round1Final.txt", sep = "\t", header = FALSE)
+#df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/All_Parameters_Constant_Round16.txt", sep = "\t", header = FALSE)
+df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/GridParams_Round1.txt", sep = "\t", header = FALSE, na.strings = "NaN")
 DistDF <- PlotRun(df)
 print(subset(DistDF, DistDF$E.Dist==min(DistDF$E.Dist)))
 ccaData <- OrdiPlot(DistDF) # Use this to get Ordination Plots and CCA plots
+boxplot(DistDF[1:6])
 summary(ccaData)
 plot(DistDF$PSF, DistDF$E.Dist, xlab = "PSF", ylab = "Eucladian Dist.", main="Best Parameter", cex=2/5)
 plot(1, type="n", xlab="", ylab="", xlim=c(-10, 10), ylim=c(-10, 10), axes=FALSE, frame.plot = FALSE)
@@ -273,3 +274,131 @@ max(filtered$DIVLOCPROB)-min(filtered$DIVLOCPROB)
 #Grid Parameters
 df <- read.csv("~/IdeaProjects/Epidermis_Project_Final/GridParams_Round1.txt", sep = "\t", header = FALSE)
 colnames(df) <- c()
+
+
+dfOutcome <- DistDF[7:9]
+dfOutcome$height <- as.numeric(lapply(dfOutcome$height, function(x) round(x,0)))
+dfOutcome$rlambda <- as.numeric(lapply(dfOutcome$rlambda, function(x) round(x,2)))
+dfOutcome$mean <- as.numeric(lapply(dfOutcome$mean, function(x) round(x,0)))
+#dfOutcome$heal <- as.numeric(lapply(dfOutcome$heal, function(x) round(x,0)))
+dfInput <- DistDF[1:6]
+#dfInput <- log(df[,1:6]+1)
+
+ccaData <- rda(dfOutcome ~ PSF+EGF_CONS+APOPEGF+DEATHPROB+MOVE+DIVLOCPROB, data=dfInput, scale=TRUE)
+p <- plot(ccaData)
+testDF <- as.data.frame(p$sites)
+atts <- attributes(p$biplot)
+xR2Vals <- as.data.frame(p$sites)
+myFact = atts$arrow.mul
+print(myFact)
+#xLoc <- max(xR2Vals$CCA1) + 2
+xLoc <- 2.2
+
+testDF <- getColored(dfInput, dfOutcome, testDF)
+
+plot.new()
+par(mfrow=c(3,4))
+#plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="Canonical Correspondence Analysis")
+#points(ccaData, display = "sites", cex=1/10)
+#text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
+#plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="Canonical Correspondence Analysis", ylim = c(-2,2), xlim=c(-3,3))
+#points(ccaData, display = "sites", cex=1/3)
+#text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
+plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="RDA: Height", ylim = c(-2,2), xlim=c(-3,3))
+points(testDF$RDA1, testDF$RDA2, col=testDF$HeightSat, cex=2/5)
+text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
+#legend(-3,2,unique(testDF$height),col=1:length(testDF$height),pch=1)
+
+plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="RDA: Age", ylim = c(-2,2), xlim=c(-3,3))
+points(testDF$RDA1, testDF$RDA2, col=testDF$AgeSat, cex=2/5)
+text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
+#legend(-3,2,unique(testDF$height),col=1:length(testDF$height),pch=1)
+
+plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="RDA: rlambda", ylim = c(-2,2), xlim=c(-3,3))
+points(testDF$RDA1, testDF$RDA2, col=testDF$rlambdaSat, cex=2/5)
+text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
+#legend(-3,2,unique(testDF$height),col=1:length(testDF$height),pch=1)
+
+#plot(ccaData, type="n", axes = TRUE, frame.plot=TRUE, cex=2/3, main="RDA: Heal Time", ylim = c(-2,2), xlim=c(-3,3))
+#points(testDF$RDA1, testDF$RDA2, col=testDF$healSat, cex=2/5)
+#text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue")
+#legend(-3,2,unique(testDF$height),col=1:length(testDF$height),pch=1)
+
+VectorStats <- envfit(ccaData ~ PSF, data = dfInput, permutations=c(10000))
+print(VectorStats)
+myR2 <- paste("r2 = ", round(VectorStats$vectors$r[1],4), sep="")
+myPval <- paste("p-value = ", round(VectorStats$vectors$pvals[1],4), sep = "")
+outText <- paste(myR2, myPval, sep="\n")
+OrdiSurface <- ordisurf(ccaData ~ PSF, data = dfInput, plot = FALSE)
+plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="RDA1", ylab="RDA2", main="PSF")
+plot(OrdiSurface, add=TRUE, col="red")
+text(ccaData, display="species")
+text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("PSF"), arrow.mul = myFact)
+text(xLoc,0, labels = c(outText))
+rm(myR2, myPval, VectorStats)
+
+VectorStats <- envfit(ccaData ~ APOPEGF, data = dfInput, permutations=c(1000))
+print(VectorStats)
+myR2 <- paste("r2 = ", round(VectorStats$vectors$r[1],4), sep="")
+myPval <- paste("p-value = ", round(VectorStats$vectors$pvals[1],4), sep = "")
+outText <- paste(myR2, myPval, sep="\n")
+OrdiSurface <- ordisurf(ccaData ~ APOPEGF, data = dfInput, plot = FALSE)
+plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="RDA1", ylab="RDA2", main="APOPEGF")
+plot(OrdiSurface, add=TRUE, col="red")
+text(ccaData, display="species")
+text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("APOPEGF"), arrow.mul = myFact)
+text(xLoc,0, labels = c(outText))
+rm(myR2, myPval, VectorStats)
+
+VectorStats <- envfit(ccaData ~ EGF_CONS, data = dfInput, permutations=c(1000))
+print(VectorStats)
+myR2 <- paste("r2 = ", round(VectorStats$vectors$r[1],4), sep="")
+myPval <- paste("p-value = ", round(VectorStats$vectors$pvals[1],4), sep = "")
+outText <- paste(myR2, myPval, sep="\n")
+OrdiSurface <- ordisurf(ccaData ~ EGF_CONS, data = dfInput, plot = FALSE)
+plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="RDA1", ylab="RDA2", main="EGF CONSUMPTION")
+plot(OrdiSurface, add=TRUE, col="red")
+text(ccaData, display="species")
+text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("EGF_CONS"), arrow.mul = myFact)
+text(xLoc,0, labels = c(outText))
+rm(myR2, myPval, VectorStats)
+
+VectorStats <- envfit(ccaData ~ MOVE, data = dfInput, permutations=c(1000))
+print(VectorStats)
+myR2 <- paste("r2 = ", round(VectorStats$vectors$r[1],4), sep="")
+myPval <- paste("p-value = ", round(VectorStats$vectors$pvals[1],4), sep = "")
+outText <- paste(myR2, myPval, sep="\n")
+OrdiSurface <- ordisurf(ccaData ~ MOVE, data = dfInput, plot = FALSE)
+plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="RDA1", ylab="RDA2", main="MOVE")
+plot(OrdiSurface, add=TRUE, col="red")
+text(ccaData, display="species")
+text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("MOVE"), arrow.mul = myFact)
+text(xLoc,0, labels = c(outText))
+rm(myR2, myPval, VectorStats)
+
+VectorStats <- envfit(ccaData ~ DIVLOCPROB, data = dfInput, permutations=c(1000))
+print(VectorStats)
+myR2 <- paste("r2 = ", round(VectorStats$vectors$r[1],4), sep="")
+myPval <- paste("p-value = ", round(VectorStats$vectors$pvals[1],4), sep = "")
+outText <- paste(myR2, myPval, sep="\n")
+OrdiSurface <- ordisurf(ccaData ~ DIVLOCPROB, data = dfInput, plot = FALSE)
+plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="RDA1", ylab="RDA2", main="DIVLOCPROB")
+plot(OrdiSurface, add=TRUE, col="red")
+text(ccaData, display="species")
+text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("DIVLOCPROB"), arrow.mul = myFact)
+text(xLoc,0, labels = c(outText))
+rm(myR2, myPval, VectorStats)
+
+VectorStats <- envfit(ccaData ~ DEATHPROB, data = dfInput, permutations=c(1000))
+print(VectorStats)
+myR2 <- paste("r2 = ", round(VectorStats$vectors$r[1],4), sep="")
+myPval <- paste("p-value = ", round(VectorStats$vectors$pvals[1],4), sep = "")
+outText <- paste(myR2, myPval, sep="\n")
+OrdiSurface <- ordisurf(ccaData ~ DEATHPROB, data = dfInput, plot = FALSE)
+plot(ccaData, type="n", axes=FALSE, frame.plot=TRUE, cex=2/3, xlab="RDA1", ylab="RDA2", main="DEATHPROB")
+plot(OrdiSurface, add=TRUE, col="red")
+text(ccaData, display="species")
+text(ccaData, display = "bp", cex=2/3, axis.bp=FALSE, col="blue", select = c("DEATHPROB"), arrow.mul = myFact)
+text(xLoc,0, labels = c(outText))
+rm(myR2, myPval, VectorStats)
+

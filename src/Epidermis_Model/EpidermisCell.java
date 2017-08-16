@@ -23,6 +23,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
+    public static  RandomEngine RNEngine = new DRand();
     double prolif_scale_factor = 0.07610124; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
     double KERATINO_EGF_CONSPUMPTION = -0.002269758; //consumption rate by keratinocytes
 //    double KERATINO_EGF_CONSPUMPTION = 0.0;
@@ -32,7 +33,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     double DIVISIONLOCPROB = 0.8315265; // Probability of dividing up vs side to side
     int myType; //cell type
     int Action; //cells action
-    static public RandomEngine RNEngine = new DRand();
+
     /**
      * Parameters for cell specific tracking and genome information
      **/
@@ -140,10 +141,10 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             //move column of cells up
             for(;colTop>y;colTop--){
                 c=(G().SQtoAgent(x,colTop-1));
-                c.Move(x,colTop);
+                c.Move(x, colTop);
+                if(c.Ysq()>= G().yDim-2){c.itDead();}
             }
 
-            if(c.Ysq()>= G().yDim-2){c.itDead();}
             return true;
         } else{
             return false;

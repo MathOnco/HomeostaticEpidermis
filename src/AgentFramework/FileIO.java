@@ -225,7 +225,9 @@ public class FileIO {
      */
     public void Write(String line) {
         try {
-            this.Writer.write(line);
+            if(line!=null){
+                this.Writer.write(line);
+            }
         }catch(IOException e){
             e.printStackTrace();
         }

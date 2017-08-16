@@ -6,6 +6,8 @@ import AgentFramework.Grid2;
 import AgentFramework.GridDiff2;
 import AgentFramework.Gui.Gui;
 import AgentFramework.Gui.GuiVis;
+import cern.jet.random.engine.DRand;
+import cern.jet.random.engine.RandomEngine;
 
 import javax.sound.midi.Track;
 
@@ -27,9 +29,9 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     static final int[] divHoodBasal={1,0,-1,0,0,1}; // Coordinate set for two beside and one above [x,y,x,y...]
     static final int[] divHood={1,0,-1,0,0,1,0,-1}; // Coordinate set for two beside and one above and one below [x,y,x,y...]
     static final int[] moveHood={1,0,-1,0,0,-1};
-    static final int[] inBounds= new int[4];
-    static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
-    static final double DECAY_RATE=0.001; //chemical decay rate of growth factors
+    final int[] inBounds= new int[4];
+    double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
+    double DECAY_RATE=0.001; //chemical decay rate of growth factors
     static final double SOURCE_EGF=1; //constant level at basement
     static final int AIR_HEIGHT=15; //air, keratinocyte death! (threshold level for placement of keratinocytes essentially)
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
@@ -57,6 +59,9 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(0f,0f,1f,"", this), true, true);
         Turnover = new LossReplace(this, ModelTime, 7);
         TrackAge = new AgeTracker(this, xDim, yDim, ModelTime);
+
+        EGF_DIFFUSION_RATE = runParams[6];
+        DECAY_RATE = runParams[7];
         PlaceCells();
     }
 

@@ -11,7 +11,6 @@ public class LossReplace {
     0.51pw * .333 = .16983pw (adjusted for a system where the basal layer is 100% possible progenitors).
     .16983pw / 7d = 0.02426143pd. This is my target average.
      */
-
     private int DivisionBasal = 0;
     private int DivisionTissue = 0;
     private int DeathBasal = 0;
@@ -68,7 +67,8 @@ public class LossReplace {
                 Rate += LossRateBasal[i];
             }
         }
-        return Rate/Step; // Returns average daily rate
+        OutputRateArray[theGrid.GetTick()/7] = Rate;
+        return Rate/Step; // Returns average daily rate over a week
     }
 
     public double GetTissueRate(String Option){
@@ -116,5 +116,7 @@ public class LossReplace {
     public double[] GetDeathRateBasal() { return LossRateBasal; }
 
     public double[] GetDeathRateTissue() { return LossRateTissue; }
+
+    public double[] GetOutputArray() { return OutputRateArray; }
 
 }
