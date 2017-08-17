@@ -1,11 +1,10 @@
 package Epidermis_Model;
-import AgentFramework.*;
-import AgentFramework.Interfaces.ParamSweeper;
+import Epidermis_Model.ParamSweeper.ParamSweeper;
+import Framework.Tools.FileIO;
+import Framework.Tools.Utils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
-import AgentFramework.Utils;
 
 
 import static Epidermis_Model.EpidermisCellGenome.RN;
@@ -98,7 +97,7 @@ public class Epidermis_Main {
 //            System.out.println("Years: " + EpidermisConst.years);
 //        }
 
-        FileIO FileParams = new FileIO("GridParams_Round3.txt", "w");
+        FileIO FileParams = new FileIO("GridParams_Roundtmp.txt", "w");
         ParamSweeper PS = new ParamSweeper(FileParams, (double[] runThatShit)->{
             EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, runThatShit); // Initializes and sets up the program for running
             String OutRL = "";
@@ -144,7 +143,7 @@ public class Epidermis_Main {
                 /*
                 Breaks While loop if the epidermis dissolves
                  */
-                if(Epidermis.Pop()==0){
+                if(Epidermis.GetPop()==0){
                     OutRL = "NaN";
                     outMean = "NaN";
                     break;
@@ -186,8 +185,8 @@ public class Epidermis_Main {
             }
             System.out.println("Run Complete...");
 //            System.out.println(OutRL + "\t" + outMean + "\t" + avgHeight + "\t"+ "NoHealData");
-            return Utils.PrintArr(runThatShit, "\t") + OutRL + "\t" + outMean + "\t" + avgHeight +"\n";
-
+            //String why=Utils.ArrToString(runThatShit, "\t");
+            return Utils.ArrToString(runThatShit, "\t")+ OutRL + "\t" + outMean + "\t" + avgHeight +"\n";
         });
 
         //*range+min
@@ -219,7 +218,7 @@ public class Epidermis_Main {
             return RN.nextDouble()*0.5+0.0; //Iteration 1,2
         });
 
-        PS.Sweep(10000, 4);
+        PS.Sweep(10, 4);
 
         FileParams.Close();
 //        while(Epidermis.GetTick() < EpidermisConst.ModelTime){
