@@ -41,6 +41,17 @@ public final class Utils {
         out[1]=val > 0.25? Math.min(1, (val - 0.25) * 2):0;
         out[2]=val > 0.75? Math.min(1, (val - 0.75) * 4):0;
     }
+    public static void HSBtoRGB(double hue, double saturation, double brightness,double[] retRGB) {
+        float scale = 255f;
+        int rgb = Color.HSBtoRGB((float)hue, (float)saturation, (float)brightness);
+        int r = (rgb >> 16) & 0xFF;
+        int g = (rgb >> 8) & 0xFF;
+        int b = rgb & 0xFF;
+        retRGB[0]=r/scale;
+        retRGB[1]=g/scale;
+        retRGB[2]=b/scale;
+    }
+
     public static double SumArray(double[] arr){
         double sum=0;
         for (double val : arr) {
@@ -55,6 +66,150 @@ public final class Utils {
         }
         return sum;
     }
+    /**
+     * prints an array to a string
+     *
+     * @param arr   array to be printed
+     * @param delim the delimiter used to separate entries
+     * @param <T>   the type of the data entries in the array
+     */
+    public static <T> String ArrToString(T[] arr, String delim) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i] + delim);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * prints an array
+     *
+     * @param arr   array to be printed
+     * @param delim the delimiter used to separate entries
+     */
+    public static String ArrToString(double[] arr, String delim) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i] + delim);
+        }
+        return sb.toString();
+    }
+    public static String ArrToString(float[] arr, String delim) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i] + delim);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * prints an array
+     *
+     * @param arr   array to be printed
+     * @param delim the delimiter used to separate entries
+     */
+    public static String ArrToString(int[] arr, String delim) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i] + delim);
+        }
+        return sb.toString();
+    }
+    public static String ArrToString(long[] arr, String delim) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i] + delim);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Returns a new array that is the first array with the second concatenated to the end of it
+     *
+     * @param <T> the type of the input and output arrays
+     */
+    public static <T> T[] Concat(T[] first, T[] second) {
+        int firstLen = first.length;
+        int secondLen = second.length;
+        T[] ret = (T[]) Array.newInstance(first.getClass().getComponentType(), firstLen + secondLen);
+        System.arraycopy(first, 0, ret, 0, firstLen);
+        System.arraycopy(second, 0, ret, firstLen, firstLen + secondLen);
+        return ret;
+    }
+
+    /**
+     * Returns a new array that is the first array with the appendMe object appended to the end of it
+     *
+     * @param <T> the type of the inputs and output array
+     */
+    public static <T> T[] Append(T[] arr, T appendMe) {
+        int firstLen = arr.length;
+        T[] ret = (T[]) Array.newInstance(arr.getClass().getComponentType(), firstLen + 1);
+        System.arraycopy(arr, 0, ret, 0, firstLen);
+        ret[firstLen] = appendMe;
+        return ret;
+    }
+
+    public static int[] IndicesArray(int nEntries){
+        int indices[] = new int[nEntries];
+        for (int i = 0; i < nEntries; i++) {
+            indices[i] = i;
+        }
+        return indices;
+    }
+    /**
+     * Generates a list of sequential integers starting at 0, and then shuffles them
+     *
+     * @param nEntries    the length of the list to be generated
+     * @param CountRandom the number of elements that should be shuffled
+     * @param rn          the random number generator to be used
+     * @return returns the array of indices after being shuffled
+     */
+
+    public static int[] RandomIndices(int nEntries, int CountRandom, Random rn) {
+        int indices[] = new int[nEntries];
+        for (int i = 0; i < nEntries; i++) {
+            indices[i] = i;
+        }
+        Shuffle(indices, indices.length, CountRandom, rn);
+        return indices;
+    }
+
+    /**
+     * Fills out with random doubles between min and max inclusive
+     *
+     * @param out the array the random doubles should be written to. the length of the input array defines the number of doubles to be generated
+     * @param rn  the random number generator to be used
+     */
+    public static void RandomDS(double[] out, double min, double max, Random rn) {
+        for (int i = 0; i < out.length; i++) {
+            out[i] = rn.nextDouble() * (max - min) + min;
+        }
+    }
+    /**
+     * Fills out with random integers between min (inclusive) and max (exclusive)
+     *
+     * @param out the array the random doubles should be written to. the length of the input array defines the number of doubles to be generated
+     * @param rn  the random number generator to be used
+     */
+    public static void RandomIS(int[] out, int min, int max, Random rn) {
+        for (int i = 0; i < out.length; i++) {
+            out[i] = rn.nextInt(max - min) + min;
+        }
+    }
+
+
+    /**
+     * returns the mean value of the provided array
+     */
+    static public double Mean(double[] a) {
+        double tot = 0;
+        for (int i = 0; i < a.length; i++) {
+            tot += a[i];
+        }
+        return tot / a.length;
+    }
+
 
 
     /**
@@ -153,161 +308,6 @@ public final class Utils {
         }
     }
 
-//    /**
-//     * fast approximation of the multinomial distribution
-//     * @param probs
-//     * @param nSamples
-//     */
-//    public static void Multinomial(double[] probs,int nSamples){
-//        int probsLen=probs.length;
-//        q=new double[]
-//
-//    }
-    /**
-     * returns the number of heads from nTrials coin flips, where successProb is the probability of heads
-     */
-    public static int Binomial(double p, int n, Random rn) {
-        if(p<=0.5){
-            if(n*p>10*(1-p)){
-                return (int)Math.round(rn.nextDouble()*Math.sqrt(n*p*(1-p))+n*p);
-            }
-            else{
-                int r=n;
-                double s=-Math.log(rn.nextDouble())/n;
-                while(s<=-Math.log(p)) {
-                    r=r-1;
-                    s=-Math.log(rn.nextDouble())/r;
-                }
-                return r;
-            }
-        }
-        else{
-            if(n*(1-p)>10*p){
-                return (int)(n-Math.round(rn.nextDouble()*Math.sqrt(n*p*(1-p))*n*(1-p)));
-            }
-            else {
-                int r = n;
-                double s = -Math.log(rn.nextDouble()) / n;
-                while (s <= -Math.log(p)) {
-                    r = r - 1;
-                    s=-Math.log(rn.nextDouble())/r;
-                }
-                return r;
-            }
-        }
-    }
-
-    /**
-     * an efficient implementation of the multinomial function
-     */
-    public static void Multinomial(double[] probabilities,int n,Binomial bn,int[] ret){
-        double pSum=1;
-        for (int i = 0; i < probabilities.length; i++) {
-            int ni=bn.generateBinomial(n,probabilities[i]/pSum);
-            ret[i]=ni;
-            n-=ni;
-            pSum-=probabilities[i];
-        }
-        if(Math.abs(pSum-1)>DOUBLE_EPSILON){
-            throw new IllegalArgumentException("Multinomial probabilities array must sum to 1");
-        }
-    }
-    public static void Multinomial(double[] probabilities,int n,Binomial bn,int[] ret,int nProbs){
-        double pSum=1;
-        for (int i = 0; i < nProbs; i++) {
-            int ni=bn.generateBinomial(n,probabilities[i]/pSum);
-            ret[i]=ni;
-            n-=ni;
-            pSum-=probabilities[i];
-        }
-        if(Math.abs(pSum-1)>DOUBLE_EPSILON){
-            throw new IllegalArgumentException("Multinomial probabilities array must sum to 1");
-        }
-    }
-    public static void Multinomial(double[] probabilities,long n,Binomial bn,long[] ret){
-        double pSum=1;
-        for (int i = 0; i < probabilities.length; i++) {
-            long ni=bn.generateBinomial(n,probabilities[i]/pSum);
-            ret[i]=ni;
-            n-=ni;
-            pSum-=probabilities[i];
-        }
-        if(Math.abs(pSum-1)>DOUBLE_EPSILON){
-            throw new IllegalArgumentException("Multinomial probabilities array must sum to 1");
-        }
-    }
-    public static void Multinomial(double[] probabilities,long n,Binomial bn,long[] ret,int nProbs){
-        double pSum=1;
-        for (int i = 0; i < nProbs; i++) {
-            long ni=bn.generateBinomial(n,probabilities[i]/pSum);
-            ret[i]=ni;
-            n-=ni;
-            pSum-=probabilities[i];
-        }
-        if(Math.abs(pSum-1)>DOUBLE_EPSILON){
-            throw new IllegalArgumentException("Multinomial probabilities array must sum to 1");
-        }
-    }
-    /**
-     * returns the number of heads from nTrials coin flips, where successProb is the probability of heads
-     */
-    public static int BinomialOld(double successProb, int nTrials, Random rn) {
-        int ret = 0;
-        for (int iTrial = 0; iTrial < nTrials; iTrial++) {
-            if (rn.nextDouble() < successProb) {
-                ret++;
-            }
-        }
-        return ret;
-    }
-
-    /**
-     *gets a random point on the surface of a sphere centered at 0,0,0, with the provided radius. the x,y,z coords are put in the double[] ret
-     */
-    public static void RandomPointOnSphereEdge(double radius, Random rn, double[] ret){
-        double x=Gaussian(0,radius,rn);
-        double y=Gaussian(0,radius,rn);
-        double z=Gaussian(0,radius,rn);
-        double norm=Norm(x,y,z);
-        ret[0]=(x*radius)/norm;
-        ret[1]=(y*radius)/norm;
-        ret[2]=(z*radius)/norm;
-    }
-
-    public static void RandomWeightedPointOnSphere(double radius, double stdDev, Random rn, double[] mean, double[] ret) {
-        double x=Gaussian(mean[0],stdDev,rn);
-        double y=Gaussian(mean[1],stdDev,rn);
-        double z=Gaussian(mean[2],stdDev,rn);
-        double norm=Norm(x,y,z);
-        ret[0]=(x*radius)/norm;
-        ret[1]=(y*radius)/norm;
-        ret[2]=(z*radius)/norm;
-    }
-
-    public static void RandomWeightedPointOnCircle(double radius, double stdDev, Random rn, double[] mean, double[] ret) {
-        double x = Gaussian(mean[0], stdDev, rn);
-        double y = Gaussian(mean[1], stdDev, rn);
-        double norm = Norm(x, y);
-        ret[0] = (x * radius) / norm;
-        ret[1] = (y * radius) / norm;
-    }
-    /**
-     *gets a random point on the surface of a circle centered at 0,0, with the provided radius. the x,y coords are put in the double[] ret
-     */
-    public static void RandomPointOnCircleEdge(double radius, Random rn, double[] ret){
-        double x=Gaussian(0,radius,rn);
-        double y=Gaussian(0,radius,rn);
-        double norm=Norm(x,y);
-        ret[0]=(x*radius)/norm;
-        ret[1]=(y*radius)/norm;
-    }
-
-    public static void RandomPointInCircle(double radius,Random rn,double[] ret){
-        double r=Math.sqrt(rn.nextDouble())*radius;
-        double a=rn.nextDouble()*Math.PI*2;
-        ret[0]=r*Math.cos(a);
-        ret[1]=r*Math.sin(a);
-    }
 
     /**
      * Returns the coordinates defining the Von Neumann neighborhood centered on (0,0,0)
@@ -322,7 +322,6 @@ public final class Utils {
             return new int[]{1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1};
         }
     }
-
 
     public int[] MooreHood3d(boolean includeOrigin) {
         if (includeOrigin) {
@@ -385,9 +384,6 @@ public final class Utils {
             };
         }
     }
-
-
-    //OTHER COORDINATE FUNCTIONS
 
     /**
      * Returns an array of all squares touching a line between the positions provided
@@ -452,6 +448,284 @@ public final class Utils {
         }
         return writeHere;
     }
+    /**
+     * Returns an array of all squares touching a line between the positions provided
+     *
+     * @param x0 the xDim coordinate of the starting position
+     * @param y0 the yDim coordinate of the starting position
+     * @param x1 the xDim coordinate of the ending position
+     * @param y1 the yDim coordinate of the ending position
+     * @return coordinates return as an array of the form [xDim,yDim,xDim,yDim,...]
+     */
+    public static int SquaresAlongLine(double x0, double y0, double x1, double y1,int[] returnCoords) {
+        double dx = Math.abs(x1 - x0);
+        double dy = Math.abs(y1 - y0);
+
+        int x = (int) (Math.floor(x0));
+        int y = (int) (Math.floor(y0));
+
+        int n = 1;
+        int x_inc, y_inc;
+        double error;
+
+        if (dx == 0) {
+            x_inc = 0;
+            error = Double.MAX_VALUE;
+        } else if (x1 > x0) {
+            x_inc = 1;
+            n += (int) (Math.floor(x1)) - x;
+            error = (Math.floor(x0) + 1 - x0) * dy;
+        } else {
+            x_inc = -1;
+            n += x - (int) (Math.floor(x1));
+            error = (x0 - Math.floor(x0)) * dy;
+        }
+
+        if (dy == 0) {
+            y_inc = 0;
+            error -= Double.MAX_VALUE;
+        } else if (y1 > y0) {
+            y_inc = 1;
+            n += (int) (Math.floor(y1)) - y;
+            error -= (Math.floor(y0) + 1 - y0) * dx;
+        } else {
+            y_inc = -1;
+            n += y - (int) (Math.floor(y1));
+            error -= (y0 - Math.floor(y0)) * dx;
+        }
+
+        int Count = 0;
+        for (; n > 0; --n) {
+            returnCoords[Count * 2] = (int) Math.floor(x);
+            returnCoords[Count * 2] = (int) Math.floor(y);
+            Count++;
+
+            if (error > 0) {
+                y += y_inc;
+                error -= dx;
+            } else {
+                x += x_inc;
+                error += dy;
+            }
+        }
+        return Count;
+    }
+
+    /**
+     * Returns the coordinates of all squares whose centers lie within a circle of the provided radius, centered on (0,0)
+     *
+     * @param includeOrigin defines whether to include the origin (0,0)
+     * @param radius        the radius of the circle
+     * @return coordinates returned as an array of the form [xDim,yDim,xDim,yDim,...]
+     */
+    static public int[] CircleCentered(boolean includeOrigin, double radius) {
+        double distSq = radius * radius;
+        int min = (int) Math.floor(-radius);
+        int max = (int) Math.ceil(radius);
+        int[] retLong = new int[((max + 1 - min) * (max + 1 - min)) * 2];
+        int ct = 0;
+        if (includeOrigin) {
+            ct++;
+            retLong[0] = 0;
+            retLong[1] = 0;
+        }
+        for (int x = min; x <= max; x++) {
+            for (int y = min; y <= max; y++) {
+                if (Utils.DistSq2D(0, 0, x, y) <= distSq) {
+                    if (x == 0 && y == 0) {
+                        continue;
+                    }
+                    retLong[ct * 2] = x;
+                    retLong[ct * 2 + 1] = y;
+                    ct++;
+                }
+            }
+        }
+        int[] ret = new int[ct * 2];
+        System.arraycopy(retLong, 0, ret, 0, ret.length);
+        return ret;
+    }
+
+    static public int CircleCentered(boolean includeOrigin, double radius,int[] returnCoords) {
+        double distSq = radius * radius;
+        int min = (int) Math.floor(-radius);
+        int max = (int) Math.ceil(radius);
+        int ct = 0;
+        if (includeOrigin) {
+            ct++;
+            returnCoords[0] = 0;
+            returnCoords[1] = 0;
+        }
+        for (int x = min; x <= max; x++) {
+            for (int y = min; y <= max; y++) {
+                if (Utils.DistSq2D(0, 0, x, y) <= distSq) {
+                    if (x == 0 && y == 0) {
+                        continue;
+                    }
+                    returnCoords[ct * 2] = x;
+                    returnCoords[ct * 2 + 1] = y;
+                    ct++;
+                }
+            }
+        }
+        return ct;
+    }
+    /**
+     * Returns the coordinates of all squares whose centers lie within a rectangle of the provided radius, centered on (0,0)
+     *
+     * @param includeOrigin defines whether to include the origin (0,0)
+     * @param radX          the radius of the rectangle in the xDim direction
+     * @param radY          the radius of the rectangle in the yDim direction
+     * @return coordinates returned as an array of the form [xDim,yDim,xDim,yDim,...]
+     */
+    static public int[] RectCentered(boolean includeOrigin, int radX, int radY) {
+        //returns a square with a center location at 0,0
+        int[] dataIn;
+        int nCoord;
+        if (includeOrigin) {
+            dataIn = new int[(radX * 2 + 1) * (radY * 2 + 1) * 2];
+            dataIn[0] = 0;
+            dataIn[1] = 0;
+            nCoord = 1;
+        } else {
+            dataIn = new int[(radX * 2 + 1) * (radY * 2 + 1) * 2 - 1];
+            nCoord = 0;
+        }
+        for (int x = -radX; x <= radX; x++) {
+            for (int y = -radY; y <= radY; y++) {
+                if (x == 0 && y == 0) {
+                    continue;
+                }
+                dataIn[nCoord * 2] = x;
+                dataIn[nCoord * 2 + 1] = y;
+                nCoord++;
+            }
+        }
+        return dataIn;
+    }
+    static public int RectCentered(boolean includeOrigin, int radX, int radY,int[]returnCoords) {
+        //returns a square with a center location at 0,0
+        int nCoord;
+        if (includeOrigin) {
+            returnCoords[0] = 0;
+            returnCoords[1] = 0;
+            nCoord = 1;
+        } else {
+            returnCoords = new int[(radX * 2 + 1) * (radY * 2 + 1) * 2 - 1];
+            nCoord = 0;
+        }
+        for (int x = -radX; x <= radX; x++) {
+            for (int y = -radY; y <= radY; y++) {
+                if (x == 0 && y == 0) {
+                    continue;
+                }
+                returnCoords[nCoord * 2] = x;
+                returnCoords[nCoord * 2 + 1] = y;
+                nCoord++;
+            }
+        }
+        return nCoord;
+    }
+
+
+    /**
+     * an efficient implementation of the multinomial function
+     */
+    public static void Multinomial(double[] probabilities,int n,Binomial bn,int[] ret){
+        double pSum=1;
+        for (int i = 0; i < probabilities.length; i++) {
+            int ni=bn.generateBinomial(n,probabilities[i]/pSum);
+            ret[i]=ni;
+            n-=ni;
+            pSum-=probabilities[i];
+        }
+        if(Math.abs(pSum-1)>DOUBLE_EPSILON){
+            throw new IllegalArgumentException("Multinomial probabilities array must sum to 1");
+        }
+    }
+    public static void Multinomial(double[] probabilities,int n,Binomial bn,int[] ret,int nProbs){
+        double pSum=1;
+        for (int i = 0; i < nProbs; i++) {
+            int ni=bn.generateBinomial(n,probabilities[i]/pSum);
+            ret[i]=ni;
+            n-=ni;
+            pSum-=probabilities[i];
+        }
+        if(Math.abs(pSum-1)>DOUBLE_EPSILON){
+            throw new IllegalArgumentException("Multinomial probabilities array must sum to 1");
+        }
+    }
+    public static void Multinomial(double[] probabilities,long n,Binomial bn,long[] ret){
+        double pSum=1;
+        for (int i = 0; i < probabilities.length; i++) {
+            long ni=bn.generateBinomial(n,probabilities[i]/pSum);
+            ret[i]=ni;
+            n-=ni;
+            pSum-=probabilities[i];
+        }
+        if(Math.abs(pSum-1)>DOUBLE_EPSILON){
+            throw new IllegalArgumentException("Multinomial probabilities array must sum to 1");
+        }
+    }
+    public static void Multinomial(double[] probabilities,long n,Binomial bn,long[] ret,int nProbs){
+        double pSum=1;
+        for (int i = 0; i < nProbs; i++) {
+            long ni=bn.generateBinomial(n,probabilities[i]/pSum);
+            ret[i]=ni;
+            n-=ni;
+            pSum-=probabilities[i];
+        }
+        if(Math.abs(pSum-1)>DOUBLE_EPSILON){
+            throw new IllegalArgumentException("Multinomial probabilities array must sum to 1");
+        }
+    }
+    /**
+     * returns the number of heads from nTrials coin flips, where successProb is the probability of heads
+     */
+    public static int BinomialNaive(double successProb, int nTrials, Random rn) {
+        int ret = 0;
+        for (int iTrial = 0; iTrial < nTrials; iTrial++) {
+            if (rn.nextDouble() < successProb) {
+                ret++;
+            }
+        }
+        return ret;
+    }
+
+    /**
+     *gets a random point on the surface of a sphere centered at 0,0,0, with the provided radius. the x,y,z coords are put in the double[] ret
+     */
+    public static void RandomPointOnSphereEdge(double radius, Random rn, double[] ret){
+        double x=Gaussian(0,radius,rn);
+        double y=Gaussian(0,radius,rn);
+        double z=Gaussian(0,radius,rn);
+        double norm=Norm(x,y,z);
+        ret[0]=(x*radius)/norm;
+        ret[1]=(y*radius)/norm;
+        ret[2]=(z*radius)/norm;
+    }
+
+    /**
+     *gets a random point on the surface of a circle centered at 0,0, with the provided radius. the x,y coords are put in the double[] ret
+     */
+    public static void RandomPointOnCircleEdge(double radius, Random rn, double[] ret){
+        double x=Gaussian(0,radius,rn);
+        double y=Gaussian(0,radius,rn);
+        double norm=Norm(x,y);
+        ret[0]=(x*radius)/norm;
+        ret[1]=(y*radius)/norm;
+    }
+
+    public static void RandomPointInCircle(double radius,Random rn,double[] ret){
+        double r=Math.sqrt(rn.nextDouble())*radius;
+        double a=rn.nextDouble()*Math.PI*2;
+        ret[0]=r*Math.cos(a);
+        ret[1]=r*Math.sin(a);
+    }
+
+
+
+    //OTHER COORDINATE FUNCTIONS
 
     /**
      * Writes to the array argument all squares touching a line between the positions provided
@@ -517,75 +791,6 @@ public final class Utils {
         return Count;
     }
 
-
-    /**
-     * Returns the coordinates of all squares whose centers lie within a circle of the provided radius, centered on (0,0)
-     *
-     * @param includeOrigin defines whether to include the origin (0,0)
-     * @param radius        the radius of the circle
-     * @return coordinates returned as an array of the form [xDim,yDim,xDim,yDim,...]
-     */
-    static public int[] CircleCentered(boolean includeOrigin, double radius) {
-        double distSq = radius * radius;
-        int min = (int) Math.floor(-radius);
-        int max = (int) Math.ceil(radius);
-        int[] retLong = new int[((max + 1 - min) * (max + 1 - min)) * 2];
-        int ct = 0;
-        if (includeOrigin) {
-            ct++;
-            retLong[0] = 0;
-            retLong[1] = 0;
-        }
-        for (int x = min; x <= max; x++) {
-            for (int y = min; y <= max; y++) {
-                if (Utils.DistSq2D(0, 0, x, y) <= distSq) {
-                    if (x == 0 && y == 0) {
-                        continue;
-                    }
-                    retLong[ct * 2] = x;
-                    retLong[ct * 2 + 1] = y;
-                    ct++;
-                }
-            }
-        }
-        int[] ret = new int[ct * 2];
-        System.arraycopy(retLong, 0, ret, 0, ret.length);
-        return ret;
-    }
-
-    /**
-     * Returns the coordinates of all squares whose centers lie within a rectangle of the provided radius, centered on (0,0)
-     *
-     * @param includeOrigin defines whether to include the origin (0,0)
-     * @param radX          the radius of the rectangle in the xDim direction
-     * @param radY          the radius of the rectangle in the yDim direction
-     * @return coordinates returned as an array of the form [xDim,yDim,xDim,yDim,...]
-     */
-    static public int[] RectCentered(boolean includeOrigin, int radX, int radY) {
-        //returns a square with a center location at 0,0
-        int[] dataIn;
-        int nCoord;
-        if (includeOrigin) {
-            dataIn = new int[(radX * 2 + 1) * (radY * 2 + 1) * 2];
-            dataIn[0] = 0;
-            dataIn[1] = 0;
-            nCoord = 1;
-        } else {
-            dataIn = new int[(radX * 2 + 1) * (radY * 2 + 1) * 2 - 1];
-            nCoord = 0;
-        }
-        for (int x = -radX; x <= radX; x++) {
-            for (int y = -radY; y <= radY; y++) {
-                if (x == 0 && y == 0) {
-                    continue;
-                }
-                dataIn[nCoord * 2] = x;
-                dataIn[nCoord * 2 + 1] = y;
-                nCoord++;
-            }
-        }
-        return dataIn;
-    }
 
     //MATH FUNCTIONS
 
@@ -742,11 +947,6 @@ public final class Utils {
     public static double DistSq2D(double x1, double y1, double x2, double y2) {
         double xDist = x2 - x1, yDist = y2 - y1;
         return xDist * xDist + yDist * yDist;
-    }
-    public void HeatMap(double[] ret,double val){
-        ret[0]=(float) Math.min(1, val * 3);
-        ret[1]=val > 0.333?(float) Math.min(1, (val - 0.333) * 3):0;
-        ret[2]=val > 0.666?(float) Math.min(1, (val - 0.666) * 3):0;
     }
     public static double DistSq2D(double x1, double y1, double x2, double y2, double xDim, double yDim, boolean wrapX, boolean wrapY) {
         double xDist,yDist;
@@ -907,17 +1107,6 @@ public final class Utils {
 //    }
 
     /**
-     * returns the mean value of the provided array
-     */
-    static public double Mean(double[] a) {
-        double tot = 0;
-        for (int i = 0; i < a.length; i++) {
-            tot += a[i];
-        }
-        return tot / a.length;
-    }
-
-    /**
      * returns the original value bounded by min and max inclusive
      */
     public static double BoundVal(double val, double min, double max) {
@@ -985,128 +1174,6 @@ public final class Utils {
     }
 
     //LIST FUNCTIONS
-
-    /**
-     * Returns a new array that is the first array with the second concatenated to the end of it
-     *
-     * @param <T> the type of the input and output arrays
-     */
-    public static <T> T[] Concat(T[] first, T[] second) {
-        int firstLen = first.length;
-        int secondLen = second.length;
-        T[] ret = (T[]) Array.newInstance(first.getClass().getComponentType(), firstLen + secondLen);
-        System.arraycopy(first, 0, ret, 0, firstLen);
-        System.arraycopy(second, 0, ret, firstLen, firstLen + secondLen);
-        return ret;
-    }
-
-    /**
-     * Returns a new array that is the first array with the appendMe object appended to the end of it
-     *
-     * @param <T> the type of the inputs and output array
-     */
-    public static <T> T[] Append(T[] arr, T appendMe) {
-        int firstLen = arr.length;
-        T[] ret = (T[]) Array.newInstance(arr.getClass().getComponentType(), firstLen + 1);
-        System.arraycopy(arr, 0, ret, 0, firstLen);
-        ret[firstLen] = appendMe;
-        return ret;
-    }
-
-    public static int[] IndicesArray(int nEntries){
-        int indices[] = new int[nEntries];
-        for (int i = 0; i < nEntries; i++) {
-            indices[i] = i;
-        }
-        return indices;
-    }
-    /**
-     * Generates a list of sequential integers starting at 0, and then shuffles them
-     *
-     * @param nEntries    the length of the list to be generated
-     * @param CountRandom the number of elements that should be shuffled
-     * @param rn          the random number generator to be used
-     * @return returns the array of indices after being shuffled
-     */
-
-    public static int[] RandomIndices(int nEntries, int CountRandom, Random rn) {
-        int indices[] = new int[nEntries];
-        for (int i = 0; i < nEntries; i++) {
-            indices[i] = i;
-        }
-        Shuffle(indices, indices.length, CountRandom, rn);
-        return indices;
-    }
-
-    /**
-     * Fills out with random doubles between min and max inclusive
-     *
-     * @param out the array the random doubles should be written to. the length of the input array defines the number of doubles to be generated
-     * @param rn  the random number generator to be used
-     */
-    public static void RandomDS(double[] out, double min, double max, Random rn) {
-        for (int i = 0; i < out.length; i++) {
-            out[i] = rn.nextDouble() * (max - min) + min;
-        }
-    }
-
-    /**
-     * prints an array
-     *
-     * @param arr   array to be printed
-     * @param delim the delimiter used to separate entries
-     * @param <T>   the type of the data entries in the array
-     */
-    public static <T> String ArrToString(T[] arr, String delim) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            sb.append(arr[i] + delim);
-        }
-        return sb.toString();
-    }
-
-    /**
-     * prints an array
-     *
-     * @param arr   array to be printed
-     * @param delim the delimiter used to separate entries
-     */
-    public static String ArrToString(double[] arr, String delim) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            sb.append(arr[i] + delim);
-        }
-        return sb.toString();
-    }
-    public static String ArrToString(float[] arr, String delim) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            sb.append(arr[i] + delim);
-        }
-        return sb.toString();
-    }
-
-    /**
-     * prints an array
-     *
-     * @param arr   array to be printed
-     * @param delim the delimiter used to separate entries
-     */
-    public static String ArrToString(int[] arr, String delim) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            sb.append(arr[i] + delim);
-        }
-        return sb.toString();
-    }
-    public static String ArrToString(long[] arr, String delim) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            sb.append(arr[i] + delim);
-        }
-        return sb.toString();
-    }
-
     public static double LogDist(double min,double max,Random rn){
         if(min<=0||max<=0){
             System.err.println("Error, LogDist contains range value < 0!");
@@ -1117,17 +1184,6 @@ public final class Utils {
         return Math.exp(inVal);
     }
 
-    /**
-     * Fills out with random integers between min (inclusive) and max (exclusive)
-     *
-     * @param out the array the random doubles should be written to. the length of the input array defines the number of doubles to be generated
-     * @param rn  the random number generator to be used
-     */
-    public static void RandomIS(int[] out, int min, int max, Random rn) {
-        for (int i = 0; i < out.length; i++) {
-            out[i] = rn.nextInt(max - min) + min;
-        }
-    }
 
     /**
      * runs a fully connected neural network layer
@@ -1175,6 +1231,14 @@ public final class Utils {
         //return System.getProperty("user.dir");
     }
 
+    /**
+     * gets information about the memory usage and max memory allocated for the program
+     */
+    public static String MemoryUsageStr() {
+        int mb = 1024 * 1024;
+        Runtime rt = Runtime.getRuntime();
+        return "Used Memory: " + (rt.totalMemory() - rt.freeMemory()) / mb + " mb, Free Momory: " + rt.freeMemory() / mb + " mb, Total Memory:" + rt.totalMemory() / mb + " mb, Max  Memory: " + rt.maxMemory() / mb + " mb";
+    }
     /**
      * Runs quicksort on an object that implements Sortable
      *
@@ -1284,17 +1348,6 @@ public final class Utils {
         return yP1-yM1;
     }
 
-    /**
-     * prints information about the memory usage and max memory allocated for the program
-     */
-    public static void PrintMemoryUsage() {
-        int mb = 1024 * 1024;
-        Runtime rt = Runtime.getRuntime();
-        System.out.println("Used Memory: " + (rt.totalMemory() - rt.freeMemory()) / mb + " mb");
-        System.out.println("Free Momory: " + rt.freeMemory() / mb + " mb");
-        System.out.println("Total Memory:" + rt.totalMemory() / mb + " mb");
-        System.out.println("Max  Memory: " + rt.maxMemory() / mb + " mb");
-    }
 
     public static <T> ArrayList<T> ParallelSweep(int nRuns, int nThreads, SweepRunFunction<T> RunFn) {
         ArrayList<T> runOuts = new ArrayList<>(nRuns);
@@ -1334,7 +1387,7 @@ public final class Utils {
             outGrid[(xDim - 1) * yDim + yDim - 1] = inGrid[(xDim - 1) * yDim + yDim - 1] + diffRate * (-inGrid[(xDim - 1) * yDim + yDim - 1] * 4 + inGrid[(xDim - 2) * yDim + yDim - 1] + inGrid[(xDim - 1) * yDim + yDim - 2] + 2 * boundaryValue);
             outGrid[yDim - 1] = inGrid[yDim - 1] + diffRate * (-inGrid[yDim - 1] * 4 + inGrid[yDim + yDim - 1] + inGrid[yDim - 2] + 2 * boundaryValue);
         } else {
-            outGrid[0] = inGrid[0] + diffRate * (-inGrid[0] * 4 + (wrapX?inGrid[1*yDim]+inGrid[(xDim-1)*yDim]:inGrid[1]*2) + (wrapY?inGrid[0*yDim+yDim]+inGrid[0*yDim+1]:inGrid[0*yDim+1]*2));
+            outGrid[0] = inGrid[0] + diffRate * (-inGrid[0] * 4 + (wrapX?inGrid[1*yDim+0]+inGrid[(xDim-1)*yDim]:inGrid[(1*yDim)+0]*2) + (wrapY?inGrid[0*yDim+yDim]+inGrid[0*yDim+1]:inGrid[0*yDim+1]*2));
             outGrid[(xDim - 1) * yDim] = inGrid[(xDim - 1) * yDim] + diffRate * (-inGrid[(xDim - 1) * yDim] * 4 + (wrapX?inGrid[(xDim - 2) * yDim]+inGrid[0]:2*inGrid[(xDim - 2)*yDim]) + (wrapY?inGrid[(xDim - 1) * yDim + 1]+inGrid[xDim*yDim-1]:2*inGrid[(xDim - 1) * yDim + 1]));
             outGrid[(xDim - 1) * yDim + yDim - 1] = inGrid[(xDim - 1) * yDim + yDim - 1] + diffRate * (-inGrid[(xDim - 1) * yDim + yDim - 1] * 4 + (wrapX?inGrid[(xDim - 2) * yDim + yDim - 1]+inGrid[yDim-1]:2*inGrid[(xDim - 2) * yDim + yDim - 1]) + (wrapY?inGrid[(xDim-1)*yDim]+inGrid[(xDim - 1) * yDim + yDim - 2]:2*inGrid[(xDim - 1) * yDim + yDim - 2]));
             outGrid[yDim - 1] = inGrid[yDim - 1] + diffRate * (-inGrid[yDim - 1] * 4 + (wrapX?inGrid[yDim + yDim - 1]+inGrid[(xDim-1)*yDim+yDim-1]:2*inGrid[yDim + yDim - 1]) + (wrapY?inGrid[0]+inGrid[yDim - 2]:2*inGrid[yDim - 2]));
@@ -2032,16 +2085,6 @@ public static void TDMAx(final double[] in, final double[] out,final double[] sc
                 TDMAy(inGrid, outGrid, scratch, xDim, yDim, i, diffRate);
             }
         }
-    }
-    public static void HSBtoRGB(double hue, double saturation, double brightness,double[] retRGB) {
-        float scale = 255f;
-        int rgb = Color.HSBtoRGB((float)hue, (float)saturation, (float)brightness);
-        int r = (rgb >> 16) & 0xFF;
-        int g = (rgb >> 8) & 0xFF;
-        int b = rgb & 0xFF;
-        retRGB[0]=r/scale;
-        retRGB[1]=g/scale;
-        retRGB[2]=b/scale;
     }
 }
 
