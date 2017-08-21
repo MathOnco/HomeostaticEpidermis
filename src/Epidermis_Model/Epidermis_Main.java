@@ -97,7 +97,7 @@ public class Epidermis_Main {
 //            System.out.println("Years: " + EpidermisConst.years);
 //        }
 
-        FileIO FileParams = new FileIO("GridParams_Round10.txt", "w");
+        FileIO FileParams = new FileIO("GridParams_Round13.txt", "w");
         ParamSweeper PS = new ParamSweeper(FileParams, (double[] runThatShit)->{
             EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, runThatShit); // Initializes and sets up the program for running
             String OutRL = "";
@@ -196,38 +196,41 @@ public class Epidermis_Main {
 //            return RN.nextDouble()*0.9+0.1; //Iteration 6
 //            return RN.nextDouble()*0.3+0.000001; //Iteration 7, 8
 //            return RN.nextDouble()*0.04+0.01; //Iteration 9
-            return RN.nextDouble()*0.005+0.025; //Iteration 10
+            return RN.nextDouble()*0.005+0.025; //Iteration 10, 11, 12
         });
         PS.AddParam((Random RN)->{ // KerEGFConsumption
-            return RN.nextDouble()*-1.0-0.0; //Iteration 1,2,4,5,7, 8, 9, 10
+//            return RN.nextDouble()*-1.0-0.0; //Iteration 1,2,4,5,7, 8, 9, 10, 11, 12
+            return RN.nextDouble()*-0.1-0.8;
         });
         PS.AddParam((Random RN)->{ // ApopEGF
             //return RN.nextDouble()*1.0+0.0; //Iteration 1,2,4, 5,7
-            return RN.nextDouble()*0.5+0.1; //Iteration 8, 9, 10
+            return RN.nextDouble()*0.5+0.1; //Iteration 8, 9, 10, 11, 12
         });
         PS.AddParam((Random RN)->{ // DeathProb
 //            return RN.nextDouble()*1.0+0.0; //Iteration 1
-            return RN.nextDouble()*0.2+0.0; //Iteration 1,2,4, 5,7, 8, 9, 10
+            return RN.nextDouble()*0.2+0.0; //Iteration 1,2,4, 5,7, 8, 9, 10, 11, 12
         });
         PS.AddParam((Random RN)->{ // MoveProb
-            return RN.nextDouble()*1.0+0.0; //Iteration 1,2,4, 5,7, 8, 9, 10
+//            return RN.nextDouble()*1.0+0.0; //Iteration 1,2,4, 5,7, 8, 9, 10, 11
+            return RN.nextDouble()*0.1+0.9; //Iteration 12
         });
         PS.AddParam((Random RN)->{ // DIVLOCPROB
 //            return RN.nextDouble()*1.0+0.0; //Iteration 1,2,4, 5,7
-            return RN.nextDouble()*0.599+0.001; //Iteration 8, 9, 10
+//            return RN.nextDouble()*0.599+0.001; //Iteration 8, 9, 10
+            return RN.nextDouble()*0.15+0.25; //Iteration 11, 12
         });
         PS.AddParam((RandomRN)->{ // EGF_DIFFUSION_RATE
 //            return RN.nextDouble()*1.0+0.0; //Iteration 1,2,4
 //            return RN.nextDouble()*0.3+0.0; //Iteration 3
 //            return RN.nextDouble()*0.05+0.2; //Iteration 4, 5
-            return RN.nextDouble()*0.24+0.01; //Iteration 6,7, 8, 9, 10
+            return RN.nextDouble()*0.24+0.01; //Iteration 6,7, 8, 9, 10, 11, 12
         });
         PS.AddParam((RandomRN)->{ // Decay Rate
 //            return RN.nextDouble()*0.5+0.0; //Iteration 1,2,4
-            return RN.nextDouble()*0.1+0.2; //Iteration 5,7, 8, 9, 10
+            return RN.nextDouble()*0.1+0.2; //Iteration 5,7, 8, 9, 10, 11, 12
         });
 
-        PS.Sweep(15000, 4);
+        PS.Sweep(10000, 4);
 
         FileParams.Close();
 //        while(Epidermis.GetTick() < EpidermisConst.ModelTime){

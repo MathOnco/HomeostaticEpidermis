@@ -23,10 +23,12 @@ ApplyColor <- function(x, target=0, S.deviation=1, colors=c('grey','blue','red',
 PlotRDA <- function(ccaData, testDF, ColorOption, labelText){
   arrowData <- data.frame(summary(ccaData)$biplot)
   arrowDataLabs <- rownames(arrowData)
+  response <- data.frame(summary(ccaData)$species)
   p1 <- ggplot() + geom_point(data=testDF, aes(x=RDA1, y=RDA2), inherit.aes = F, col=ColorOption) +
     geom_vline(xintercept=0, linetype="dotted") + geom_hline(yintercept=0, linetype="dotted") + theme_minimal() + xlab("RDA1") + ylab("RDA2") +
     geom_segment(data=arrowData, aes(x=0, y=0, xend=RDA1, yend=RDA2), arrow=arrow(length=unit(0.2,"cm")), alpha=0.75, color="red") +
-    geom_text(data=arrowData, aes(x=RDA1, y=RDA2, label=rownames(arrowData)), size = 3, vjust=0, color="red") + ggtitle(paste(labelText, sep=""))
+    geom_text(data=arrowData, aes(x=RDA1, y=RDA2, label=rownames(arrowData)), size = 3, vjust=0, color="red") + ggtitle(paste(labelText, sep="")) +
+    geom_text(label=rownames(response), aes(x=response$RDA1, y=response$RDA2), size=3, color="black")
   return(p1)
 }
 
@@ -57,8 +59,8 @@ BuildOrdination <- function(formula, ModelParams, rdaData, testDF, p=10000, Colo
     geom_point(data=testDF, aes(RDA1,RDA2), color=ColorOption, inherit.aes = F) +
     geom_contour(data=outDF, aes(x=x,y=y,z=z, colour=..level..), show.legend=F) + scale_colour_gradient(low = ColLow, high = ColHigh) +
     geom_segment(data=arrowData, aes(x=0, y=0, xend=RDA1, yend=RDA2), arrow=arrow(length=unit(0.2,"cm")), alpha=0.75, color="black") +
-    geom_text(data=arrowData, aes(x=RDA1, y=RDA2, label=rownames(arrowData)), size = 3, vjust=0, color="black") + ggtitle(paste("", sep="")) +
-    geom_text(label=rownames(response), aes(x=response$RDA1, y=response$RDA2), size=3, color="black") +
+    #geom_text(data=arrowData, aes(x=RDA1, y=RDA2, label=rownames(arrowData)), size = 3, vjust=0, color="black") + ggtitle(paste("", sep="")) +
+    #geom_text(label=rownames(response), aes(x=response$RDA1, y=response$RDA2), size=3, color="black") +
     theme_minimal() + ggtitle(Reduce(paste, deparse(formula)))
 
   p1 <- direct.label(p1,"bottom.pieces")
@@ -249,13 +251,20 @@ PrepDF <- function(df){
   return(df)
 }
 
-setwd("~/IdeaProjects/Epidermis_Project_Final/")
-df <- read.csv("GridParams_Round10.txt", sep = "\t", header = FALSE, na.strings = "NaN")
+#setwd("~/IdeaProjects/Epidermis_Project_Final/")
+setwd("~/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/")
+iteration <- 11
+inputFile <- paste("GridParams_Round",iteration,".txt",sep="")
+ResponsePlot <- paste("Iteration",iteration,"_Responses.png",sep="")
+SurfacePlots <- paste("Iteration",iteration,".png",sep="")
+df <- read.csv(inputFile, sep = "\t", header = FALSE, na.strings = "NaN")
 cleanDF <- PrepDF(df)
 summary(cleanDF)
 g <- OrdiPlot(cleanDF) # Use this to get Ordination Plots and CCA plots
 do.call("grid.arrange", g[1])
+ggsave(ResponsePlot, do.call("grid.arrange", g[1]), width=10,height=5,dpi=300,units = "in")
 do.call("grid.arrange", g[2])
+ggsave(SurfacePlots, do.call("grid.arrange", g[2]), width=10,height=12,dpi=300,units="in")
 
 boxplot(cleanDF[1:8])
 
