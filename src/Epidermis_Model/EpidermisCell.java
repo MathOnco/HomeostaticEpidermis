@@ -1,6 +1,6 @@
 package Epidermis_Model;
 
-import AgentFramework.AgentSQ3unstackable;
+import Framework.Grids.AgentSQ3unstackable;
 import cern.jet.random.Poisson;
 import cern.jet.random.engine.DRand;
 import cern.jet.random.engine.RandomEngine;
@@ -8,7 +8,6 @@ import cern.jet.random.engine.RandomEngine;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static AgentFramework.Utils.ModWrap;
 import static Epidermis_Model.EpidermisCellGenome.ExpectedMuts;
 import static Epidermis_Model.EpidermisCellGenome.GeneLengths;
 import static Epidermis_Model.EpidermisCellGenome.RN;
@@ -85,19 +84,24 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
 
         boolean Pushed = CellPush(iDivLoc);
         EpidermisCell c = G().GetAgent(G().inBounds[iDivLoc]);
-        if(c!=null && Pushed!=false){
-            G().Turnover.RecordLoss(c.Ysq()); // Record Cell Loss
+        if(Pushed!=false && y==0){
+            G().Turnover.RecordLossBasal(); // Record Cell Loss from Pushing
         }
         if(Pushed==false){
             return false; // Only false if melanocyte there
         }
 
-        EpidermisCell newCell = G().NewAgent(G().inBounds[iDivLoc]);
+        EpidermisCell newCell = G().NewAgentI(G().inBounds[iDivLoc]);
 
         newCell.init(myType, myGenome.NewChild().PossiblyMutate()); // initializes a new skin cell, pass the cellID for a new value each time.
         myGenome = myGenome.PossiblyMutate(); // Check if this duaghter cell, i.e. the progenitor gets mutations during this proliferation step.
 
-        G().Turnover.RecordDivide(newCell.Ysq()); // Record Cell Division
+        if(newCell.Ysq()==0){
+            G().Turnover.RecordDivideBasal();
+            G().Turnover.RecordDivideTissue();
+        } else {
+            G().Turnover.RecordDivideTissue();
+        }
 
         return true;
     }
@@ -119,7 +123,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             //move column of cells up
             for(;colTop>y;colTop--){
                 c=(G().GetAgent(x,colTop-1,z));
-                c.Move(x,colTop,z);
+                c.MoveSQ(x,colTop,z);
             }
             if(c.Ysq()>= G().yDim-2){c.itDead();}
             return true;
@@ -151,7 +155,10 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
 
         G().MeanDeath[Isq()] += 1;
 
-        G().Turnover.RecordLoss(Ysq());
+        if(Ysq()==0){
+            G().Turnover.RecordLossBasal();
+        }
+        G().Turnover.RecordLossTissue();
     }
 
     public void CellStep(){
@@ -176,10 +183,12 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             int iMoveCoord = GetMoveCoords(); // -1 if not moving
             if (iMoveCoord != -1) {
                 dipshit[ DirectionTracker(G().inBounds[iMoveCoord]) ] ++;
-                Move(G().inBounds[iMoveCoord]); // We are moving
+                MoveI(G().inBounds[iMoveCoord]); // We are moving
                 Action = MOVING;
                 if (Ysq() != 0 && y == 0) {
-                    G().Turnover.RecordLoss(-1);
+                    if (Ysq() > y) {
+                        throw new RuntimeException("Cell is Moving Up.");
+                    }
                 }
             }
         }

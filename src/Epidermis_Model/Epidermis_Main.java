@@ -1,12 +1,15 @@
 package Epidermis_Model;
-import AgentFramework.*;
-import AgentFramework.Gui.*;
+
+import Framework.Gui.GuiGridVis;
+import Framework.Gui.GuiLabel;
+import Framework.Gui.GuiWindow;
+import Framework.Tools.FileIO;
+import Framework.Tools.*;
 
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import static AgentFramework.Utils.GetHSBtoRGB;
 
 /**
  * Created by schencro on 3/24/17.
@@ -14,7 +17,7 @@ import static AgentFramework.Utils.GetHSBtoRGB;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=10; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=20; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -48,9 +51,7 @@ public class Epidermis_Main {
 
     static GuiLabel LabelGuiSet(String text, int compX, int compY) {
         GuiLabel ret= new GuiLabel(text, compX, compY);
-        ret.setOpaque(true);
-        ret.setForeground(Color.white);
-        ret.setBackground(Color.black);
+        ret.SetColor(Color.white,Color.black);
         return ret;
     }
 
@@ -58,15 +59,16 @@ public class Epidermis_Main {
         /*
         Initialization
          */
-        GuiVis ActivityVis = null;
-        GuiVis EGFVis = null;
-        GuiVis DivVis = null;
-        GuiVis DivLayerVis = null;
-        GuiVis DeathVis = null;
-        GuiVis DeathLayerVis = null;
-        GuiVis ClonalVis = null;
-        GuiVis BottomVis = null;
-        GuiVis BottomVisMove = null;
+        GuiWindow MainGUI=null;
+        GuiGridVis ActivityVis = null;
+        GuiGridVis EGFVis = null;
+        GuiGridVis DivVis = null;
+        GuiGridVis DivLayerVis = null;
+        GuiGridVis DeathVis = null;
+        GuiGridVis DeathLayerVis = null;
+        GuiGridVis ClonalVis = null;
+        GuiGridVis BottomVis = null;
+        GuiGridVis BottomVisMove = null;
         GuiLabel YearLab = null;
         GuiLabel rLambda_Label = null;
         GuiLabel OldestCell = null;
@@ -111,18 +113,18 @@ public class Epidermis_Main {
         // Sets up GUI
         if(EpidermisConst.GuiOn) {
             CellDraw = new EpidermisCellVis();
-            Gui MainGUI = new Gui("Homeostatic Epidermis Model", true);
+            MainGUI = new GuiWindow("Homeostatic Epidermis Model", true);
             MainGUI.panel.setOpaque(true);
             MainGUI.panel.setBackground(Color.black);
-            ClonalVis = new GuiVis(EpidermisConst.xSize*5, EpidermisConst.ySize*5, 1, 2, 1);
-            DivVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
-            DivLayerVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
-            DeathVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
-            DeathLayerVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
-            ActivityVis = new GuiVis(EpidermisConst.xSize * 5, EpidermisConst.ySize * 5, 1, 2, 1); // Main Epidermis visualization window
-            BottomVis = new GuiVis(EpidermisConst.xSize*6, EpidermisConst.zSize*6, 1,1,1);
-            BottomVisMove = new GuiVis(EpidermisConst.xSize*6, EpidermisConst.zSize*6, 1,1,1);
-            EGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
+            ClonalVis = new GuiGridVis(EpidermisConst.xSize*5, EpidermisConst.ySize*5, 1, 2, 1);
+            DivVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            DivLayerVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            DeathVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            DeathLayerVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            ActivityVis = new GuiGridVis(EpidermisConst.xSize * 5, EpidermisConst.ySize * 5, 1, 2, 1); // Main Epidermis visualization window
+            BottomVis = new GuiGridVis(EpidermisConst.xSize*6, EpidermisConst.zSize*6, 1,1,1);
+            BottomVisMove = new GuiGridVis(EpidermisConst.xSize*6, EpidermisConst.zSize*6, 1,1,1);
+            EGFVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
             YearLab = LabelGuiSet("Age (Yrs.): ", 1, 1);
             MainGUI.AddCol(YearLab, 0);
             HealLab = LabelGuiSet("Heal Time (Days): ", 1, 1);
@@ -204,27 +206,21 @@ public class Epidermis_Main {
             /*
             All Visualization Components are here
              */
-            if(Epidermis.GetTick()%7.0==0){
-                if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda: " + new DecimalFormat("#.000").format( Epidermis.Turnover.RecordBasalRate("Death",7) ));}
-                Epidermis.Turnover.RecordBasalRate("Birth",7);
-                Epidermis.Turnover.RecordTissueRate("Birth",7);
-                Epidermis.Turnover.RecordTissueRate("Death",7);
+            if(Epidermis.GetTick()%7==0){
+                if(rLambda_Label!=null){rLambda_Label.SetText("Mean rLambda (per week): " + new DecimalFormat("#.000").format( Epidermis.Turnover.GetBasalRate("Death",7) ));}
+                if(HeightLab!=null){HeightLab.SetText("Height: " + new DecimalFormat("#.00").format(Epidermis.GetMeanCellHeight()));}
             }
-            if(ActivityVis!=null){YearLab.setText("Age (yrs.): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
+            if(ActivityVis!=null){YearLab.SetText("Age (yrs.): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
             if(DivVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DivVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
             if(DivLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DivLayerVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
             if(DeathVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DeathVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(DeathLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DeathLayerVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);} // 3D Good
-            if(OldestCell!=null){OldestCell.setText("Mean cell age: " + new DecimalFormat("#.00").format(Epidermis.GetOldestCell(Epidermis)));}
+            if(OldestCell!=null){OldestCell.SetText("Mean cell age: " + new DecimalFormat("#.00").format(Epidermis.GetMeanAge(Epidermis)));}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(BottomVis!=null){Epidermis.DrawCellPopsBottom(BottomVis, Epidermis, CellDraw);}
             if(BottomVisMove!=null){Epidermis.DrawCellPopsBottomActivity(BottomVisMove, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);} // 3D Good
-            if(Epidermis.GetTick()==26){
-                avgHeight=(Epidermis.popSum*1.0/Epidermis.GetTick())/Epidermis.xDim/Epidermis.zDim;
-                if(HeightLab!=null){HeightLab.setText("Height: " + new DecimalFormat("#.00").format(avgHeight));}
-            }
 
 
             // Use this to get the information for 3D visualizations for OpenGL
@@ -304,9 +300,13 @@ public class Epidermis_Main {
                 }
                 if (EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
                     FileIO RLambdaWriter = new FileIO(r_lambda_file, "w");
-
+                    float r_lamb_print = 0;
+                    for (int i = 0; i < Epidermis.Turnover.GetDeathRateBasal().length ; i++) {
+                        RLambdaWriter.Write(Epidermis.Turnover.GetDeathRateBasal()[i] + "\n");
+                        r_lamb_print+=Epidermis.Turnover.GetDeathRateBasal()[i];
+                    }
                     RLambdaWriter.Close();
-                    System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print / r_lambda_index) + "\n");
+                    System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print / Epidermis.Turnover.GetDeathRateBasal().length) + "\n");
                 }
                 if (EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
                     float MeanWeekPrint = 0;
