@@ -1,6 +1,12 @@
 # Epidermis_Project_Final
 Epidermis_Project with the final framework
 
+           PSF   EGF_CONS   APOPEGF  DEATHPROB     MOVE DIVLOCPROB EGF_DIFFUSION_RATE EGFDecayRate    rlambda    mean   height
+FinalValues 0.007494854 -0.8448659 0.3059154 0.06634026 0.997189  0.6701378          0.2366516       0.1912 0.02548523   27 16.16813
+
+
+
+
 Parameter           PSF    EGF_CONS   APOPEGF  DEATHPROB      MOVE DIVLOCPROB   rlambda     mean   height
 Outdated Values    0.07610124 0.002269758 0.3358162 0.01049936 0.3657964  0.8315265 0.1638467 28.08473 14.12698
 

@@ -3,7 +3,7 @@ library(ggplot2)
 library(gridExtra)
 library(reshape2)
 library(directlabels)
-library(RDAViz)
+#library(RDAViz)
 
 gradient <- function(x, target, bins){
   if(x >= target - bins & x < target + bins){y = 0}
@@ -13,34 +13,32 @@ gradient <- function(x, target, bins){
   return(y)
 }
 
-ApplyColor <- function(x, target=0, S.deviation=1, colors=c('grey','blue','red','blue','grey'), n=100){
-  rbPal <- colorRampPalette(colors)
-  adjust <- sort(rnorm(100,mean=target,sd=S.deviation))
+applyColor <- function(x, target=0, S.deviation=1, colors=c('grey','blue','red','blue','grey'), n=100, na.color="#B6B6C0"){
+  rbPal <- grDevices::colorRampPalette(colors)
+  adjust <- sort(stats::rnorm(100,mean=target,sd=S.deviation))
   out <- rbPal(n)[as.numeric(cut(x,breaks = adjust))]
-  out <- sapply(out, function(x) if(is.na(x)){return("#B6B6C0")}else{return(x)})
+  out <- sapply(out, function(x) if(is.na(x)){return(na.color)}else{return(x)})
   return(out)
 }
 
-PlotRDA <- function(ccaData, testDF, ColorOption, labelText){
-  arrowData <- data.frame(summary(ccaData)$biplot)
+plotRDA <- function(rdaData, RDASites, ColorOption="black", labelText=""){
+  arrowData <- data.frame(summary(rdaData)$biplot)
   arrowDataLabs <- rownames(arrowData)
-  response <- data.frame(summary(ccaData)$species)
-  p1 <- ggplot() + geom_point(data=testDF, aes(x=RDA1, y=RDA2), inherit.aes = F, col=ColorOption) +
-    geom_vline(xintercept=0, linetype="dotted") + geom_hline(yintercept=0, linetype="dotted") + theme_minimal() + xlab("RDA1") + ylab("RDA2") +
-    geom_segment(data=arrowData, aes(x=0, y=0, xend=RDA1, yend=RDA2), arrow=arrow(length=unit(0.2,"cm")), alpha=0.75, color="red") +
-    geom_text(data=arrowData, aes(x=RDA1, y=RDA2, label=rownames(arrowData)), size = 3, vjust=0, color="red") + ggtitle(paste(labelText, sep="")) +
-    geom_text(label=rownames(response), aes(x=response$RDA1, y=response$RDA2), size=3, color="black")
+  response <- data.frame(summary(rdaData)$species)
+  p1 <- ggplot2::ggplot() + ggplot2::geom_point(data=RDASites, ggplot2::aes(x=RDA1, y=RDA2), inherit.aes = F, col=ColorOption) +
+    ggplot2::geom_vline(xintercept=0, linetype="dotted") + ggplot2::geom_hline(yintercept=0, linetype="dotted") + ggplot2::theme_minimal() + ggplot2::xlab("RDA1") + ggplot2::ylab("RDA2") +
+    ggplot2::geom_segment(data=arrowData, ggplot2::aes(x=0, y=0, xend=RDA1, yend=RDA2), arrow=grid::arrow(length=unit(0.2,"cm")), alpha=0.75, color="red") +
+    ggplot2::geom_text(data=arrowData, ggplot2::aes(x=RDA1, y=RDA2, label=rownames(arrowData)), size = 3, vjust=0, color="red") + ggplot2::ggtitle(paste(labelText, sep="")) +
+    ggplot2::geom_text(label=rownames(response), ggplot2::aes(x=response$RDA1, y=response$RDA2), size=3, color="black")
   return(p1)
 }
 
-# Function takes in the ccadata analysis and a formula
-BuildOrdination <- function(formula, ModelParams, rdaData, testDF, p=1000, ColorOption="black", ColLow="red",ColHigh="darkred"){
-  VectorStats <- envfit(formula, data = ModelParams, permutations=c(p))
-  print(VectorStats)
+buildSurface <- function(formula, ModelParams, rdaData, p=1000, ColorOption="grey", ColLow="red",ColHigh="darkred", biplot=T, response=T){
+  VectorStats <- vegan::envfit(formula, data = ModelParams, permutations=p)
   myR2 <- paste("r-squared: ", round(VectorStats$vectors$r[1],4), sep="")
   myPval <- paste("P-Val: ", round(VectorStats$vectors$pvals[1],4), sep = "")
   outText <- paste(myR2, myPval, sep="\n")
-  OrdiSurface <- ordisurf(formula, data = ModelParams, plot = FALSE)
+  OrdiSurface <- vegan::ordisurf(formula, data = ModelParams, plot = FALSE)
 
   surface <- OrdiSurface$grid
   xdf <- surface[[1]]
@@ -48,28 +46,59 @@ BuildOrdination <- function(formula, ModelParams, rdaData, testDF, p=1000, Color
   zdf <- as.matrix(surface[[3]])
   colnames(zdf) <- ydf
   rownames(zdf) <- xdf
-  outDF <- melt(zdf)
+  outDF <- reshape2::melt(zdf)
   colnames(outDF) <- c("x","y","z")
 
   arrowData <- data.frame(summary(rdaData)$biplot)
   arrowDataLabs <- rownames(arrowData)
   response <- data.frame(summary(rdaData)$species)
+  p <- plot(rdaData)
+  pointData <- as.data.frame(p$sites)
 
-  p1 <- ggplot() +
-    geom_vline(xintercept=0, linetype="dotted") + geom_hline(yintercept=0, linetype="dotted") +
-    geom_point(data=testDF, aes(RDA1,RDA2), color=ColorOption, inherit.aes = F) +
-    geom_contour(data=outDF, aes(x=x,y=y,z=z, colour=..level..), show.legend=F) + scale_colour_gradient(low = ColLow, high = ColHigh) +
-    geom_segment(data=arrowData, aes(x=0, y=0, xend=RDA1, yend=RDA2), arrow=arrow(length=unit(0.2,"cm")), alpha=0.75, color="black") +
-    #geom_text(data=arrowData, aes(x=RDA1, y=RDA2, label=rownames(arrowData)), size = 3, vjust=0, color="black") + ggtitle(paste("", sep="")) +
-    #geom_text(label=rownames(response), aes(x=response$RDA1, y=response$RDA2), size=3, color="black") +
-    theme_minimal() + ggtitle(Reduce(paste, deparse(formula)))
+  if(biplot && response){
+    p1 <- ggplot2::ggplot() +
+      ggplot2::geom_vline(xintercept=0, linetype="dotted") + ggplot2::geom_hline(yintercept=0, linetype="dotted") +
+      ggplot2::geom_point(data=pointData, ggplot2::aes(RDA1,RDA2), color=ColorOption, inherit.aes = F) +
+      ggplot2::geom_contour(data=outDF, ggplot2::aes(x=x,y=y,z=z, colour=..level..), show.legend=F) + ggplot2::scale_colour_gradient(low = ColLow, high = ColHigh) +
+      ggplot2::geom_segment(data=arrowData, ggplot2::aes(x=0, y=0, xend=RDA1, yend=RDA2), arrow=grid::arrow(length=unit(0.2,"cm")), alpha=0.75, color="black") +
+      ggplot2::geom_text(data=arrowData, ggplot2::aes(x=RDA1, y=RDA2, label=rownames(arrowData)), size = 3, vjust=0, color="black") + ggplot2::ggtitle(paste("", sep="")) +
+      ggplot2::geom_text(label=rownames(response), ggplot2::aes(x=response$RDA1, y=response$RDA2), size=3, color="black") +
+      ggplot2::theme_minimal() + ggplot2::ggtitle(Reduce(paste, deparse(formula)))
+  }else if(biplot==F && response==T){
+    p1 <- ggplot2::ggplot() +
+      ggplot2::geom_vline(xintercept=0, linetype="dotted") + ggplot2::geom_hline(yintercept=0, linetype="dotted") +
+      ggplot2::geom_point(data=pointData, ggplot2::aes(RDA1,RDA2), color=ColorOption, inherit.aes = F) +
+      ggplot2::geom_contour(data=outDF, ggplot2::aes(x=x,y=y,z=z, colour=..level..), show.legend=F) + ggplot2::scale_colour_gradient(low = ColLow, high = ColHigh) +
+      #ggplot2::geom_segment(data=arrowData, ggplot2::aes(x=0, y=0, xend=RDA1, yend=RDA2), arrow=grid::arrow(length=unit(0.2,"cm")), alpha=0.75, color="black") +
+      #geom_text(data=arrowData, aes(x=RDA1, y=RDA2, label=rownames(arrowData)), size = 3, vjust=0, color="black") + ggtitle(paste("", sep="")) +
+      geom_text(label=rownames(response), aes(x=response$RDA1, y=response$RDA2), size=3, color="black") +
+      ggplot2::theme_minimal() + ggplot2::ggtitle(Reduce(paste, deparse(formula)))
+  }else if(biplot==T && response==F){
+    p1 <- ggplot2::ggplot() +
+      ggplot2::geom_vline(xintercept=0, linetype="dotted") + ggplot2::geom_hline(yintercept=0, linetype="dotted") +
+      ggplot2::geom_point(data=pointData, ggplot2::aes(RDA1,RDA2), color=ColorOption, inherit.aes = F) +
+      ggplot2::geom_contour(data=outDF, ggplot2::aes(x=x,y=y,z=z, colour=..level..), show.legend=F) + ggplot2::scale_colour_gradient(low = ColLow, high = ColHigh) +
+      ggplot2::geom_segment(data=arrowData, ggplot2::aes(x=0, y=0, xend=RDA1, yend=RDA2), arrow=grid::arrow(length=unit(0.2,"cm")), alpha=0.75, color="black") +
+      geom_text(data=arrowData, aes(x=RDA1, y=RDA2, label=rownames(arrowData)), size = 3, vjust=0, color="black") + ggtitle(paste("", sep="")) +
+      #geom_text(label=rownames(response), aes(x=response$RDA1, y=response$RDA2), size=3, color="black") +
+      ggplot2::theme_minimal() + ggplot2::ggtitle(Reduce(paste, deparse(formula)))
+  } else{
+    p1 <- ggplot2::ggplot() +
+      ggplot2::geom_vline(xintercept=0, linetype="dotted") + ggplot2::geom_hline(yintercept=0, linetype="dotted") +
+      ggplot2::geom_point(data=pointData, ggplot2::aes(RDA1,RDA2), color=ColorOption, inherit.aes = F) +
+      ggplot2::geom_contour(data=outDF, ggplot2::aes(x=x,y=y,z=z, colour=..level..), show.legend=F) + ggplot2::scale_colour_gradient(low = ColLow, high = ColHigh) +
+      #ggplot2::geom_segment(data=arrowData, ggplot2::aes(x=0, y=0, xend=RDA1, yend=RDA2), arrow=grid::arrow(length=unit(0.2,"cm")), alpha=0.75, color="black") +
+      #geom_text(data=arrowData, aes(x=RDA1, y=RDA2, label=rownames(arrowData)), size = 3, vjust=0, color="black") + ggtitle(paste("", sep="")) +
+      #geom_text(label=rownames(response), aes(x=response$RDA1, y=response$RDA2), size=3, color="black") +
+      ggplot2::theme_minimal() + ggplot2::ggtitle(Reduce(paste, deparse(formula)))
+  }
 
-  p1 <- direct.label(p1,"bottom.pieces")
-  scales <- layer_scales(p1)
+  p1 <- directlabels::direct.label(p1,"bottom.pieces")
+  scales <- ggplot2::layer_scales(p1)
   x <- scales$x$range$range[2]
   y <- scales$y$range$range[2]
 
-  p1 <- p1 + annotate("text", x = x-0.5, y = y-0.5, label = outText)
+  p1 <- p1 + ggplot2::annotate("text", x = x-0.5, y = y-0.5, label = outText)
   return(p1)
 }
 
@@ -121,9 +150,9 @@ PrepDF <- function(df){
   return(df)
 }
 
-#setwd("~/IdeaProjects/Epidermis_Project_Final/")
-setwd("~/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/")
-iteration <- 13
+setwd("~/IdeaProjects/Epidermis_Project_Final/")
+#setwd("~/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/")
+iteration <- 15
 inputFile <- paste("GridParams_Round",iteration,".txt",sep="")
 ResponsePlot <- paste("Iteration",iteration,"_Responses.png",sep="")
 SurfacePlots <- paste("Iteration",iteration,".png",sep="")
@@ -138,14 +167,3 @@ do.call("grid.arrange", g[2])
 ggsave(SurfacePlots, do.call("grid.arrange", g[2]), width=10,height=12,dpi=300,units="in")
 
 boxplot(cleanDF[1:8])
-
-
-dfOutcome <- cleanDF[9:11]
-dfOutcome$height <- as.numeric(dfOutcome$height)
-dfOutcome$rlambda <- as.numeric(dfOutcome$rlambda)
-dfOutcome$mean <- as.numeric(dfOutcome$mean)
-#dfOutcome$heal <- as.numeric(lapply(dfOutcome$heal, function(x) round(x,0)))
-dfInput <- cleanDF[1:8]
-save(dfOutcome, file="~/Desktop/Darryl_collab/Model_Data_Analysis/ParameterizationShiny/EpidermisModelParams/dfOutcome")
-save(dfInput, file="~/Desktop/Darryl_collab/Model_Data_Analysis/ParameterizationShiny/EpidermisModelParams/dfInput")
-load("~/Desktop/Darryl_collab/Model_Data_Analysis/ParameterizationShiny/EpidermisModelParams/dfOutcome")

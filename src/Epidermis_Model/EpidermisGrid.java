@@ -135,6 +135,26 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         }
     }
 
+    public double GetAges(){
+        double Ages=0;
+        int index=0;
+        for (EpidermisCell c: this){
+                Ages += c.Age();
+                index++;
+            }
+        return Ages/index;
+    }
+
+    public int GetOldestCell(){
+        int Oldest=0;
+        for (EpidermisCell c: this){
+            if(c.Age() > Oldest){
+                Oldest = c.Age();
+            }
+        }
+        return Oldest;
+    }
+
     public void MeanProlif(EpidermisCell c){
             if(c.Action == DIVIDE){
                 MeanProlif[c.Isq()] += 1;
