@@ -1,16 +1,9 @@
 package Epidermis_Model;
 
-import AgentFramework.AgentSQ2;
-import cern.jet.random.Poisson;
+import Framework.Grids.AgentSQ2;
 import cern.jet.random.engine.DRand;
 import cern.jet.random.engine.RandomEngine;
 
-import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
-
-import static AgentFramework.Utils.ModWrap;
-import static Epidermis_Model.EpidermisCellGenome.ExpectedMuts;
-import static Epidermis_Model.EpidermisCellGenome.GeneLengths;
 import static Epidermis_Model.EpidermisCellGenome.RN;
 import static Epidermis_Model.EpidermisConst.*;
 
@@ -23,16 +16,17 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
+    public static  RandomEngine RNEngine = new DRand();
     double prolif_scale_factor = 0.07610124; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
     double KERATINO_EGF_CONSPUMPTION = -0.002269758; //consumption rate by keratinocytes
-//    double KERATINO_EGF_CONSPUMPTION = 0.0;
+    //    double KERATINO_EGF_CONSPUMPTION = 0.0;
     double KERATINO_APOPTOSIS_EGF = 0.3358162; //level at which apoptosis occurs by chance (above this and no apoptosis)
     double DEATH_PROB = 0.01049936; //Overall Death Probability
     double MOVEPROBABILITY = 0.3657964; //RN float has to be greater than this to move...
     double DIVISIONLOCPROB = 0.8315265; // Probability of dividing up vs side to side
     int myType; //cell type
     int Action; //cells action
-    static public RandomEngine RNEngine = new DRand();
+
     /**
      * Parameters for cell specific tracking and genome information
      **/
@@ -55,7 +49,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             return inBoundsCount;
         }
         for (int i=0; i<inBoundsCount; i++){
-            if(G().ItoAgent(inBounds[i]) == null){
+            if(G().GetAgent(inBounds[i]) == null){
                 inBounds[finalCount]=inBounds[i];
                 finalCount++;
             }
@@ -84,7 +78,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         int iDivLoc;
 
         // If EGF is low then next double is likely to be higher...Results in no proliferation
-        if (myType == KERATINOCYTE && G().RN.nextDouble() > G().EGF.SQgetCurr(x, y) * prolif_scale_factor) {
+        if (myType == KERATINOCYTE && G().RN.nextDouble() > G().EGF.GetCurr(x, y) * prolif_scale_factor) {
             return false;
         }
 
@@ -97,7 +91,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             G().Turnover.RecordLossBasal(); // Record Cell Loss from Pushing
         }
 
-        EpidermisCell newCell = G().NewAgent(G().inBounds[iDivLoc]);
+        EpidermisCell newCell = G().NewAgentI(G().inBounds[iDivLoc]);
 
         newCell.init(myType, myGenome.NewChild().PossiblyMutate()); // initializes a new skin cell, pass the cellID for a new value each time.
 
@@ -115,7 +109,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
 
     public boolean CellPush(int iDivLoc){
         int i = G().inBounds[iDivLoc];
-        EpidermisCell c=G().ItoAgent(i);
+        EpidermisCell c=G().GetAgent(i);
         if(c!=null){
             int x = G().ItoX(i);
             int y = G().ItoY(i);
@@ -124,16 +118,16 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             int colTop=y;
             while(c!=null){
                 colTop++;
-                c=G().SQtoAgent(x,colTop);
+                c=G().GetAgent(x,colTop);
             }
 
             //move column of cells up
             for(;colTop>y;colTop--){
-                c=(G().SQtoAgent(x,colTop-1));
-                c.Move(x,colTop);
+                c=(G().GetAgent(x,colTop-1));
+                c.MoveSQ(x, colTop);
+                if(c.Ysq()>= G().yDim-2){c.itDead();}
             }
 
-            if(c.Ysq()>= G().yDim-2){c.itDead();}
             return true;
         } else{
             return false;
@@ -168,7 +162,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             itDead();
             return;
         }
-        if (G().EGF.SQgetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < (Math.pow(1.0 - G().EGF.SQgetCurr(x, y) / KERATINO_APOPTOSIS_EGF, 5))) {
+        if (G().EGF.GetCurr(x, y) < KERATINO_APOPTOSIS_EGF && G().RN.nextDouble() < (Math.pow(1.0 - G().EGF.GetCurr(x, y) / KERATINO_APOPTOSIS_EGF, 5))) {
             //DEATH FROM LACK OF NUTRIENTS KERATINOCYTE
             itDead();
             return;
@@ -182,7 +176,7 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         if (G().RN.nextFloat() >= MOVEPROBABILITY) {
             int iMoveCoord = GetMoveCoords(); // -1 if not moving
             if (iMoveCoord != -1) {
-                Move(G().inBounds[iMoveCoord]); // We are moving
+                MoveI(G().inBounds[iMoveCoord]); // We are moving
                 Action = MOVING;
                 if (Ysq() > y) {
                     throw new RuntimeException("Cell is Moving Up.");
