@@ -44,6 +44,16 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         this.Action = STATIONARY;
         // Storing Genome Reference to Parent and Itself if mutation happened
         this.myGenome = myGenome;
+        custom_params(G().runParams);
+    }
+
+    public void custom_params(double[] vals){
+        prolif_scale_factor = vals[0];
+        KERATINO_EGF_CONSPUMPTION = vals[1];
+        KERATINO_APOPTOSIS_EGF = vals[2];
+        DEATH_PROB = vals[3];
+        MOVEPROBABILITY = vals[4];
+        DIVISIONLOCPROB = vals[5];
     }
 
     // Gets where a cell is dividing if it's a basal cell and is proliferating
@@ -115,18 +125,20 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             int z = G().ItoZ(i);
             //look up for empty square
             int colTop=y;
-//            EpidermisCell c=G().ItoAgent(i);
+
             while(c!=null){
                 colTop++;
                 c=G().GetAgent(x,colTop,z);
             }
+
             //move column of cells up
             for(;colTop>y;colTop--){
-                c=(G().GetAgent(x,colTop-1,z));
-                c.MoveSQ(x,colTop,z);
+                c=(G().GetAgent(x,colTop-1, z));
+                c.MoveSQ(x, colTop, z);
+                if(c.Ysq()>= G().yDim-2){c.itDead();}
             }
-            if(c.Ysq()>= G().yDim-2){c.itDead();}
             return true;
+
         } else{
             return false;
         }

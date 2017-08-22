@@ -22,8 +22,8 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
     final Random RN=new Random();
     static final int[] moveHood={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,-1,0};
     static final int[] inBounds= new int[5];
-    static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
-    static final double DECAY_RATE=0.001; //chemical decay rate of growth factors
+    double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
+    double DECAY_RATE=0.001; //chemical decay rate of growth factors
     static final double SOURCE_EGF=1; //constant level at basement
     static final int AIR_HEIGHT=15; //air, keratinocyte death! (threshold level for placement of keratinocytes essentially)
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
@@ -38,8 +38,9 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
     GenomeTracker<EpidermisCellGenome> GenomeStore;
     LossReplace Turnover;
     GridDiff3 EGF;
+    double[] runParams;
 
-    public EpidermisGrid(int x, int y, int z) {
+    public EpidermisGrid(int x, int y, int z, double[] customParams) {
         super(x,y,z,EpidermisCell.class);
         running = false;
         xDim = x;
@@ -48,6 +49,10 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
         EGF = new GridDiff3(x, y, z);
         GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(0f,0f,1f,"", this), true, true);
         Turnover = new LossReplace(this, ModelTime, 7);
+
+        runParams = customParams;
+        EGF_DIFFUSION_RATE = runParams[6];
+        DECAY_RATE = runParams[7];
         PlaceCells();
     }
 
@@ -254,6 +259,16 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
             }
         }
         return (allColumns*1.0)/(xDim*zDim);
+    }
+
+    public int GetOldestCell(){
+        int Oldest=0;
+        for (EpidermisCell c: this){
+            if(c.Age() > Oldest){
+                Oldest = c.Age();
+            }
+        }
+        return Oldest;
     }
 
     public void GetCellPositions(FileIO PositionOut){
