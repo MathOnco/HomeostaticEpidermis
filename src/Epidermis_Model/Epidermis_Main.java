@@ -264,7 +264,7 @@ public class Epidermis_Main {
             return RN.nextDouble()*0.0015+0.0005;
         });
 
-        PS.Sweep(1, 1);
+        PS.Sweep(10, 1);
 
         FileParams.Close();
 //        while(Epidermis.GetTick() < EpidermisConst.ModelTime){
