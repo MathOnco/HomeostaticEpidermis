@@ -157,7 +157,7 @@ GetRange <- function(x){
 }
 
 FindBest <- function(df){
-  dfGood <- subset(df, df$height>=10 & df$rlambda<=0.1)
+  dfGood <- subset(df, df$height>=10 & df$rlambda<=0.3)
   return(dfGood)
 }
 
@@ -165,13 +165,13 @@ setwd("~/IdeaProjects/Epidermis_Project_Final/")
 #setwd("~/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/")
 iteration <- 21
 inputFile <- paste("GridParams_Round",iteration,".txt",sep="")
-ResponsePlot <- paste("Iteration",iteration,"_Responses.png",sep="")
-SurfacePlots <- paste("Iteration",iteration,".png",sep="")
+ResponsePlot <- paste("IterationFinal",iteration,"_Responses.png",sep="")
+SurfacePlots <- paste("IterationFinal",iteration,".png",sep="")
 #inputFile <- "GridParams_All.txt"
 df <- read.csv(inputFile, sep = "\t", header = FALSE, na.strings = "NaN")
 cleanDF <- PrepDF(df)
 summary(cleanDF)
-g <- OrdiPlot(cleanDF) # Use this to get Ordination Plots and CCA plots
+g <- OrdiPlot(dfGood) # Use this to get Ordination Plots and CCA plots
 do.call("grid.arrange", g[1])
 ggsave(ResponsePlot, do.call("grid.arrange", g[1]), width=10,height=5,dpi=300,units = "in")
 do.call("grid.arrange", g[2])
