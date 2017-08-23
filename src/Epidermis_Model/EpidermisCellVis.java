@@ -1,6 +1,6 @@
 package Epidermis_Model;
 
-import AgentFramework.Gui.GuiVis;
+import Framework.Gui.GuiGridVis;
 
 /**
  * Created by schencro on 3/27/17.
@@ -12,16 +12,16 @@ public class EpidermisCellVis {
     public int[] stationary_vis;
     public int[] movement_vis;
 
-    public void DrawCellonGridPop(GuiVis vis, EpidermisCell theCell){
+    public void DrawCellonGridPop(GuiGridVis vis, EpidermisCell theCell){
         for(int y=0;y<5;y++){
             for(int x=0;x<5;x++){
                 int cVal=stationary_vis[x+y*5];
-                vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.myGenome.h,cVal*theCell.myGenome.s,cVal*theCell.myGenome.v);
+                vis.SetColorHSV(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*theCell.myGenome.h,cVal*theCell.myGenome.s,cVal*theCell.myGenome.v);
             }
         }
     }
 
-    public void DrawCellonGrid(GuiVis vis, EpidermisCell theCell){
+    public void DrawCellonGrid(GuiGridVis vis, EpidermisCell theCell){
         switch (theCell.Action) {
             case EpidermisConst.DIVIDE:
                 for(int y=0;y<5;y++){
@@ -31,7 +31,7 @@ public class EpidermisCellVis {
                         vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*1f,cVal*0f,cVal* 0f);
                     }
                 }
-            break;
+                break;
             case EpidermisConst.MOVING:
                 for(int y=0;y<5;y++){
                     for(int x=0;x<5;x++){
@@ -40,7 +40,7 @@ public class EpidermisCellVis {
                         vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*.5f,cVal*1f,cVal* 0f);
                     }
                 }
-            break;
+                break;
             case EpidermisConst.STATIONARY:
                 for(int y=0;y<5;y++){
                     for(int x=0;x<5;x++){
@@ -49,13 +49,13 @@ public class EpidermisCellVis {
                         vis.SetColor(theCell.Xsq()*5+x, theCell.Ysq()*5+y,cVal*0f,cVal*0f,cVal* 1f);
                     }
                 }
-            break;
+                break;
             default:
                 System.out.println("ERROR: Unable to draw cell. Cell Action not found.");
         }
     }
 
-    public void DrawEmptyCell(GuiVis vis, int x, int y){
+    public void DrawEmptyCell(GuiGridVis vis, int x, int y){
         for(int i=0; i<5; i++){
             for(int j=0; j<5; j++){
                 vis.SetColor(i+x*5, j+y*5, 0f, 0f, 0f);
@@ -91,5 +91,5 @@ public class EpidermisCellVis {
                 1,1,1,1,1, // *****
                 1,0,1,0,1,// *-*-*
                 1,1,1,1,1}; // *****
-}
+    }
 }

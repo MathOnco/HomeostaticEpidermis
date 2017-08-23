@@ -1,6 +1,12 @@
 package Epidermis_Model;
-import AgentFramework.*;
-import AgentFramework.Gui.*;
+
+
+import Framework.Gui.GuiGridVis;
+import Framework.Gui.GuiLabel;
+import Framework.Gui.GuiWindow;
+import Framework.Tools.FileIO;
+import Framework.Tools.*;
+
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -12,7 +18,7 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=67; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=200; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3 for ; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -23,14 +29,14 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=5; // time in years.
+    static int years=1; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = false; // use for visualization
-    static final boolean JarFile = true; // Set to true if running from command line as jar file
+    static final boolean GuiOn = true; // use for visualization
+    static final boolean JarFile = false; // Set to true if running from command line as jar file
     static final boolean RecordAllPopSizes = false; // use to record all clone populations
     static final boolean TrackAll = false; // Use this if you want to record mutations outside the genes of interest.
     static final boolean RecordParents = true; // use when you want parents information
@@ -46,9 +52,7 @@ public class Epidermis_Main {
 
     static GuiLabel LabelGuiSet(String text, int compX, int compY) {
         GuiLabel ret= new GuiLabel(text, compX, compY);
-        ret.setOpaque(true);
-        ret.setForeground(Color.white);
-        ret.setBackground(Color.black);
+        ret.SetColor(Color.white,Color.black);
         return ret;
     }
 
@@ -56,23 +60,20 @@ public class Epidermis_Main {
         /*
         Initialization
          */
-        GuiVis ActivityVis = null;
-        GuiVis EGFVis = null;
-        GuiVis DivVis = null;
-        GuiVis DivLayerVis = null;
-        GuiVis DeathVis = null;
-        GuiVis DeathLayerVis = null;
-        GuiVis ClonalVis = null;
+        GuiWindow MainGUI=null;
+        GuiGridVis ActivityVis = null;
+        GuiGridVis EGFVis = null;
+        GuiGridVis DivVis = null;
+        GuiGridVis DivLayerVis = null;
+        GuiGridVis DeathVis = null;
+        GuiGridVis DeathLayerVis = null;
+        GuiGridVis ClonalVis = null;
         GuiLabel YearLab = null;
         GuiLabel rLambda_Label = null;
         GuiLabel OldestCell = null;
         GuiLabel HealLab = null;
         GuiLabel HeightLab = null;
         EpidermisCellVis CellDraw = null;
-        ArrayList<Float> r_lambda_WriteValue = new ArrayList();
-        int r_lambda_index = 0;
-        ArrayList<Float> meanCellAge = new ArrayList();
-        int meanCellAgeIndex = 0;
         String ParentFile = System.getProperty("user.dir") + "/TestOutput/ParentFile.csv";
         String PopSizes = System.getProperty("user.dir") + "/TestOutput/PopSizes.csv";
         String MutationFile = System.getProperty("user.dir") + "/TestOutput/MutationFile.csv";
@@ -106,16 +107,16 @@ public class Epidermis_Main {
         // Sets up GUI
         if(EpidermisConst.GuiOn) {
             CellDraw = new EpidermisCellVis();
-            Gui MainGUI = new Gui("Homeostatic Epidermis Model", true);
+            MainGUI = new GuiWindow("Homeostatic Epidermis Model", true);
             MainGUI.panel.setOpaque(true);
             MainGUI.panel.setBackground(Color.black);
-            ClonalVis = new GuiVis(EpidermisConst.xSize*5, EpidermisConst.ySize*5, 1, 2, 1);
-            DivVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
-            DivLayerVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
-            DeathVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
-            DeathLayerVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
-            ActivityVis = new GuiVis(EpidermisConst.xSize * 5, EpidermisConst.ySize * 5, 1, 2, 1); // Main Epidermis visualization window
-            EGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
+            ClonalVis = new GuiGridVis(EpidermisConst.xSize*5, EpidermisConst.ySize*5, 1, 2, 1);
+            DivVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            DivLayerVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            DeathVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            DeathLayerVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            ActivityVis = new GuiGridVis(EpidermisConst.xSize * 5, EpidermisConst.ySize * 5, 1, 2, 1); // Main Epidermis visualization window
+            EGFVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
             YearLab = LabelGuiSet("Age (Yrs.): ", 1, 1);
             MainGUI.AddCol(YearLab, 0);
             HealLab = LabelGuiSet("Heal Time (Days): ", 1, 1);
@@ -151,11 +152,6 @@ public class Epidermis_Main {
         TickRateTimer tickIt = new TickRateTimer();
         while(Epidermis.GetTick() < EpidermisConst.ModelTime){
 
-//            if (Epidermis.GetTick()==30){
-//                tickIt.TickPause(100000); // Adjusting a frame rate
-//            }
-
-            // Main Running of the steps within the model
             Epidermis.RunStep();
 
             /*
@@ -179,24 +175,11 @@ public class Epidermis_Main {
 //                    }
 //                }
 //            }
-            if(Epidermis.GetTick()<=365){Epidermis.GetEGFVal();}
 
             /*
-            rLambda Value calculations, output, and recording
+            Output the EGF Values for first year
              */
-            if (EpidermisConst.get_r_lambda) {
-                if (Epidermis.GetTick() % 7f == 0) {
-                    r_lambda_WriteValue.add(r_lambda_index, Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f);
-                    r_lambda_index += 1;
-                    meanCellAge.add(meanCellAgeIndex, Epidermis.GetOldestCell(Epidermis));
-                    meanCellAgeIndex += 1;
-                    if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format(Epidermis.r_lambda_weekly/EpidermisConst.xSize/7f));}
-                    EpidermisCell.loss_count_basal=0;
-                    Epidermis.r_lambda_weekly = 0;
-                } else {
-                    Epidermis.r_lambda_weekly += ((float) EpidermisCell.loss_count_basal);
-                }
-            }
+            if(Epidermis.GetTick()<=365){Epidermis.GetEGFVal();}
 
             /*
             Output Time Options
@@ -206,23 +189,31 @@ public class Epidermis_Main {
                     System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
                 }
             }
+//            System.out.println(Epidermis.TrackAge.GetMeanAge());
 
+//            System.out.println(Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick()));
+
+            if(Epidermis.GetTick()==EpidermisConst.ModelTime-1){
+                System.out.println(Epidermis.GetDivisionProportion());
+            }
             /*
             All Visualization Components are here
              */
-            if(ActivityVis!=null){YearLab.setText("Age (yrs.): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
+            if(ActivityVis!=null){YearLab.SetText("Age (yrs.): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
             if(DivVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DivVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
             if(DivLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DivLayerVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
             if(DeathVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DeathVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(DeathLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DeathLayerVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);}
-            if(OldestCell!=null){OldestCell.setText("Mean cell age (days): " + new DecimalFormat("#.00").format(Epidermis.GetOldestCell(Epidermis)));}
+            if(OldestCell!=null){OldestCell.SetText("Mean cell age (days): " + new DecimalFormat("#.00").format( Epidermis.GetAges()));}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
-            if(Epidermis.GetTick()==26){
-                avgHeight=(Epidermis.popSum*1.0/Epidermis.GetTick())/Epidermis.xDim;
-                if(HeightLab!=null){HeightLab.setText("Height: " + new DecimalFormat("#.00").format(avgHeight));}
-            }
+
+            if(HeightLab!=null){HeightLab.SetText("Height: " + new DecimalFormat("#.00").format(Epidermis.GetMeanCellHeight()));}
+//            if(Epidermis.GetTick()%7==0){
+//                if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format( Epidermis.Turnover.GetBasalRate("Death",7) ));}
+//            }
+            if(rLambda_Label!=null){rLambda_Label.SetText("Mean rLambda (per week): " + new DecimalFormat("#.000").format(Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick())));}
 
             /*
             All Model Data Recording Is Below This line
@@ -255,20 +246,19 @@ public class Epidermis_Main {
                 if (EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
                     FileIO RLambdaWriter = new FileIO(r_lambda_file, "w");
                     float r_lamb_print = 0;
-                    for (int i = 0; i < r_lambda_WriteValue.size(); i++) {
-                        r_lamb_print += r_lambda_WriteValue.get(i);
-                        String out = r_lambda_WriteValue.get(i).toString();
-                        RLambdaWriter.Write(out + "\n");
+                    int index=0;
+                    for (int i = 0; i < Epidermis.Turnover.GetDeathRateBasal().length ; i++) {
+                        if(Epidermis.Turnover.GetDeathRateBasal()[i]!=0){
+                            RLambdaWriter.Write(Epidermis.Turnover.GetDeathRateBasal()[i] + "\n");
+                            r_lamb_print+=Epidermis.Turnover.GetDeathRateBasal()[i];
+                            index++;
+                        }
                     }
                     RLambdaWriter.Close();
-                    System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print / r_lambda_index) + "\n");
+                    System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print/index));
                 }
                 if (EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
-                    float MeanWeekPrint = 0;
-                    for (int i = 0; i < meanCellAge.size(); i++) {
-                        MeanWeekPrint += meanCellAge.get(i);
-                    }
-                    System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(MeanWeekPrint / meanCellAgeIndex) + "\n");
+                    System.out.println("Mean Cell Age: " + new DecimalFormat("#.000").format( Epidermis.TrackAge.GetMeanAge() ) + "\n");
                 }
                 if (EpidermisConst.positionInfo==true && EpidermisConst.RecordTime == Epidermis.GetTick()){
                     FileIO PositionOut = new FileIO(PositionFile, "w");
@@ -285,6 +275,7 @@ public class Epidermis_Main {
 
             }
         }
-        Utils.PrintMemoryUsage();
+        System.out.println(Utils.MemoryUsageStr());
+        MainGUI.Dispose();
     }
 }
