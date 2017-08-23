@@ -22,11 +22,13 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
     final Random RN=new Random();
     static final int[] moveHood={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,-1,0};
     static final int[] inBounds= new int[5];
-    static final double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
-    static final double DECAY_RATE=0.001; //chemical decay rate of growth factors
+    static final double EGF_DIFFUSION_RATE=0.09239592; //keratinocyte growth factor
+    static final double DECAY_RATE=0.001035161; //chemical decay rate of growth factors
     static final double SOURCE_EGF=1; //constant level at basement
     static final int AIR_HEIGHT=15; //air, keratinocyte death! (threshold level for placement of keratinocytes essentially)
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
+    public int[] divisions = new int[ModelTime*ySize];
+    public int divs = 0;
     static double[][][][] ImageArray = new double[EpidermisConst.ySize][EpidermisConst.xSize][EpidermisConst.zSize][4];
     boolean running;
     int xDim;
@@ -264,6 +266,21 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
                 PositionOut.Write(OutString);
             }
         }
+    }
+
+    public String GetDivisionProportion(){
+        double[] OutProportions = new double[yDim];
+        for (int i = 0; i < (ModelTime-1)*yDim; i+=yDim) {
+            for (int y = 0; y < yDim; y++) {
+                OutProportions[y]+=divisions[i+y];
+            }
+        }
+        StringBuilder OutNums = new StringBuilder();
+        for (int y = 0; y < yDim; y++) {
+            String OutNess=OutProportions[y]/divs + "\t";
+            OutNums.append(OutNess);
+        }
+        return OutNums.toString();
     }
 
     public void ChemicalLoop(){

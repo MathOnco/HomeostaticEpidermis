@@ -22,12 +22,12 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
-    double prolif_scale_factor = 0.07610124; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
-    double KERATINO_EGF_CONSPUMPTION = -0.002269758; //consumption rate by keratinocytes
-    double KERATINO_APOPTOSIS_EGF = 0.3358162; //level at which apoptosis occurs by chance (above this and no apoptosis)
-    double DEATH_PROB = 0.01049936; //Overall Death Probability
-    double MOVEPROBABILITY = 0.0; //RN float has to be greater than this to move...
-    double DIVISIONLOCPROB = 0.8315265; // Probability of dividing up vs side to side
+    double prolif_scale_factor = 0.02489167; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
+    double KERATINO_EGF_CONSPUMPTION = -0.007904418; //consumption rate by keratinocytes
+    double KERATINO_APOPTOSIS_EGF = 0.08049478; //level at which apoptosis occurs by chance (above this and no apoptosis)
+    double DEATH_PROB = 0.001645534; //Overall Death Probability
+    double MOVEPROBABILITY = 0.8012262; //RN float has to be greater than this to move...
+    double DIVISIONLOCPROB = 0.70839; // Probability of dividing up vs side to side
     static int[] dipshit = new int[5];
     static int[] dipshitDiv = new int[5];
     int myType; //cell type
@@ -83,8 +83,8 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         iDivLoc = ProlifLoc(); // Where the new cell is going to be (which index) if basal cell
 
         boolean Pushed = CellPush(iDivLoc);
-        EpidermisCell c = G().GetAgent(G().inBounds[iDivLoc]);
-        if(Pushed!=false && y==0){
+
+        if(Pushed!=false && y==0 && (iDivLoc==0 || iDivLoc==1 || iDivLoc==3 || iDivLoc==2)){
             G().Turnover.RecordLossBasal(); // Record Cell Loss from Pushing
         }
         if(Pushed==false){
@@ -102,6 +102,9 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         } else {
             G().Turnover.RecordDivideTissue();
         }
+
+        G().divisions[G().GetTick()*ySize+Ysq()]++;
+        G().divs++;
 
         return true;
     }
