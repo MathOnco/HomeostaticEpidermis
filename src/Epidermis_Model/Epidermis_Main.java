@@ -21,7 +21,7 @@ import static Epidermis_Model.EpidermisCellGenome.RN;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=20; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=15; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -62,6 +62,7 @@ public class Epidermis_Main {
 //    }
 
     public static void main (String[] args){
+        System.out.println(Runtime.getRuntime().availableProcessors());
 ///*
 //Initialization
 // */
@@ -103,7 +104,7 @@ public class Epidermis_Main {
 //            System.out.println("Years: " + EpidermisConst.years);
 //        }
 
-        FileIO FileParams = new FileIO("GridParams3D_Round1.txt", "w");
+        FileIO FileParams = new FileIO("GridParams3D_Round3.txt", "w");
         ParamSweeper PS = new ParamSweeper(FileParams, (double[] runThatShit)->{
             EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, EpidermisConst.zSize, runThatShit); // Initializes and sets up the program for running
             String OutRL = "";
@@ -118,8 +119,6 @@ public class Epidermis_Main {
             int tickSum=0;
 
             while(Epidermis.GetTick() < EpidermisConst.ModelTime){
-                //TODO FIGURE OUT THE INNER WORKINGS OF THIS TO BE ABLE TO RUN A TON OF PARAMETER SWEEPS
-
                 Epidermis.RunStep();
                 int healTick=0;
 
@@ -195,76 +194,40 @@ public class Epidermis_Main {
 
         //*range+min
         PS.AddParam((Random RN)->{ // PSF
-            //return RN.nextDouble()*1.0+0.0; //Iteration 1
-//            return RN.nextDouble()*0.2+0.0; //Iteration 1,2,4
-//            return RN.nextDouble()*0.5+0.0; //Iteration 5
-//            return RN.nextDouble()*0.9+0.1; //Iteration 6
-//            return RN.nextDouble()*0.3+0.000001; //Iteration 7, 8
-//            return RN.nextDouble()*0.04+0.01; //Iteration 9
-//            return RN.nextDouble()*0.005+0.025; //Iteration 10, 11, 12
-//            return RN.nextDouble()*0.99=+0.01; // Iteration 14, 15
-//            return RN.nextDouble()*0.3+0.0001; // Iteration 16
-//            return RN.nextDouble()*0.109530591233847+0.00498618090048364;
-            return RN.nextDouble()*0.1+0.0000000;
+//            return RN.nextDouble()*0.195+0.005; //Iteration 1
+//            return RN.nextDouble()*0.1+0.0001; //Iteration 2
+            return RN.nextDouble()*0.00195265315487249+0.00440424025322456; //Iteration 3
         });
         PS.AddParam((Random RN)->{ // KerEGFConsumption
-//            return RN.nextDouble()*-1.0-0.0; //Iteration 1,2,4,5,7, 8, 9, 10, 11, 12
-//            return RN.nextDouble()*-0.99-0.01;
-//            return RN.nextDouble()*-0.99-0.01; // Iteration 14, 15
-//            return RN.nextDouble()*-0.3-0.0001; // Iteration 16
-//            return RN.nextDouble()*-0.197507253235264-0.745503338640579;
-            return RN.nextDouble()*-0.1-0.000001;
+//            return RN.nextDouble()*-0.02-0.001; //Iteration 1
+            return RN.nextDouble()*0.00673709644739127+0.00341933886946285; //Iteration 3
         });
         PS.AddParam((Random RN)->{ // ApopEGF
-            //return RN.nextDouble()*1.0+0.0; //Iteration 1,2,4, 5,7
-//            return RN.nextDouble()*0.5+0.1; //Iteration 8, 9, 10, 11, 12
-//            return RN.nextDouble()*0.99+0.01; // Iteration 14
-//            return RN.nextDouble()*0.4+0.001; // Iteration 15
-//            return RN.nextDouble()*0.830918923846992+0.102204526933265;
-            return RN.nextDouble()*0.5+0.0;
+//            return RN.nextDouble()*0.4+0.01; //Iteration 1
+            return RN.nextDouble()*0.0535368780764146+0.0261005209693921; //Iteration 3
         });
         PS.AddParam((Random RN)->{ // DeathProb
-//            return RN.nextDouble()*1.0+0.0; //Iteration 1
-//            return RN.nextDouble()*0.2+0.0; //Iteration 1,2,4, 5,7, 8, 9, 10, 11, 12
-//            return RN.nextDouble()*0.99+0.01; // Iteration 14
-//            return RN.nextDouble()*0.144684003908747+0.044313748498699;
-            return RN.nextDouble()*0.1+0.000001;
+//            return RN.nextDouble()*0.02+0.0001; //Iteration 1
+            return RN.nextDouble()*5.9811939173513e-05+0.000339167251672006; //Iteration 3
         });
         PS.AddParam((Random RN)->{ // MoveProb
-//            return RN.nextDouble()*1.0+0.0; //Iteration 1,2,4, 5,7, 8, 9, 10, 11
-//            return RN.nextDouble()*0.1+0.9; //Iteration 12
-//            return RN.nextDouble()*0.99+0.01; // Iteration 14
-//            return RN.nextDouble()*0.037713587735326+0.961687208092696;
-            return RN.nextDouble()*1.0+0.0;
+//            return RN.nextDouble()*0.25+0.75; //Iteration 1
+            return RN.nextDouble()*0.0868219893318162+0.867778273355145; //Iteration 3
         });
         PS.AddParam((Random RN)->{ // DIVLOCPROB
-//            return RN.nextDouble()*1.0+0.0; //Iteration 1,2,4, 5,7
-//            return RN.nextDouble()*0.599+0.001; //Iteration 8, 9, 10
-//            return RN.nextDouble()*0.15+0.25; //Iteration 11, 12
-//            return RN.nextDouble()*0.99+0.01; // Iteration 14
-//            return RN.nextDouble()*0.6+0.4; // Iteration 16
-//            return RN.nextDouble()*0.901925240758804+0.0760929638878588;
-            return RN.nextDouble()*0.9+0.3;
+//            return RN.nextDouble()*0.25+0.75; //Iteration 1
+            return RN.nextDouble()*0.0998740822850016+0.795377822803676; //Iteration 3
         });
         PS.AddParam((RandomRN)->{ // EGF_DIFFUSION_RATE
-//            return RN.nextDouble()*1.0+0.0; //Iteration 1,2,4
-//            return RN.nextDouble()*0.3+0.0; //Iteration 3
-//            return RN.nextDouble()*0.05+0.2; //Iteration 4, 5
-//            return RN.nextDouble()*0.2399+0.0001; //Iteration 6,7, 8, 9, 10, 11, 12, 13,14
-//            return RN.nextDouble()*0.19+0.01; //Iteration 15
-//            return RN.nextDouble()*0.0529218211260551+0.196223766505206;
-            return RN.nextDouble()*0.1+0.75;
+//            return RN.nextDouble()*0.06+0.04; //Iteration 1
+            return RN.nextDouble()*0.0247149068839366+0.0726545598575451; //Iteration 3
         });
         PS.AddParam((RandomRN)->{ // Decay Rate
-//            return RN.nextDouble()*0.5+0.0; //Iteration 1,2,4
-//            return RN.nextDouble()*0.1+0.2; //Iteration 5,7, 8, 9, 10, 11, 12
-//            return RN.nextDouble()*0.99+0.01; // Iteration 14
-//            return RN.nextDouble()*0.20+0.001; // Iteration 15
-//            return RN.nextDouble()*0.267497092075744+0.00127358998181254;
-            return RN.nextDouble()*0.0015+0.0005;
+//            return RN.nextDouble()*0.01+0.0001; //Iteration 1
+            return RN.nextDouble()*0.00182234395810641+0.000843779461358075; //Iteration 3
         });
 
-        PS.Sweep(10, 1);
+        PS.Sweep(5000, 10);
 
         FileParams.Close();
 //        while(Epidermis.GetTick() < EpidermisConst.ModelTime){

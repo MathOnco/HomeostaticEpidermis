@@ -21,7 +21,7 @@ import java.util.Random;
 class EpidermisGrid extends Grid3<EpidermisCell> {
     final Random RN=new Random();
     static final int[] moveHood={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,-1,0};
-    static final int[] inBounds= new int[5];
+    final int[] inBounds= new int[5];
     double EGF_DIFFUSION_RATE=0.08; //keratinocyte growth factor
     double DECAY_RATE=0.001; //chemical decay rate of growth factors
     static final double SOURCE_EGF=1; //constant level at basement
