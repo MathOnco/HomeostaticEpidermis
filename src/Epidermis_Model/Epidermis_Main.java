@@ -199,7 +199,7 @@ public class Epidermis_Main {
             if(DeathVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DeathVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(DeathLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DeathLayerVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);}
-            if(OldestCell!=null){OldestCell.SetText("Mean cell age (days): " + new DecimalFormat("#.00").format( Epidermis.TrackAge.GetMeanAge()));}
+            if(OldestCell!=null){OldestCell.SetText("Mean cell age (days): " + new DecimalFormat("#.00").format( Epidermis.GetAges()));}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
 

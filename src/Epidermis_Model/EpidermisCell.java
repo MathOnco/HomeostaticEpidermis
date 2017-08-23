@@ -1,6 +1,8 @@
 package Epidermis_Model;
 
 import Framework.Grids.AgentSQ2;
+import cern.jet.random.engine.DRand;
+import cern.jet.random.engine.RandomEngine;
 
 import static Epidermis_Model.EpidermisCellGenome.RN;
 import static Epidermis_Model.EpidermisConst.*;
@@ -21,7 +23,9 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
     double KERATINO_APOPTOSIS_EGF = 0.08049478; //level at which apoptosis occurs by chance (above this and no apoptosis)
     double DEATH_PROB = 0.001645534; //Overall Death Probability
     double MOVEPROBABILITY = 0.8012262; //RN float has to be greater than this to move...
-    double DIVISIONLOCPROB = 1.0; // Probability of dividing up vs side to side (Up is less than this value)
+    double DIVISIONLOCPROB = 0.15; // Probability of dividing up vs side to side (Up is less than this value)
+
+    public static  RandomEngine RNEngine = new DRand();
 
     int myType; //cell type
     int Action; //cells action

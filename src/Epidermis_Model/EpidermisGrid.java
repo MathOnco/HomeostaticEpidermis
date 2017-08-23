@@ -81,6 +81,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
                 TrackAge.SetAge(i,0);
             }
         }
+        TrackAge.SetMeanAge();
         Turnover.RecordBasalRate("Death");
         Turnover.RecordBasalRate("Birth");
         Turnover.RecordTissueRate("Birth");

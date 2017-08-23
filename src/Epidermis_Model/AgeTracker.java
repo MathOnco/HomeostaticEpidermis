@@ -26,18 +26,15 @@ public class AgeTracker {
             }
         }
         AverageAge[theGrid.GetTick()] = tmpAge/index;
-<<<<<<< HEAD
-=======
     }
 
     public double GetMeanAge(){
         double tmpAge = 0;
         int index=0;
-        for (int i = 150; i < AverageAge.length; i++) {
+        for (int i = 0; i < AverageAge.length; i++) {
             tmpAge = tmpAge + AverageAge[i];
             index++;
         }
->>>>>>> ff7464bbab55e319330f221db75ba6cbfe52b474
         return tmpAge/index;
     }
 
