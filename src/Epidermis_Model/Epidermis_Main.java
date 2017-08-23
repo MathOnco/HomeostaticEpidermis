@@ -203,7 +203,7 @@ public class Epidermis_Main {
                 }
             }
 
-//            System.out.println(Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick()));
+            System.out.println(Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick()));
             if(Epidermis.GetTick()==EpidermisConst.ModelTime-1){
                 System.out.println(Epidermis.GetDivisionProportion());
             }

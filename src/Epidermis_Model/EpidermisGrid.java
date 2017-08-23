@@ -22,8 +22,8 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
     final Random RN=new Random();
     static final int[] moveHood={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,-1,0};
     static final int[] inBounds= new int[5];
-    static final double EGF_DIFFUSION_RATE=0.09239592; //keratinocyte growth factor
-    static final double DECAY_RATE=0.001035161; //chemical decay rate of growth factors
+    static final double EGF_DIFFUSION_RATE=0.02739064; //keratinocyte growth factor
+    static final double DECAY_RATE=0.0007718750; //chemical decay rate of growth factors
     static final double SOURCE_EGF=1; //constant level at basement
     static final int AIR_HEIGHT=15; //air, keratinocyte death! (threshold level for placement of keratinocytes essentially)
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
