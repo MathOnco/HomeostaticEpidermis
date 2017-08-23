@@ -46,7 +46,7 @@ class EpidermisConst{
     static final boolean SliceAndFull = false; // use this when you want a slice out of the 3D model and the full data of the modeled cells!!!!
     static final boolean GetImageData = false; // Use for 3D data for visualization
     static final boolean RecordStateChange = true;
-
+    // A comment for git
 }
 
 public class Epidermis_Main {
