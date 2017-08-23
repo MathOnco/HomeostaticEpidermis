@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=67; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=200; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3 for ; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -23,7 +23,7 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=5; // time in years.
+    static int years=75; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
@@ -181,6 +181,9 @@ public class Epidermis_Main {
                     System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
                 }
             }
+//            System.out.println(Epidermis.TrackAge.GetMeanAge());
+
+//            System.out.println(Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick()));
 
             /*
             All Visualization Components are here
@@ -195,9 +198,10 @@ public class Epidermis_Main {
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
             if(HeightLab!=null){HeightLab.setText("Height: " + new DecimalFormat("#.00").format(Epidermis.GetMeanCellHeight()));}
-            if(Epidermis.GetTick()%7==0){
-                if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format( Epidermis.Turnover.GetBasalRate("Death",7) ));}
-            }
+//            if(Epidermis.GetTick()%7==0){
+//                if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format( Epidermis.Turnover.GetBasalRate("Death",7) ));}
+//            }
+            if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format(Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick())));}
 
             /*
             All Model Data Recording Is Below This line
