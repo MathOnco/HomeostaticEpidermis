@@ -2,224 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6eacc41e-f520-465f-aa6a-25ee1bd78072" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/OpenAL32.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/OpenAL64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/jinput-dx8.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/jinput-dx8_64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/jinput-raw.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/jinput-raw_64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/libjinput-linux.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/libjinput-linux64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/libjinput-osx.dylib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/liblwjgl.dylib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/liblwjgl.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/liblwjgl64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/libopenal.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/libopenal64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/lwjgl.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/lwjgl.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/lwjgl64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/lwjgl_util.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Framework/lib/openal.dylib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/OpenAL32.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/OpenAL64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/jinput-dx8.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/jinput-dx8_64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/jinput-raw.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/jinput-raw_64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/libjinput-linux.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/libjinput-linux64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/libjinput-osx.dylib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/liblwjgl.dylib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/liblwjgl.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/liblwjgl64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/libopenal.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/libopenal64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/lwjgl.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/lwjgl.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/lwjgl64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/lwjgl_util.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Framework/lib/openal.dylib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/OpenAL32.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/OpenAL64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/jinput-dx8.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/jinput-dx8_64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/jinput-raw.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/jinput-raw_64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/libjinput-linux.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/libjinput-linux64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/libjinput-osx.dylib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/liblwjgl.dylib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/liblwjgl.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/liblwjgl64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/libopenal.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/libopenal64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/lwjgl.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/lwjgl.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/lwjgl64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/lwjgl_util.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/lib/openal.dylib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Epidermis_Project_Final.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Epidermis_Project_Final/Epidermis_Model/Global_Info/BaseIndexes.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Epidermis_Model/AgeTracker.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Epidermis_Model/LossReplace.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/GridExtensions/CircleForceAgent2.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/GridExtensions/CircleForceAgent3.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/GridExtensions/GuiColorBar.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/GridExtensions/MarksModelCell.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/GridExtensions/MarksModelGrid.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/GridExtensions/OverlapForceResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/GridExtensions/OverlapNeighborForceResponce.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/Agent0.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/AgentBaseSpatial.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/AgentPT2.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/AgentPT3.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/AgentSQ2.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/AgentSQ2unstackable.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/AgentSQ3.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/AgentSQ3unstackable.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/Grid0.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/Grid2.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/Grid3.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/GridBase2D.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/GridDiff2.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Grids/GridDiff3.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Gui/GuiGridVis.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Gui/GuiLabel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Gui/GuiWindow.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Gui/Vis2DOpenGL.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Gui/Vis3DOpenGL.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Interfaces/Mat2.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Interfaces/Mat3.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Misc/AgentToColorInt.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Misc/DistToForceMap.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Misc/DoubleToIntFunction.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Misc/GAMutantToString.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Misc/GAMutationFunction.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Misc/GAScoreFunction.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Misc/GenomeFn.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Misc/GenomeLineageFn.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Misc/GetMutationInfo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Misc/GuiComp.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Misc/SweepRun.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Misc/SweepRunFunction.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Tools/Binomial.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Tools/BitGenome.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Tools/GeneticAlgorithm.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Tools/Genome.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Tools/GenomeInfo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Tools/GenomeTracker.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Tools/GenomeTree.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Tools/PerformanceTimer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Framework/Tools/Utils.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/dictionaries/schencro.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/AgentList$myIter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/AgentList.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/AgentPT2_5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/AgentPT3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/AgentSQ2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/AgentSQ2_5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/AgentSQ3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/FileIO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Grid2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Grid2_5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Grid3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/GridBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/GridDiff2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/GridDiff3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/Gui$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/Gui$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/Gui.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/GuiButton$1$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/GuiButton$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/GuiButton$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/GuiButton.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/GuiLabel.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/GuiVis.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/MenuBool.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/MenuComboBox.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/MenuDouble.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/MenuFileChooser$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/MenuFileChooser$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/MenuFileChooser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/MenuInt.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/MenuSet$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/MenuSet.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Gui/MenuString.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Interfaces/GeneticAlgorithm.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Interfaces/MutantRunner.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Interfaces/Mutateable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Interfaces/ParamSweeper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Interfaces/Sortable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Interfaces/SweepRun.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Misc/ButtonAction.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Misc/GuiCloseAction.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Misc/GuiComp.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Misc/MenuItem.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Misc/ParamGeneratorFunction.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Misc/ParamSweepRunFunction.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/TickRateTimer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/AgentFramework/Utils.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/META-INF/MANIFEST.MF" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/AgentPT2_5.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/AgentPT3.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/AgentSQ2.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/AgentSQ2_5.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/AgentSQ3.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/AgentSQ3unstackable.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Grid2.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Grid2_5.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Grid3.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Grid3unstackable.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/GridDiff2.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/GridDiff3.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Gui/Gui.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Gui/GuiLabel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Gui/GuiVis.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Interfaces/GeneticAlgorithm.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Interfaces/Mutateable.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Interfaces/ParamSweeper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Misc/DiffusionTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Misc/GuiComp.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Misc/ParamGeneratorFunction.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Misc/ParamSweepRunFunction.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/AgentFramework/Utils.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/AgentBase.java" afterPath="$PROJECT_DIR$/src/Framework/Grids/AgentBase.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/AgentList.java" afterPath="$PROJECT_DIR$/src/Framework/Grids/AgentList.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/FileIO.java" afterPath="$PROJECT_DIR$/src/Framework/Tools/FileIO.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/GenomeInfo.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/Genome/GenomeInfo.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/GenomeTracker.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/Genome/GenomeTracker.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/GridBase.java" afterPath="$PROJECT_DIR$/src/Framework/Grids/GridBase.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/GridBase3D.java" afterPath="$PROJECT_DIR$/src/Framework/Grids/GridBase3D.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/Gui/GuiButton.java" afterPath="$PROJECT_DIR$/src/Framework/Gui/GuiButton.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/Gui/MenuBool.java" afterPath="$PROJECT_DIR$/src/Framework/Gui/BoolParam.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/Gui/MenuComboBox.java" afterPath="$PROJECT_DIR$/src/Framework/Gui/ComboBoxParam.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/Gui/MenuDouble.java" afterPath="$PROJECT_DIR$/src/Framework/Gui/DoubleParam.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/Gui/MenuFileChooser.java" afterPath="$PROJECT_DIR$/src/Framework/Gui/FileChooserParam.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/Gui/MenuInt.java" afterPath="$PROJECT_DIR$/src/Framework/Gui/IntParam.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/Gui/MenuSet.java" afterPath="$PROJECT_DIR$/src/Framework/Gui/ParamSet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/Gui/MenuString.java" afterPath="$PROJECT_DIR$/src/Framework/Gui/StringParam.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/Interfaces/Sortable.java" afterPath="$PROJECT_DIR$/src/Framework/Tools/Sortable.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/Misc/ButtonAction.java" afterPath="$PROJECT_DIR$/src/Framework/Misc/ButtonAction.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/Misc/GuiCloseAction.java" afterPath="$PROJECT_DIR$/src/Framework/Misc/GuiCloseAction.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/Misc/MenuItem.java" afterPath="$PROJECT_DIR$/src/Framework/Misc/MenuItem.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/AgentFramework/TickRateTimer.java" afterPath="$PROJECT_DIR$/src/Framework/Tools/TickRateTimer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Epidermis_Model/EpidermisCellVis.class" afterPath="$PROJECT_DIR$/out/production/Homeostatic_Epidermis/Epidermis_Model/EpidermisCellVis.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/colt_colt_1_2_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/colt_colt_1_2_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TestOutput/CellPositions.csv" afterPath="$PROJECT_DIR$/TestOutput/CellPositions.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TestOutput/MutationFile.csv" afterPath="$PROJECT_DIR$/TestOutput/MutationFile.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TestOutput/ParentFile.csv" afterPath="$PROJECT_DIR$/TestOutput/ParentFile.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TestOutput/PopSizes.csv" afterPath="$PROJECT_DIR$/TestOutput/PopSizes.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TestOutput/R_Lambda_Values.csv" afterPath="$PROJECT_DIR$/TestOutput/R_Lambda_Values.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellVis.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellVis.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java" />
     </list>
     <ignored path="Epidermis_Project_Final.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -240,11 +27,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Epidermis_Main.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Epidermis_Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="33" column="43" selection-start-line="33" selection-start-column="43" selection-end-line="33" selection-end-column="43" />
+            <state relative-caret-position="2970">
+              <caret line="272" column="74" selection-start-line="272" selection-start-column="74" selection-end-line="272" selection-end-column="74" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VolatilityMetrics.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TestOutput/VolatilityMetrics.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -253,19 +50,23 @@
       <file leaf-file-name="EpidermisCell.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1395">
+            <state relative-caret-position="1393">
               <caret line="93" column="30" selection-start-line="93" selection-start-column="30" selection-end-line="93" selection-end-column="30" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EpidermisGrid.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EpidermisGrid.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="35" column="2" selection-start-line="35" selection-start-column="2" selection-end-line="35" selection-end-column="2" />
-              <folding />
+            <state relative-caret-position="255">
+              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -283,8 +84,8 @@
       <file leaf-file-name="EpidermisCellGenome.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="945">
-              <caret line="63" column="128" selection-start-line="63" selection-start-column="128" selection-end-line="63" selection-end-column="128" />
+            <state relative-caret-position="45">
+              <caret line="3" column="29" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -388,7 +189,39 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="TestOutput" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Epidermis_Project_Final" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Epidermis_Project_Final" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Epidermis_Project_Final" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Epidermis_Project_Final" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Epidermis_Model" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -783,21 +616,22 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="45" y="23" width="2391" height="1413" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2672218" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2672218" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.326268" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.326268" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run with VisualVM" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15581098" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15581098" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="R Packages" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="R Graphics" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -812,7 +646,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -841,14 +674,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="47" column="88" selection-start-line="47" selection-start-column="88" selection-end-line="47" selection-end-column="88" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3345">
@@ -869,7 +694,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1590">
           <caret line="118" column="77" selection-start-line="118" selection-start-column="77" selection-end-line="118" selection-end-column="77" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -877,7 +704,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="555">
           <caret line="47" column="88" selection-start-line="47" selection-start-column="88" selection-end-line="47" selection-end-column="88" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -909,7 +738,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="18" column="3" selection-start-line="18" selection-start-column="3" selection-end-line="18" selection-end-column="3" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -917,7 +748,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="24" column="48" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -941,7 +774,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="29" column="43" selection-start-line="29" selection-start-column="43" selection-end-line="29" selection-end-column="43" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -949,7 +784,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="24" column="48" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -973,7 +810,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -981,7 +820,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="24" column="48" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1005,7 +846,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="555">
           <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1013,7 +856,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1029,7 +874,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1045,7 +892,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="23" column="55" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1168,14 +1017,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="945">
-          <caret line="63" column="128" selection-start-line="63" selection-start-column="128" selection-end-line="63" selection-end-column="128" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AgentFramework/GenomeInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1192,26 +1033,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java">
+    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="43" selection-start-line="33" selection-start-column="43" selection-end-line="33" selection-end-column="43" />
+        <state relative-caret-position="45">
+          <caret line="3" column="29" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1395">
+        <state relative-caret-position="1393">
           <caret line="93" column="30" selection-start-line="93" selection-start-column="30" selection-end-line="93" selection-end-column="30" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisGrid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="35" column="2" selection-start-line="35" selection-start-column="2" selection-end-line="35" selection-end-column="2" />
+        <state relative-caret-position="255">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestOutput/VolatilityMetrics.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2970">
+          <caret line="272" column="74" selection-start-line="272" selection-start-column="74" selection-end-line="272" selection-end-column="74" />
           <folding />
         </state>
       </provider>

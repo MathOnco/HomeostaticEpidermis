@@ -1,19 +1,12 @@
 package Epidermis_Model;
 
-<<<<<<< HEAD
-import AgentFramework.*;
-import AgentFramework.Gui.Gui;
-import AgentFramework.Gui.GuiVis;
-import static AgentFramework.Utils.*;
-=======
-
+import Epidermis_Model.Genome.GenomeInfo;
 import Epidermis_Model.Genome.GenomeTracker;
 import Framework.Grids.Grid2;
 import Framework.Grids.GridDiff2;
 import Framework.Gui.GuiGridVis;
 import Framework.Tools.FileIO;
 
->>>>>>> master
 import static Epidermis_Model.EpidermisConst.*;
 
 import java.util.Random;
@@ -84,9 +77,8 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         }
         popSum+=GetPop();
         CleanShuffInc(RN); // Special Sauce
-<<<<<<< HEAD
+
         GetState(StateChange);
-=======
 
         for (int i = 0; i < xDim*yDim; i++) {
             EpidermisCell c = GetAgent(i);
@@ -101,7 +93,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         Turnover.RecordBasalRate("Birth");
         Turnover.RecordTissueRate("Birth");
         Turnover.RecordTissueRate("Death");
->>>>>>> master
+
     }
 
     public void DrawChemicals(GuiGridVis chemVis, boolean egf, boolean bfgf) {
@@ -263,7 +255,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     public void GetState(GenomeInfo[] StateArray){
         int StateChanges = 0;
         for(int x=0; x<EpidermisConst.xSize; x++){
-            EpidermisCell c = SQtoAgent(x,0);
+            EpidermisCell c = GetAgent(x,0);
             if(c!=null){
                 if(c.myGenome != StateArray[x]){
                     StateChanges++;
