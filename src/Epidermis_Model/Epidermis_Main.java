@@ -1,6 +1,12 @@
 package Epidermis_Model;
-import AgentFramework.*;
-import AgentFramework.Gui.*;
+
+
+import Framework.Gui.GuiGridVis;
+import Framework.Gui.GuiLabel;
+import Framework.Gui.GuiWindow;
+import Framework.Tools.FileIO;
+import Framework.Tools.*;
+
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -45,9 +51,7 @@ public class Epidermis_Main {
 
     static GuiLabel LabelGuiSet(String text, int compX, int compY) {
         GuiLabel ret= new GuiLabel(text, compX, compY);
-        ret.setOpaque(true);
-        ret.setForeground(Color.white);
-        ret.setBackground(Color.black);
+        ret.SetColor(Color.white,Color.black);
         return ret;
     }
 
@@ -55,13 +59,14 @@ public class Epidermis_Main {
         /*
         Initialization
          */
-        GuiVis ActivityVis = null;
-        GuiVis EGFVis = null;
-        GuiVis DivVis = null;
-        GuiVis DivLayerVis = null;
-        GuiVis DeathVis = null;
-        GuiVis DeathLayerVis = null;
-        GuiVis ClonalVis = null;
+        GuiWindow MainGUI=null;
+        GuiGridVis ActivityVis = null;
+        GuiGridVis EGFVis = null;
+        GuiGridVis DivVis = null;
+        GuiGridVis DivLayerVis = null;
+        GuiGridVis DeathVis = null;
+        GuiGridVis DeathLayerVis = null;
+        GuiGridVis ClonalVis = null;
         GuiLabel YearLab = null;
         GuiLabel rLambda_Label = null;
         GuiLabel OldestCell = null;
@@ -99,16 +104,16 @@ public class Epidermis_Main {
         // Sets up GUI
         if(EpidermisConst.GuiOn) {
             CellDraw = new EpidermisCellVis();
-            Gui MainGUI = new Gui("Homeostatic Epidermis Model", true);
+            MainGUI = new GuiWindow("Homeostatic Epidermis Model", true);
             MainGUI.panel.setOpaque(true);
             MainGUI.panel.setBackground(Color.black);
-            ClonalVis = new GuiVis(EpidermisConst.xSize*5, EpidermisConst.ySize*5, 1, 2, 1);
-            DivVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
-            DivLayerVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
-            DeathVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
-            DeathLayerVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
-            ActivityVis = new GuiVis(EpidermisConst.xSize * 5, EpidermisConst.ySize * 5, 1, 2, 1); // Main Epidermis visualization window
-            EGFVis = new GuiVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
+            ClonalVis = new GuiGridVis(EpidermisConst.xSize*5, EpidermisConst.ySize*5, 1, 2, 1);
+            DivVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            DivLayerVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            DeathVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            DeathLayerVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 3, 1, 1);
+            ActivityVis = new GuiGridVis(EpidermisConst.xSize * 5, EpidermisConst.ySize * 5, 1, 2, 1); // Main Epidermis visualization window
+            EGFVis = new GuiGridVis(EpidermisConst.xSize, EpidermisConst.ySize, 5, 2, 1);
             YearLab = LabelGuiSet("Age (Yrs.): ", 1, 1);
             MainGUI.AddCol(YearLab, 0);
             HealLab = LabelGuiSet("Heal Time (Days): ", 1, 1);
@@ -188,20 +193,21 @@ public class Epidermis_Main {
             /*
             All Visualization Components are here
              */
-            if(ActivityVis!=null){YearLab.setText("Age (yrs.): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
+            if(ActivityVis!=null){YearLab.SetText("Age (yrs.): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
             if(DivVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DivVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
             if(DivLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DivLayerVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
             if(DeathVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DeathVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(DeathLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DeathLayerVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);}
-            if(OldestCell!=null){OldestCell.setText("Mean cell age (days): " + new DecimalFormat("#.00").format( Epidermis.TrackAge.GetMeanAge()));}
+            if(OldestCell!=null){OldestCell.SetText("Mean cell age (days): " + new DecimalFormat("#.00").format( Epidermis.TrackAge.GetMeanAge()));}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(EGFVis!=null){Epidermis.DrawChemicals(EGFVis, true, false);}
-            if(HeightLab!=null){HeightLab.setText("Height: " + new DecimalFormat("#.00").format(Epidermis.GetMeanCellHeight()));}
+
+            if(HeightLab!=null){HeightLab.SetText("Height: " + new DecimalFormat("#.00").format(Epidermis.GetMeanCellHeight()));}
 //            if(Epidermis.GetTick()%7==0){
 //                if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format( Epidermis.Turnover.GetBasalRate("Death",7) ));}
 //            }
-            if(rLambda_Label!=null){rLambda_Label.setText("Mean rLambda (per week): " + new DecimalFormat("#.000").format(Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick())));}
+            if(rLambda_Label!=null){rLambda_Label.SetText("Mean rLambda (per week): " + new DecimalFormat("#.000").format(Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick())));}
 
             /*
             All Model Data Recording Is Below This line
@@ -257,6 +263,7 @@ public class Epidermis_Main {
 
             }
         }
-        Utils.PrintMemoryUsage();
+        System.out.println(Utils.MemoryUsageStr());
+        MainGUI.Dispose();
     }
 }
