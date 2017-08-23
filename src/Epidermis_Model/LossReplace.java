@@ -85,9 +85,7 @@ public class LossReplace {
         DeathTissue=0;
     }
 
-    public void RecordDivideBasal(){
-            DivisionTissue++;
-    }
+    public void RecordDivideBasal(){ DivisionTissue++; }
 
     public void RecordDivideTissue(){
         DivisionTissue++;

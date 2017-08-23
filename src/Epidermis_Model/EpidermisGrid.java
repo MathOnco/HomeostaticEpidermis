@@ -161,6 +161,16 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
             }
     }
 
+    public double BasalDensity(){
+        double count = 0;
+        for(EpidermisCell c: this){
+            if(c!=null && c.Ysq() == 0){
+                count++;
+            }
+        }
+        return count/(xDim);
+    }
+
     public double GetMeanCellHeight(){
         int allColumns = 0;
         for (int x = 0; x < xDim; x++) {

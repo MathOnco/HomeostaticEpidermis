@@ -53,45 +53,46 @@ public class EpidermisCellGenome extends GenomeInfo<EpidermisCellGenome> {
 
     @Override
     public EpidermisCellGenome _RunPossibleMutation() {
-        StringBuilder MutsObtained = new StringBuilder();
-        if (QuickMut == false) {
-            for (int j = 0; j < ExpectedMuts.length; j++) {
-                if (j != 0) {
-//                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
-//                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for each gene
-                    int mutations = PoissonDists[j].nextInt();
-                    for (int hits = 0; hits < mutations; hits++) {
-                        int MutatedBaseKind = Utils.RandomVariable(BaseMutProb, RN);
-                        long mutIndex = BaseIndex[j - 1][MutatedBaseKind][RN.nextInt(BaseIndex[j - 1][MutatedBaseKind].length)];
-                        String MutOut = "";
-                        if (j == ExpectedMuts.length - 1) {
-                            MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex;
-                        } else {
-                            MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
-                        }
-                        MutsObtained.append(MutOut);
-                    }
-                }
-                //            else {
-                //                if(EpidermisConst.GuiOn == true) {
-                //                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
-                //                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
-                //                    for (int hits = 0; hits < mutations; hits++) {
-                //                        long mutIndex = RN.nextLong();
-                //                        String MutOut = "";
-                //                        if(j==ExpectedMuts.length-1){
-                //                            MutOut = j + "." + ".N." + "." + mutIndex;
-                //                        } else {
-                //                            MutOut = j + "." + ".N." + "." + mutIndex + ",";
-                //                        }
-                //                        MutsObtained.append(MutOut);
-                //                    }
-                //                }
-                //            }}
-
-
-            }
-            String PrivGenome = MutsObtained.toString();
+//        StringBuilder MutsObtained = new StringBuilder();
+//        if (QuickMut == false) {
+//            for (int j = 0; j < ExpectedMuts.length; j++) {
+//                if (j != 0) {
+////                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
+////                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for each gene
+//                    int mutations = PoissonDists[j].nextInt();
+//                    for (int hits = 0; hits < mutations; hits++) {
+//                        int MutatedBaseKind = Utils.RandomVariable(BaseMutProb, RN);
+//                        long mutIndex = BaseIndex[j - 1][MutatedBaseKind][RN.nextInt(BaseIndex[j - 1][MutatedBaseKind].length)];
+//                        String MutOut = "";
+//                        if (j == ExpectedMuts.length - 1) {
+//                            MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex;
+//                        } else {
+//                            MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
+//                        }
+//                        MutsObtained.append(MutOut);
+//                    }
+//                }
+//                //            else {
+//                //                if(EpidermisConst.GuiOn == true) {
+//                //                    Poisson poisson_dist = new Poisson(ExpectedMuts[j], RNEngine); // Setup the Poisson distributions for each gene.
+//                //                    int mutations = poisson_dist.nextInt(); // Gets how many mutations will occur for the Genome
+//                //                    for (int hits = 0; hits < mutations; hits++) {
+//                //                        long mutIndex = RN.nextLong();
+//                //                        String MutOut = "";
+//                //                        if(j==ExpectedMuts.length-1){
+//                //                            MutOut = j + "." + ".N." + "." + mutIndex;
+//                //                        } else {
+//                //                            MutOut = j + "." + ".N." + "." + mutIndex + ",";
+//                //                        }
+//                //                        MutsObtained.append(MutOut);
+//                //                    }
+//                //                }
+//                //            }}
+//
+//
+//            }
+//            String PrivGenome = MutsObtained.toString();
+            String PrivGenome = "";
             if (PrivGenome.length() > 0) {
                 if (h == 0f && s == 0f && v == 1f) {
                     return new EpidermisCellGenome(RN.nextFloat(), 1f , 0.75f, PrivGenome, theGrid);
@@ -102,19 +103,19 @@ public class EpidermisCellGenome extends GenomeInfo<EpidermisCellGenome> {
                 return null; // If No Mutation Occurs
             }
         }
-        else {
-            if(RN.nextDouble()<QuickMutRate){
-                String EmptyGenome = "";
-                if (h == 0f && s == 0f && v == 1f) {
-                    return new EpidermisCellGenome(RN.nextFloat(), 1f , 0.75f, EmptyGenome, theGrid);
-                } else {
-                    return new EpidermisCellGenome(h, RN.nextFloat()*0.3f+0.6f, RN.nextFloat()*0.55f+0.3f, EmptyGenome, theGrid);
-                }
-            } else {
-                return null;
-            }
-        }
-    }
+//        else {
+//            if(RN.nextDouble()<QuickMutRate){
+//                String EmptyGenome = "";
+//                if (h == 0f && s == 0f && v == 1f) {
+//                    return new EpidermisCellGenome(RN.nextFloat(), 1f , 0.75f, EmptyGenome, theGrid);
+//                } else {
+//                    return new EpidermisCellGenome(h, RN.nextFloat()*0.3f+0.6f, RN.nextFloat()*0.55f+0.3f, EmptyGenome, theGrid);
+//                }
+//            } else {
+//                return null;
+//            }
+//        }
+//    }
 
 
     @Override

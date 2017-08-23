@@ -150,7 +150,7 @@ abstract class GridBase3D extends GridBase{
             }
             if (!Utils.InDim(zDim, z)) {
                 if (wrapZ) {
-                    z = Utils.ModWrap(z, yDim);
+                    z = Utils.ModWrap(z, zDim);
                 } else {
                     continue;
                 }

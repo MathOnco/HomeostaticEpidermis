@@ -120,7 +120,7 @@ OrdiPlot <- function(df){
   xLoc <- 2.2
 
   testDF <- cbind(testDF, data.frame(rlambda=dfOutcome$rlambda, rlambdaSat=applyColor(dfOutcome$rlambda, 0.02404, 0.5)))
-  testDF <- cbind(testDF, data.frame(mean=dfOutcome$mean, meanSat=applyColor(dfOutcome$mean, 29,2)))
+  testDF <- cbind(testDF, data.frame(mean=dfOutcome$mean, meanSat=applyColor(dfOutcome$mean, 29,5)))
   testDF <- cbind(testDF, data.frame(mean=dfOutcome$height, HeightSat=applyColor(dfOutcome$height, 14,2)))
 
   p1 <- plotRDA(rdaData, testDF, testDF$HeightSat, "Height")
@@ -146,13 +146,24 @@ OrdiPlot <- function(df){
 PrepDF <- function(df){
   df <- na.omit(df)
   df$V2 <- as.numeric(lapply(df$V2, function(x) x*-1))
-  colnames(df) <- c("PSF", "EGF_CONS","APOPEGF","DEATHPROB","MOVE","DIVLOCPROB","EGF_DIFFUSION_RATE","EGFDecayRate","rlambda","mean", "height")
+  colnames(df) <- c("PSF", "EGF_CONS","APOPEGF","DEATHPROB","MOVE","DIVLOCPROB","EGF_DIFFUSION_RATE","EGFDecayRate","rlambda","mean", "height","basalDensity")
   return(df)
+}
+
+GetRange <- function(x){
+  min <- range(x)[[1]]
+  max <- range(x)[[2]] - range(x)[[1]]
+  print(paste("return RN.nextDouble()*",max,"+",min,"; //Iteration 21",sep=""))
+}
+
+FindBest <- function(df){
+  dfGood <- subset(df, df$height>=10 & df$rlambda<=0.1)
+  return(dfGood)
 }
 
 setwd("~/IdeaProjects/Epidermis_Project_Final/")
 #setwd("~/Desktop/Darryl_collab/Framework/Homeostatic_Epidermis/")
-iteration <- 15
+iteration <- 21
 inputFile <- paste("GridParams_Round",iteration,".txt",sep="")
 ResponsePlot <- paste("Iteration",iteration,"_Responses.png",sep="")
 SurfacePlots <- paste("Iteration",iteration,".png",sep="")
@@ -167,3 +178,36 @@ do.call("grid.arrange", g[2])
 ggsave(SurfacePlots, do.call("grid.arrange", g[2]), width=10,height=12,dpi=300,units="in")
 
 boxplot(cleanDF[1:8])
+
+for(i in 1:8){
+  GetRange(dfGood2[,i])
+}
+
+dfOutcome <- cleanDF[9:11]
+dfOutcome$height <- as.numeric(dfOutcome$height)
+dfOutcome$rlambda <- as.numeric(dfOutcome$rlambda)
+dfOutcome$mean <- as.numeric(dfOutcome$mean)
+#dfOutcome$heal <- as.numeric(lapply(dfOutcome$heal, function(x) round(x,0)))
+dfInput <- cleanDF[1:8]
+save(dfOutcome, file="~/Desktop/Darryl_collab/Model_Data_Analysis/ParameterizationShiny/EpidermisModelParams/dfOutcome")
+save(dfInput, file="~/Desktop/Darryl_collab/Model_Data_Analysis/ParameterizationShiny/EpidermisModelParams/dfInput")
+load("~/Desktop/Darryl_collab/Model_Data_Analysis/ParameterizationShiny/EpidermisModelParams/dfOutcome")
+
+dfOutcome <- cleanDF[9:11]
+dfOutcome$height <- as.numeric(dfOutcome$height)
+dfOutcome$rlambda <- as.numeric(dfOutcome$rlambda)
+dfOutcome$mean <- as.numeric(dfOutcome$mean)
+#dfOutcome$heal <- as.numeric(lapply(dfOutcome$heal, function(x) round(x,0)))
+dfInput <- cleanDF[1:8]
+
+fit <- lm(dfOutcome$rlambda~PSF+EGF_CONS+APOPEGF+DEATHPROB+MOVE+DIVLOCPROB+EGF_DIFFUSION_RATE+EGFDecayRate, data=dfInput)
+fit2 <- lm(dfOutcome$mean~PSF+EGF_CONS+APOPEGF+DEATHPROB+MOVE+DIVLOCPROB+EGF_DIFFUSION_RATE+EGFDecayRate, data=dfInput)
+fit3 <- lm(dfOutcome$height~PSF+EGF_CONS+APOPEGF+DEATHPROB+MOVE+DIVLOCPROB+EGF_DIFFUSION_RATE+EGFDecayRate, data=dfInput)
+
+rdaData <- rda(dfOutcome~PSF+EGF_CONS+APOPEGF+DEATHPROB+MOVE+DIVLOCPROB+EGF_DIFFUSION_RATE+EGFDecayRate, data=dfInput, scale=T)
+
+plot(rdaData)
+biplot(rdaData)
+
+t <-ordisurf(rdaData~rlambda, data=cleanDF)
+plot(t)
