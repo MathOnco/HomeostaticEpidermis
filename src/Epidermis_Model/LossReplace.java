@@ -67,7 +67,7 @@ public class LossReplace {
                 Rate += LossRateBasal[i];
             }
         }
-        OutputRateArray[theGrid.GetTick()/7] = Rate;
+        OutputRateArray[theGrid.GetTick()/Step] = Rate;
         return Rate/Step; // Returns average daily rate over a week
     }
 

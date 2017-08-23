@@ -97,7 +97,7 @@ public class Epidermis_Main {
 //            System.out.println("Years: " + EpidermisConst.years);
 //        }
 
-        FileIO FileParams = new FileIO("GridParams_Round21.txt", "w");
+        FileIO FileParams = new FileIO("GridParams_Round22.txt", "w");
         ParamSweeper PS = new ParamSweeper(FileParams, (double[] runThatShit)->{
             EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, runThatShit); // Initializes and sets up the program for running
             String OutRL = "";
@@ -105,6 +105,7 @@ public class Epidermis_Main {
             String outAge2 = "";
             String outOldest = "";
             String basalDensity = "";
+            double rlamb = 0;
             int r_lambda_index = 0;
             int woundTick = 0;
             boolean Healed = true;
@@ -155,16 +156,17 @@ public class Epidermis_Main {
                     /*
                     Records the loss replacement rate for whole time
                      */
-                    double r_lamb_print = 0;
-                    int index = 0;
-                    for (int i = 0; i < Epidermis.Turnover.GetOutputArray().length; i++) {
-                        if(Epidermis.Turnover.GetOutputArray()[i]!=0){
-                            r_lamb_print += Epidermis.Turnover.GetOutputArray()[i];
-                            index++;
-                        }
-                    }
-                    OutRL = "" + r_lamb_print/index;
-                    if(r_lamb_print/r_lambda_index==0.0){
+//                    double r_lamb_print = 0;
+//                    int index = 0;
+//                    for (int i = 0; i < Epidermis.Turnover.GetOutputArray().length; i++) {
+//                        if(Epidermis.Turnover.GetOutputArray()[i]!=0){
+//                            r_lamb_print += Epidermis.Turnover.GetOutputArray()[i];
+//                            index++;
+//                        }
+//                    }
+                    rlamb = Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick());
+                    OutRL = "" + rlamb;
+                    if(rlamb==0.0){
                         EpidermisConst.ModelTime = Epidermis.GetTick()+1;
                         OutRL = "NaN";
                     }
@@ -203,7 +205,7 @@ public class Epidermis_Main {
 //            return RN.nextDouble()*0.3+0.0001; // Iteration 16
 //            return RN.nextDouble()*0.109530591233847+0.00498618090048364;
 //            return RN.nextDouble()*0.1+0.0000000;
-            return RN.nextDouble()*0.00195265315487249+0.00440424025322456;
+            return RN.nextDouble()*0.2+0.01;
         });
         PS.AddParam((Random RN)->{ // KerEGFConsumption
 //            return RN.nextDouble()*-1.0-0.0; //Iteration 1,2,4,5,7, 8, 9, 10, 11, 12
@@ -212,7 +214,7 @@ public class Epidermis_Main {
 //            return RN.nextDouble()*-0.3-0.0001; // Iteration 16
 //            return RN.nextDouble()*-0.197507253235264-0.745503338640579;
 //            return RN.nextDouble()*-0.1-0.000001;
-            return RN.nextDouble()*-0.00673709644739127-0.00341933886946285;
+            return RN.nextDouble()*-0.005-0.002;
         });
         PS.AddParam((Random RN)->{ // ApopEGF
             //return RN.nextDouble()*1.0+0.0; //Iteration 1,2,4, 5,7
@@ -221,7 +223,7 @@ public class Epidermis_Main {
 //            return RN.nextDouble()*0.4+0.001; // Iteration 15
 //            return RN.nextDouble()*0.830918923846992+0.102204526933265;
 //            return RN.nextDouble()*0.5+0.0;
-            return RN.nextDouble()*0.0535368780764146+0.0261005209693921; //Iteration 21
+            return RN.nextDouble()*0.07+0.001; //Iteration 21
         });
         PS.AddParam((Random RN)->{ // DeathProb
 //            return RN.nextDouble()*1.0+0.0; //Iteration 1
@@ -229,7 +231,7 @@ public class Epidermis_Main {
 //            return RN.nextDouble()*0.99+0.01; // Iteration 14
 //            return RN.nextDouble()*0.144684003908747+0.044313748498699;
 //            return RN.nextDouble()*0.1+0.000001;
-            return RN.nextDouble()*5.9811939173513e-05+0.000339167251672006;
+            return RN.nextDouble()*0.25+0.0;
         });
         PS.AddParam((Random RN)->{ // MoveProb
 //            return RN.nextDouble()*1.0+0.0; //Iteration 1,2,4, 5,7, 8, 9, 10, 11
@@ -237,7 +239,7 @@ public class Epidermis_Main {
 //            return RN.nextDouble()*0.99+0.01; // Iteration 14
 //            return RN.nextDouble()*0.037713587735326+0.961687208092696;
 //            return RN.nextDouble()*1.0+0.0;
-            return RN.nextDouble()*0.0868219893318162+0.867778273355145; //Iteration 21
+            return RN.nextDouble()*1.0+0.000000001; //Iteration 21
         });
         PS.AddParam((Random RN)->{ // DIVLOCPROB
 //            return RN.nextDouble()*1.0+0.0; //Iteration 1,2,4, 5,7
@@ -247,7 +249,7 @@ public class Epidermis_Main {
 //            return RN.nextDouble()*0.6+0.4; // Iteration 16
 //            return RN.nextDouble()*0.901925240758804+0.0760929638878588;
 //            return RN.nextDouble()*0.9+0.3;
-            return RN.nextDouble()*0.0998740822850016+0.795377822803676; //Iteration 21
+            return RN.nextDouble()*0.5+0.000000001; //Iteration 21
         });
         PS.AddParam((RandomRN)->{ // EGF_DIFFUSION_RATE
 //            return RN.nextDouble()*1.0+0.0; //Iteration 1,2,4
@@ -257,7 +259,7 @@ public class Epidermis_Main {
 //            return RN.nextDouble()*0.19+0.01; //Iteration 15
 //            return RN.nextDouble()*0.0529218211260551+0.196223766505206;
 //            return RN.nextDouble()*0.1+0.75;
-            return RN.nextDouble()*0.0247149068839366+0.0726545598575451; //Iteration 21
+            return RN.nextDouble()*0.04+0.01; //Iteration 21
         });
         PS.AddParam((RandomRN)->{ // Decay Rate
 //            return RN.nextDouble()*0.5+0.0; //Iteration 1,2,4
@@ -266,10 +268,10 @@ public class Epidermis_Main {
 //            return RN.nextDouble()*0.20+0.001; // Iteration 15
 //            return RN.nextDouble()*0.267497092075744+0.00127358998181254;
 //            return RN.nextDouble()*0.0015+0.0005;
-            return RN.nextDouble()*0.00182234395810641+0.000843779461358075; //Iteration 21
+            return RN.nextDouble()*0.002+0.0006; //Iteration 21
         });
 
-        PS.Sweep(100, 4);
+        PS.Sweep(1000, 4);
 
         FileParams.Close();
 //        while(Epidermis.GetTick() < EpidermisConst.ModelTime){

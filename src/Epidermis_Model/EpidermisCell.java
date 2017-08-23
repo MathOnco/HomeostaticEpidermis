@@ -97,9 +97,10 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         GetEmptyVNSquares(x,y,false,G().divHoodBasal, G().inBounds);
 
         boolean Pushed = CellPush(iDivLoc);
-        if(Pushed!=false && y==0){
+        if(Pushed!=false && y==0 && (iDivLoc==0 || iDivLoc==1) ){
             G().Turnover.RecordLossBasal(); // Record Cell Loss from Pushing
         }
+
 
         EpidermisCell newCell = G().NewAgentI(G().inBounds[iDivLoc]);
 
