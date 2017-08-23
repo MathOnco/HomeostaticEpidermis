@@ -17,13 +17,13 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
      * parameters that may be changed for cell behavior
      **/
 
-    double prolif_scale_factor = 0.02289167; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
-    double KERATINO_EGF_CONSPUMPTION = -0.007904418; //consumption rate by keratinocytes
+    double prolif_scale_factor = 0.02870462; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
+    double KERATINO_EGF_CONSPUMPTION = -0.006954863; //consumption rate by keratinocytes
 //    double KERATINO_EGF_CONSPUMPTION = 0.0;
-    double KERATINO_APOPTOSIS_EGF = 0.08049478; //level at which apoptosis occurs by chance (above this and no apoptosis)
-    double DEATH_PROB = 0.001645534; //Overall Death Probability
-    double MOVEPROBABILITY = 0.8012262; //RN float has to be greater than this to move...
-    double DIVISIONLOCPROB = 0.15; // Probability of dividing up vs side to side (Up is less than this value)
+    double KERATINO_APOPTOSIS_EGF = 0.005939094; //level at which apoptosis occurs by chance (above this and no apoptosis)
+    double DEATH_PROB = 0.0038163034; //Overall Death Probability
+    double MOVEPROBABILITY = 0.81996739; //RN float has to be greater than this to move...
+    double DIVISIONLOCPROB = 0.2518617; // Probability of dividing up vs side to side (Up is less than this value)
 
     public static  RandomEngine RNEngine = new DRand();
 
@@ -106,6 +106,9 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
         } else {
             G().Turnover.RecordDivideTissue();
         }
+
+        G().divisions[G().GetTick()*ySize+Ysq()]++;
+        G().divs++;
 
         return true;
     }

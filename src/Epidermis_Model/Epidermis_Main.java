@@ -29,7 +29,7 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=75; // time in years.
+    static int years=1; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
@@ -190,6 +190,9 @@ public class Epidermis_Main {
 
 //            System.out.println(Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick()));
 
+            if(Epidermis.GetTick()==EpidermisConst.ModelTime-1){
+                System.out.println(Epidermis.GetDivisionProportion());
+            }
             /*
             All Visualization Components are here
              */
