@@ -1,14 +1,14 @@
 package Epidermis_Model;
-import AgentFramework.FileIO;
-import AgentFramework.GenomeInfo;
-import AgentFramework.Utils;
+
+import Epidermis_Model.Genome.GenomeInfo;
+import Framework.Tools.FileIO;
+import Framework.Tools.Utils;
 import cern.jet.random.Poisson;
 import com.sun.org.apache.bcel.internal.generic.PUSH;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import static AgentFramework.Utils.GetHSBtoRGB;
 import static Epidermis_Model.EpidermisCell.RNEngine;
 
 /**
@@ -16,7 +16,7 @@ import static Epidermis_Model.EpidermisCell.RNEngine;
  */
 
 
-public class EpidermisCellGenome extends GenomeInfo <EpidermisCellGenome> {
+public class EpidermisCellGenome extends GenomeInfo<EpidermisCellGenome> {
     /*
     New Information To Keep Inside the Model!!!!! Official Information
      */

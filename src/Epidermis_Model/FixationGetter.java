@@ -1,7 +1,5 @@
 package Epidermis_Model;
 
-import AgentFramework.Grid3;
-
 import java.util.ArrayList;
 
 /**
