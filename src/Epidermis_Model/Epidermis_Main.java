@@ -399,7 +399,7 @@ public class Epidermis_Main {
             r_lambOut += r_lambda_WriteValue.get(k);
         }
         System.out.println(d + "\t" + 0.3 + "\t" + FixedTime + "\t" + Epidermis.GetMeanCellAge(Epidermis) + "\t" + Epidermis.GetMeanCellHeight() + "\t" + (r_lambOut / r_lambda_index));
-
+    //Git comment
 
 //        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshit));
 //        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshitDiv));
