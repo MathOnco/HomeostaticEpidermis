@@ -7,7 +7,6 @@ import cern.jet.random.Poisson;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static Epidermis_Model.EpidermisCell.RNEngine;
 
 /**
  * Created by schencro on 3/25/17.
@@ -136,7 +135,7 @@ public class EpidermisCellGenome extends GenomeInfo<EpidermisCellGenome> {
     private static Poisson[] BuildPoissons(){
         Poisson[] PoissonDists = new Poisson[ExpectedMuts.length];
         for (int i = 0; i < ExpectedMuts.length; i++) {
-            Poisson poisson_dist = new Poisson(ExpectedMuts[i], RNEngine);
+            Poisson poisson_dist = new Poisson(ExpectedMuts[i], EpidermisCell.RNEngine);
             PoissonDists[i] = poisson_dist;
         }
         return PoissonDists;
