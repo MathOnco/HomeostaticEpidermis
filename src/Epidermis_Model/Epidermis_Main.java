@@ -35,15 +35,15 @@ class EpidermisConst{
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = true; // use for visualization, set to false for jar file / multiple runs
-    static final boolean JarFile = false; // Set to true if running from command line as jar file!!!!!!!!
+    /**Use this set when running desktop file**/
+    static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
+    static final boolean JarFile = true; // Set to true if running from command line as jar file!!!!!!!!
     static final boolean RecordParents = false; // use when you want parents information
     static final boolean RecordLineages = false; // use when you want
     static final boolean RecordPopSizes = false; // Use to record clone population sizes
-    static final boolean get_r_lambda = false; // use when you want the r_lambda value for the visualization
+    static final boolean get_r_lambda = true; // use when you want the r_lambda value for the visualization
     static final boolean writeValues = false; // use this when you want the data to be saved!
     static final boolean sliceOnly = false; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
-    static final boolean SliceAndFull = false; // use this when you want a slice out of the 3D model and the full data of the modeled cells!!!!
     static final boolean GetImageData = false; // Use for 3D data for visualization
 
     /**Use this set when running jar file**/
@@ -391,18 +391,20 @@ public class Epidermis_Main {
                 }
 
             }
-            // Done with program...
-            float r_lambOut = 0;
-            for (int k = 0; k < r_lambda_WriteValue.size(); k++) {
-                r_lambOut += r_lambda_WriteValue.get(k);
-            }
-            System.out.println(d + "\t" + 0.3 + "\t" + FixedTime + "\t" + Epidermis.GetMeanCellAge(Epidermis) + "\t" + Epidermis.GetMeanCellHeight() + "\t" + (r_lambOut / r_lambda_index));
+        }
+
+        // Done with program...
+        float r_lambOut = 0;
+        for (int k = 0; k < r_lambda_WriteValue.size(); k++) {
+            r_lambOut += r_lambda_WriteValue.get(k);
+        }
+        System.out.println(d + "\t" + 0.3 + "\t" + FixedTime + "\t" + Epidermis.GetMeanCellAge(Epidermis) + "\t" + Epidermis.GetMeanCellHeight() + "\t" + (r_lambOut / r_lambda_index));
 
 
 //        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshit));
 //        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshitDiv));
 //
 //        Utils.PrintMemoryUsage();
-        }
+
     }
 }
