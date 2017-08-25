@@ -34,7 +34,7 @@
     <splitter split-orientation="horizontal" split-proportion="0.45386818">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="Epidermis_Main.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Epidermis_Main.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="660">
@@ -46,7 +46,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="SimulationTimes.png" pinned="false" current-in-tab="true">
+          <file leaf-file-name="SimulationTimes.png" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/SimulationTimes.png">
               <provider selected="true" editor-type-id="images">
                 <state />
@@ -1167,6 +1167,11 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/SimulationTimes.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
@@ -1175,11 +1180,6 @@
             <element signature="imports" expanded="true" />
           </folding>
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SimulationTimes.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
       </provider>
     </entry>
   </component>
