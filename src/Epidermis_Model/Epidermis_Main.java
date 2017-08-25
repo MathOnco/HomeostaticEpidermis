@@ -82,16 +82,16 @@ public class Epidermis_Main {
         Sets up Data Files if on cluster or if ran locally
          */
         if(EpidermisConst.JarFile){
-//            ParentFile = args[0];
-//            PopSizes = args[1];
-//            MutationFile = args[2];
-//            r_lambda_file = args[3];
-            EpidermisConst.xSize = Integer.parseInt(args[0]);
-            int Time = Integer.parseInt(args[1]);
+            ParentFile = args[0];
+            PopSizes = args[1];
+            MutationFile = args[2];
+            r_lambda_file = args[3];
+            EpidermisConst.xSize = Integer.parseInt(args[4]);
+            int Time = Integer.parseInt(args[5]);
             EpidermisConst.years = Time;
             EpidermisConst.ModelTime = Time * 365 + 10;
             EpidermisConst.RecordTime = Time * 365;
-//            PositionFile = args[6];
+            PositionFile = args[6];
         }
         if(EpidermisConst.GuiOn == false){
             System.out.println("xSize: " + EpidermisConst.xSize);
