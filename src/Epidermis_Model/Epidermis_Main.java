@@ -29,14 +29,14 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=1; // time in years.
+    static int years=5; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = true; // use for visualization
-    static final boolean JarFile = false; // Set to true if running from command line as jar file
+    static final boolean GuiOn = false; // use for visualization
+    static final boolean JarFile = true; // Set to true if running from command line as jar file
     static final boolean RecordAllPopSizes = false; // use to record all clone populations
     static final boolean TrackAll = false; // Use this if you want to record mutations outside the genes of interest.
     static final boolean RecordParents = true; // use when you want parents information
@@ -82,16 +82,16 @@ public class Epidermis_Main {
         Sets up Data Files if on cluster or if ran locally
          */
         if(EpidermisConst.JarFile){
-            ParentFile = args[0];
-            PopSizes = args[1];
-            MutationFile = args[2];
-            r_lambda_file = args[3];
-            EpidermisConst.xSize = Integer.parseInt(args[4]);
-            int Time = Integer.parseInt(args[5]);
+//            ParentFile = args[0];
+//            PopSizes = args[1];
+//            MutationFile = args[2];
+//            r_lambda_file = args[3];
+            EpidermisConst.xSize = Integer.parseInt(args[0]);
+            int Time = Integer.parseInt(args[1]);
             EpidermisConst.years = Time;
             EpidermisConst.ModelTime = Time * 365 + 10;
             EpidermisConst.RecordTime = Time * 365;
-            PositionFile = args[6];
+//            PositionFile = args[6];
         }
         if(EpidermisConst.GuiOn == false){
             System.out.println("xSize: " + EpidermisConst.xSize);
