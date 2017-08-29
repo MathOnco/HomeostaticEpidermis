@@ -267,6 +267,8 @@ public class Epidermis_Main {
             }
         }
         System.out.println(Utils.MemoryUsageStr());
-        MainGUI.Dispose();
+        if(EpidermisConst.GuiOn){
+            MainGUI.Dispose();
+        }
     }
 }
