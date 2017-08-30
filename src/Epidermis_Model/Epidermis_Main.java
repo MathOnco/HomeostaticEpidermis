@@ -29,14 +29,14 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=100; // time in years.
+    static int years=5; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.g. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
     static final boolean GuiOn = false; // use for visualization
-    static final boolean JarFile = true; // Set to true if running from command line as jar file
+    static final boolean JarFile = false; // Set to true if running from command line as jar file
     static final boolean RecordAllPopSizes = false; // use to record all clone populations
     static final boolean TrackAll = false; // Use this if you want to record mutations outside the genes of interest.
     static final boolean RecordParents = true; // use when you want parents information
@@ -46,6 +46,7 @@ class EpidermisConst{
     static final boolean writeValues = true; // Use when you want to write the output
     static final boolean positionInfo = true; // Use to get positions
     static final boolean RecordStateChange = true;
+    static final boolean RecordBasalCloneCount = true;
 }
 
 public class Epidermis_Main {
@@ -80,6 +81,7 @@ public class Epidermis_Main {
         String r_lambda_file = System.getProperty("user.dir") + "/TestOutput/R_Lambda_Values.csv";
         String PositionFile = System.getProperty("user.dir") + "/TestOutput/CellPositions.csv";
         String StateChangeFile = System.getProperty("user.dir") + "/TestOutput/VolatilityMetrics.csv";
+        String CloneCountFile = System.getProperty("user.dir") + "/TestOutput/BasalCloneCount.csv";
         /*
         Sets up Data Files if on cluster or if ran locally
          */
@@ -95,6 +97,7 @@ public class Epidermis_Main {
             EpidermisConst.RecordTime = Time * 365;
             PositionFile = args[6];
             StateChangeFile = args[7];
+            CloneCountFile = args[8];
         }
         if(EpidermisConst.GuiOn == false){
             System.out.println("xSize: " + EpidermisConst.xSize);
@@ -272,10 +275,18 @@ public class Epidermis_Main {
                     StateOut.Close();
                     System.out.println("Volatility Information Recorded");
                 }
+                if (EpidermisConst.RecordBasalCloneCount==true && EpidermisConst.RecordTime == Epidermis.GetTick()){
+                    FileIO ClonesOut = new FileIO(CloneCountFile, "w");
+                    Epidermis.WriteCloneCount(ClonesOut);
+                    ClonesOut.Close();
+                    System.out.println("Clone Count Recorded");
+                }
 
             }
         }
         System.out.println(Utils.MemoryUsageStr());
-        MainGUI.Dispose();
+        if(MainGUI!=null){
+            MainGUI.Dispose();
+        }
     }
 }

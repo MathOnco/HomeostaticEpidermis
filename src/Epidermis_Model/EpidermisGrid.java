@@ -9,6 +9,8 @@ import Framework.Tools.FileIO;
 
 import static Epidermis_Model.EpidermisConst.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 /**
@@ -42,6 +44,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     GridDiff2 EGF;
     static GenomeInfo[] StateChange = new GenomeInfo[EpidermisConst.xSize]; // Measuring World Volatility
     static double[] Volatility = new double[ModelTime+10];
+    static double[] CloneCount = new double[ModelTime+10];
 
     public EpidermisGrid(int x, int y) {
         super(x,y,EpidermisCell.class);
@@ -79,6 +82,7 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         CleanShuffInc(RN); // Special Sauce
 
         GetState(StateChange);
+        GetCloneCount();
 
         for (int i = 0; i < xDim*yDim; i++) {
             EpidermisCell c = GetAgent(i);
@@ -272,6 +276,24 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         for (int i = 0; i < Volatility.length; i++) {
             String outLine = i + "," + Volatility[i] + "\n";
             StateChange.Write(outLine);
+        }
+    }
+
+    public void GetCloneCount(){
+        HashSet<GenomeInfo> Genomes = new HashSet<>();
+        for(int x=0; x<EpidermisConst.xSize; x++){
+            EpidermisCell c = GetAgent(x,0);
+            if(c!=null) {
+                Genomes.add(c.myGenome);
+            }
+        }
+        CloneCount[GetTick()] = Genomes.size();
+    }
+
+    public void WriteCloneCount(FileIO CloneCounts){
+        for (int i = 0; i < CloneCount.length; i++) {
+            String outLine = i + "," + CloneCount[i] + "\n";
+            CloneCounts.Write(outLine);
         }
     }
 
