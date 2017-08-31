@@ -36,7 +36,7 @@ class EpidermisConst{
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
     static final boolean GuiOn = false; // use for visualization
-    static final boolean JarFile = false; // Set to true if running from command line as jar file
+    static final boolean JarFile = true; // Set to true if running from command line as jar file
     static final boolean RecordAllPopSizes = false; // use to record all clone populations
     static final boolean TrackAll = false; // Use this if you want to record mutations outside the genes of interest.
     static final boolean RecordParents = true; // use when you want parents information
@@ -284,9 +284,9 @@ public class Epidermis_Main {
 
             }
         }
-        System.out.println(Utils.MemoryUsageStr());
-        if(MainGUI!=null){
-            MainGUI.Dispose();
-        }
+//        System.out.println(Utils.MemoryUsageStr());
+//        if(MainGUI!=null){
+//            MainGUI.Dispose();
+//        }
     }
 }
