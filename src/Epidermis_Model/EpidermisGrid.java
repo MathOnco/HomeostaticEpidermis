@@ -10,6 +10,7 @@ import com.sun.javafx.util.Utils;
 
 import static Epidermis_Model.EpidermisConst.*;
 
+import java.util.HashSet;
 import java.util.Random;
 
 /**
@@ -32,6 +33,7 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
     static double[][][][] ImageArray = new double[EpidermisConst.ySize][EpidermisConst.xSize][EpidermisConst.zSize][4];
     static GenomeInfo[][] StateChange = new GenomeInfo[EpidermisConst.xSize][EpidermisConst.zSize]; // Measuring World Volatility
     static double[] Volatility = new double[ModelTime+10];
+    static double[] CloneCount = new double[ModelTime+10];
     boolean running;
     int xDim;
     int yDim;
@@ -42,6 +44,7 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
     GenomeTracker<EpidermisCellGenome> GenomeStore;
     LossReplace Turnover;
     GridDiff3 EGF;
+
 
     public EpidermisGrid(int x, int y, int z) {
         super(x,y,z,EpidermisCell.class);
@@ -82,6 +85,7 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
         CleanShuffInc(RN); // Special Sauce
 
         GetState(StateChange);
+        GetCloneCount();
 
         Turnover.RecordBasalRate("Death");
         Turnover.RecordBasalRate("Birth");
@@ -310,6 +314,26 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
             OutNums.append(OutNess);
         }
         return OutNums.toString();
+    }
+
+    public void GetCloneCount(){
+        HashSet<GenomeInfo> Genomes = new HashSet<>();
+        for(int x=0; x<EpidermisConst.xSize; x++){
+            for (int z = 0; z < EpidermisConst.zSize; z++) {
+                EpidermisCell c = GetAgent(x, 0, z);
+                if (c != null) {
+                    Genomes.add(c.myGenome);
+                }
+            }
+        }
+        CloneCount[GetTick()] = Genomes.size();
+    }
+
+    public void WriteCloneCount(FileIO CloneCounts){
+        for (int i = 0; i < CloneCount.length; i++) {
+            String outLine = i + "," + CloneCount[i] + "\n";
+            CloneCounts.Write(outLine);
+        }
     }
 
     public void ChemicalLoop(){

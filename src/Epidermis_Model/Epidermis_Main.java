@@ -46,7 +46,7 @@ class EpidermisConst{
     static final boolean SliceAndFull = false; // use this when you want a slice out of the 3D model and the full data of the modeled cells!!!!
     static final boolean GetImageData = false; // Use for 3D data for visualization
     static final boolean RecordStateChange = true;
-    // A comment for git
+    static final boolean RecordBasalCloneCount = true;
 }
 
 public class Epidermis_Main {
@@ -89,6 +89,7 @@ public class Epidermis_Main {
         String PositionFile = System.getProperty("user.dir") + "/TestOutput/PositionList.csv";
         String Image_file = System.getProperty("user.dir") + "/TestOutput/VisFile.txt";
         String StateChangeFile = System.getProperty("user.dir") + "/TestOutput/VolatilityMetrics.csv";
+        String CloneCountFile = System.getProperty("user.dir") + "/TestOutput/BasalCloneCount.csv";
         /*
         Sets up Data Files if on cluster or if ran locally
          */
@@ -105,6 +106,7 @@ public class Epidermis_Main {
             EpidermisConst.RecordTime = Time * 365;
             PositionFile = args[6];
             StateChangeFile = args[7];
+            CloneCountFile = args[8];
         }
         if(EpidermisConst.GuiOn == false && EpidermisConst.GetImageData == false){
             System.out.println("xSize and zSize: " + EpidermisConst.xSize);
@@ -207,7 +209,7 @@ public class Epidermis_Main {
                 }
             }
 
-            System.out.println(Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick()));
+//            System.out.println(Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick()));
             if(Epidermis.GetTick()==EpidermisConst.ModelTime-1){
                 System.out.println(Epidermis.GetDivisionProportion());
             }
@@ -240,8 +242,7 @@ public class Epidermis_Main {
                     for(int y=0; y < EpidermisConst.ySize;y++){
                         for(int z=0; z < EpidermisConst.zSize;z++){
                             //if (Epidermis.ImageArray[y][x][z][0] != 0.0f && Epidermis.ImageArray[y][x][z][1] != 0.0f && Epidermis.ImageArray[y][x][z][2] != 0.0f && Epidermis.ImageArray[y][x][z][3] != 0.0f){
-                                String outLine =
-                                    x + "\t" + z + "\t" + y + "\t" +
+                                String outLine = x + "\t" + z + "\t" + y + "\t" +
                                     Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
                                             "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3];
                                 System.out.println(outLine);
@@ -334,6 +335,12 @@ public class Epidermis_Main {
                     Epidermis.WriteStateChange(StateOut);
                     StateOut.Close();
                     System.out.println("Volatility Information Recorded");
+                }
+                if (EpidermisConst.RecordBasalCloneCount==true && EpidermisConst.RecordTime == Epidermis.GetTick()){
+                    FileIO ClonesOut = new FileIO(CloneCountFile, "w");
+                    Epidermis.WriteCloneCount(ClonesOut);
+                    ClonesOut.Close();
+                    System.out.println("Clone Count Recorded");
                 }
             }
         }
