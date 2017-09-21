@@ -28,6 +28,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     double DEATH_PROB = 0.0038163034; //Overall Death Probability
     double MOVEPROBABILITY = 0.81996739; //RN float has to be greater than this to move...
     double DIVISIONLOCPROB = 0.2518617; // Probability of dividing up vs side to side
+    double MUTATION_SCALE_FACTOR = 1; // Adjusts the mutation rates while keeping relative mutation rates the same.
     static int[] dipshit = new int[5];
     static int[] dipshitDiv = new int[5];
     int myType; //cell type

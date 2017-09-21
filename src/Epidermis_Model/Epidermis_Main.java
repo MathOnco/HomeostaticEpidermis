@@ -35,8 +35,8 @@ class EpidermisConst{
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
-    static final boolean JarFile = true; // Set to true if running from command line as jar file!!!!!!!!
+    static final boolean GuiOn = true; // use for visualization, set to false for jar file / multiple runs
+    static final boolean JarFile = false; // Set to true if running from command line as jar file!!!!!!!!
     static final boolean RecordParents = true; // use when you want parents information
     static final boolean RecordLineages = true; // use when you want
     static final boolean RecordPopSizes = true; // Use to record clone population sizes
@@ -203,9 +203,9 @@ public class Epidermis_Main {
             }
 
 //            System.out.println(Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick()));
-            if(Epidermis.GetTick()==EpidermisConst.ModelTime-1){
-                System.out.println(Epidermis.GetDivisionProportion());
-            }
+//            if(Epidermis.GetTick()==EpidermisConst.ModelTime-1){
+            System.out.println(Epidermis.GetDivisionProportion());
+//            }
 
             /*
             All Visualization Components are here
