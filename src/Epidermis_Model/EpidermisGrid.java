@@ -36,6 +36,8 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
     int[] MeanDeath = new int[EpidermisConst.xSize * EpidermisConst.ySize];
     public int[] divisions = new int[ModelTime*ySize];
     public int divs = 0;
+    public int[] deathByLayer = new int[ModelTime*ySize];
+    public int deaths = 0;
     GenomeTracker<EpidermisCellGenome> GenomeStore;
     LossReplace Turnover;
     AgeTracker TrackAge;
@@ -224,6 +226,21 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         StringBuilder OutNums = new StringBuilder();
         for (int y = 0; y < yDim; y++) {
             String OutNess=OutProportions[y]/divs + "\t";
+            OutNums.append(OutNess);
+        }
+        return OutNums.toString();
+    }
+
+    public String GetDeathProportino(){
+        double[] OutProportions = new double[yDim];
+        for (int i = 0; i < (ModelTime-1)*yDim; i+=yDim) {
+            for (int y = 0; y < yDim; y++) {
+                OutProportions[y]+=deathByLayer[i+y];
+            }
+        }
+        StringBuilder OutNums = new StringBuilder();
+        for (int y = 0; y < yDim; y++) {
+            String OutNess=OutProportions[y]/deaths + "\t";
             OutNums.append(OutNess);
         }
         return OutNums.toString();

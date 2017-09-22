@@ -160,6 +160,9 @@ class EpidermisCell extends AgentSQ2<EpidermisGrid> {
             G().Turnover.RecordLossBasal();
         }
         G().Turnover.RecordLossTissue();
+
+        G().deathByLayer[G().GetTick()*ySize+Ysq()]++;
+        G().deaths++;
     }
 
     public void CellStep(){
