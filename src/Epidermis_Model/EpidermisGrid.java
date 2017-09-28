@@ -29,6 +29,8 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
     static final int CHEMICAL_STEPS=100; // number of times diffusion is looped every tick
     public int[] divisions = new int[ModelTime*ySize];
     public int divs = 0;
+    public int[] deathByLayer = new int[ModelTime*ySize];
+    public int deaths = 0;
     static double[][][][] ImageArray = new double[EpidermisConst.ySize][EpidermisConst.xSize][EpidermisConst.zSize][4];
     boolean running;
     int xDim;
@@ -278,6 +280,21 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
         StringBuilder OutNums = new StringBuilder();
         for (int y = 0; y < yDim; y++) {
             String OutNess=OutProportions[y]/divs + "\t";
+            OutNums.append(OutNess);
+        }
+        return OutNums.toString();
+    }
+
+    public String GetDeathProportino(){
+        double[] OutProportions = new double[yDim];
+        for (int i = 0; i < (ModelTime-1)*yDim; i+=yDim) {
+            for (int y = 0; y < yDim; y++) {
+                OutProportions[y]+=deathByLayer[i+y];
+            }
+        }
+        StringBuilder OutNums = new StringBuilder();
+        for (int y = 0; y < yDim; y++) {
+            String OutNess=OutProportions[y]/deaths + "\t";
             OutNums.append(OutNess);
         }
         return OutNums.toString();

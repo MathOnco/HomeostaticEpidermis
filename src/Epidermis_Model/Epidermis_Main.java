@@ -21,7 +21,7 @@ class EpidermisConst{
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
-    static final int ySize=20;
+    static final int ySize=25;
     static int zSize=xSize;
 
     static final int KERATINOCYTE = 0; //setting types into a binary 0 or 1
@@ -29,7 +29,7 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=2; // time in years.
+    static int years=1; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
@@ -204,14 +204,15 @@ public class Epidermis_Main {
 
 //            System.out.println(Epidermis.Turnover.GetBasalRate("Death",Epidermis.GetTick()));
 //            if(Epidermis.GetTick()==EpidermisConst.ModelTime-1){
-            System.out.println(Epidermis.GetDivisionProportion());
+//            System.out.println(Epidermis.GetDivisionProportion());
+//            System.out.println(Epidermis.GetDeathProportino());
 //            }
 
             /*
             All Visualization Components are here
              */
             if(Epidermis.GetTick()%7==0){
-                if(rLambda_Label!=null){rLambda_Label.SetText("Mean rLambda (per week): " + new DecimalFormat("#.000").format( Epidermis.Turnover.GetBasalRate("Death",7) ));}
+                if(rLambda_Label!=null){rLambda_Label.SetText("Mean rLambda: " + new DecimalFormat("#.000").format( Epidermis.Turnover.GetBasalRate("Death",7) ));}
                 if(HeightLab!=null){HeightLab.SetText("Height: " + new DecimalFormat("#.00").format(Epidermis.GetMeanCellHeight()));}
             }
             if(ActivityVis!=null){YearLab.SetText("Age (yrs.): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}

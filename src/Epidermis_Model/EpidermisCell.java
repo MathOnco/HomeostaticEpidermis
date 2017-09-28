@@ -1,6 +1,7 @@
 package Epidermis_Model;
 
 import Framework.Grids.AgentSQ3unstackable;
+import cern.jet.random.Normal;
 import cern.jet.random.Poisson;
 import cern.jet.random.engine.DRand;
 import cern.jet.random.engine.RandomEngine;
@@ -22,18 +23,28 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     /**
      * parameters that may be changed for cell behavior
      **/
-    double prolif_scale_factor = 0.02870462; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
-    double KERATINO_EGF_CONSPUMPTION = -0.006954863; //consumption rate by keratinocytes
-    double KERATINO_APOPTOSIS_EGF = 0.005939094; //level at which apoptosis occurs by chance (above this and no apoptosis)
-    double DEATH_PROB = 0.0038163034; //Overall Death Probability
-    double MOVEPROBABILITY = 0.81996739; //RN float has to be greater than this to move...
-    double DIVISIONLOCPROB = 0.2518617; // Probability of dividing up vs side to side
+    static public RandomEngine RNEngine = new DRand();
+    final static double ParamFactor = 0.5; //
+    double prolif_scale_factor; //Correction for appropriate proliferation rate (Default = 0.15-0.2 with KERATINO_APOPTOSIS_EGF=0.01)
+    final static Normal PSFDist = new Normal(0.02870462, 0.02870462*ParamFactor, RNEngine);
+    double KERATINO_EGF_CONSPUMPTION; //consumption rate by keratinocytes
+    final static Normal KECDist = new Normal(-0.006954863, -0.006954863*ParamFactor, RNEngine);
+    double KERATINO_APOPTOSIS_EGF; //level at which apoptosis occurs by chance (above this and no apoptosis)
+    final static Normal KAEDist = new Normal(0.005939094, 0.005939094*ParamFactor, RNEngine);
+    double DEATH_PROB; //Overall Death Probability
+    final static Normal DPDist = new Normal(0.0038163034, 0.0038163034*ParamFactor, RNEngine);
+    double MOVEPROBABILITY; //RN float has to be greater than this to move...
+    final static Normal MPDist = new Normal(0.81996739, 0.81996739*ParamFactor, RNEngine);
+    double DIVISIONLOCPROB; // Probability of dividing up vs side to side
+    final static Normal DLPDist = new Normal(0.2518617, 0.2518617*ParamFactor, RNEngine);
+
     double MUTATION_SCALE_FACTOR = 1; // Adjusts the mutation rates while keeping relative mutation rates the same.
     static int[] dipshit = new int[5];
     static int[] dipshitDiv = new int[5];
     int myType; //cell type
     int Action; //cells action
-    static public RandomEngine RNEngine = new DRand();
+
+
     /**
      * Parameters for cell specific tracking and genome information
      **/
@@ -43,6 +54,14 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     public void init(int cellType, EpidermisCellGenome myGenome) { //This initilizes an agent with whatever is inside of this function...
         this.myType = cellType;
         this.Action = STATIONARY;
+
+        this.prolif_scale_factor = PSFDist.nextDouble();
+        this.KERATINO_EGF_CONSPUMPTION = KECDist.nextDouble();
+        this.KERATINO_APOPTOSIS_EGF = KAEDist.nextDouble();
+        this.DEATH_PROB = DPDist.nextDouble();
+        this.MOVEPROBABILITY = MPDist.nextDouble();
+        this.DIVISIONLOCPROB = DLPDist.nextDouble();
+
         // Storing Genome Reference to Parent and Itself if mutation happened
         this.myGenome = myGenome;
     }
@@ -163,6 +182,9 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             G().Turnover.RecordLossBasal();
         }
         G().Turnover.RecordLossTissue();
+
+        G().deathByLayer[G().GetTick()*ySize+Ysq()]++;
+        G().deaths++;
     }
 
     public void CellStep(){
