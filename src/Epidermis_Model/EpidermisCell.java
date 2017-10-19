@@ -120,11 +120,11 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
                     return false;
                 }
             }
-            // End Chunk of code for allowing pushing
+            // End Chunk of Code to Check for Allowing Pushing
+
             int x = G().ItoX(i);
             int y = G().ItoY(i);
             int z = G().ItoZ(i);
-
             //look up for empty square
             int colTop=y;
 //            EpidermisCell c=G().ItoAgent(i);

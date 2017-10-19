@@ -33,6 +33,8 @@ class EpidermisConst{
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
+    static double FIXATION=1.0; // Probability of fixation for selection tests
+
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
     /**Use this set when running desktop file**/
@@ -289,57 +291,7 @@ public class Epidermis_Main {
             }
             if (EGFVis != null) {
                 Epidermis.DrawChemicals(EGFVis, true, false);
-            } // 3D Good
-
-
-            // Use this to get the information for 3D visualizations for OpenGL
-            if (EpidermisConst.GetImageData && Epidermis.GetTick() == EpidermisConst.RecordTime) {
-                Epidermis.BuildMathematicaArray();
-                FileIO VisOut = new FileIO(Image_file + "." + Epidermis.GetTick() + ".txt", "w");
-                for (int x = 0; x < EpidermisConst.xSize; x++) {
-                    for (int y = 0; y < EpidermisConst.ySize; y++) {
-                        for (int z = 0; z < EpidermisConst.zSize; z++) {
-                            //if (Epidermis.ImageArray[y][x][z][0] != 0.0f && Epidermis.ImageArray[y][x][z][1] != 0.0f && Epidermis.ImageArray[y][x][z][2] != 0.0f && Epidermis.ImageArray[y][x][z][3] != 0.0f){
-                            String outLine =
-                                    x + "\t" + z + "\t" + y + "\t" +
-                                            Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
-                                            "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3];
-                            System.out.println(outLine);
-                            //VisOut.Write(outLine);
-                        }
-                        //}
-                    }
-
-                    VisOut.Close();
-                    System.out.println("Done");
-                }
             }
-
-            // Use this to get the information for 3D visualizations
-//            if(EpidermisConst.GetImageData && EpidermisConst.RecordTime == Epidermis.GetTick()){
-//                Epidermis.BuildMathematicaArray();
-//                FileIO VisOut = new FileIO(Image_file, "w");
-//                String open="{\n";
-//                String closer="}\n";
-//                for(int y=EpidermisConst.ySize-1; y >= 0;y--){
-//                    for(int x=0; x < EpidermisConst.xSize;x++){
-//                        for(int z=0; z < EpidermisConst.zSize;z++){
-//                            String outLine =
-//                                    Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
-//                                    "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3] +
-//                                    "\n";
-//                            VisOut.Write(outLine);
-//                        }
-//                    }
-//                }
-//
-//                VisOut.Close();
-//                /* Use this code snippit to get the threeD vis on mathematica
-//                file=Import["VisFile(2).txt","Data"]
-//                matrix = ArrayReshape[file,{19,14,14,4}]
-//                Image3D[matrix, ImageSize->Large,ColorSpace->"RGB", Axes->True,Boxed->False, Method-> {"InterpolateValues" -> False},Background->Black]
-//                 */
-//            }
 
             /*
             All Model Data Recording Is Below This line
@@ -398,13 +350,9 @@ public class Epidermis_Main {
         for (int k = 0; k < r_lambda_WriteValue.size(); k++) {
             r_lambOut += r_lambda_WriteValue.get(k);
         }
-        System.out.println(d + "\t" + 0.3 + "\t" + FixedTime + "\t" + Epidermis.GetMeanCellAge(Epidermis) + "\t" + Epidermis.GetMeanCellHeight() + "\t" + (r_lambOut / r_lambda_index));
-    //Git comment
+        System.out.println(d + "\t" + EpidermisConst.FIXATION + "\t" + FixedTime + "\t" + Epidermis.GetMeanCellAge(Epidermis) + "\t" + Epidermis.GetMeanCellHeight() + "\t" + (r_lambOut / r_lambda_index));
 
-//        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshit));
-//        System.out.println(java.util.Arrays.toString(EpidermisCell.dipshitDiv));
-//
-//        Utils.PrintMemoryUsage();
+        //  Utils.PrintMemoryUsage();
 
     }
 }
