@@ -114,6 +114,15 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         int i = G().inBounds[iDivLoc];
         EpidermisCell c=G().GetAgent(i);
         if(c!=null){
+            /* Check for fixation information */
+            String thisGenome = c.myGenome.GenomeInfoStr();
+            if(thisGenome.contains(".44.") || thisGenome.contains(".45.") || thisGenome.contains(".46.")){
+                if(0.3 <= RN.nextDouble()){
+                    return false;
+                }
+            }
+            /* End Fixation Information for behavior */
+
             int x = G().ItoX(i);
             int y = G().ItoY(i);
             int z = G().ItoZ(i);

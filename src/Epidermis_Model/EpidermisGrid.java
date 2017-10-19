@@ -10,6 +10,7 @@ import com.sun.javafx.util.Utils;
 
 import static Epidermis_Model.EpidermisConst.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -38,6 +39,10 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
     int[] MeanProlif = new int[EpidermisConst.xSize * EpidermisConst.ySize * EpidermisConst.zSize];
     int[] MeanDeath = new int[EpidermisConst.xSize * EpidermisConst.ySize * EpidermisConst.zSize];
     GenomeTracker<EpidermisCellGenome> GenomeStore;
+    /* Set Up MutList and FixationGetter */
+    ArrayList<String> MutList = new ArrayList<>();
+    FixationGetter FixInfo = new FixationGetter(this, MutList);
+    /* End Set Up of FixationGetter */
     LossReplace Turnover;
     GridDiff3 EGF;
 
