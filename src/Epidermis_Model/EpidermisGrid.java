@@ -61,12 +61,23 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
     }
 
     public void PlaceCells() {
+        ArrayList<String> noMuts = new ArrayList<>();
+        ArrayList<String> wMut = new ArrayList<>();
+        String MutOut = "1." + "44" + "." + "C" + "." + "4500" + ",";
+        wMut.add(0, MutOut);
+        int xGo = RN.nextInt(EpidermisConst.xSize);
+        int zGo = RN.nextInt(EpidermisConst.xSize);
         for (int x = 0; x < xDim; x++) {
             for (int y = 0; y < AIR_HEIGHT; y++) {
                 for (int z = 0; z < xDim; z++) {
                     if (GetAgent(x, y, z) == null) {
                         EpidermisCell c = NewAgentSQ(x, y, z);
-                        c.init(KERATINOCYTE, GenomeStore.NewProgenitor()); // Initializes cell types; Uniform Start
+                        if(xGo == x && zGo == z && y==0){
+                            c.init(KERATINOCYTE, wMut);
+                        } else {
+                            c.init(KERATINOCYTE, noMuts); // Initializes cell types; Uniform Start
+
+                        }
                     }
                 }
             }

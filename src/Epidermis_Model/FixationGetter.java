@@ -28,8 +28,13 @@ public class FixationGetter {
             for (int i = 0; i < (EpidermisConst.ySize * EpidermisConst.xSize * EpidermisConst.zSize); i++) {
                 EpidermisCell c = theGrid.GetAgent(i);
                 if (c != null) {
-                    if(c.myGenome.GenomeInfoStr().contains(MutList.get(g))){
-                        MutCells++;
+                    if(c.cellGenome.size()>0){
+                        if(c.cellGenome.get(0).contains(MutList.get(g))){
+                            MutCells++;
+                        }
+//                        if(c.myGenome.GenomeInfoStr().contains(MutList.get(g))){
+//                            MutCells++;
+//                        }
                     }
                     CellCount++;
                 }

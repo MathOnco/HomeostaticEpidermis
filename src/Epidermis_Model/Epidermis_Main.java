@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=20; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=10; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -234,9 +234,9 @@ public class Epidermis_Main {
             r_lambda_index++;
         }
         /*
-         Format: Replicate , FixationTime , CellAge , TissueHeight , MeanRLambda, EndTick
+         Format: Replicate , FixationTime , CellAge , TissueHeight , MeanRLambda, EndTick, TotalPop, Frequency
          If FixedTime == nan then the mutation was lost due to drift
         */
-        System.out.println(Rep + "\t" + FixProb + "\t" + FixedTime + "\t" + "NaN" + "\t" + Epidermis.GetMeanCellHeight() + "\t" + (r_lambOut / r_lambda_index) + "\t" + Epidermis.GetTick());
+        System.out.println(Rep + "\t" + FixProb + "\t" + FixedTime + "\t" + "NaN" + "\t" + Epidermis.GetMeanCellHeight() + "\t" + (r_lambOut / r_lambda_index) + "\t" + Epidermis.GetTick() + "\t" + Epidermis.GetPop() + "\t" + EndRun);
     }
 }
