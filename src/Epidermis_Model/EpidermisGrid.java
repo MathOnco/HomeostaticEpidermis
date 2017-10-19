@@ -45,13 +45,15 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
     /* End Set Up of FixationGetter */
     LossReplace Turnover;
     GridDiff3 EGF;
+    double myFixProb;
 
-    public EpidermisGrid(int x, int y, int z) {
+    public EpidermisGrid(int x, int y, int z, double FixProb) {
         super(x,y,z,EpidermisCell.class);
         running = false;
         xDim = x;
         yDim = y;
         zDim = z;
+        myFixProb = FixProb;
         EGF = new GridDiff3(x, y, z);
         GenomeStore = new GenomeTracker<>(new EpidermisCellGenome(0f,0f,1f,"", this), true, true);
         Turnover = new LossReplace(this, ModelTime, 7);

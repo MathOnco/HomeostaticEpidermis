@@ -117,7 +117,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             /* Check for fixation information */
             String thisGenome = c.myGenome.GenomeInfoStr();
             if(thisGenome.contains(".44.") || thisGenome.contains(".45.") || thisGenome.contains(".46.")){
-                if(0.3 <= RN.nextDouble()){
+                if(G().myFixProb <= RN.nextDouble()){
                     return false;
                 }
             }

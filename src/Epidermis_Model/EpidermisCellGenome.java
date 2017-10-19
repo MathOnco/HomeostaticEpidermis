@@ -108,28 +108,28 @@ public class EpidermisCellGenome extends GenomeInfo<EpidermisCellGenome> {
         return PrivateGenome;
     }
 
-    // Parses Base Mutation Information
-    private static long[][][] ParseBaseIndexes(){
-        FileIO reader = new FileIO(BaseIndexFile, "r");
-        ArrayList<long[]> data = new ArrayList<> (reader.ReadLongDelimit(","));
-        long[][][] BaseIndexes = new long[data.size()/4][4][];
-        for (int i = 0; i < data.size(); i+=4) {
-            BaseIndexes[i/4][0] = data.get(i);
-            BaseIndexes[i/4][1] = data.get(i+1);
-            BaseIndexes[i/4][2] = data.get(i+2);
-            BaseIndexes[i/4][3] = data.get(i+3);
-        }
-        return BaseIndexes;
-    }
-
-    private static Poisson[] BuildPoissons(){
-        Poisson[] PoissonDists = new Poisson[ExpectedMuts.length];
-        for (int i = 0; i < ExpectedMuts.length; i++) {
-            Poisson poisson_dist = new Poisson(ExpectedMuts[i], RNEngine);
-            PoissonDists[i] = poisson_dist;
-        }
-        return PoissonDists;
-    }
+//    // Parses Base Mutation Information
+//    private static long[][][] ParseBaseIndexes(){
+//        FileIO reader = new FileIO(BaseIndexFile, "r");
+//        ArrayList<long[]> data = new ArrayList<> (reader.ReadLongDelimit(","));
+//        long[][][] BaseIndexes = new long[data.size()/4][4][];
+//        for (int i = 0; i < data.size(); i+=4) {
+//            BaseIndexes[i/4][0] = data.get(i);
+//            BaseIndexes[i/4][1] = data.get(i+1);
+//            BaseIndexes[i/4][2] = data.get(i+2);
+//            BaseIndexes[i/4][3] = data.get(i+3);
+//        }
+//        return BaseIndexes;
+//    }
+//
+//    private static Poisson[] BuildPoissons(){
+//        Poisson[] PoissonDists = new Poisson[ExpectedMuts.length];
+//        for (int i = 0; i < ExpectedMuts.length; i++) {
+//            Poisson poisson_dist = new Poisson(ExpectedMuts[i], RNEngine);
+//            PoissonDists[i] = poisson_dist;
+//        }
+//        return PoissonDists;
+//    }
 
     // Parses Base Mutation Function Information
 //    public String long[][] ParseMutationInfo(){
