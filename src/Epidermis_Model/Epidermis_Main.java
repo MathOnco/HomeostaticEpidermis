@@ -234,7 +234,7 @@ public class Epidermis_Main {
             r_lambda_index++;
         }
         /*
-         Format: Replicate , FixationTime , CellAge , TissueHeight , MeanRLambda, EndTick, TotalPop, Frequency
+         Format: Replicate , Probability, FixationTime , CellAge , TissueHeight , MeanRLambda, EndTick, TotalPop, Frequency
          If FixedTime == nan then the mutation was lost due to drift
         */
         System.out.println(Rep + "\t" + FixProb + "\t" + FixedTime + "\t" + "NaN" + "\t" + Epidermis.GetMeanCellHeight() + "\t" + (r_lambOut / r_lambda_index) + "\t" + Epidermis.GetTick() + "\t" + Epidermis.GetPop() + "\t" + EndRun);
