@@ -36,11 +36,20 @@ class EpidermisConst{
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
     static final boolean JarFile = true; // Set to true if running from command line as jar file!!!!!!!!
+    static final boolean RecordParents = true; // use when you want parents information
+    static final boolean RecordLineages = true; // use when you want
+    static final boolean RecordPopSizes = true; // Use to record clone population sizes
+    static final boolean writeValues = true; // use this when you want the data to be saved!
+    static final boolean sliceOnly = true; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
 }
 
 public class Epidermis_Main {
 
     public static void main (String[] args){
+        String ParentFile = System.getProperty("user.dir") + "/TestOutput/ParentFile.csv";
+        String PopSizes = System.getProperty("user.dir") + "/TestOutput/PopSizes.csv";
+        String MutationFile = System.getProperty("user.dir") + "/TestOutput/MutationFile.csv";
+        String PositionFile = System.getProperty("user.dir") + "/TestOutput/PositionList.csv";
 
         String Rep = "0";
         double FixProb = 1.0;
@@ -51,6 +60,10 @@ public class Epidermis_Main {
         if(EpidermisConst.JarFile){
             Rep = args[0];
             FixProb = Double.parseDouble(args[1]);
+            ParentFile = args[2];
+            PopSizes = args[3];
+            MutationFile = args[4];
+            PositionFile = args[5];
         }
 
         final EpidermisGrid Epidermis = new EpidermisGrid(EpidermisConst.xSize, EpidermisConst.ySize, EpidermisConst.zSize, FixProb); // Initializes and sets up the program for running
@@ -156,57 +169,7 @@ public class Epidermis_Main {
 //                 */
 //            }
 
-            /*
-            All Model Data Recording Is Below This line
-             */
-//            if(EpidermisConst.writeValues==true) {
-//                /*
-//                This section of the code is responsible for recording the full modeled dimensions.
-//                 */
-//                if (EpidermisConst.RecordParents == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
-//                    FileIO ParentOut = new FileIO(ParentFile, "w");
-//                    Epidermis.GenomeStore.WriteParentIDs(ParentOut, "\n");
-//                    ParentOut.Close();
-//                    System.out.println("Parents written to file.");
-//                }
-//                if (EpidermisConst.RecordLineages == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
-//                    FileIO MutsOut = new FileIO(MutationFile, "w");
-//                    Epidermis.GenomeStore.WriteAllLineageInfoLiving(MutsOut, ",", "\n");
-//                    MutsOut.Close();
-//                    System.out.println("Lineage genomes written to file.");
-//                }
-//                if (EpidermisConst.RecordPopSizes == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
-//                    FileIO PopSizeOut = new FileIO(PopSizes, "w");
-//                    Epidermis.GenomeStore.RecordClonePops();
-//                    Epidermis.GenomeStore.WriteClonePops(PopSizeOut, ",", "\n");
-//                    PopSizeOut.Close();
-//                    System.out.println("Population sizes written to file.");
-//                }
-//                if (EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
-//                    FileIO RLambdaWriter = new FileIO(r_lambda_file, "w");
-//                    float r_lamb_print = 0;
-//                    for (int i = 0; i < Epidermis.Turnover.GetDeathRateBasal().length ; i++) {
-//                        RLambdaWriter.Write(Epidermis.Turnover.GetDeathRateBasal()[i] + "\n");
-//                        r_lamb_print+=Epidermis.Turnover.GetDeathRateBasal()[i];
-//                    }
-//                    RLambdaWriter.Close();
-//                    System.out.println("Mean weekly rLambda: " + new DecimalFormat("#.000").format(r_lamb_print / Epidermis.Turnover.GetDeathRateBasal().length) + "\n");
-//                }
-//                if (EpidermisConst.get_r_lambda == true && EpidermisConst.RecordTime == Epidermis.GetTick()) {
-//                    float MeanWeekPrint = 0;
-//                    for (int i = 0; i < meanCellAge.size(); i++) {
-//                        MeanWeekPrint += meanCellAge.get(i);
-//                    }
-//                }
-//                if (EpidermisConst.sliceOnly==true && EpidermisConst.RecordTime == Epidermis.GetTick()){
-//                    FileIO PositionOut = new FileIO(PositionFile, "w");
-//                    Epidermis.GetCellPositions(PositionOut);
-//                    PositionOut.Close();
-//                    System.out.println("Position Information Saved to File");
-//                }
-//            }
-
-            if (Epidermis.GetTick() > 1) {
+            if (Epidermis.GetTick() > 45*365) {
                 Epidermis.FixInfo.CheckFixation(); // Captures frequency after runstep.
                 EndRun = Epidermis.FixInfo.GetFreq(); // Retrieves the Frequency of Mut
 //                    System.out.println(EndRun);
@@ -214,13 +177,47 @@ public class Epidermis_Main {
                     Done = false;
                     FixedTime = "na";
 //                        System.out.println(EndRun);
-                } else if (EndRun == 1.0) {
+                } else if (EndRun == 1.0 || EndRun >= 0.8) {
                     Done = false;
                     FixedTime = (Epidermis.GetTick() - 1.0) + "";
                 }
                 if (Epidermis.GetTick() == EpidermisConst.RecordTime) {
                     Done = false;
                     FixedTime = "Clock"; // Ran 100 Years and didn't fix.
+                }
+            }
+
+            /*
+            All Model Data Recording Is Below This line
+             */
+            if(EpidermisConst.writeValues && !Done && EndRun != 5.0) {
+                /*
+                This section of the code is responsible for recording the full modeled dimensions.
+                 */
+                if (EpidermisConst.RecordParents) {
+                    FileIO ParentOut = new FileIO(ParentFile, "w");
+                    Epidermis.GenomeStore.WriteParentIDs(ParentOut, "\n");
+                    ParentOut.Close();
+                    System.out.println("Parents written to file.");
+                }
+                if (EpidermisConst.RecordLineages && EpidermisConst.RecordTime == Epidermis.GetTick()) {
+                    FileIO MutsOut = new FileIO(MutationFile, "w");
+                    Epidermis.GenomeStore.WriteAllLineageInfoLiving(MutsOut, ",", "\n");
+                    MutsOut.Close();
+                    System.out.println("Lineage genomes written to file.");
+                }
+                if (EpidermisConst.RecordPopSizes) {
+                    FileIO PopSizeOut = new FileIO(PopSizes, "w");
+                    Epidermis.GenomeStore.RecordClonePops();
+                    Epidermis.GenomeStore.WriteClonePops(PopSizeOut, ",", "\n");
+                    PopSizeOut.Close();
+                    System.out.println("Population sizes written to file.");
+                }
+                if (EpidermisConst.sliceOnly){
+                    FileIO PositionOut = new FileIO(PositionFile, "w");
+                    Epidermis.GetCellPositions(PositionOut);
+                    PositionOut.Close();
+                    System.out.println("Position Information Saved to File");
                 }
             }
 

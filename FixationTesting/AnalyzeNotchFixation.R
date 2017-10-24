@@ -173,7 +173,7 @@ plotFixers <- groupFixers(cleanFix, lin)
 p1 <- ggplot() +
   #geom_violin(data=cleanFix, aes(x=Prob,y=FixationTime, group=Prob)) +
   geom_line (data=lin, aes(x=x,y=y), alpha=0.2, inherit.aes=F) +
-  geom_point(data=plotFixers, aes(x=Prob,y=FixationTime, colour=group, group=group), size=0.9, alpha=0.4, inherit.aes = F) +
+  geom_point(data=plotFixers, aes(x=Prob,y=FixationTime, colour=group, group=group), size=0.9, inherit.aes = F) +
   annotate("text", as.numeric(passed$Prob), 1750, label=paste("n=",passed$Nums, sep="")) +
   #geom_point(data=passed, aes(x=as.factor(Prob),y=MeanFixation), color="red") +
   #geom_errorbar(data=passed, aes(x=as.factor(Prob),ymin=MeanFixation-StdFixation, ymax=MeanFixation+StdFixation), color="red",width=.01, position=pd, inherit.aes = F) +
@@ -182,7 +182,7 @@ p1 <- ggplot() +
   scale_colour_manual(values=c(rgb(114,20,41,maxColorValue = 255),rgb(18,45,84,maxColorValue = 255)))
 
 p3 <- ggplot() + 
-  geom_point(data=plotFixers, aes(x=Prob, y=TissueHeight, color=group, group=group), position=position_dodge(0.02), size=0.9, alpha=0.4, inherit.aes = F) + theme_minimal() +
+  geom_point(data=plotFixers, aes(x=Prob, y=TissueHeight, color=group, group=group), position=position_dodge(0.02), size=0.9, inherit.aes = F) + theme_minimal() +
   annotate("rect", xmin = -0.05, xmax = 1.05, ymin = 0, ymax = 11, alpha = .1) +
   annotate("rect", xmin = -0.05, xmax = 1.05, ymin = 13, ymax = 14, alpha = .1) +
   annotate("rect", xmin = -0.05, xmax = 1.05, ymin = 11, ymax = 13, alpha = .1, fill="green") +
@@ -195,7 +195,7 @@ p3 <- ggplot() +
   scale_x_continuous(breaks=unique(cleanFix$Prob), expand=c(0,0)) +
   scale_colour_manual(values=c(rgb(114,20,41,maxColorValue = 255),rgb(18,45,84,maxColorValue = 255)))
 
-p5 <- ggplot() + geom_point(data=plotFixers, aes(x=Prob, y=MeanRLambda, color=group, group=group), position=position_dodge(0.02), size=0.9, alpha=0.4, inherit.aes = F) + theme_minimal() +
+p5 <- ggplot() + geom_point(data=plotFixers, aes(x=Prob, y=MeanRLambda, color=group, group=group), position=position_dodge(0.02), size=0.9, inherit.aes = F) + theme_minimal() +
   annotate("rect", xmin = -0.05, xmax = 1.05, ymin = .0, ymax = .020, alpha = .1) +
   annotate("rect", xmin = -0.05, xmax = 1.05, ymin = .026, ymax = .03, alpha = .1) +
   annotate("rect", xmin = -0.05, xmax = 1.05, ymin = .02, ymax = .026, alpha = .1, fill="green") +

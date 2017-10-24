@@ -28,110 +28,110 @@ public class EpidermisCellGenome extends GenomeInfo<EpidermisCellGenome> {
     //static final double[] ExpectedMuts = new double[]{1.02E+01,1.2298960944e-05,1.96790865336e-05,5.17789144098534e-06,4.0831751376e-06,3.4550775719999997e-06,5.31298384596e-05,1.09091587995e-05,1.4262587681399999e-05,5.799936312e-06,3.26067900354e-05,7.5642604596e-06,3.1009560480000003e-06,2.632816548e-06,4.9328483301e-06,1.4758253784000002e-06,1.01311941753e-05,1.31902673427e-05,7.5599847855e-06,1.7638435243800002e-05,1.5155579382299998e-05,8.232701246999999e-06,8.4182405355e-06,1.0923286209299999e-05,2.01405160341e-05,7.383735465300001e-06,5.52827183922e-05,7.44672207456e-05,4.5076216176e-06,6.3409807368e-06,6.0913895615999996e-06,6.023301272100001e-06,2.7098910352799996e-05,1.43892038115e-05,1.96441633269e-05,1.9557932031000003e-06,4.7323285776e-06,8.1609406632e-06,4.252267125e-06,2.5443069732000003e-06,1.1842056792e-05,4.2777651231e-05,1.9588205052e-05,4.5322769646000005e-06,2.17774750284e-05,2.8159527204e-05,2.39869062126e-05,1.577318022e-06,2.11065999156e-05,4.15960481251698e-06,1.3912263288900002e-05,1.5799708125e-05,1.98371928474e-05,3.12956873424e-05,9.8357773446e-06,2.3451916392e-06,2.41207004817e-05,7.1323861662e-06,7.7055865731e-06,1.6665454107e-05,1.33106416128e-05,2.2693447177199998e-05,1.28883485745e-05,5.3329515560999995e-06,5.4104442479999995e-06,4.0392948618e-06,2.79768591711e-05,2.5580702745e-06,2.9903398857e-06,6.2211890403e-06,1.60235412246e-05};
     static final double[] ExpectedMuts = new double[]{3.5,1.2298960944e-05,1.96790865336e-05,5.17789144098534e-06,4.0831751376e-06,3.4550775719999997e-06,5.31298384596e-05,1.09091587995e-05,1.4262587681399999e-05,5.799936312e-06,3.26067900354e-05,7.5642604596e-06,3.1009560480000003e-06,2.632816548e-06,4.9328483301e-06,1.4758253784000002e-06,1.01311941753e-05,1.31902673427e-05,7.5599847855e-06,1.7638435243800002e-05,1.5155579382299998e-05,8.232701246999999e-06,8.4182405355e-06,1.0923286209299999e-05,2.01405160341e-05,7.383735465300001e-06,5.52827183922e-05,7.44672207456e-05,4.5076216176e-06,6.3409807368e-06,6.0913895615999996e-06,6.023301272100001e-06,2.7098910352799996e-05,1.43892038115e-05,1.96441633269e-05,1.9557932031000003e-06,4.7323285776e-06,8.1609406632e-06,4.252267125e-06,2.5443069732000003e-06,1.1842056792e-05,4.2777651231e-05,1.9588205052e-05,4.5322769646000005e-06,2.17774750284e-05,2.8159527204e-05,2.39869062126e-05,1.577318022e-06,2.11065999156e-05,4.15960481251698e-06,1.3912263288900002e-05,1.5799708125e-05,1.98371928474e-05,3.12956873424e-05,9.8357773446e-06,2.3451916392e-06,2.41207004817e-05,7.1323861662e-06,7.7055865731e-06,1.6665454107e-05,1.33106416128e-05,2.2693447177199998e-05,1.28883485745e-05,5.3329515560999995e-06,5.4104442479999995e-06,4.0392948618e-06,2.79768591711e-05,2.5580702745e-06,2.9903398857e-06,6.2211890403e-06,1.60235412246e-05};
     private static final double[] BaseMutProb = new double[]{1.0/6,3/6.,1.0/6,1.0/6};
-//    private static final long[][][] BaseIndex = ParseBaseIndexes();
-//    private static final Poisson[] PoissonDists = BuildPoissons();
-    private static final boolean AcquireMuts = false;
+    /*
+    End New Information To Keep Inside the Model!!!!!
+     */
+    private static final long[][][] BaseIndex = ParseBaseIndexes();
+    private static final Poisson[] PoissonDists = BuildPoissons();
+    private static final boolean AcquireMuts = true;
     private static final String[] Base = new String[]{"A","C","G","T"};
     private static final boolean QuickMut = false;
     private static final double QuickMutRate = 0.1;
     static final Random RN=new Random();
-    EpidermisGrid theGrid;
+    private EpidermisGrid GenomeGridRef;
     String PrivateGenome;
     static int Mutated = 0;
+    int NewCellY =20;
     float h;
     float s;
     float v;
-    /*
-    End New Information To Keep Inside the Model!!!!!
-     */
+
 
     EpidermisCellGenome(float h, float s, float v, String PrivateGenome, EpidermisGrid theGrid) {
         this.h = h;
         this.s = s;
         this.v = v;
         this.PrivateGenome = PrivateGenome;
-        this.theGrid = theGrid;
+        this.GenomeGridRef = theGrid;
     }
 
     @Override
     public EpidermisCellGenome _RunPossibleMutation() {
         StringBuilder MutsObtained = new StringBuilder();
-        if(Mutated==0){
-            String MutOut = theGrid.GetTick()+"." + "44" + "." + "C" + "." + "4500" + ",";
+        if(Mutated==0 && AcquireMuts && NewCellY==0 && GenomeGridRef.GetTick() == 45*365){
+            String MutOut = "1.44.C.4500,";
             Mutated++;
             MutsObtained.append(MutOut);
         }
-//        if (QuickMut == false && AcquireMuts == true) {
-//            for (int j = 0; j < ExpectedMuts.length; j++) {
-//                if (j != 0) {
-////                    int mutations = PoissonDists[j].nextInt();
-////                    for (int hits = 0; hits < mutations; hits++) {
-////                        int MutatedBaseKind = Utils.RandomVariable(BaseMutProb, RN);
-////                        long mutIndex = BaseIndex[j - 1][MutatedBaseKind][RN.nextInt(BaseIndex[j - 1][MutatedBaseKind].length)];
-////                        String MutOut = "";
-////                        if (j == ExpectedMuts.length - 1) {
-////                            MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex;
-////                        } else {
-////                            MutOut = theGrid.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
-////                        }
-////                        MutsObtained.append(MutOut);
-////                    }
-//                }
-//            }
+        if (QuickMut == false && AcquireMuts) {
+            for (int j = 0; j < ExpectedMuts.length; j++) {
+                if (j != 0) {
+                    int mutations = PoissonDists[j].nextInt();
+                    for (int hits = 0; hits < mutations; hits++) {
+                        int MutatedBaseKind = Utils.RandomVariable(BaseMutProb, RN);
+                        long mutIndex = BaseIndex[j - 1][MutatedBaseKind][RN.nextInt(BaseIndex[j - 1][MutatedBaseKind].length)];
+                        String MutOut = "";
+                        if (j == ExpectedMuts.length - 1) {
+                            MutOut = GenomeGridRef.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex;
+                        } else {
+                            MutOut = GenomeGridRef.GetTick() + "." + j + "." + Base[MutatedBaseKind] + "." + mutIndex + ",";
+                        }
+                        MutsObtained.append(MutOut);
+                    }
+                }
+            }
             String PrivGenome = MutsObtained.toString();
             if (PrivGenome.length() > 0) {
                 if (h == 0f && s == 0f && v == 1f) {
-                    return new EpidermisCellGenome(RN.nextFloat(), 1f , 0.75f, PrivGenome, theGrid);
+                    return new EpidermisCellGenome(RN.nextFloat(), 1f , 0.75f, PrivGenome, GenomeGridRef);
                 } else {
-                    return new EpidermisCellGenome(h, RN.nextFloat()*0.3f+0.6f, RN.nextFloat()*0.55f+0.3f, PrivGenome, theGrid);
+                    return new EpidermisCellGenome(h, RN.nextFloat()*0.3f+0.6f, RN.nextFloat()*0.55f+0.3f, PrivGenome, GenomeGridRef);
                 }
             } else {
                 return null; // If No Mutation Occurs
             }
         }
-//        else {
-//            if(RN.nextDouble()<QuickMutRate && AcquireMuts==true){
-//                String EmptyGenome = "";
-//                if (h == 0f && s == 0f && v == 1f) {
-//                    return new EpidermisCellGenome(RN.nextFloat(), 1f , 0.75f, EmptyGenome, theGrid);
-//                } else {
-//                    return new EpidermisCellGenome(h, RN.nextFloat()*0.3f+0.6f, RN.nextFloat()*0.55f+0.3f, EmptyGenome, theGrid);
-//                }
-//            } else {
-//                return null;
-//            }
-//        }
-//    }
+        else if(RN.nextDouble()<QuickMutRate && AcquireMuts==true){
+            String EmptyGenome = "";
+            if (h == 0f && s == 0f && v == 1f) {
+                return new EpidermisCellGenome(RN.nextFloat(), 1f , 0.75f, EmptyGenome, GenomeGridRef);
+            } else {
+                return new EpidermisCellGenome(h, RN.nextFloat()*0.3f+0.6f, RN.nextFloat()*0.55f+0.3f, EmptyGenome, GenomeGridRef);
+            }
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public String GenomeInfoStr() {
         return PrivateGenome;
     }
 
-//    // Parses Base Mutation Information
-//    private static long[][][] ParseBaseIndexes(){
-//        FileIO reader = new FileIO(BaseIndexFile, "r");
-//        ArrayList<long[]> data = new ArrayList<> (reader.ReadLongDelimit(","));
-//        long[][][] BaseIndexes = new long[data.size()/4][4][];
-//        for (int i = 0; i < data.size(); i+=4) {
-//            BaseIndexes[i/4][0] = data.get(i);
-//            BaseIndexes[i/4][1] = data.get(i+1);
-//            BaseIndexes[i/4][2] = data.get(i+2);
-//            BaseIndexes[i/4][3] = data.get(i+3);
-//        }
-//        return BaseIndexes;
-//    }
-//
-//    private static Poisson[] BuildPoissons(){
-//        Poisson[] PoissonDists = new Poisson[ExpectedMuts.length];
-//        for (int i = 0; i < ExpectedMuts.length; i++) {
-//            Poisson poisson_dist = new Poisson(ExpectedMuts[i], RNEngine);
-//            PoissonDists[i] = poisson_dist;
-//        }
-//        return PoissonDists;
-//    }
+    // Parses Base Mutation Information
+    private static long[][][] ParseBaseIndexes(){
+        FileIO reader = new FileIO(BaseIndexFile, "r");
+        ArrayList<long[]> data = new ArrayList<> (reader.ReadLongDelimit(","));
+        long[][][] BaseIndexes = new long[data.size()/4][4][];
+        for (int i = 0; i < data.size(); i+=4) {
+            BaseIndexes[i/4][0] = data.get(i);
+            BaseIndexes[i/4][1] = data.get(i+1);
+            BaseIndexes[i/4][2] = data.get(i+2);
+            BaseIndexes[i/4][3] = data.get(i+3);
+        }
+        return BaseIndexes;
+    }
 
-    // Parses Base Mutation Function Information
+    private static Poisson[] BuildPoissons(){
+        Poisson[] PoissonDists = new Poisson[ExpectedMuts.length];
+        for (int i = 0; i < ExpectedMuts.length; i++) {
+            Poisson poisson_dist = new Poisson(ExpectedMuts[i], RNEngine);
+            PoissonDists[i] = poisson_dist;
+        }
+        return PoissonDists;
+    }
+
+//    // Parses Base Mutation Function Information
 //    public String long[][] ParseMutationInfo(){
 //        FileIO reader = new FileIO(BaseIndexFile, "h");
 //        ArrayList<long[]> data = new ArrayList<>(reader.ReadBinString(",")));

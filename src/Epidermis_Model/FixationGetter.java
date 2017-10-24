@@ -22,30 +22,22 @@ public class FixationGetter {
     public void CheckFixation(){
         int MutCells = 0;
         int CellCount = 0;
-        for (int g = 0; g < MutList.size(); g++) {
-            MutCells = 0;
-            CellCount = 0;
-            for (int i = 0; i < (EpidermisConst.ySize * EpidermisConst.xSize * EpidermisConst.zSize); i++) {
-                EpidermisCell c = theGrid.GetAgent(i);
-                if (c != null) {
-                    if(c.cellGenome.size()>0){
-                        if(c.cellGenome.get(0).contains(MutList.get(g))){
-                            MutCells++;
-                        }
-//                        if(c.myGenome.GenomeInfoStr().contains(MutList.get(g))){
-//                            MutCells++;
-//                        }
-                    }
-                    CellCount++;
+        for (int i = 0; i < (EpidermisConst.ySize * EpidermisConst.xSize * EpidermisConst.zSize); i++) {
+            EpidermisCell c = theGrid.GetAgent(i);
+            if (c != null) {
+                if(c.myGenome.GenomeInfoStr().contains("1.44.C.4500")){
+                    MutCells++;
                 }
+                CellCount++;
             }
-            if( ((MutCells*1.0)/CellCount) >0){
-                Frequency = (MutCells*1.0/CellCount);
-                Mutation = MutList.get(g);
-            } else {
-                Mutation = null;
-                Frequency = 5.0; // Kills Program, Mutation Lost
-            }
+        }
+
+        if( ((MutCells*1.0)/CellCount) > 0 && theGrid.GetTick() <= 45*365){
+            Frequency = (MutCells*1.0/CellCount);
+        } else if(((MutCells*1.0)/CellCount) <= 0 && theGrid.GetTick() > 45*365) {
+            Frequency = 5.0; // Kills Program, Mutation Lost after induction
+        } else {
+            Frequency = 0.0;
         }
     }
 

@@ -36,7 +36,6 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     int myType; //cell type
     int Action; //cells action
     static public RandomEngine RNEngine = new DRand();
-    ArrayList<String> cellGenome;
     /**
      * Parameters for cell specific tracking and genome information
      **/
@@ -44,11 +43,11 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     EpidermisCellGenome myGenome; // Creating genome class within each cell
 
 
-    public void init(int cellType, ArrayList<String> Genome) { //This initilizes an agent with whatever is inside of this function...
+    public void init(int cellType, EpidermisCellGenome myGenome) { //This initilizes an agent with whatever is inside of this function...
         this.myType = cellType;
         this.Action = STATIONARY;
         // Storing Genome Reference to Parent and Itself if mutation happened
-        this.cellGenome = Genome;
+        this.myGenome = myGenome;
     }
 
     // Gets where a cell is dividing if it's a basal cell and is proliferating
@@ -98,8 +97,10 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
 
         EpidermisCell newCell = G().NewAgentI(G().inBounds[iDivLoc]);
 
-        newCell.init(myType, cellGenome); // initializes a new skin cell, pass the cellID for a new value each time.
-//        myGenome = myGenome.PossiblyMutate(); // Check if this duaghter cell, i.e. the progenitor gets mutations during this proliferation step.
+        newCell.myGenome.NewCellY = newCell.Ysq(); // Sets the position of Ysq() to induce mutations.
+
+        newCell.init(myType, myGenome.NewChild().PossiblyMutate()); // initializes a new skin cell, pass the cellID for a new value each time.
+        myGenome = myGenome.PossiblyMutate(); // Check if this duaghter cell, i.e. the progenitor gets mutations during this proliferation step.
 
         if(newCell.Ysq()==0){
             G().Turnover.RecordDivideBasal();
@@ -119,12 +120,10 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         EpidermisCell c=G().GetAgent(i);
         if(c!=null){
             /* Check for fixation information */
-            if(c.cellGenome.size()>0){
-                String thisGenome = c.cellGenome.get(0);
-                if(thisGenome.contains(".44.") || thisGenome.contains(".45.") || thisGenome.contains(".46.")){
-                    if(G().myFixProb <= RN.nextDouble()){
-                        return false;
-                    }
+            String thisGenome = c.myGenome.GenomeInfoStr();
+            if(thisGenome.contains("1.44.C.4500")){
+                if(G().myFixProb <= RN.nextDouble()){
+                    return false;
                 }
             }
             /* End Fixation Information for behavior */
