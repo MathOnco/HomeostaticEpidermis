@@ -209,3 +209,31 @@ p5 <- ggplot() + geom_point(data=plotFixers, aes(x=Prob, y=MeanRLambda, color=gr
   scale_x_continuous(breaks=unique(cleanFix$Prob), expand=c(0,0)) +
   scale_colour_manual(values=c(rgb(114,20,41,maxColorValue = 255),rgb(18,45,84,maxColorValue = 255)))
 
+
+vaf <- read.csv("/Users/schencro/Desktop/Darryl_collab/Model_Data_Analysis/HomeostaticDataAnalysis/OutputTables/Selection/3D/ProcessedData.threeDNOTCHTest.10242017.10xDim.100yrs.replicate_1.csv", header=T)
+
+depth=500
+for(i in 1:length(vaf$VAF)){
+  simSeq <- data.frame(matrix(NA,ncol = 1, nrow=length(vaf$VAF)))
+  colnames(simSeq) <- c("SimVAF")
+  for(k in 1:length(vaf$VAF)){
+    fi <- rbinom(size=depth,p=vaf$VAF[k],n=1)
+    VAFs <- fi/depth
+    simSeq[k,1] <- VAFs
+  }
+}
+
+plot(density(simSeq$SimVAF[simSeq$SimVAF>0.005]))
+
+newInfo = data.frame(vaf=simSeq$SimVAF[simSeq$SimVAF>0.005])
+
+plot(density(newInfo$vaf))
+
+ggplot() +
+  stat_density(data=newInfo, aes(vaf), alpha = 0.1, fill="red", colour="red")+
+  scale_x_continuous(limits=c(-0.15,0.45)) +
+  geom_line(aes(x=seq(-0.15,0.45,0.01), y=0), colour="white") +
+  ylab("Density") + xlab("VAF") + theme_bw(base_size = 12) + ggtitle("Model & Patient VAF Densities")
+
+
+
