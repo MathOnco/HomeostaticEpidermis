@@ -207,6 +207,14 @@ class EpidermisGrid extends Grid2<EpidermisCell> {
         }
     }
 
+    public void printEGFGrad(){
+        for (int x = 0; x < xDim; x++) {
+            for (int y = 0; y < yDim; y++) {
+                System.out.println(x + "\t" + y + "\t" + EGF.GetCurr(x,y));
+            }
+        }
+    }
+
     public void GetCellPositions(FileIO PositionOut){
         for (EpidermisCell c: this) {
             if(c!=null){
