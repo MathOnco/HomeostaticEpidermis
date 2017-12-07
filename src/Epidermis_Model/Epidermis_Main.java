@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=20; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=100; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -35,15 +35,15 @@ class EpidermisConst{
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = true; // use for visualization, set to false for jar file / multiple runs
+    static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
     static final boolean JarFile = false; // Set to true if running from command line as jar file!!!!!!!!
-    static final boolean RecordParents = true; // use when you want parents information
-    static final boolean RecordLineages = true; // use when you want
-    static final boolean RecordPopSizes = true; // Use to record clone population sizes
-    static final boolean get_r_lambda = true; // use when you want the r_lambda value for the visualization
-    static final boolean writeValues = true; // use this when you want the data to be saved!
-    static final boolean sliceOnly = true; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
-    static final boolean GetImageData = false; // Use for 3D data for visualization
+    static final boolean RecordParents = false; // use when you want parents information
+    static final boolean RecordLineages = false; // use when you want
+    static final boolean RecordPopSizes = false; // Use to record clone population sizes
+    static final boolean get_r_lambda = false; // use when you want the r_lambda value for the visualization
+    static final boolean writeValues = false; // use this when you want the data to be saved!
+    static final boolean sliceOnly = false; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
+    static final boolean GetImageData = true; // Use for 3D data for visualization
 }
 
 public class Epidermis_Main {
@@ -228,26 +228,31 @@ public class Epidermis_Main {
 
 
             // Use this to get the information for 3D visualizations for OpenGL
-            if(EpidermisConst.GetImageData && Epidermis.GetTick() == EpidermisConst.RecordTime){
-                Epidermis.BuildMathematicaArray();
-                FileIO VisOut = new FileIO(Image_file + "." + Epidermis.GetTick() + ".txt", "w");
-                for(int x=0; x < EpidermisConst.xSize;x++){
-                    for(int y=0; y < EpidermisConst.ySize;y++){
-                        for(int z=0; z < EpidermisConst.zSize;z++){
-                            //if (Epidermis.ImageArray[y][x][z][0] != 0.0f && Epidermis.ImageArray[y][x][z][1] != 0.0f && Epidermis.ImageArray[y][x][z][2] != 0.0f && Epidermis.ImageArray[y][x][z][3] != 0.0f){
-                                String outLine =
-                                    x + "\t" + z + "\t" + y + "\t" +
-                                    Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
-                                            "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3];
-                                System.out.println(outLine);
-                                //VisOut.Write(outLine);
-                            }
-                        //}
-                    }
-                }
+//            if(EpidermisConst.GetImageData && Epidermis.GetTick() == EpidermisConst.RecordTime){
+//                Epidermis.BuildMathematicaArray();
+//                FileIO VisOut = new FileIO(Image_file + "." + Epidermis.GetTick() + ".txt", "w");
+//                for(int x=0; x < EpidermisConst.xSize;x++){
+//                    for(int y=0; y < EpidermisConst.ySize;y++){
+//                        for(int z=0; z < EpidermisConst.zSize;z++){
+//                            //if (Epidermis.ImageArray[y][x][z][0] != 0.0f && Epidermis.ImageArray[y][x][z][1] != 0.0f && Epidermis.ImageArray[y][x][z][2] != 0.0f && Epidermis.ImageArray[y][x][z][3] != 0.0f){
+//                                String outLine =
+//                                    x + "\t" + z + "\t" + y + "\t" +
+//                                    Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
+//                                            "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3];
+//                                System.out.println(outLine);
+//                                //VisOut.Write(outLine);
+//                            }
+//                        //}
+//                    }
+//                }
+//
+//                VisOut.Close();
+//                System.out.println("Done");
+//            }
 
-                VisOut.Close();
-                System.out.println("Done");
+            if(EpidermisConst.GetImageData==true && (Epidermis.GetTick() / 365f == 25 || Epidermis.GetTick() / 365f == 50 || Epidermis.GetTick() / 365f == 75)){
+                System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
+                Epidermis.rglVisualization();
             }
 
             // Use this to get the information for 3D visualizations

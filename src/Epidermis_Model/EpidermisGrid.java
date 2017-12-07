@@ -199,6 +199,16 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
         }
     }
 
+    public void rglVisualization(){
+        for(int i=0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize);i++) {
+            EpidermisCell c = GetAgent(i);
+            if (c != null) {
+                String outLine = i + "\t" + c.myGenome.h + "\t" + c.myGenome.s + "\t" + c.myGenome.v + "\t" + 0.8;
+                System.out.println(outLine);
+            }
+        }
+    }
+
     public void BuildMathematicaArray(){
         for(int i=0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize);i++){
             EpidermisCell c = GetAgent(i);
