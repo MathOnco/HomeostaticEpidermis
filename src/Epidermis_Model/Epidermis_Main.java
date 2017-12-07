@@ -29,7 +29,7 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=2; // time in years.
+    static int years=76; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
