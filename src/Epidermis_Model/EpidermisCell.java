@@ -4,6 +4,7 @@ import Framework.Grids.AgentSQ3unstackable;
 import cern.jet.random.Poisson;
 import cern.jet.random.engine.DRand;
 import cern.jet.random.engine.RandomEngine;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
@@ -34,6 +35,8 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     int myType; //cell type
     int Action; //cells action
     static public RandomEngine RNEngine = new DRand();
+    int OldLocation;
+    int NewLocation;
     /**
      * Parameters for cell specific tracking and genome information
      **/
@@ -74,13 +77,17 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         int x = Xsq();
         int y = Ysq();
         int z = Zsq();
+        int i = Isq();
         int iDivLoc;
+
+        // TODO Implement change to acquire inBounds for the cell.
 
         // If EGF is low then next double is likely to be higher...Results in no proliferation
         if (myType == KERATINOCYTE && G().RN.nextDouble() > G().EGF.GetCurr(x, y, z) * prolif_scale_factor) {
             return false;
         }
 
+        GetCoords(G().divHood, G().DIV);
         iDivLoc = ProlifLoc(); // Where the new cell is going to be (which index) if basal cell
 
         boolean Pushed = CellPush(iDivLoc);
@@ -92,13 +99,10 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             return false; // Only false if melanocyte there
         }
 
-        System.out.println(java.util.Arrays.toString(G().inBounds));
         EpidermisCell newCell = G().NewAgentI(G().inBounds[iDivLoc]);
 
         newCell.init(myType, myGenome.NewChild().PossiblyMutate()); // initializes a new skin cell, pass the cellID for a new value each time.
         myGenome = myGenome.PossiblyMutate(); // Check if this duaghter cell, i.e. the progenitor gets mutations during this proliferation step.
-
-//        CheckWrongLocation(newCell);
 
         if(newCell.Ysq()==0){
             G().Turnover.RecordDivideBasal();
@@ -140,20 +144,27 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
     }
 
     // Sets the coordinates for a cell that is moving.
-    public int GetMoveCoords() {
+    public int GetCoords(int[] hood, int ACTION) {
         int iMoveCoord=-1;  //when it's time to move, it is the index of coordinate that is picked from Coords array above. -1 == Not Moving
         int finalCount=0;
-        int inBoundsCount = G().SQstoLocalIs(G().moveHood, G().inBounds,Xsq(),Ysq(), Zsq(), true, false, true); // Gets all inbound indices
-        for (int i=0; i<inBoundsCount; i++){
-            if(G().GetAgent(G().inBounds[i]) == null){
-                G().inBounds[finalCount]=G().inBounds[i];
-                finalCount++;
+        int inBoundsCount = G().SQstoLocalIs(hood, G().inBounds, Xsq(),Ysq(), Zsq(), true, false, true); // Gets all inbound indices
+        if(ACTION==G().MOVE) {
+            for (int i = 0; i < inBoundsCount; i++) {
+                if (G().GetAgent(G().inBounds[i]) == null) {
+                    G().inBounds[finalCount] = G().inBounds[i];
+                    finalCount++;
+                }
             }
+            if(finalCount>0&&myType==KERATINOCYTE) {
+                iMoveCoord=G().RN.nextInt(finalCount);
+            }
+            // Return statement is only used for movement. Not division.
+            return iMoveCoord;
+        } else if(ACTION==G().DIV){
+            return -1; // Not used for division but setting G().inBounds.
+        } else{
+            throw new RuntimeException("EpidermisCell.GetCoords() is not working.");
         }
-        if(finalCount>0&&myType==KERATINOCYTE) {
-            iMoveCoord=G().RN.nextInt(finalCount);
-        }
-        return iMoveCoord;
     }
 
     public void itDead(){
@@ -187,7 +198,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         }
 
         if (G().RN.nextFloat() >= MOVEPROBABILITY) {
-            int iMoveCoord = GetMoveCoords(); // -1 if not moving
+            int iMoveCoord = GetCoords(G().moveHood, G().MOVE); // -1 if not moving
             if (iMoveCoord != -1) {
                 dipshit[ DirectionTracker(G().inBounds[iMoveCoord]) ] ++;
                 MoveI(G().inBounds[iMoveCoord]); // We are moving
@@ -204,25 +215,6 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         if(divided){
             Action = DIVIDE;
         }
-
-    }
-
-    public void CheckWrongLocation(EpidermisCell newCell){
-        // Check X
-        if((Xsq()+1 != newCell.Xsq()+1 && Xsq()-1 != newCell.Xsq()-1) || (G().ItoX(Isq())+1 != G().ItoX(newCell.Isq())+1 && G().ItoX(Isq())-1 != G().ItoX(newCell.Isq())-1)){
-            System.out.println("X is Wrong.");
-        }
-        // Check Y
-        if((Ysq()+1 != newCell.Ysq()+1 && Ysq() != newCell.Ysq()-1) || (G().ItoY(Isq()) != G().ItoY(newCell.Isq())+1 && G().ItoX(Isq()) != G().ItoY(newCell.Isq())-1)){
-            System.out.println("Y is Wrong.");
-        }
-        // Check Z
-        if((Zsq() != newCell.Zsq()+1 && Zsq() != newCell.Zsq()-1) || (G().ItoZ(Isq()) != G().ItoZ(newCell.Isq())+1 && G().ItoZ(Isq()) != G().ItoZ(newCell.Isq())-1)){
-            System.out.println("X is Wrong.");
-        }
-    }
-
-    public void CheckWrongLocation(int x1, int y1, int z1, int x2, int y2, int z2, int i1, int i2){
 
     }
 
