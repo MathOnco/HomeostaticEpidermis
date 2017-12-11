@@ -200,13 +200,24 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
     }
 
     public void rglVisualization(){
-        for(int i=0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize);i++) {
-            EpidermisCell c = GetAgent(i);
-            if (c != null) {
-                String outLine = i + "\t" + c.myGenome.h + "\t" + c.myGenome.s + "\t" + c.myGenome.v + "\t" + 0.8;
-                System.out.println(outLine);
+        for (int x = 0; x < xDim; x++) {
+            for (int y = 0; y < yDim; y++) {
+                for (int z = 0; z < zDim; z++) {
+                    EpidermisCell c = GetAgent(x,y,z);
+                    if (c != null) {
+                        String outLine = x + "\t" + y + "\t" + z + "\t" + c.myGenome.h + "\t" + c.myGenome.s + "\t" + c.myGenome.v + "\t" + 0.8;
+                        System.out.println(outLine);
+                    }
+                }
             }
         }
+//        for(int i=0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize);i++) {
+//            EpidermisCell c = GetAgent(i);
+//            if (c != null) {
+//                String outLine = i + "\t" + c.myGenome.h + "\t" + c.myGenome.s + "\t" + c.myGenome.v + "\t" + 0.8;
+//                System.out.println(outLine);
+//            }
+//        }
     }
 
     public void BuildMathematicaArray(){

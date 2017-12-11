@@ -92,10 +92,13 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             return false; // Only false if melanocyte there
         }
 
+        System.out.println(java.util.Arrays.toString(G().inBounds));
         EpidermisCell newCell = G().NewAgentI(G().inBounds[iDivLoc]);
 
         newCell.init(myType, myGenome.NewChild().PossiblyMutate()); // initializes a new skin cell, pass the cellID for a new value each time.
         myGenome = myGenome.PossiblyMutate(); // Check if this duaghter cell, i.e. the progenitor gets mutations during this proliferation step.
+
+//        CheckWrongLocation(newCell);
 
         if(newCell.Ysq()==0){
             G().Turnover.RecordDivideBasal();
@@ -201,6 +204,25 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         if(divided){
             Action = DIVIDE;
         }
+
+    }
+
+    public void CheckWrongLocation(EpidermisCell newCell){
+        // Check X
+        if((Xsq()+1 != newCell.Xsq()+1 && Xsq()-1 != newCell.Xsq()-1) || (G().ItoX(Isq())+1 != G().ItoX(newCell.Isq())+1 && G().ItoX(Isq())-1 != G().ItoX(newCell.Isq())-1)){
+            System.out.println("X is Wrong.");
+        }
+        // Check Y
+        if((Ysq()+1 != newCell.Ysq()+1 && Ysq() != newCell.Ysq()-1) || (G().ItoY(Isq()) != G().ItoY(newCell.Isq())+1 && G().ItoX(Isq()) != G().ItoY(newCell.Isq())-1)){
+            System.out.println("Y is Wrong.");
+        }
+        // Check Z
+        if((Zsq() != newCell.Zsq()+1 && Zsq() != newCell.Zsq()-1) || (G().ItoZ(Isq()) != G().ItoZ(newCell.Isq())+1 && G().ItoZ(Isq()) != G().ItoZ(newCell.Isq())-1)){
+            System.out.println("X is Wrong.");
+        }
+    }
+
+    public void CheckWrongLocation(int x1, int y1, int z1, int x2, int y2, int z2, int i1, int i2){
 
     }
 
