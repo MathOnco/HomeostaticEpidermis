@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=100; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=50; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -250,7 +250,12 @@ public class Epidermis_Main {
 //                System.out.println("Done");
 //            }
 
-            if(EpidermisConst.GetImageData==true && (Epidermis.GetTick() / 365f == 25 || Epidermis.GetTick() / 365f == 50 || Epidermis.GetTick() / 365f == 75)){
+//            if(EpidermisConst.GetImageData==true && (Epidermis.GetTick() / 365f == 25 || Epidermis.GetTick() / 365f == 50 || Epidermis.GetTick() / 365f == 75)){
+//                System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
+//                Epidermis.rglVisualization();
+//            }
+
+            if(EpidermisConst.GetImageData==true && (Epidermis.GetTick() % 100f == 0)){
                 System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
                 Epidermis.rglVisualization();
             }
