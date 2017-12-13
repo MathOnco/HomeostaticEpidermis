@@ -159,6 +159,7 @@ public class Epidermis_Main {
         boolean Healed = true;
         double avgHeight=0;
         int tickSum=0;
+        int wounded=0;
 
         TickRateTimer tickIt = new TickRateTimer();
         while(Epidermis.GetTick() < EpidermisConst.ModelTime){
@@ -171,22 +172,23 @@ public class Epidermis_Main {
             /*
             All Injuries Occuring Here!
              */
-//            int healTick=0;
-//
-//            if(Healed && Epidermis.GetTick()%50==0){
-//                Epidermis.inflict_wound(EpidermisConst.xSize/4);
-//                woundTick=Epidermis.GetTick();
-//                Healed = false;
-//            }
-//
+            int healTick=0;
+
+            if(Healed && Epidermis.GetTick()%100==0 && wounded < 1){
+                Epidermis.inflict_wound();
+                woundTick=Epidermis.GetTick();
+                Healed = false;
+                wounded++;
+            }
+
 //            if(!Healed && Epidermis.GetTick()%50!=0) {
 //                Healed = Epidermis.checkWoundHeal((int) avgHeight);
 //                healTick = Epidermis.GetTick();
-//                if (Healed && HealLab != null) {
-//                    if (HealLab != null) {
-//                        HealLab.setText("Heal Time (Days): " + new DecimalFormat("#.0").format((healTick - woundTick)));
-//                    }
-//                }
+////                if (Healed && HealLab != null) {
+////                    if (HealLab != null) {
+////                        HealLab.setText("Heal Time (Days): " + new DecimalFormat("#.0").format((healTick - woundTick)));
+////                    }
+////                }
 //            }
             /*
             Get the Diffusion Values for examining 2D versus 3D differences
@@ -255,7 +257,7 @@ public class Epidermis_Main {
 //                Epidermis.rglVisualization();
 //            }
 
-            if(EpidermisConst.GetImageData==true && (Epidermis.GetTick() % 100f == 0)){
+            if(EpidermisConst.GetImageData==true && (Epidermis.GetTick() % 25f == 0)){
                 System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
                 Epidermis.rglVisualization();
             }

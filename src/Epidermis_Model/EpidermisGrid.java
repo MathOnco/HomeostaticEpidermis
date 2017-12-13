@@ -237,13 +237,23 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
     }
 
     // Inflicting a wound to simulate wound repair...
-    public void inflict_wound(int size){
-        for(int i=0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize);i++) {
-            EpidermisCell c = GetAgent(i);
-            if(c!=null){
-                continue;
+    public void inflict_wound(){
+        for (int x = xDim/5; x < (xDim/5)*4; x++) {
+            for (int z = zDim/5; z < (zDim/5)*4; z++) {
+                for (int y = 0; y < yDim; y++) {
+                    EpidermisCell c = GetAgent(x,y,z);
+                    if(c!=null){
+                        c.itDead();
+                    }
+                }
             }
         }
+//        for(int i=0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize);i++) {
+//            EpidermisCell c = GetAgent(i);
+//            if(c!=null){
+//                c.itDead();
+//            }
+//        }
     }
 
     public boolean checkWoundHeal(int AvgHeight){

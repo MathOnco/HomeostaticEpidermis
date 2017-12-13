@@ -117,3 +117,57 @@ BigBoxPlot()
 rgl.snapshot( "~/Desktop/3D.progression.png", fmt = "png", top = TRUE )
 rgl.clear()
 rgl.close()
+
+#---End Paper Visualization---#
+
+#---Movie Picture Time---#
+GetData <- function(fileName){
+    df <- read.csv(fileName, header=F, sep="\t")
+    colnames(df)<-c("i","h","s","v","alpha","time")
+    df$time <- round(df$time,2)
+    whiteCells <- subset(df,df$h==0.0)
+    otherCells <- subset(df,df$h!=0.0)
+    whiteCells$alpha = rep(0.1,length(whiteCells$alpha))
+    otherCells$alpha = otherCells$alpha-0.2
+    df <- rbind(whiteCells,otherCells)
+    return(df)
+}
+
+initializeRGL <- function(theta=40,phi=20,myColor="black"){
+    par3d(windowRect = c(0, 0, 720, 720))
+    view3d(theta,phi)
+    rgl.bg(color=myColor)
+}
+
+xDim=50
+yDim=20
+zDim=xDim
+
+df <- GetData("~/Desktop/EpidermisMovie/EpiVisFreq.parsed.txt")
+out <- split( df , f = df$time )
+#prep window
+initializeRGL()
+
+for(i in 1:length(out)){
+    placeCells(theData=out[[i]], myAlpha=out[[i]]$alpha)
+    #Sys.sleep(0.1)
+    f=paste("~/Desktop/EpidermisMovie/imgs/3D.video.",unique(out[[i]]$time),".png",sep="")
+    rgl.snapshot( filename = f, fmt = "png", top = TRUE )
+    rgl.clear()
+}
+rgl.close()
+
+initializeRGL()
+startFrame <- data.frame(i=seq(1,(xDim*zDim*yDim)))
+startFrame$h <- 0.0
+startFrame$s <- 0.0
+startFrame$v <- 1.0
+startFrame$alpha <- 0.1
+placeCells(theData=startFrame, myAlpha=startFrame$alpha)
+rgl.snapshot( filename = "~/Desktop/EpidermisMovie/StartBlock.png", fmt = "png", top = TRUE )
+rgl.clear()
+
+placeCells(theData=out[[228]], myAlpha=out[[228]]$alpha)
+rgl.snapshot( filename = "~/Desktop/EpidermisMovie/FinalFrame.png", fmt = "png", top = TRUE )
+rgl.clear()
+rgl.close()
