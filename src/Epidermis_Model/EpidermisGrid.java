@@ -212,6 +212,20 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
         }
     }
 
+    public void EGFrglVisualization(){
+        double egfCol = 0;
+        for (int x = 0; x < xDim; x++) {
+            for (int z = 0; z < zDim; z++) {
+                egfCol = 0;
+                for (int y = 0; y < yDim; y++) {
+                    egfCol += EGF.GetCurr(x,y,z);
+                }
+                String outLine = x + "\t" + z + "\t" + egfCol;
+                System.out.println(outLine);
+            }
+        }
+    }
+
     public void BuildMathematicaArray(){
         for(int i=0; i < (EpidermisConst.ySize*EpidermisConst.xSize*EpidermisConst.zSize);i++){
             EpidermisCell c = GetAgent(i);

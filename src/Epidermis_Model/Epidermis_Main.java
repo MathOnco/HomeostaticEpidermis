@@ -29,7 +29,7 @@ class EpidermisConst{
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=76; // time in years.
+    static int years=5; // time in years.
     static int RecordTime=years*365;
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
@@ -43,7 +43,8 @@ class EpidermisConst{
     static final boolean get_r_lambda = false; // use when you want the r_lambda value for the visualization
     static final boolean writeValues = false; // use this when you want the data to be saved!
     static final boolean sliceOnly = false; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
-    static final boolean GetImageData = true; // Use for 3D data for visualization
+    static final boolean GetImageData = false; // Use for 3D data for visualization
+    static final boolean GetEGFSum = true; // Use for 3D data for visualization of EGF concentrations
 }
 
 public class Epidermis_Main {
@@ -261,6 +262,12 @@ public class Epidermis_Main {
                 System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
                 Epidermis.rglVisualization();
             }
+
+            if(EpidermisConst.GetEGFSum==true && (Epidermis.GetTick() % 25f == 0)){
+                System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
+                Epidermis.EGFrglVisualization();
+            }
+
 
             // Use this to get the information for 3D visualizations
 //            if(EpidermisConst.GetImageData && EpidermisConst.RecordTime == Epidermis.GetTick()){
