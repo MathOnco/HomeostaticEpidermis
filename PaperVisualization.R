@@ -4,6 +4,7 @@
 # Created on: 12/6/17
 
 library(rgl)
+library(reshape2)
 
 # RGL XYZ correspond to vertices...such that x1,y1,z1 are split by x=c(),y=(),z=()
 # in this way it's a very R fashion. Can do complex shapes with this method. x y or z
@@ -143,7 +144,7 @@ xDim=50
 yDim=20
 zDim=xDim
 
-df <- GetData("~/Desktop/EpidermisMovie/EpiVisFreq.parsed.txt")
+df <- GetData("~/Desktop/EpidermisMovie/EpiVisWounding.parsed.txt")
 out <- split( df , f = df$time )
 #prep window
 initializeRGL()
@@ -151,7 +152,7 @@ initializeRGL()
 for(i in 1:length(out)){
     placeCells(theData=out[[i]], myAlpha=out[[i]]$alpha)
     #Sys.sleep(0.1)
-    f=paste("~/Desktop/EpidermisMovie/imgs/3D.video.",unique(out[[i]]$time),".png",sep="")
+    f=paste("~/Desktop/EpidermisMovie/imgsWounding/3D.video.wounded.",unique(out[[i]]$time),".png",sep="")
     rgl.snapshot( filename = f, fmt = "png", top = TRUE )
     rgl.clear()
 }
@@ -171,3 +172,32 @@ placeCells(theData=out[[228]], myAlpha=out[[228]]$alpha)
 rgl.snapshot( filename = "~/Desktop/EpidermisMovie/FinalFrame.png", fmt = "png", top = TRUE )
 rgl.clear()
 rgl.close()
+
+#---Surface Plot Movie Picture Time---#
+PlotSurface <- function(theData){
+    myData <- acast(theData, x~z, value.var="EGF")
+    y <- exp(myData)*4
+    ylim <- range(y)
+    ylen <- ylim[2] - ylim[1] + 1
+
+    colorlut <- heat.colors(ylen) # height color lookup table
+
+    col <- colorlut[ y - ylim[1] + 1 ] # assign colors to heights for each point
+
+    rgl.surface(seq(1,xDim), seq(1,zDim), myData,color=col, back = "lines")
+}
+
+df <- read.csv("~/Desktop/EpidermisMovie/EpiVisEGF.parsed.txt", header=F, sep="\t")
+colnames(df)<-c("x","z","EGF","time")
+df$time <- round(df$time,2)
+out <- split( df , f = df$time )
+
+initializeRGL()
+
+for(i in 1:length(out)){
+    PlotSurface(out[[i]])
+    #Sys.sleep(0.1)
+    f=paste("~/Desktop/EpidermisMovie/imgsSurfaceWounding/3D.wounding.egf.",unique(out[[i]]$time),".png",sep="")
+    rgl.snapshot( filename = f, fmt = "png", top = TRUE )
+    rgl.clear()
+}

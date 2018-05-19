@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst{
-    static int xSize=50; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize=25; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -35,7 +35,7 @@ class EpidermisConst{
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
+    static final boolean GuiOn = true; // use for visualization, set to false for jar file / multiple runs
     static final boolean JarFile = false; // Set to true if running from command line as jar file!!!!!!!!
     static final boolean RecordParents = false; // use when you want parents information
     static final boolean RecordLineages = false; // use when you want
@@ -45,6 +45,7 @@ class EpidermisConst{
     static final boolean sliceOnly = false; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
     static final boolean GetImageData = false; // Use for 3D data for visualization
     static final boolean GetEGFSum = true; // Use for 3D data for visualization of EGF concentrations
+    static final boolean Wounding = false; // Toggle to perform woundings.
 }
 
 public class Epidermis_Main {
@@ -173,13 +174,15 @@ public class Epidermis_Main {
             /*
             All Injuries Occuring Here!
              */
-            int healTick=0;
+            if(EpidermisConst.Wounding) {
+                int healTick = 0;
 
-            if(Healed && Epidermis.GetTick()%100==0 && wounded < 1){
-                Epidermis.inflict_wound();
-                woundTick=Epidermis.GetTick();
-                Healed = false;
-                wounded++;
+                if (Healed && Epidermis.GetTick() % 100 == 0 && wounded < 1) {
+                    Epidermis.inflict_wound();
+                    woundTick = Epidermis.GetTick();
+                    Healed = false;
+                    wounded++;
+                }
             }
 
 //            if(!Healed && Epidermis.GetTick()%50!=0) {
@@ -258,14 +261,16 @@ public class Epidermis_Main {
 //                Epidermis.rglVisualization();
 //            }
 
-            if(EpidermisConst.GetImageData==true && (Epidermis.GetTick() % 25f == 0)){
-                System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
-                Epidermis.rglVisualization();
-            }
+            if(EpidermisConst.Wounding) {
+                if (EpidermisConst.GetImageData == true && (Epidermis.GetTick() % 25f == 0)) {
+                    System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
+                    Epidermis.rglVisualization();
+                }
 
-            if(EpidermisConst.GetEGFSum==true && (Epidermis.GetTick() % 25f == 0)){
-                System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
-                Epidermis.EGFrglVisualization();
+                if (EpidermisConst.GetEGFSum == true && (Epidermis.GetTick() % 25f == 0)) {
+                    System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
+                    Epidermis.EGFrglVisualization();
+                }
             }
 
 
