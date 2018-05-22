@@ -35,16 +35,17 @@ class EpidermisConst{
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
+    static final boolean GuiOn = true; // use for visualization, set to false for jar file / multiple runs
     static final boolean JarFile = false; // Set to true if running from command line as jar file!!!!!!!!
-    static final boolean RecordParents = false; // use when you want parents information
-    static final boolean RecordLineages = false; // use when you want
-    static final boolean RecordPopSizes = false; // Use to record clone population sizes
-    static final boolean get_r_lambda = false; // use when you want the r_lambda value for the visualization
-    static final boolean writeValues = false; // use this when you want the data to be saved!
+    static final boolean RecordParents = true; // use when you want parents information
+    static final boolean RecordLineages = true; // use when you want
+    static final boolean RecordPopSizes = true; // Use to record clone population sizes
+    static final boolean get_r_lambda = true; // use when you want the r_lambda value for the visualization
+    static final boolean writeValues = true; // use this when you want the data to be saved!
     static final boolean sliceOnly = false; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
     static final boolean GetImageData = false; // Use for 3D data for visualization
-    static final boolean GetEGFSum = true; // Use for 3D data for visualization of EGF concentrations
+    static final boolean GetEGFSum = false; // Use for 3D data for visualization of EGF concentrations
+    static final boolean Wounding = false; // Use to do wounding
 }
 
 public class Epidermis_Main {
@@ -100,7 +101,7 @@ public class Epidermis_Main {
             EpidermisConst.years = Time;
             EpidermisConst.ModelTime = Time * 365 + 10;
             EpidermisConst.RecordTime = Time * 365;
-            PositionFile = args[6];
+//            PositionFile = args[6];
         }
         if(EpidermisConst.GuiOn == false && EpidermisConst.GetImageData == false){
             System.out.println("xSize and zSize: " + EpidermisConst.xSize);
@@ -173,13 +174,15 @@ public class Epidermis_Main {
             /*
             All Injuries Occuring Here!
              */
-            int healTick=0;
+            if(EpidermisConst.Wounding) {
+                int healTick=0;
 
-            if(Healed && Epidermis.GetTick()%100==0 && wounded < 1){
-                Epidermis.inflict_wound();
-                woundTick=Epidermis.GetTick();
-                Healed = false;
-                wounded++;
+                if(Healed && Epidermis.GetTick()%100==0 && wounded < 1){
+                    Epidermis.inflict_wound();
+                    woundTick=Epidermis.GetTick();
+                    Healed = false;
+                    wounded++;
+                }
             }
 
 //            if(!Healed && Epidermis.GetTick()%50!=0) {
@@ -258,15 +261,15 @@ public class Epidermis_Main {
 //                Epidermis.rglVisualization();
 //            }
 
-            if(EpidermisConst.GetImageData==true && (Epidermis.GetTick() % 25f == 0)){
-                System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
-                Epidermis.rglVisualization();
-            }
-
-            if(EpidermisConst.GetEGFSum==true && (Epidermis.GetTick() % 25f == 0)){
-                System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
-                Epidermis.EGFrglVisualization();
-            }
+//            if(EpidermisConst.GetImageData==true && (Epidermis.GetTick() % 25f == 0)){
+//                System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
+//                Epidermis.rglVisualization();
+//            }
+//
+//            if(EpidermisConst.GetEGFSum==true && (Epidermis.GetTick() % 25f == 0)){
+//                System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
+//                Epidermis.EGFrglVisualization();
+//            }
 
 
             // Use this to get the information for 3D visualizations
