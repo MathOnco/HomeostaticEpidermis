@@ -21,6 +21,7 @@ class EpidermisConst{
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
+    // Above numbers are for 2D, for 3D the xSize = 100
     static final int ySize=20;
     static int zSize=xSize;
 
@@ -35,16 +36,16 @@ class EpidermisConst{
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
 
-    static final boolean GuiOn = true; // use for visualization, set to false for jar file / multiple runs
-    static final boolean JarFile = false; // Set to true if running from command line as jar file!!!!!!!!
-    static final boolean RecordParents = false; // use when you want parents information
-    static final boolean RecordLineages = false; // use when you want
-    static final boolean RecordPopSizes = false; // Use to record clone population sizes
-    static final boolean get_r_lambda = false; // use when you want the r_lambda value for the visualization
-    static final boolean writeValues = false; // use this when you want the data to be saved!
+    static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
+    static final boolean JarFile = true; // Set to true if running from command line as jar file!!!!!!!!
+    static final boolean RecordParents = true; // use when you want parents information
+    static final boolean RecordLineages = true; // use when you want
+    static final boolean RecordPopSizes = true; // Use to record clone population sizes
+    static final boolean get_r_lambda = true; // use when you want the r_lambda value for the visualization
+    static final boolean writeValues = true; // use this when you want the data to be saved!
     static final boolean sliceOnly = false; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
     static final boolean GetImageData = false; // Use for 3D data for visualization
-    static final boolean GetEGFSum = true; // Use for 3D data for visualization of EGF concentrations
+    static final boolean GetEGFSum = false; // Use for 3D data for visualization of EGF concentrations
     static final boolean Wounding = false; // Toggle to perform woundings.
 }
 
@@ -101,7 +102,7 @@ public class Epidermis_Main {
             EpidermisConst.years = Time;
             EpidermisConst.ModelTime = Time * 365 + 10;
             EpidermisConst.RecordTime = Time * 365;
-            PositionFile = args[6];
+//            PositionFile = args[6];
         }
         if(EpidermisConst.GuiOn == false && EpidermisConst.GetImageData == false){
             System.out.println("xSize and zSize: " + EpidermisConst.xSize);
