@@ -35,6 +35,7 @@ class EpidermisConst{
     static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
+    static int MutRateSet = 0; // Select which mutation rate is required.
 
     static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
     static final boolean JarFile = true; // Set to true if running from command line as jar file!!!!!!!!
@@ -82,6 +83,8 @@ public class Epidermis_Main {
         int r_lambda_index = 0;
         ArrayList<Float> meanCellAge = new ArrayList();
         int meanCellAgeIndex = 0;
+        EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
+
         String ParentFile = System.getProperty("user.dir") + "/TestOutput/ParentFile.csv";
         String PopSizes = System.getProperty("user.dir") + "/TestOutput/PopSizes.csv";
         String MutationFile = System.getProperty("user.dir") + "/TestOutput/MutationFile.csv";
@@ -102,7 +105,10 @@ public class Epidermis_Main {
             EpidermisConst.years = Time;
             EpidermisConst.ModelTime = Time * 365 + 10;
             EpidermisConst.RecordTime = Time * 365;
-//            PositionFile = args[6];
+            EpidermisConst.MutRateSet = Integer.parseInt(args[6]);
+            EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
+//            PositionFile = args[7];
+
         }
         if(EpidermisConst.GuiOn == false && EpidermisConst.GetImageData == false){
             System.out.println("xSize and zSize: " + EpidermisConst.xSize);
