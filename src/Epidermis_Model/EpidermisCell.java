@@ -191,10 +191,32 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             itDead();
             return;
         }
-        if(RN.nextDouble() < DEATH_PROB){
-            //Random Fucked
-            itDead();
-            return;
+
+        // If doing P53 Fitness
+        if(EpidermisConst.PFiftyThree) {
+            String thisGenome = myGenome.GenomeInfoStr();
+            // If P53 Mutation present standard death function
+            if(thisGenome.contains(".68.")) { //Implement Check for mutation in cell
+//                System.out.println(thisGenome);
+//                if(RN.nextDouble() < DEATH_PROB){
+//                    //Random Fucked
+//                    itDead();
+//                    return;
+//                }
+            // If P53 Mutation NOT present
+            } else {
+                if(RN.nextDouble() < (DEATH_PROB+EpidermisConst.UVDeathVal)) {
+                    //Random Fucked
+                    itDead();
+                    return;
+                }
+            }
+        } else {
+            if(RN.nextDouble() < DEATH_PROB){
+                //Random Fucked
+                itDead();
+                return;
+            }
         }
 
         if (G().RN.nextFloat() >= MOVEPROBABILITY) {
