@@ -36,6 +36,7 @@ class EpidermisConst {
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
     static int MutRateSet = 0; // Select which mutation rate is required.
+    static int UVDeathVal = 0; // How much is random death increased. Values between 0.0 (neutral) and 0.9961836966 (non-neutral)
 
     static final boolean GuiOn = true; // use for visualization, set to false for jar file / multiple runs
     static final boolean JarFile = false; // Set to true if running from command line as jar file!!!!!!!!
@@ -48,6 +49,7 @@ class EpidermisConst {
     static final boolean GetImageData = false; // Use for 3D data for visualization
     static final boolean GetEGFSum = false; // Use for 3D data for visualization of EGF concentrations
     static final boolean Wounding = false; // Use to do wounding
+    static final boolean PFiftyThree = false; // Whether to perform P53 Fitness testing.
 }
 
 public class Epidermis_Main {
@@ -107,6 +109,7 @@ public class Epidermis_Main {
             EpidermisConst.RecordTime = Time * 365;
             EpidermisConst.MutRateSet = Integer.parseInt(args[6]);
             EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
+            EpidermisConst.UVDeathVal = Integer.parseInt(args[7]);
 //            PositionFile = args[7];
         }
         if(EpidermisConst.GuiOn == false && EpidermisConst.GetImageData == false){
