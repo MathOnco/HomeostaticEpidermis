@@ -109,8 +109,8 @@ public class Epidermis_Main {
             EpidermisConst.ModelTime = Time * 365 + 10;
             EpidermisConst.RecordTime = Time * 365;
             EpidermisConst.MutRateSet = Integer.parseInt(args[6]);
-            EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
-            EpidermisConst.UVDeathVal = Integer.parseInt(args[7])*(0.9961836966);
+//            EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
+//            EpidermisConst.UVDeathVal = Integer.parseInt(args[7])*(0.9961836966);
 //            PositionFile = args[7];
         } else {
             EpidermisConst.UVDeathVal = EpidermisConst.UVDeathVal*(0.9961836966);
