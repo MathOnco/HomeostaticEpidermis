@@ -16,29 +16,29 @@ import java.util.ArrayList;
  */
 
 //Holds Constants for rest of model
-class EpidermisConst{
-    static int xSize=25; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+class EpidermisConst {
+    static int xSize = 20; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
     // Above numbers are for 2D, for 3D the xSize = 100
-    static final int ySize=20;
-    static int zSize=xSize;
+    static final int ySize = 20;
+    static int zSize = xSize;
 
     static final int KERATINOCYTE = 0; //setting types into a binary 0 or 1
     static final int DIVIDE = 2; // Attribute if cell is dividing
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years=5; // time in years.
-    static int RecordTime=years*365;
-    static int ModelTime=years*365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
+    static int years = 5; // time in years.
+    static int RecordTime = years * 365;
+    static int ModelTime = years * 365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
     static int MutRateSet = 0; // Select which mutation rate is required.
 
-    static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
-    static final boolean JarFile = true; // Set to true if running from command line as jar file!!!!!!!!
+    static final boolean GuiOn = true; // use for visualization, set to false for jar file / multiple runs
+    static final boolean JarFile = false; // Set to true if running from command line as jar file!!!!!!!!
     static final boolean RecordParents = true; // use when you want parents information
     static final boolean RecordLineages = true; // use when you want
     static final boolean RecordPopSizes = true; // Use to record clone population sizes
@@ -47,7 +47,7 @@ class EpidermisConst{
     static final boolean sliceOnly = false; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
     static final boolean GetImageData = false; // Use for 3D data for visualization
     static final boolean GetEGFSum = false; // Use for 3D data for visualization of EGF concentrations
-    static final boolean Wounding = false; // Toggle to perform woundings.
+    static final boolean Wounding = false; // Use to do wounding
 }
 
 public class Epidermis_Main {
@@ -108,7 +108,6 @@ public class Epidermis_Main {
             EpidermisConst.MutRateSet = Integer.parseInt(args[6]);
             EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
 //            PositionFile = args[7];
-
         }
         if(EpidermisConst.GuiOn == false && EpidermisConst.GetImageData == false){
             System.out.println("xSize and zSize: " + EpidermisConst.xSize);
@@ -183,7 +182,6 @@ public class Epidermis_Main {
              */
             if(EpidermisConst.Wounding) {
                 int healTick = 0;
-
                 if (Healed && Epidermis.GetTick() % 100 == 0 && wounded < 1) {
                     Epidermis.inflict_wound();
                     woundTick = Epidermis.GetTick();
