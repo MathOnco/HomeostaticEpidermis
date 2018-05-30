@@ -44,6 +44,7 @@ class EpidermisConst {
     static final boolean RecordParents = true; // use when you want parents information
     static final boolean RecordLineages = true; // use when you want
     static final boolean RecordPopSizes = true; // Use to record clone population sizes
+    static final boolean RecordAllPopSizes = true; // Use this to record all population sizes for each time step.
     static final boolean get_r_lambda = true; // use when you want the r_lambda value for the visualization
     static final boolean writeValues = true; // use this when you want the data to be saved!
     static final boolean sliceOnly = false; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
@@ -310,6 +311,10 @@ public class Epidermis_Main {
 //                Image3D[matrix, ImageSize->Large,ColorSpace->"RGB", Axes->True,Boxed->False, Method-> {"InterpolateValues" -> False},Background->Black]
 //                 */
 //            }
+
+            if(EpidermisConst.RecordAllPopSizes && EpidermisConst.RecordTime != Epidermis.GetTick() && (Epidermis.GetTick()%30.)==0){
+                Epidermis.GenomeStore.RecordClonePops();
+            }
 
             /*
             All Model Data Recording Is Below This line
