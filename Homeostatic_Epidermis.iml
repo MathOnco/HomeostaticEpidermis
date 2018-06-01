@@ -44,6 +44,9 @@
     <orderEntry type="library" name="concurrent-1.3.4" level="project" />
     <orderEntry type="library" name="PNGDecoder" level="project" />
     <orderEntry type="library" name="org.joml:joml:1.9.9" level="project" />
+<<<<<<< HEAD
     <orderEntry type="library" name="R User Library" level="project" />
+=======
+>>>>>>> threeDversion
   </component>
 </module>
