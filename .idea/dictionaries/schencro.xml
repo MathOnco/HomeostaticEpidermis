@@ -159,6 +159,7 @@
       <w>.__C__AnnotationHubResource</w>
       <w>.__C__AnnotationTrack</w>
       <w>.__C__ApplyPileupsParam</w>
+      <w>.__C__ApproxNullDistribution</w>
       <w>.__C__Array</w>
       <w>.__C__ArrayArbitraryGrid</w>
       <w>.__C__ArrayGrid</w>
@@ -167,6 +168,7 @@
       <w>.__C__AsIs</w>
       <w>.__C__AssayData</w>
       <w>.__C__Assays</w>
+      <w>.__C__AsymptNullDistribution</w>
       <w>.__C__AtomicList</w>
       <w>.__C__Axt</w>
       <w>.__C__BED15File</w>
@@ -249,6 +251,7 @@
       <w>.__C__ConstraintORNULL</w>
       <w>.__C__Constraint_OR_NULL</w>
       <w>.__C__CopyNumberSet</w>
+      <w>.__C__CovarianceMatrix</w>
       <w>.__C__CsparseMatrix</w>
       <w>.__C__CustomTrack</w>
       <w>.__C__DBIConnection</w>
@@ -283,6 +286,7 @@
       <w>.__C__EmptyMethodsList</w>
       <w>.__C__EnsDb</w>
       <w>.__C__EntrezFilter</w>
+      <w>.__C__ExactNullDistribution</w>
       <w>.__C__ExomeDepth</w>
       <w>.__C__ExonEndFilter</w>
       <w>.__C__ExonFeatureSet</w>
@@ -292,6 +296,8 @@
       <w>.__C__ExonStartFilter</w>
       <w>.__C__ExpandedVCF</w>
       <w>.__C__Expanded_TB_PDict</w>
+      <w>.__C__ExpectCovar</w>
+      <w>.__C__ExpectCovarInfluence</w>
       <w>.__C__ExpressionFeatureSet</w>
       <w>.__C__ExpressionPDInfo</w>
       <w>.__C__ExpressionSet</w>
@@ -408,6 +414,11 @@
       <w>.__C__IlluminaQuality</w>
       <w>.__C__ImageMap</w>
       <w>.__C__InDel</w>
+      <w>.__C__IndependenceLinearStatistic</w>
+      <w>.__C__IndependenceProblem</w>
+      <w>.__C__IndependenceTest</w>
+      <w>.__C__IndependenceTestProblem</w>
+      <w>.__C__IndependenceTestStatistic</w>
       <w>.__C__InjectSNPsHandler</w>
       <w>.__C__InparanoidDb</w>
       <w>.__C__IntegerFilter</w>
@@ -452,6 +463,8 @@
       <w>.__C__MaskedXString</w>
       <w>.__C__Matrix</w>
       <w>.__C__MatrixFactorization</w>
+      <w>.__C__MaxTypeIndependenceTest</w>
+      <w>.__C__MaxTypeIndependenceTestStatistic</w>
       <w>.__C__MethodDefinition</w>
       <w>.__C__MethodDefinitionWithTrace</w>
       <w>.__C__MethodSelectionReport</w>
@@ -488,6 +501,7 @@
       <w>.__C__NgsTilingPDInfo</w>
       <w>.__C__NormalIRanges</w>
       <w>.__C__NormalIRangesList</w>
+      <w>.__C__NullDistribution</w>
       <w>.__C__NumericList</w>
       <w>.__C__NumericTrack</w>
       <w>.__C__ODLT_SNPlocs</w>
@@ -508,6 +522,7 @@
       <w>.__C__POSIXlt</w>
       <w>.__C__POSIXt</w>
       <w>.__C__PROVEANDb</w>
+      <w>.__C__PValue</w>
       <w>.__C__PWMatrix</w>
       <w>.__C__PWMatrixList</w>
       <w>.__C__Pairs</w>
@@ -536,6 +551,8 @@
       <w>.__C__PromoterVariants</w>
       <w>.__C__ProtDomIdFilter</w>
       <w>.__C__ProteinIdFilter</w>
+      <w>.__C__QuadTypeIndependenceTest</w>
+      <w>.__C__QuadTypeIndependenceTestStatistic</w>
       <w>.__C__QualityAlignedXStringSet</w>
       <w>.__C__QualityScaledAAStringSet</w>
       <w>.__C__QualityScaledBStringSet</w>
@@ -608,6 +625,9 @@
       <w>.__C__STT</w>
       <w>.__C__STTDF</w>
       <w>.__C__ScalarCharacter</w>
+      <w>.__C__ScalarIndependenceTest</w>
+      <w>.__C__ScalarIndependenceTestConfint</w>
+      <w>.__C__ScalarIndependenceTestStatistic</w>
       <w>.__C__ScalarInteger</w>
       <w>.__C__ScalarLogical</w>
       <w>.__C__ScalarNumeric</w>
@@ -697,6 +717,7 @@
       <w>.__C__SummarizedExperiment0</w>
       <w>.__C__SuperClassMethod</w>
       <w>.__C__SymbolFilter</w>
+      <w>.__C__SymmetryProblem</w>
       <w>.__C__TB_PDict</w>
       <w>.__C__TabixFile</w>
       <w>.__C__TabixFileList</w>
@@ -730,6 +751,8 @@
       <w>.__C__VIRTUAL</w>
       <w>.__C__VRanges</w>
       <w>.__C__VRangesList</w>
+      <w>.__C__VarCovar</w>
+      <w>.__C__Variance</w>
       <w>.__C__VariantType</w>
       <w>.__C__VcfFile</w>
       <w>.__C__VcfFileList</w>
@@ -1218,6 +1241,7 @@
       <w>.encode_numeric_version</w>
       <w>.expandEdges</w>
       <w>.expand_R_libs_env_var</w>
+      <w>.export</w>
       <w>.fcnnls</w>
       <w>.ffbytes</w>
       <w>.ffmode</w>
@@ -1245,6 +1269,7 @@
       <w>.hub_option_key</w>
       <w>.igraph.progress</w>
       <w>.igraph.status</w>
+      <w>.import</w>
       <w>.index</w>
       <w>.indexDate</w>
       <w>.indexday</w>
@@ -1357,6 +1382,7 @@
       <w>.validateXYData</w>
       <w>.valueClassTest</w>
       <w>.vcoerceable</w>
+      <w>.vcovBSenv</w>
       <w>.vimplemented</w>
       <w>.vmax</w>
       <w>.vmin</w>
@@ -1367,6 +1393,7 @@
       <w>.wgtFUN.covMcd</w>
       <w>.xts</w>
       <w>A</w>
+      <w>A1_to_R1C1</w>
       <w>A4</w>
       <w>AAMultipleAlignment</w>
       <w>AAString</w>
@@ -1450,6 +1477,7 @@
       <w>Anscombe</w>
       <w>AovSum</w>
       <w>ApplyPileupsParam</w>
+      <w>ApproxNullDistribution</w>
       <w>ArcObj2SLDF</w>
       <w>Area.xypolygon</w>
       <w>Arg</w>
@@ -1460,14 +1488,17 @@
       <w>ArrayArbitraryGrid</w>
       <w>ArrayRegularGrid</w>
       <w>ArrayViewport</w>
+      <w>Arrests</w>
       <w>Arrowhead</w>
       <w>Arrows</w>
+      <w>Arroyo</w>
       <w>Assay</w>
       <w>AssayDataList</w>
       <w>Assays</w>
       <w>Assert</w>
       <w>Asymbound</w>
       <w>AsympH0</w>
+      <w>AsymptNullDistribution</w>
       <w>Axis</w>
       <w>AxisSecondary</w>
       <w>Axt</w>
@@ -1479,6 +1510,7 @@
       <w>BEDFile</w>
       <w>BEDGraphFile</w>
       <w>BEDPEFile</w>
+      <w>BEPS</w>
       <w>BH</w>
       <w>BIC</w>
       <w>BJsales</w>
@@ -1596,6 +1628,7 @@
       <w>CRAN_memtest_notes</w>
       <w>CRAN_package_db</w>
       <w>CRS</w>
+      <w>CWD</w>
       <w>C_additive</w>
       <w>C_bionj</w>
       <w>C_bionjs</w>
@@ -1630,6 +1663,7 @@
       <w>Chile</w>
       <w>ChinaIncome</w>
       <w>Chirot</w>
+      <w>Chisqtest</w>
       <w>Cholesky</w>
       <w>ChunkCallback</w>
       <w>CigarettesB</w>
@@ -1643,6 +1677,7 @@
       <w>Compare</w>
       <w>Complex</w>
       <w>ComplexList</w>
+      <w>Confint</w>
       <w>Conj</w>
       <w>ConsumerGood</w>
       <w>ContinuousRange</w>
@@ -1757,6 +1792,7 @@
       <w>ExLinear</w>
       <w>ExNPreg</w>
       <w>ExNclus</w>
+      <w>ExactNullDistribution</w>
       <w>Exception</w>
       <w>ExomeCount</w>
       <w>ExomeDepth</w>
@@ -1773,6 +1809,7 @@
       <w>Exp.simple.cov</w>
       <w>Exponential</w>
       <w>ExponentialUpper</w>
+      <w>Export</w>
       <w>ExposeAttribute</w>
       <w>ExpressionSet</w>
       <w>F</w>
@@ -1869,6 +1906,7 @@
       <w>Friendly</w>
       <w>FrozenJuice</w>
       <w>Ftab</w>
+      <w>Ftest</w>
       <w>Function</w>
       <w>Function.areg.boot</w>
       <w>Function.transcan</w>
@@ -1881,6 +1919,7 @@
       <w>GAlignmentPairs</w>
       <w>GAlignments</w>
       <w>GAlignmentsList</w>
+      <w>GBSG2</w>
       <w>GC</w>
       <w>GC.content</w>
       <w>GC1</w>
@@ -1938,8 +1977,10 @@
       <w>GRangesList</w>
       <w>GSOEP9402</w>
       <w>GSS7402</w>
+      <w>GSSvocab</w>
       <w>GString</w>
       <w>GTFFile</w>
+      <w>GTSG</w>
       <w>GVFFile</w>
       <w>Gamma</w>
       <w>GappedReads</w>
@@ -2024,6 +2065,7 @@
       <w>GetModelFrame</w>
       <w>GiniMd</w>
       <w>Ginzberg</w>
+      <w>GlaucomaM</w>
       <w>GlobalDeletionDNA</w>
       <w>GlobalOptions</w>
       <w>Glucose</w>
@@ -2047,6 +2089,7 @@
       <w>HCC1395_T</w>
       <w>HCPC</w>
       <w>HEAD</w>
+      <w>HEC</w>
       <w>HGID2homology</w>
       <w>HLS</w>
       <w>HMDA</w>
@@ -2073,6 +2116,7 @@
       <w>Hilbert</w>
       <w>Hits</w>
       <w>HitsList</w>
+      <w>HiveR</w>
       <w>Hmisc</w>
       <w>HoltWinters</w>
       <w>HousePrices</w>
@@ -2103,10 +2147,12 @@
       <w>IlluminaQuality</w>
       <w>Im</w>
       <w>Imag</w>
+      <w>Import</w>
       <w>Indometh</w>
       <w>Initialize</w>
       <w>Initialize.corPhyl</w>
       <w>InsectSprays</w>
+      <w>InstInnovation</w>
       <w>Insurance</w>
       <w>IntegerList</w>
       <w>Interface</w>
@@ -2365,10 +2411,13 @@
       <w>MotifSet</w>
       <w>MotorCycles</w>
       <w>MotorCycles2</w>
+      <w>MplsDemo</w>
+      <w>MplsStops</w>
       <w>Mpsi</w>
       <w>MrhoInf</w>
       <w>Mroz</w>
       <w>Muller_plot</w>
+      <w>Muller_pop_plot</w>
       <w>MultiReporter</w>
       <w>MultiVerbose</w>
       <w>MulticoreParam</w>
@@ -2554,6 +2603,7 @@
       <w>PartitioningMap</w>
       <w>Peirce</w>
       <w>PepperPrice</w>
+      <w>PetersenCL</w>
       <w>PhDPublications</w>
       <w>Phenobarb</w>
       <w>PhredQuality</w>
@@ -2640,6 +2690,7 @@
       <w>R.utils</w>
       <w>R.version</w>
       <w>R.version.string</w>
+      <w>R1C1_to_A1</w>
       <w>R2</w>
       <w>R6</w>
       <w>R6Class</w>
@@ -2682,6 +2733,7 @@
       <w>RSQLite</w>
       <w>RShowDoc</w>
       <w>RSiteSearch</w>
+      <w>RSpectra</w>
       <w>RV.rtest</w>
       <w>RVAideMemoire</w>
       <w>RVdist.randtest</w>
@@ -2774,6 +2826,7 @@
       <w>RweaveLatexSetup</w>
       <w>RweaveLatexWritedoc</w>
       <w>RweaveTryStop</w>
+      <w>S</w>
       <w>S3Class</w>
       <w>S3Part</w>
       <w>S4Vectors</w>
@@ -2838,6 +2891,7 @@
       <w>STTDF</w>
       <w>SVindex</w>
       <w>SW</w>
+      <w>Safari</w>
       <w>Sahlins</w>
       <w>Salaries</w>
       <w>Save</w>
@@ -3056,10 +3110,12 @@
       <w>TFMPvalue</w>
       <w>TFMpv2sc</w>
       <w>TFMsc2pv</w>
+      <w>TH.data</w>
       <w>TVPACK</w>
       <w>TabixFile</w>
       <w>TabixFileList</w>
       <w>TapReporter</w>
+      <w>Tapply</w>
       <w>TeachingRatings</w>
       <w>TeamcityReporter</w>
       <w>TechChange</w>
@@ -3072,6 +3128,7 @@
       <w>ThreeUTRVariants</w>
       <w>TimeoutException</w>
       <w>Titanic</w>
+      <w>TitanicSurvival</w>
       <w>Toeplitz</w>
       <w>Token</w>
       <w>Token1.0</w>
@@ -3180,14 +3237,17 @@
       <w>Views</w>
       <w>Vocab</w>
       <w>WIGFile</w>
+      <w>WVS</w>
       <w>WWWusage</w>
       <w>Wafer</w>
       <w>WeakInstrument</w>
       <w>Weibull2</w>
       <w>WeightLoss</w>
+      <w>Wells</w>
       <w>Wendland</w>
       <w>Wendland.beta</w>
       <w>Wendland2.2</w>
+      <w>Westbc</w>
       <w>Wheat</w>
       <w>Wheat2</w>
       <w>Which</w>
@@ -3381,9 +3441,11 @@
       <w>`.__T__AIC:stats`</w>
       <w>`.__T__AnnotateExtra:ExomeDepth`</w>
       <w>`.__T__AnnotatedDataFrame:Biobase`</w>
+      <w>`.__T__ApproxNullDistribution:coin`</w>
       <w>`.__T__Arith:base`</w>
       <w>`.__T__Asymbound:kernlab`</w>
       <w>`.__T__AsympH0:kernlab`</w>
+      <w>`.__T__AsymptNullDistribution:coin`</w>
       <w>`.__T__B:oligoClasses`</w>
       <w>`.__T__B&lt;-:oligoClasses`</w>
       <w>`.__T__BIC:stats`</w>
@@ -3401,6 +3463,7 @@
       <w>`.__T__DelayedArray:DelayedArray`</w>
       <w>`.__T__EBupdate:multtest`</w>
       <w>`.__T__EIC:flexmix`</w>
+      <w>`.__T__ExactNullDistribution:coin`</w>
       <w>`.__T__ExpressionSet:Biobase`</w>
       <w>`.__T__FLXcheckComponent:flexmix`</w>
       <w>`.__T__FLXdeterminePostunscaled:flexmix`</w>
@@ -3860,6 +3923,7 @@
       <w>`.__T__counts&lt;-:BiocGenerics`</w>
       <w>`.__T__cov2cor:stats`</w>
       <w>`.__T__cov:stats`</w>
+      <w>`.__T__covariance:coin`</w>
       <w>`.__T__cover:raster`</w>
       <w>`.__T__coverage2:oligoClasses`</w>
       <w>`.__T__coverage:IRanges`</w>
@@ -4015,6 +4079,7 @@
       <w>`.__T__docName&lt;-:XML`</w>
       <w>`.__T__downstream:VariantAnnotation`</w>
       <w>`.__T__downstream&lt;-:VariantAnnotation`</w>
+      <w>`.__T__dperm:coin`</w>
       <w>`.__T__dpois:stats`</w>
       <w>`.__T__dpp:modeltools`</w>
       <w>`.__T__drawAxis:Gviz`</w>
@@ -4070,6 +4135,7 @@
       <w>`.__T__expand:Matrix`</w>
       <w>`.__T__expand:S4Vectors`</w>
       <w>`.__T__expand:intervals`</w>
+      <w>`.__T__expectation:coin`</w>
       <w>`.__T__experimentData:Biobase`</w>
       <w>`.__T__experimentData&lt;-:Biobase`</w>
       <w>`.__T__expinfo:Biobase`</w>
@@ -4534,6 +4600,7 @@
       <w>`.__T__mget:BiocGenerics`</w>
       <w>`.__T__microRNAs:GenomicFeatures`</w>
       <w>`.__T__mid:IRanges`</w>
+      <w>`.__T__midpvalue:coin`</w>
       <w>`.__T__min:base`</w>
       <w>`.__T__minScore:Biostrings`</w>
       <w>`.__T__minValue:raster`</w>
@@ -4745,6 +4812,7 @@
       <w>`.__T__position&lt;-:oligoClasses`</w>
       <w>`.__T__posterior:modeltools`</w>
       <w>`.__T__poverlaps:IRanges`</w>
+      <w>`.__T__pperm:coin`</w>
       <w>`.__T__ppois:stats`</w>
       <w>`.__T__precede:IRanges`</w>
       <w>`.__T__predgain:kernlab`</w>
@@ -4791,6 +4859,8 @@
       <w>`.__T__push:RCurl`</w>
       <w>`.__T__push:filehash`</w>
       <w>`.__T__push:git2r`</w>
+      <w>`.__T__pvalue:coin`</w>
+      <w>`.__T__pvalue_interval:coin`</w>
       <w>`.__T__pvalues:TFBSTools`</w>
       <w>`.__T__qbinom:stats`</w>
       <w>`.__T__qlogis:stats`</w>
@@ -4799,6 +4869,7 @@
       <w>`.__T__qnameSuffixStart:Rsamtools`</w>
       <w>`.__T__qnameSuffixStart&lt;-:Rsamtools`</w>
       <w>`.__T__qnarrow:GenomicAlignments`</w>
+      <w>`.__T__qperm:coin`</w>
       <w>`.__T__qpois:stats`</w>
       <w>`.__T__qr.Q:base`</w>
       <w>`.__T__qr.R:base`</w>
@@ -4947,6 +5018,7 @@
       <w>`.__T__rowmask&lt;-:Biostrings`</w>
       <w>`.__T__rownames:BiocGenerics`</w>
       <w>`.__T__rownames&lt;-:base`</w>
+      <w>`.__T__rperm:coin`</w>
       <w>`.__T__rposneg:NMF`</w>
       <w>`.__T__rss:NMF`</w>
       <w>`.__T__rtime:ProtGenerics`</w>
@@ -5123,6 +5195,7 @@
       <w>`.__T__stash_drop:git2r`</w>
       <w>`.__T__stash_list:git2r`</w>
       <w>`.__T__state:oligoClasses`</w>
+      <w>`.__T__statistic:coin`</w>
       <w>`.__T__status:git2r`</w>
       <w>`.__T__stbox:spacetime`</w>
       <w>`.__T__storageMode:Biobase`</w>
@@ -5155,6 +5228,7 @@
       <w>`.__T__summarizeVariants:VariantAnnotation`</w>
       <w>`.__T__summary:base`</w>
       <w>`.__T__sunriset:maptools`</w>
+      <w>`.__T__support:coin`</w>
       <w>`.__T__supportedFilters:AnnotationFilter`</w>
       <w>`.__T__supportedSeqlevelsStyles:ensembldb`</w>
       <w>`.__T__surfaceArea:sp`</w>
@@ -5290,6 +5364,7 @@
       <w>`.__T__varLabels&lt;-:Biobase`</w>
       <w>`.__T__varMetadata:Biobase`</w>
       <w>`.__T__varMetadata&lt;-:Biobase`</w>
+      <w>`.__T__variance:coin`</w>
       <w>`.__T__vcountPDict:Biostrings`</w>
       <w>`.__T__vcountPattern:Biostrings`</w>
       <w>`.__T__vcov:stats`</w>
@@ -5848,6 +5923,8 @@
       <w>`setStrata&lt;-`</w>
       <w>`setType&lt;-`</w>
       <w>`setWithin&lt;-`</w>
+      <w>`sheetVisibility&lt;-`</w>
+      <w>`sheetVisible&lt;-`</w>
       <w>`simplify&lt;-`</w>
       <w>`sizeFactors&lt;-`</w>
       <w>`slot&lt;-`</w>
@@ -5939,6 +6016,7 @@
       <w>`window&lt;-.factor`</w>
       <w>`window&lt;-.vector`</w>
       <w>`window&lt;-`</w>
+      <w>`worksheetOrder&lt;-`</w>
       <w>`xcoredata&lt;-`</w>
       <w>`xmax&lt;-`</w>
       <w>`xmin&lt;-`</w>
@@ -6106,10 +6184,12 @@
       <w>addSibling</w>
       <w>addStepping</w>
       <w>addStipples</w>
+      <w>addStyle</w>
       <w>addTaskCallback</w>
       <w>addTclPath</w>
       <w>addToSubscene3d</w>
       <w>addVigs2WinMenu</w>
+      <w>addWorksheet</w>
       <w>add_annotations</w>
       <w>add_area</w>
       <w>add_bars</w>
@@ -6123,6 +6203,7 @@
       <w>add_data</w>
       <w>add_datalist</w>
       <w>add_edges</w>
+      <w>add_empty_pop</w>
       <w>add_footnote</w>
       <w>add_fun</w>
       <w>add_header_above</w>
@@ -6163,15 +6244,19 @@
       <w>addlegend</w>
       <w>addmargins</w>
       <w>addnames</w>
+      <w>addr_col</w>
+      <w>addr_row</w>
       <w>address</w>
       <w>addtable2plot</w>
       <w>addterm</w>
       <w>ade4</w>
       <w>adegraphicsLoaded</w>
+      <w>adevent</w>
       <w>adhesion</w>
       <w>adipart</w>
       <w>adist</w>
       <w>adj.time</w>
+      <w>adj2HPD</w>
       <w>adjOutlyingness</w>
       <w>adj_matrix_to_tree</w>
       <w>adjacency.landkreis</w>
@@ -6183,7 +6268,9 @@
       <w>adjboxStats</w>
       <w>adjust_closure</w>
       <w>adjustcolor</w>
+      <w>adjusted</w>
       <w>adjustedRandIndex</w>
+      <w>adjusted_calpha</w>
       <w>adjustthinrange</w>
       <w>adonis</w>
       <w>adonis.II</w>
@@ -6324,6 +6411,7 @@
       <w>altDepth</w>
       <w>altFraction</w>
       <w>alview</w>
+      <w>alzheimer</w>
       <w>amb</w>
       <w>ambientNOxCH</w>
       <w>aminoacyl</w>
@@ -6336,6 +6424,7 @@
       <w>amvlog</w>
       <w>amvnonpar</w>
       <w>ancestry</w>
+      <w>anchored</w>
       <w>ancoord</w>
       <w>and</w>
       <w>andrewsplot</w>
@@ -6344,6 +6433,7 @@
       <w>angled.endpoints</w>
       <w>animals</w>
       <w>animate</w>
+      <w>animateHive</w>
       <w>animationOptions</w>
       <w>animation_button</w>
       <w>animation_options</w>
@@ -6376,6 +6466,8 @@
       <w>anovalist.trls</w>
       <w>ans</w>
       <w>ansari.test</w>
+      <w>ansari_test</w>
+      <w>ansari_trafo</w>
       <w>anscombe</w>
       <w>anti_join</w>
       <w>antibio</w>
@@ -6443,6 +6535,7 @@
       <w>approxNA</w>
       <w>approx_entropy</w>
       <w>approxfun</w>
+      <w>approximate</w>
       <w>appshot</w>
       <w>apqe</w>
       <w>apropos</w>
@@ -6614,6 +6707,9 @@
       <w>as.byte</w>
       <w>as.byte.default</w>
       <w>as.call</w>
+      <w>as.cell_addr</w>
+      <w>as.cell_addr_v</w>
+      <w>as.cell_limits</w>
       <w>as.character</w>
       <w>as.character.AAbin</w>
       <w>as.character.ArrayGrid</w>
@@ -6889,6 +6985,8 @@
       <w>as.quad</w>
       <w>as.quad.default</w>
       <w>as.quoted</w>
+      <w>as.ra_ref</w>
+      <w>as.ra_ref_v</w>
       <w>as.rad</w>
       <w>as.ram</w>
       <w>as.ram.default</w>
@@ -6896,6 +6994,7 @@
       <w>as.randboot</w>
       <w>as.randtest</w>
       <w>as.randxval</w>
+      <w>as.range</w>
       <w>as.raster</w>
       <w>as.raw</w>
       <w>as.raw.DelayedArray</w>
@@ -7025,9 +7124,11 @@
       <w>as_env</w>
       <w>as_environment</w>
       <w>as_f_list</w>
+      <w>as_factor</w>
       <w>as_function</w>
       <w>as_ggplot</w>
       <w>as_glue</w>
+      <w>as_graphnel</w>
       <w>as_ids</w>
       <w>as_incidence_matrix</w>
       <w>as_integer</w>
@@ -7056,6 +7157,7 @@
       <w>as_vector</w>
       <w>as_widget</w>
       <w>as_xml_document</w>
+      <w>asat</w>
       <w>asc</w>
       <w>ascentDetails</w>
       <w>asec</w>
@@ -7110,6 +7212,7 @@
       <w>asub</w>
       <w>asym_pref</w>
       <w>asymmetric.preference.game</w>
+      <w>asymptotic</w>
       <w>at_depth</w>
       <w>atan</w>
       <w>atan2</w>
@@ -7223,6 +7326,7 @@
       <w>b</w>
       <w>ba.game</w>
       <w>back</w>
+      <w>back.emmeans</w>
       <w>back.lsmeans</w>
       <w>backSpline</w>
       <w>background.predict</w>
@@ -7352,6 +7456,8 @@
       <w>bcfTrimEmpty</w>
       <w>bcfWhich</w>
       <w>bcnPower</w>
+      <w>bcnPowerAxis</w>
+      <w>bcnPowerInverse</w>
       <w>bcv</w>
       <w>bd.ext</w>
       <w>bd.time</w>
@@ -7501,6 +7607,7 @@
       <w>biplot.pcoa</w>
       <w>bird.families</w>
       <w>bird.orders</w>
+      <w>birds</w>
       <w>birth.step</w>
       <w>birthdeath</w>
       <w>birthwt</w>
@@ -7563,6 +7670,7 @@
       <w>bmp</w>
       <w>bobyqa</w>
       <w>body</w>
+      <w>bodyfat</w>
       <w>bold</w>
       <w>bondyield</w>
       <w>bonpow</w>
@@ -7694,6 +7802,7 @@
       <w>brewer.pal.info</w>
       <w>brewer_pal</w>
       <w>brick</w>
+      <w>brief</w>
       <w>brkdn.plot</w>
       <w>brkdnNest</w>
       <w>broken.line</w>
@@ -7924,6 +8033,8 @@
       <w>car</w>
       <w>car.test.frame</w>
       <w>car90</w>
+      <w>carData</w>
+      <w>carPalette</w>
       <w>carWeb</w>
       <w>carni19</w>
       <w>carni70</w>
@@ -8061,7 +8172,12 @@
       <w>cellFromRowColCombine</w>
       <w>cellFromXY</w>
       <w>cellStats</w>
+      <w>cell_addr</w>
+      <w>cell_cols</w>
+      <w>cell_limits</w>
+      <w>cell_rows</w>
       <w>cell_spec</w>
+      <w>cellranger</w>
       <w>cellsFromExtent</w>
       <w>cement</w>
       <w>censboot</w>
@@ -8095,6 +8211,7 @@
       <w>ceresPlots</w>
       <w>cert_verify</w>
       <w>cfl</w>
+      <w>cftest</w>
       <w>cfun</w>
       <w>cgd</w>
       <w>cgetAnywhere</w>
@@ -8119,6 +8236,7 @@
       <w>character</w>
       <w>character.table</w>
       <w>characterToBSGenome</w>
+      <w>characterize</w>
       <w>chargaff</w>
       <w>charmatch</w>
       <w>charpoly</w>
@@ -8228,13 +8346,16 @@
       <w>chisq.test</w>
       <w>chisq.theo.bintest</w>
       <w>chisq.theo.multcomp</w>
+      <w>chisq_test</w>
       <w>chkDots</w>
+      <w>chkHPD</w>
       <w>chmatch</w>
       <w>chol</w>
       <w>chol.default</w>
       <w>chol.spam</w>
       <w>chol2inv</w>
       <w>chol2inv.spam</w>
+      <w>cholesterol</w>
       <w>choose</w>
       <w>chooseBioCmirror</w>
       <w>chooseCRANmirror</w>
@@ -8385,6 +8506,7 @@
       <w>classifyTestsF</w>
       <w>classifyTestsP</w>
       <w>classifyTestsT</w>
+      <w>cld</w>
       <w>clean</w>
       <w>clean.args</w>
       <w>cleanPlatformName</w>
@@ -8508,6 +8630,7 @@
       <w>cluster_spinglass</w>
       <w>cluster_walktrap</w>
       <w>clusterboot</w>
+      <w>clustered.dotplots</w>
       <w>clusters</w>
       <w>clusym</w>
       <w>cm</w>
@@ -8519,6 +8642,8 @@
       <w>cmdscale</w>
       <w>cmean</w>
       <w>cmedian</w>
+      <w>cmh_test</w>
+      <w>cml</w>
       <w>cmpfile</w>
       <w>cmpfun</w>
       <w>cmsg</w>
@@ -8590,6 +8715,7 @@
       <w>cohesive.blocks</w>
       <w>cohesive_blocks</w>
       <w>cohorts</w>
+      <w>coin</w>
       <w>coinertia</w>
       <w>col</w>
       <w>col.names</w>
@@ -8861,6 +8987,8 @@
       <w>conditionMessage</w>
       <w>conditionMessage.condition</w>
       <w>conditionStackTrace</w>
+      <w>conditionalFormat</w>
+      <w>conditionalFormatting</w>
       <w>conditionalPanel</w>
       <w>conditions</w>
       <w>condroz</w>
@@ -8883,7 +9011,9 @@
       <w>connect.neighborhood</w>
       <w>connectUser</w>
       <w>connectivity</w>
+      <w>conover_test</w>
       <w>conpl</w>
+      <w>consal_trafo</w>
       <w>consensus</w>
       <w>consensusMatrix</w>
       <w>consensusString</w>
@@ -8923,6 +9053,7 @@
       <w>contr.sdif</w>
       <w>contr.sum</w>
       <w>contr.treatment</w>
+      <w>contrMat</w>
       <w>contract</w>
       <w>contract.vertices</w>
       <w>contrastAsCoef</w>
@@ -8940,6 +9071,7 @@
       <w>convLP</w>
       <w>convUL</w>
       <w>convergence</w>
+      <w>convert</w>
       <w>convert.group.labels</w>
       <w>convertCdf</w>
       <w>convertCel</w>
@@ -8948,9 +9080,12 @@
       <w>convertComment.SmartComments</w>
       <w>convertComment.VComments</w>
       <w>convertFilter</w>
+      <w>convertFromExcelRef</w>
       <w>convertHeight</w>
       <w>convertIndex</w>
       <w>convertNative</w>
+      <w>convertToDate</w>
+      <w>convertToDateTime</w>
       <w>convertUnit</w>
       <w>convertWidth</w>
       <w>convertX</w>
@@ -9001,6 +9136,7 @@
       <w>copyFile.default</w>
       <w>copyNumber</w>
       <w>copySubstitute</w>
+      <w>copyWorkbook</w>
       <w>copy_lahman</w>
       <w>copy_nycflights13</w>
       <w>copy_to</w>
@@ -9135,6 +9271,7 @@
       <w>covMcd</w>
       <w>covOGK</w>
       <w>covPlot</w>
+      <w>covariance</w>
       <w>cover</w>
       <w>cover.design</w>
       <w>coverage</w>
@@ -9190,6 +9327,7 @@
       <w>create.post</w>
       <w>createAnnObjs.SchemaChoice</w>
       <w>createCel</w>
+      <w>createComment</w>
       <w>createFF</w>
       <w>createFileAtomically</w>
       <w>createFileAtomically.default</w>
@@ -9203,16 +9341,19 @@
       <w>createManPath.Rdoc</w>
       <w>createName</w>
       <w>createName.Rdoc</w>
+      <w>createNamedRegion</w>
       <w>createPackage</w>
       <w>createProjectTemplate</w>
       <w>createQ</w>
       <w>createRandomRegions</w>
       <w>createS</w>
       <w>createSimpleBimap</w>
+      <w>createStyle</w>
       <w>createWebDependency</w>
       <w>createWidget</w>
       <w>createWindowsShortcut</w>
       <w>createWindowsShortcut.default</w>
+      <w>createWorkbook</w>
       <w>create_description</w>
       <w>create_env</w>
       <w>create_progress_bar</w>
@@ -9417,6 +9558,7 @@
       <w>dataTableProxy</w>
       <w>dataType</w>
       <w>dataURI</w>
+      <w>dataValidation</w>
       <w>dataViewport</w>
       <w>data_frame</w>
       <w>data_frame_</w>
@@ -9654,6 +9796,7 @@
       <w>delete.ffdf</w>
       <w>delete.response</w>
       <w>delete.vertices</w>
+      <w>deleteData</w>
       <w>deleteIfOpen</w>
       <w>deleteIfOpen.ff</w>
       <w>deleteIfOpen.ff_pointer</w>
@@ -9787,6 +9930,7 @@
       <w>detectionPValues</w>
       <w>detectionPValues.EListRaw</w>
       <w>detectionPValues.default</w>
+      <w>detergent</w>
       <w>determinant</w>
       <w>determinant.matrix</w>
       <w>determinant.spam</w>
@@ -10117,6 +10261,7 @@
       <w>dorder</w>
       <w>dose.p</w>
       <w>dot</w>
+      <w>dot2HPD</w>
       <w>dot3d</w>
       <w>dotPlot</w>
       <w>dot_product</w>
@@ -10159,6 +10304,7 @@
       <w>downstream</w>
       <w>downweight</w>
       <w>dpcoa</w>
+      <w>dperm</w>
       <w>dpih</w>
       <w>dpik</w>
       <w>dpill</w>
@@ -10198,6 +10344,7 @@
       <w>drawDetails.dlgrob</w>
       <w>drawExtent</w>
       <w>drawGD</w>
+      <w>drawHiveSpline</w>
       <w>drawLayer</w>
       <w>drawLegend</w>
       <w>drawLine</w>
@@ -10379,6 +10526,7 @@
       <w>edge.betweenness.estimate</w>
       <w>edge.connectivity</w>
       <w>edge.disjoint.paths</w>
+      <w>edge2HPD</w>
       <w>edge_attr</w>
       <w>edge_attr_names</w>
       <w>edge_betweenness</w>
@@ -10410,6 +10558,8 @@
       <w>eigengrad</w>
       <w>eigenvals</w>
       <w>eigjacobi</w>
+      <w>eigs</w>
+      <w>eigs_sym</w>
       <w>einsteinF</w>
       <w>el</w>
       <w>elNamed</w>
@@ -10692,11 +10842,14 @@
       <w>ewLasso</w>
       <w>exAM</w>
       <w>exHartigan</w>
+      <w>exact</w>
       <w>example</w>
       <w>example_df</w>
       <w>example_edges</w>
       <w>example_pop_df</w>
       <w>exceedsMaxArraySize</w>
+      <w>excel_format</w>
+      <w>excel_sheets</w>
       <w>exclude.too.far</w>
       <w>exhibitStringList</w>
       <w>exi</w>
@@ -10911,6 +11064,7 @@
       <w>f_new</w>
       <w>f_rhs</w>
       <w>f_text</w>
+      <w>f_trafo</w>
       <w>f_unwrap</w>
       <w>fabricfault</w>
       <w>fac2Sparse</w>
@@ -10932,6 +11086,7 @@
       <w>factorfit</w>
       <w>factorial</w>
       <w>factorial2</w>
+      <w>factorize</w>
       <w>factors</w>
       <w>fail</w>
       <w>failure</w>
@@ -10967,6 +11122,7 @@
       <w>fastqc</w>
       <w>fastqc_install</w>
       <w>fastqcr</w>
+      <w>fattyacid</w>
       <w>fave.order</w>
       <w>fbeta</w>
       <w>fbvalog</w>
@@ -10999,6 +11155,27 @@
       <w>fbvppot</w>
       <w>fc.multcomp</w>
       <w>fcnnls</w>
+      <w>fct_anon</w>
+      <w>fct_c</w>
+      <w>fct_collapse</w>
+      <w>fct_count</w>
+      <w>fct_drop</w>
+      <w>fct_expand</w>
+      <w>fct_explicit_na</w>
+      <w>fct_infreq</w>
+      <w>fct_inorder</w>
+      <w>fct_lump</w>
+      <w>fct_other</w>
+      <w>fct_recode</w>
+      <w>fct_relabel</w>
+      <w>fct_relevel</w>
+      <w>fct_reorder</w>
+      <w>fct_reorder2</w>
+      <w>fct_rev</w>
+      <w>fct_shift</w>
+      <w>fct_shuffle</w>
+      <w>fct_unify</w>
+      <w>fct_unique</w>
       <w>fdHess</w>
       <w>fderiv</w>
       <w>feather.plot</w>
@@ -11257,6 +11434,7 @@
       <w>fisherfit</w>
       <w>fishplot</w>
       <w>fission</w>
+      <w>fisyat_test</w>
       <w>fit</w>
       <w>fit.StVariogram</w>
       <w>fit.li.wong</w>
@@ -11333,6 +11511,8 @@
       <w>flexmix</w>
       <w>flexmixedruns</w>
       <w>fligner.test</w>
+      <w>fligner_test</w>
+      <w>fligner_trafo</w>
       <w>flip</w>
       <w>flipHorizontal</w>
       <w>flipQuery</w>
@@ -11355,6 +11535,7 @@
       <w>flush.console</w>
       <w>flushDumpedAlignments</w>
       <w>flush_console</w>
+      <w>fmaxstat_trafo</w>
       <w>fminbnd</w>
       <w>fminsearch</w>
       <w>fn_body</w>
@@ -11398,6 +11579,7 @@
       <w>forName.Class</w>
       <w>forbes</w>
       <w>forbidNA</w>
+      <w>forcats</w>
       <w>force</w>
       <w>forceAndCall</w>
       <w>forceGrob</w>
@@ -11464,6 +11646,9 @@
       <w>format_csv</w>
       <w>format_delim</w>
       <w>format_format</w>
+      <w>format_from_ext</w>
+      <w>format_from_signature</w>
+      <w>format_tagged_na</w>
       <w>format_tsv</w>
       <w>format_type_sum</w>
       <w>formatdescribeSingle</w>
@@ -11515,6 +11700,7 @@
       <w>freduce</w>
       <w>free</w>
       <w>freeny</w>
+      <w>freezePane</w>
       <w>freezeReactiveVal</w>
       <w>freezeReactiveValue</w>
       <w>french_fries</w>
@@ -11529,6 +11715,7 @@
       <w>friday87</w>
       <w>friedman.rating.test</w>
       <w>friedman.test</w>
+      <w>friedman_test</w>
       <w>friendly_type</w>
       <w>from</w>
       <w>fromDisk</w>
@@ -11631,6 +11818,7 @@
       <w>gasprice</w>
       <w>gather</w>
       <w>gather_</w>
+      <w>gather_attrs</w>
       <w>gaucov</w>
       <w>gaulss</w>
       <w>gauss.cov</w>
@@ -11874,6 +12062,7 @@
       <w>getBar</w>
       <w>getBarString</w>
       <w>getBarString.ProgressBar</w>
+      <w>getBaseFont</w>
       <w>getBaseProfile</w>
       <w>getBatchesByOverlapsFromOnDiskLongTable</w>
       <w>getBatchesBySeqnameFromOnDiskLongTable</w>
@@ -11977,6 +12166,7 @@
       <w>getDataPath.Package</w>
       <w>getDate</w>
       <w>getDate.Package</w>
+      <w>getDateOrigin</w>
       <w>getDay</w>
       <w>getDefaultNamespace</w>
       <w>getDefaultPlotParams</w>
@@ -12236,6 +12426,7 @@
       <w>getName.qaw</w>
       <w>getNameFormat</w>
       <w>getNameFormat.Rdoc</w>
+      <w>getNamedRegions</w>
       <w>getNames</w>
       <w>getNamespace</w>
       <w>getNamespaceExports</w>
@@ -12373,6 +12564,7 @@
       <w>getSequence.logical</w>
       <w>getSequence.qaw</w>
       <w>getSequenceLengths</w>
+      <w>getSheetNames</w>
       <w>getShinyOption</w>
       <w>getSibling</w>
       <w>getSlots</w>
@@ -12401,12 +12593,14 @@
       <w>getStaticInstance.Class</w>
       <w>getStaticInstance.Object</w>
       <w>getStrata</w>
+      <w>getStyles</w>
       <w>getSubclasses</w>
       <w>getSumSquare</w>
       <w>getSuperclasses</w>
       <w>getSuperclasses.Class</w>
       <w>getSuperclasses.classRepresentation</w>
       <w>getTable</w>
+      <w>getTables</w>
       <w>getTaskCallbackNames</w>
       <w>getThemeInfo</w>
       <w>getThreshold</w>
@@ -12500,6 +12694,7 @@
       <w>get_edges</w>
       <w>get_env</w>
       <w>get_expr</w>
+      <w>get_ext</w>
       <w>get_extent</w>
       <w>get_figure</w>
       <w>get_gstat_progress</w>
@@ -12612,8 +12807,10 @@
       <w>gl</w>
       <w>glayer</w>
       <w>glayer_</w>
+      <w>glht</w>
       <w>glimpse</w>
       <w>glinearModel</w>
+      <w>glioma</w>
       <w>glm</w>
       <w>glm.control</w>
       <w>glm.convert</w>
@@ -12765,6 +12962,7 @@
       <w>graph_from_data_frame</w>
       <w>graph_from_edgelist</w>
       <w>graph_from_graphdb</w>
+      <w>graph_from_graphnel</w>
       <w>graph_from_incidence_matrix</w>
       <w>graph_from_isomorphism_class</w>
       <w>graph_from_lcf</w>
@@ -12935,6 +13133,7 @@
       <w>growthofmoney</w>
       <w>gs500liz</w>
       <w>gsize</w>
+      <w>gss_cat</w>
       <w>gstat</w>
       <w>gstat.cv</w>
       <w>gstring</w>
@@ -12969,6 +13168,7 @@
       <w>gtools</w>
       <w>guessMIMEType</w>
       <w>guess_encoding</w>
+      <w>guess_fo</w>
       <w>guess_media</w>
       <w>guess_parser</w>
       <w>guess_type</w>
@@ -13082,6 +13282,7 @@
       <w>hatvalues</w>
       <w>hausdorff_dist</w>
       <w>have_name</w>
+      <w>haven</w>
       <w>haversine</w>
       <w>hbk</w>
       <w>hboxplot</w>
@@ -13234,6 +13435,7 @@
       <w>hobbies</w>
       <w>hobbs</w>
       <w>hoeffd</w>
+      <w>hohnloser</w>
       <w>homecare</w>
       <w>homoACC</w>
       <w>homoData</w>
@@ -13415,6 +13617,7 @@
       <w>idConverter</w>
       <w>idTrack</w>
       <w>idType</w>
+      <w>id_trafo</w>
       <w>idata.frame</w>
       <w>ident</w>
       <w>identical</w>
@@ -13582,6 +13785,7 @@
       <w>importLocs</w>
       <w>importPolys</w>
       <w>importShapefile</w>
+      <w>import_list</w>
       <w>imports_env</w>
       <w>improveProb</w>
       <w>impute</w>
@@ -13627,6 +13831,7 @@
       <w>indel</w>
       <w>indent_print</w>
       <w>independence.number</w>
+      <w>independence_test</w>
       <w>independent.vertex.sets</w>
       <w>index</w>
       <w>index.dynrq</w>
@@ -13712,7 +13917,9 @@
       <w>insert.NA</w>
       <w>insert.default</w>
       <w>insertClassMethods</w>
+      <w>insertImage</w>
       <w>insertMethod</w>
+      <w>insertPlot</w>
       <w>insertSource</w>
       <w>insertTab</w>
       <w>insertText</w>
@@ -13746,6 +13953,7 @@
       <w>install_cran</w>
       <w>install_deps</w>
       <w>install_dev_deps</w>
+      <w>install_formats</w>
       <w>install_git</w>
       <w>install_github</w>
       <w>install_local</w>
@@ -13759,6 +13967,7 @@
       <w>installed.genomes</w>
       <w>installed.packages</w>
       <w>int</w>
+      <w>int2col</w>
       <w>intToBin</w>
       <w>intToBits</w>
       <w>intToChar</w>
@@ -13971,6 +14180,7 @@
       <w>is.infinite</w>
       <w>is.integer</w>
       <w>is.ktab</w>
+      <w>is.labelled</w>
       <w>is.language</w>
       <w>is.leaf</w>
       <w>is.levelsMap</w>
@@ -14268,7 +14478,9 @@
       <w>isXS3Class</w>
       <w>isZero</w>
       <w>isZero.default</w>
+      <w>is_A1</w>
       <w>is_NA</w>
+      <w>is_R1C1</w>
       <w>is_a</w>
       <w>is_atomic</w>
       <w>is_bare</w>
@@ -14407,6 +14619,7 @@
       <w>is_symbol</w>
       <w>is_symbolic</w>
       <w>is_syntactic_literal</w>
+      <w>is_tagged_na</w>
       <w>is_testing</w>
       <w>is_testthat</w>
       <w>is_tibble</w>
@@ -14475,6 +14688,7 @@
       <w>jitter2.data.frame</w>
       <w>jitter2.default</w>
       <w>jittervar</w>
+      <w>jobsatisfaction</w>
       <w>jocci</w>
       <w>join</w>
       <w>join.keys</w>
@@ -14483,6 +14697,7 @@
       <w>join_all</w>
       <w>join_query</w>
       <w>journal</w>
+      <w>joyPlot</w>
       <w>jpeg</w>
       <w>js</w>
       <w>json_vector</w>
@@ -14584,6 +14799,8 @@
       <w>kind</w>
       <w>kiteChart</w>
       <w>kkmeans</w>
+      <w>klotz_test</w>
+      <w>klotz_trafo</w>
       <w>km.quick</w>
       <w>kmeans</w>
       <w>kmeansCBI</w>
@@ -14647,6 +14864,8 @@
       <w>knowndbs</w>
       <w>kooperberg</w>
       <w>kootenay</w>
+      <w>koziol_test</w>
+      <w>koziol_trafo</w>
       <w>kpAbline</w>
       <w>kpAddBaseNumbers</w>
       <w>kpAddChromosomeNames</w>
@@ -14695,6 +14914,7 @@
       <w>kronoviz</w>
       <w>kruskal.rating.test</w>
       <w>kruskal.test</w>
+      <w>kruskal_test</w>
       <w>ks.test</w>
       <w>kselect</w>
       <w>ksmooth</w>
@@ -14732,6 +14952,8 @@
       <w>label_wrap_gen</w>
       <w>labelgenome</w>
       <w>labeling</w>
+      <w>labelled</w>
+      <w>labelled_spss</w>
       <w>labeller</w>
       <w>labelplot</w>
       <w>labels</w>
@@ -14794,6 +15016,7 @@
       <w>last.points</w>
       <w>last.polygons</w>
       <w>last.qp</w>
+      <w>last2</w>
       <w>lastAdd</w>
       <w>lastModified</w>
       <w>lastModified.default</w>
@@ -14914,6 +15137,7 @@
       <w>lazyeval</w>
       <w>lbeta</w>
       <w>lbfgs</w>
+      <w>lbl_test</w>
       <w>lcPrefix</w>
       <w>lcPrefixC</w>
       <w>lcSuffix</w>
@@ -14973,6 +15197,7 @@
       <w>letter</w>
       <w>letterFrequency</w>
       <w>letterFrequencyInSlidingView</w>
+      <w>letter_to_num</w>
       <w>letters</w>
       <w>leuk</w>
       <w>leukemia</w>
@@ -15114,6 +15339,7 @@
       <w>list_merge</w>
       <w>list_modify</w>
       <w>list_spinners</w>
+      <w>litter</w>
       <w>liver.toxicity</w>
       <w>lizards</w>
       <w>ll</w>
@@ -15182,6 +15408,7 @@
       <w>loadResources</w>
       <w>loadToEnv</w>
       <w>loadToEnv.default</w>
+      <w>loadWorkbook</w>
       <w>load_all</w>
       <w>load_cache</w>
       <w>load_code</w>
@@ -15291,6 +15518,9 @@
       <w>loglog</w>
       <w>logm</w>
       <w>logrank</w>
+      <w>logrank_test</w>
+      <w>logrank_trafo</w>
+      <w>logrank_weight</w>
       <w>logratio.transfo</w>
       <w>logratio2foldchange</w>
       <w>logs</w>
@@ -15367,6 +15597,10 @@
       <w>lung</w>
       <w>lusys</w>
       <w>luv_colours</w>
+      <w>lvls_expand</w>
+      <w>lvls_reorder</w>
+      <w>lvls_revalue</w>
+      <w>lvls_union</w>
       <w>lvq1</w>
       <w>lvq2</w>
       <w>lvq3</w>
@@ -15472,6 +15706,7 @@
       <w>makeGRangesListFromFeatureFragments</w>
       <w>makeGeneric</w>
       <w>makeGrid</w>
+      <w>makeHyperlinkString</w>
       <w>makeHypothesis</w>
       <w>makeIntersectList</w>
       <w>makeLabel</w>
@@ -15554,8 +15789,11 @@
       <w>makepredictcall</w>
       <w>makevars_site</w>
       <w>makevars_user</w>
+      <w>malformations</w>
       <w>mammals</w>
+      <w>mammoexp</w>
       <w>manaus</w>
+      <w>manipAxis</w>
       <w>manipulateWidget</w>
       <w>manova</w>
       <w>mant.zstat</w>
@@ -15786,6 +16024,8 @@
       <w>maxlength.default</w>
       <w>maxlength.ff</w>
       <w>maxresiduals</w>
+      <w>maxstat_test</w>
+      <w>maxstat_trafo</w>
       <w>maxvar.points</w>
       <w>maxvar.qp</w>
       <w>maybe_missing</w>
@@ -15820,6 +16060,8 @@
       <w>mcoa</w>
       <w>mcolAsRleList</w>
       <w>mcols</w>
+      <w>mcp</w>
+      <w>mcp_trafo</w>
       <w>mcparallel</w>
       <w>mcycle</w>
       <w>md4</w>
@@ -15880,8 +16122,11 @@
       <w>meanfacwt</w>
       <w>meanvar</w>
       <w>meat</w>
+      <w>meatCL</w>
       <w>meatHAC</w>
       <w>meatHC</w>
+      <w>meatPC</w>
+      <w>meatPL</w>
       <w>meau</w>
       <w>meaudret</w>
       <w>median</w>
@@ -15892,6 +16137,8 @@
       <w>median_iqr</w>
       <w>median_mad</w>
       <w>median_range</w>
+      <w>median_test</w>
+      <w>median_trafo</w>
       <w>medianpolish</w>
       <w>medpolish</w>
       <w>medvPanel</w>
@@ -15915,6 +16162,7 @@
       <w>menuItem</w>
       <w>menuItemOutput</w>
       <w>menuSubItem</w>
+      <w>mercuryfish</w>
       <w>merge</w>
       <w>merge.AffyBatch</w>
       <w>merge.EList</w>
@@ -15929,6 +16177,7 @@
       <w>mergeBam</w>
       <w>mergeByCommonTails</w>
       <w>mergeByOverlaps</w>
+      <w>mergeCells</w>
       <w>mergeIUPACLetters</w>
       <w>mergeIntervals</w>
       <w>mergeIntervals.numeric</w>
@@ -15990,6 +16239,7 @@
       <w>mgp.axis.labels</w>
       <w>mgus</w>
       <w>mgus2</w>
+      <w>mh_test</w>
       <w>mhgr</w>
       <w>mic</w>
       <w>mice</w>
@@ -15999,6 +16249,7 @@
       <w>mid</w>
       <w>mid.in</w>
       <w>midpoint</w>
+      <w>midpvalue</w>
       <w>midrange</w>
       <w>midwest</w>
       <w>migrate</w>
@@ -16017,6 +16268,7 @@
       <w>min_rank</w>
       <w>min_separators</w>
       <w>min_st_separators</w>
+      <w>mineHPD</w>
       <w>minfit</w>
       <w>mini.roots</w>
       <w>miniButtonBlock</w>
@@ -16085,6 +16337,7 @@
       <w>mle.nomean</w>
       <w>mle.nomean.spam</w>
       <w>mle.spam</w>
+      <w>mlf</w>
       <w>mlike</w>
       <w>mlistMetaName</w>
       <w>mlply</w>
@@ -16095,8 +16348,10 @@
       <w>mma</w>
       <w>mmdstats</w>
       <w>mmindex</w>
+      <w>mmm</w>
       <w>mmp</w>
       <w>mmps</w>
+      <w>mn6.9</w>
       <w>mnf</w>
       <w>mnndR</w>
       <w>mnsl</w>
@@ -16132,9 +16387,11 @@
       <w>model2restrictionMatrix.merMod</w>
       <w>modelMatrix</w>
       <w>modelname</w>
+      <w>modelparm</w>
       <w>modeltools</w>
       <w>modifications</w>
       <w>modify</w>
+      <w>modifyBaseFont</w>
       <w>modifyList</w>
       <w>modifyRange</w>
       <w>modifyWeights</w>
@@ -16166,6 +16423,8 @@
       <w>months.POSIXt</w>
       <w>mood.medtest</w>
       <w>mood.test</w>
+      <w>mood_test</w>
+      <w>mood_trafo</w>
       <w>more</w>
       <w>more.Verbose</w>
       <w>morley</w>
@@ -16242,6 +16501,7 @@
       <w>mt.teststat</w>
       <w>mt.teststat.num.denum</w>
       <w>mtcars</w>
+      <w>mtept</w>
       <w>mtext</w>
       <w>mtext3d</w>
       <w>mtitle</w>
@@ -16250,6 +16510,7 @@
       <w>muller</w>
       <w>multLines</w>
       <w>multWendlandGrid</w>
+      <w>multcomp</w>
       <w>multcompBoxplot</w>
       <w>multcompLetters</w>
       <w>multcompLetters2</w>
@@ -16286,6 +16547,7 @@
       <w>multispati.randtest</w>
       <w>multispati.rtest</w>
       <w>multisplit</w>
+      <w>multivari</w>
       <w>multsymbolbox</w>
       <w>multtest</w>
       <w>multtest.cor</w>
@@ -16413,6 +16675,7 @@
       <w>na_if</w>
       <w>na_int</w>
       <w>na_lgl</w>
+      <w>na_tag</w>
       <w>naclus</w>
       <w>nafitted.delete</w>
       <w>naiveRangeMapper</w>
@@ -16537,6 +16800,7 @@
       <w>netToAxt</w>
       <w>network</w>
       <w>neuro</w>
+      <w>neuropathy</w>
       <w>neville</w>
       <w>new</w>
       <w>new.env</w>
@@ -16788,6 +17052,8 @@
       <w>norm_coords</w>
       <w>normal.l2.cluster</w>
       <w>normal_print</w>
+      <w>normal_test</w>
+      <w>normal_trafo</w>
       <w>normalizationMethods</w>
       <w>normalize</w>
       <w>normalize.AffyBatch.constant</w>
@@ -16892,6 +17158,7 @@
       <w>numPerms</w>
       <w>num_colors</w>
       <w>num_range</w>
+      <w>num_to_letter</w>
       <w>numalign</w>
       <w>numberProbes</w>
       <w>numcolwise</w>
@@ -16951,6 +17218,7 @@
       <w>ocLapply</w>
       <w>ocProbesets</w>
       <w>ocSamples</w>
+      <w>ocarcinoma</w>
       <w>ocat</w>
       <w>occupationalStatus</w>
       <w>ocmulgee</w>
@@ -16965,12 +17233,14 @@
       <w>odregress</w>
       <w>odt_document</w>
       <w>oecosimu</w>
+      <w>of_trafo</w>
       <w>off</w>
       <w>off.Verbose</w>
       <w>offline</w>
       <w>offs</w>
       <w>offset</w>
       <w>offsetsinformula</w>
+      <w>ofmaxstat_trafo</w>
       <w>oh3d</w>
       <w>old.packages</w>
       <w>old2new.phylo</w>
@@ -17016,6 +17286,7 @@
       <w>onevent</w>
       <w>oneway</w>
       <w>oneway.test</w>
+      <w>oneway_test</w>
       <w>onlearn</w>
       <w>only.unique.vals</w>
       <w>op_base</w>
@@ -17043,10 +17314,12 @@
       <w>openPDF</w>
       <w>openProject</w>
       <w>openVignette</w>
+      <w>openXL</w>
       <w>open_intervals</w>
       <w>openff</w>
       <w>openssl</w>
       <w>openssl_config</w>
+      <w>openxlsx</w>
       <w>optShape</w>
       <w>optim</w>
       <w>optimEH</w>
@@ -17232,6 +17505,8 @@
       <w>page</w>
       <w>page.rank</w>
       <w>page.rank.old</w>
+      <w>pageBreak</w>
+      <w>pageSetup</w>
       <w>pageText</w>
       <w>pageTitle</w>
       <w>pageWithSidebar</w>
@@ -17439,6 +17714,7 @@
       <w>par3dinterp</w>
       <w>par3dinterpControl</w>
       <w>par3dinterpSetter</w>
+      <w>par3dsave</w>
       <w>parApply</w>
       <w>parCapply</w>
       <w>parGrid</w>
@@ -17463,6 +17739,7 @@
       <w>parent.env</w>
       <w>parent.frame</w>
       <w>parents</w>
+      <w>parm</w>
       <w>parse</w>
       <w>parse.GString</w>
       <w>parse.SmartComments</w>
@@ -17560,6 +17837,7 @@
       <w>path.rpart</w>
       <w>pathGrob</w>
       <w>pathListing</w>
+      <w>path_vector</w>
       <w>pattern</w>
       <w>pattern.ff</w>
       <w>patternFrequency</w>
@@ -17703,6 +17981,7 @@
       <w>phicoef</w>
       <w>phones</w>
       <w>phosphor</w>
+      <w>photocar</w>
       <w>phred2ASCIIOffset</w>
       <w>phydataplot</w>
       <w>phylip</w>
@@ -17888,6 +18167,7 @@
       <w>plot1comp.ind</w>
       <w>plot1comp.var</w>
       <w>plot3d</w>
+      <w>plot3dHive</w>
       <w>plotAffyRNAdeg</w>
       <w>plotArrow</w>
       <w>plotBed</w>
@@ -17928,6 +18208,7 @@
       <w>plotH</w>
       <w>plotHic</w>
       <w>plotHierarchy</w>
+      <w>plotHive</w>
       <w>plotIndiv</w>
       <w>plotKaryotype</w>
       <w>plotLetters</w>
@@ -18108,6 +18389,7 @@
       <w>pngNeedle</w>
       <w>pnorm</w>
       <w>pnweibull</w>
+      <w>poTest</w>
       <w>point.in.polygon</w>
       <w>pointDistance</w>
       <w>pointLabel</w>
@@ -18249,6 +18531,7 @@
       <w>powerboost</w>
       <w>powerpoint_presentation</w>
       <w>pp</w>
+      <w>pperm</w>
       <w>ppfit</w>
       <w>ppgetregion</w>
       <w>ppinit</w>
@@ -18486,6 +18769,7 @@
       <w>print.by</w>
       <w>print.bystats</w>
       <w>print.bystats2</w>
+      <w>print.catdes</w>
       <w>print.char.list</w>
       <w>print.char.matrix</w>
       <w>print.chronos</w>
@@ -18656,6 +18940,8 @@
       <w>printStackTrace</w>
       <w>printStackTrace.Exception</w>
       <w>print_all</w>
+      <w>print_labels</w>
+      <w>print_tagged_na</w>
       <w>printcp</w>
       <w>printer_callback</w>
       <w>printf</w>
@@ -18824,7 +19110,9 @@
       <w>putHfig</w>
       <w>putKey</w>
       <w>putKeyEmpty</w>
+      <w>pvalue</w>
       <w>pvalueFormatter</w>
+      <w>pvalue_interval</w>
       <w>pvalues</w>
       <w>pvar.shrink</w>
       <w>pvec</w>
@@ -18895,6 +19183,7 @@
       <w>qnorm</w>
       <w>qnweibull</w>
       <w>qp.labels</w>
+      <w>qperm</w>
       <w>qplot</w>
       <w>qpois</w>
       <w>qpspecial</w>
@@ -18946,11 +19235,13 @@
       <w>quad2d</w>
       <w>quadcc</w>
       <w>quade.test</w>
+      <w>quade_test</w>
       <w>quadgk</w>
       <w>quadgr</w>
       <w>quadinf</w>
       <w>quadl</w>
       <w>quadprog</w>
+      <w>quadrant_test</w>
       <w>quads3d</w>
       <w>quadv</w>
       <w>quakes</w>
@@ -19040,6 +19331,7 @@
       <w>r2dtable</w>
       <w>r3dDefaults</w>
       <w>r6pack</w>
+      <w>rARPACK</w>
       <w>rBind</w>
       <w>rFLXM</w>
       <w>rFace</w>
@@ -19068,6 +19360,7 @@
       <w>r_safe</w>
       <w>r_texmf</w>
       <w>r_vanilla</w>
+      <w>ra_ref</w>
       <w>rabbits</w>
       <w>racine</w>
       <w>rad.lognormal</w>
@@ -19114,6 +19407,7 @@
       <w>ramsort</w>
       <w>ramsort.default</w>
       <w>ramsortorder</w>
+      <w>ranHiveData</w>
       <w>rand</w>
       <w>randEH</w>
       <w>randProj</w>
@@ -19158,6 +19452,7 @@
       <w>rankMatrix</w>
       <w>rankSeqlevels</w>
       <w>rankSumTestWithCorrelation</w>
+      <w>rank_trafo</w>
       <w>rankindex</w>
       <w>ranking</w>
       <w>rankrock</w>
@@ -19188,6 +19483,7 @@
       <w>ratetable</w>
       <w>ratetableDate</w>
       <w>ratify</w>
+      <w>rating.emmeans</w>
       <w>rating.lsmeans</w>
       <w>rating.prob</w>
       <w>ratinterp</w>
@@ -19293,6 +19589,7 @@
       <w>rcspline.plot</w>
       <w>rcspline.restate</w>
       <w>rcsplineFunction</w>
+      <w>rcsr</w>
       <w>rd_roclet</w>
       <w>rda</w>
       <w>rdaPath</w>
@@ -19307,6 +19604,7 @@
       <w>reLabelled</w>
       <w>reShape</w>
       <w>reStruct</w>
+      <w>re_match</w>
       <w>reactive</w>
       <w>reactiveFileReader</w>
       <w>reactivePlot</w>
@@ -19400,6 +19698,7 @@
       <w>read.tree</w>
       <w>read.trfMask</w>
       <w>read.xls</w>
+      <w>read.xlsx</w>
       <w>read.xport</w>
       <w>read.xportDataload</w>
       <w>read.xysfiles</w>
@@ -19530,6 +19829,7 @@
       <w>readWindowsShellLink.default</w>
       <w>readWindowsShortcut</w>
       <w>readWindowsShortcut.default</w>
+      <w>readWorkbook</w>
       <w>readXMLTFFM</w>
       <w>read_abatch</w>
       <w>read_abatch_stddev</w>
@@ -19544,6 +19844,8 @@
       <w>read_delim</w>
       <w>read_delim_chunked</w>
       <w>read_demo</w>
+      <w>read_dta</w>
+      <w>read_excel</w>
       <w>read_file</w>
       <w>read_file_raw</w>
       <w>read_fwf</w>
@@ -19559,16 +19861,24 @@
       <w>read_p12</w>
       <w>read_p7b</w>
       <w>read_pem</w>
+      <w>read_por</w>
       <w>read_pubkey</w>
       <w>read_rds</w>
       <w>read_rforge</w>
+      <w>read_sas</w>
+      <w>read_sav</w>
+      <w>read_spss</w>
+      <w>read_stata</w>
       <w>read_table</w>
       <w>read_table2</w>
       <w>read_tsv</w>
       <w>read_tsv_chunked</w>
       <w>read_utf8</w>
       <w>read_vcfs_as_granges</w>
+      <w>read_xls</w>
+      <w>read_xlsx</w>
       <w>read_xml</w>
+      <w>read_xpt</w>
       <w>read_yaml</w>
       <w>readfirstrec</w>
       <w>readhex</w>
@@ -19577,6 +19887,8 @@
       <w>readr_example</w>
       <w>readsmj</w>
       <w>readwrite.ff</w>
+      <w>readxl</w>
+      <w>readxl_example</w>
       <w>realize</w>
       <w>rearrange</w>
       <w>rearranged.oriloc</w>
@@ -19606,6 +19918,7 @@
       <w>recordPlot</w>
       <w>recordStatus</w>
       <w>recover</w>
+      <w>recovery</w>
       <w>recstat</w>
       <w>rect</w>
       <w>rect.hclust</w>
@@ -19709,6 +20022,7 @@
       <w>reloadData</w>
       <w>rem</w>
       <w>remapHits</w>
+      <w>rematch</w>
       <w>rematchDefinition</w>
       <w>remission</w>
       <w>remote_add</w>
@@ -19731,12 +20045,16 @@
       <w>removeAuthorizedUser</w>
       <w>removeBatchEffect</w>
       <w>removeCache</w>
+      <w>removeCellMerge</w>
       <w>removeChildren</w>
       <w>removeClass</w>
+      <w>removeColWidths</w>
+      <w>removeComment</w>
       <w>removeCssClass</w>
       <w>removeDirectory</w>
       <w>removeDirectory.default</w>
       <w>removeExt</w>
+      <w>removeFilter</w>
       <w>removeGeneric</w>
       <w>removeGrob</w>
       <w>removeInputHandler</w>
@@ -19748,12 +20066,15 @@
       <w>removeNMFSeed</w>
       <w>removeNodes</w>
       <w>removeNotification</w>
+      <w>removeRowHeights</w>
       <w>removeServer</w>
       <w>removeSource</w>
       <w>removeTab</w>
+      <w>removeTable</w>
       <w>removeTaskCallback</w>
       <w>removeTmpFiles</w>
       <w>removeUI</w>
+      <w>removeWorksheet</w>
       <w>removeXMLNamespaces</w>
       <w>remove_missing</w>
       <w>remove_rownames</w>
@@ -19763,6 +20084,7 @@
       <w>renameFile</w>
       <w>renameFile.default</w>
       <w>renameSeqlevels</w>
+      <w>renameWorksheet</w>
       <w>rename_</w>
       <w>rename_all</w>
       <w>rename_at</w>
@@ -19839,6 +20161,7 @@
       <w>replaceLetterAt</w>
       <w>replaceNodes</w>
       <w>replaceROWS</w>
+      <w>replaceStyle</w>
       <w>replace_na</w>
       <w>replay</w>
       <w>replayPlot</w>
@@ -20077,6 +20400,7 @@
       <w>right_join</w>
       <w>ring</w>
       <w>rinvGauss</w>
+      <w>rio</w>
       <w>ripemd160</w>
       <w>rivers</w>
       <w>riversMapEnv</w>
@@ -20188,6 +20512,7 @@
       <w>rosser</w>
       <w>rot13</w>
       <w>rot90</w>
+      <w>rotarod</w>
       <w>rotate</w>
       <w>rotate3d</w>
       <w>rotateConstr</w>
@@ -20282,6 +20607,7 @@
       <w>rpart</w>
       <w>rpart.control</w>
       <w>rpart.exp</w>
+      <w>rperm</w>
       <w>rphylo</w>
       <w>rpjdl</w>
       <w>rplcon</w>
@@ -20507,6 +20833,8 @@
       <w>sask</w>
       <w>sasxport.get</w>
       <w>saturate</w>
+      <w>savage_test</w>
+      <w>savage_trafo</w>
       <w>save</w>
       <w>save.Object</w>
       <w>save.default</w>
@@ -20524,6 +20852,7 @@
       <w>saveRDS</w>
       <w>saveRowidsForOnDiskLongTable_old</w>
       <w>saveWidget</w>
+      <w>saveWorkbook</w>
       <w>saveXML</w>
       <w>saveXStringSet</w>
       <w>save_html</w>
@@ -20533,6 +20862,7 @@
       <w>savgol</w>
       <w>sbm</w>
       <w>sbm.game</w>
+      <w>sbp</w>
       <w>sbplx</w>
       <w>scaffoldWidget</w>
       <w>scale</w>
@@ -20965,6 +21295,7 @@
       <w>setClassUnion</w>
       <w>setCluster</w>
       <w>setCol</w>
+      <w>setColWidths</w>
       <w>setCompilerOptions</w>
       <w>setConstructorS3</w>
       <w>setConstructorS3.default</w>
@@ -20983,6 +21314,7 @@
       <w>setDocumentContents</w>
       <w>setEPS</w>
       <w>setExtent</w>
+      <w>setFooter</w>
       <w>setGeneric</w>
       <w>setGenericImplicit</w>
       <w>setGenericS3</w>
@@ -20991,6 +21323,8 @@
       <w>setGraphicsEventHandlers</w>
       <w>setGrob</w>
       <w>setGroupGeneric</w>
+      <w>setHeader</w>
+      <w>setHeaderFooter</w>
       <w>setHook</w>
       <w>setInpBimapFilter</w>
       <w>setIs</w>
@@ -21041,6 +21375,7 @@
       <w>setReplaceMethod</w>
       <w>setRepositories</w>
       <w>setRepository</w>
+      <w>setRowHeights</w>
       <w>setSelectionRanges</w>
       <w>setSerializer</w>
       <w>setSessionTimeLimit</w>
@@ -21152,6 +21487,9 @@
       <w>shapiro.test</w>
       <w>sheetCount</w>
       <w>sheetNames</w>
+      <w>sheetVisibility</w>
+      <w>sheetVisible</w>
+      <w>sheets</w>
       <w>shell.exec2</w>
       <w>shellSort</w>
       <w>shellorder</w>
@@ -21213,6 +21551,7 @@
       <w>showDialog</w>
       <w>showElement</w>
       <w>showExtends</w>
+      <w>showGridLines</w>
       <w>showGrob</w>
       <w>showHistory</w>
       <w>showHistory.Package</w>
@@ -21295,6 +21634,7 @@
       <w>signTabulate</w>
       <w>sign_oauth1.0</w>
       <w>sign_oauth2.0</w>
+      <w>sign_test</w>
       <w>signalCondition</w>
       <w>signature</w>
       <w>signature_create</w>
@@ -21636,6 +21976,7 @@
       <w>spearman2</w>
       <w>spearman2.default</w>
       <w>spearman2.formula</w>
+      <w>spearman_test</w>
       <w>spec</w>
       <w>spec.ar</w>
       <w>spec.pgram</w>
@@ -21668,10 +22009,12 @@
       <w>spell_check</w>
       <w>spenvcor</w>
       <w>sph2cart</w>
+      <w>sphase</w>
       <w>sphercov</w>
       <w>spheres3d</w>
       <w>spin</w>
       <w>spin3d</w>
+      <w>spinControl</w>
       <w>spin_child</w>
       <w>spind2full</w>
       <w>spind2spam</w>
@@ -21743,6 +22086,7 @@
       <w>spread.level.plot</w>
       <w>spreadLevelPlot</w>
       <w>spread_</w>
+      <w>spread_attrs</w>
       <w>spreadout</w>
       <w>sprint</w>
       <w>sprintf</w>
@@ -21852,6 +22196,7 @@
       <w>stagec</w>
       <w>stagnant</w>
       <w>staircase.plot</w>
+      <w>staircasePlot</w>
       <w>stand</w>
       <w>standard.theme</w>
       <w>standardChromosomes</w>
@@ -21957,6 +22302,7 @@
       <w>stationary.image.cov</w>
       <w>stationary.taper.cov</w>
       <w>statis</w>
+      <w>statistic</w>
       <w>stats</w>
       <w>stats.bin</w>
       <w>stats4</w>
@@ -22440,6 +22786,7 @@
       <w>sum.ri</w>
       <w>sum2</w>
       <w>sumDendrite</w>
+      <w>sumHPD</w>
       <w>sumOver</w>
       <w>sumalt</w>
       <w>sumbrk</w>
@@ -22577,6 +22924,7 @@
       <w>supcol</w>
       <w>supdist</w>
       <w>superClassDepth</w>
+      <w>support</w>
       <w>supportedFilters</w>
       <w>supportedMiRBaseBuildValues</w>
       <w>supportedRealizationBackends</w>
@@ -22608,6 +22956,7 @@
       <w>survConcordance.fit</w>
       <w>survReg</w>
       <w>survSplit</w>
+      <w>surv_test</w>
       <w>survdiff</w>
       <w>survexp</w>
       <w>survey</w>
@@ -22629,6 +22978,7 @@
       <w>svd.triplet</w>
       <w>svdpc.fit</w>
       <w>svdr</w>
+      <w>svds</w>
       <w>svg</w>
       <w>svglite</w>
       <w>svgstring</w>
@@ -22664,6 +23014,7 @@
       <w>symmetric.default</w>
       <w>symmetric.dist</w>
       <w>symmetric.ff</w>
+      <w>symmetry_test</w>
       <w>symmpart</w>
       <w>symnum</w>
       <w>sympoly</w>
@@ -22776,8 +23127,10 @@
       <w>tag_value</w>
       <w>tag_words</w>
       <w>tag_words_line</w>
+      <w>tagged_na</w>
       <w>tagname</w>
       <w>tags</w>
+      <w>taha_test</w>
       <w>tail</w>
       <w>tail.DataTable</w>
       <w>tail.LLint</w>
@@ -23220,6 +23573,7 @@
       <w>tkpostscript</w>
       <w>tkradiobutton</w>
       <w>tkraise</w>
+      <w>tkrgl</w>
       <w>tkscale</w>
       <w>tkscan.dragto</w>
       <w>tkscan.mark</w>
@@ -23363,6 +23717,8 @@
       <w>toWebGL</w>
       <w>to_basic</w>
       <w>to_period</w>
+      <w>to_string</w>
+      <w>to_string_v</w>
       <w>tobase64image</w>
       <w>tobin</w>
       <w>tobit</w>
@@ -23445,6 +23801,7 @@
       <w>trackError</w>
       <w>trackName</w>
       <w>trackNames</w>
+      <w>trafo</w>
       <w>train_continuous</w>
       <w>train_discrete</w>
       <w>traits</w>
@@ -23506,8 +23863,10 @@
       <w>treedist</w>
       <w>treedive</w>
       <w>treeheight</w>
+      <w>treepipit</w>
       <w>treering</w>
       <w>trees</w>
+      <w>trees513</w>
       <w>trellis.currentLayout</w>
       <w>trellis.device</w>
       <w>trellis.focus</w>
@@ -23784,6 +24143,8 @@
       <w>units.default</w>
       <w>units.difftime</w>
       <w>units_options</w>
+      <w>univariate</w>
+      <w>univariate_calpha</w>
       <w>universe</w>
       <w>unix.time</w>
       <w>unknownToNA</w>
@@ -24079,6 +24440,7 @@
       <w>variable.names</w>
       <w>variablesinformula</w>
       <w>variablesintext</w>
+      <w>variance</w>
       <w>variance.phylog</w>
       <w>varimax</w>
       <w>variogram</w>
@@ -24114,11 +24476,16 @@
       <w>vcovAdj.mer</w>
       <w>vcovAdj0</w>
       <w>vcovAdj16_internal</w>
+      <w>vcovBS</w>
+      <w>vcovBS.default</w>
+      <w>vcovCL</w>
       <w>vcovHAC</w>
       <w>vcovHAC.default</w>
       <w>vcovHC</w>
       <w>vcovHC.default</w>
       <w>vcovOPG</w>
+      <w>vcovPC</w>
+      <w>vcovPL</w>
       <w>vcv</w>
       <w>vcv.corPhyl</w>
       <w>vcv.phylo</w>
@@ -24207,6 +24574,7 @@
       <w>vignetteEngine</w>
       <w>vignetteMakefile</w>
       <w>vignette_roclet</w>
+      <w>violin_plot</w>
       <w>vip</w>
       <w>viridis</w>
       <w>viridis.map</w>
@@ -24218,6 +24586,7 @@
       <w>virtual.ffdf</w>
       <w>vis.gam</w>
       <w>visible</w>
+      <w>vision</w>
       <w>visualcenter</w>
       <w>viterbi.hmm</w>
       <w>vmatchPDict</w>
@@ -24275,6 +24644,7 @@
       <w>warnings.default</w>
       <w>warpbreaks</w>
       <w>wascores</w>
+      <w>waste</w>
       <w>watch</w>
       <w>waterabs</w>
       <w>waterdist</w>
@@ -24373,6 +24743,8 @@
       <w>wilcox.signtest</w>
       <w>wilcox.test</w>
       <w>wilcoxGST</w>
+      <w>wilcox_test</w>
+      <w>wilcoxsign_test</w>
       <w>wilkinson</w>
       <w>wind</w>
       <w>window</w>
@@ -24488,6 +24860,7 @@
       <w>words</w>
       <w>words.pos</w>
       <w>workdir</w>
+      <w>worksheetOrder</w>
       <w>worksurv</w>
       <w>world</w>
       <w>world.cities</w>
@@ -24501,6 +24874,7 @@
       <w>worldLL</w>
       <w>worldLLhigh</w>
       <w>worldMapEnv</w>
+      <w>wpbc</w>
       <w>wrap</w>
       <w>wrap.array</w>
       <w>wrap.data.frame</w>
@@ -24546,6 +24920,7 @@
       <w>write.table.ffdf</w>
       <w>write.tgrass</w>
       <w>write.tree</w>
+      <w>write.xlsx</w>
       <w>write.zoo</w>
       <w>writeASY</w>
       <w>writeAsciiGrid</w>
@@ -24563,9 +24938,13 @@
       <w>writeCdfUnits</w>
       <w>writeCelHeader</w>
       <w>writeChar</w>
+      <w>writeComment</w>
+      <w>writeData</w>
       <w>writeDataFrame</w>
       <w>writeDataFrame.data.frame</w>
+      <w>writeDataTable</w>
       <w>writeFormats</w>
+      <w>writeFormula</w>
       <w>writeGFF2</w>
       <w>writeGFF3</w>
       <w>writeInt</w>
@@ -24612,6 +24991,7 @@
       <w>write_delim</w>
       <w>write_der</w>
       <w>write_disk</w>
+      <w>write_dta</w>
       <w>write_excel_csv</w>
       <w>write_file</w>
       <w>write_function</w>
@@ -24625,11 +25005,14 @@
       <w>write_pem</w>
       <w>write_pkcs1</w>
       <w>write_rds</w>
+      <w>write_sas</w>
+      <w>write_sav</w>
       <w>write_ssh</w>
       <w>write_stream</w>
       <w>write_tsv</w>
       <w>write_utf8</w>
       <w>write_xml</w>
+      <w>write_xpt</w>
       <w>write_yaml</w>
       <w>writehex</w>
       <w>writelabel</w>
@@ -24913,6 +25296,11 @@
       <w>yule.cov</w>
       <w>yule.time</w>
       <w>zApply</w>
+      <w>zap_empty</w>
+      <w>zap_formats</w>
+      <w>zap_labels</w>
+      <w>zap_missing</w>
+      <w>zap_widths</w>
       <w>zapsmall</w>
       <w>zealand</w>
       <w>zeroGrob</w>

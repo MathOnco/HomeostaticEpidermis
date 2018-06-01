@@ -39,8 +39,8 @@ class EpidermisConst {
     static double UVDeathVal = 0.00; // How much is random death increased. Values between 0 and 1.
     // 0-1 scaled to 0.0 (neutral) and 0.9961836966 (non-neutral).
 
-    static final boolean GuiOn = true; // use for visualization, set to false for jar file / multiple runs
-    static final boolean JarFile = false; // Set to true if running from command line as jar file!!!!!!!!
+    static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
+    static final boolean JarFile = true; // Set to true if running from command line as jar file!!!!!!!!
     static final boolean RecordParents = true; // use when you want parents information
     static final boolean RecordLineages = true; // use when you want
     static final boolean RecordPopSizes = true; // Use to record clone population sizes
