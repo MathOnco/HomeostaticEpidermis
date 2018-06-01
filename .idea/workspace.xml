@@ -7,6 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6fba3645-d64d-402a-8bd8-13bae5c395c9" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java" />
       <change beforePath="$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java" afterPath="$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -21,14 +23,14 @@
     <favorites_list name="Epidermis_Project_Final" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.59375">
+    <splitter split-orientation="horizontal" split-proportion="0.52569443">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="Epidermis_Main.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="4294">
-                  <caret line="313" column="0" lean-forward="true" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
+                <state relative-caret-position="178">
+                  <caret line="38" column="36" lean-forward="false" selection-start-line="38" selection-start-column="36" selection-end-line="38" selection-end-column="36" />
                   <folding />
                 </state>
               </provider>
@@ -51,7 +53,7 @@
           <file leaf-file-name="EpidermisCellGenome.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="893">
+                <state relative-caret-position="-1125">
                   <caret line="84" column="51" lean-forward="false" selection-start-line="84" selection-start-column="51" selection-end-line="84" selection-end-column="51" />
                   <folding />
                 </state>
@@ -61,8 +63,8 @@
           <file leaf-file-name="EpidermisCell.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-487">
-                  <caret line="40" column="39" lean-forward="false" selection-start-line="40" selection-start-column="39" selection-end-line="40" selection-end-column="39" />
+                <state relative-caret-position="291">
+                  <caret line="206" column="17" lean-forward="false" selection-start-line="206" selection-start-column="17" selection-end-line="206" selection-end-column="17" />
                   <folding />
                 </state>
               </provider>
@@ -76,6 +78,7 @@
     <findStrings>
       <find>DEATH_PROB</find>
       <find>itDead</find>
+      <find>Pop</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -89,8 +92,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java" />
         <option value="$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java" />
+        <option value="$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java" />
       </list>
     </option>
   </component>
@@ -299,7 +302,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6112000" />
+    <option name="totallyTimeSpent" value="7512000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="0" />
@@ -661,26 +664,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="38" column="36" lean-forward="false" selection-start-line="38" selection-start-column="36" selection-end-line="38" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCellGenome.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+        <state relative-caret-position="-1125">
+          <caret line="84" column="51" lean-forward="false" selection-start-line="84" selection-start-column="51" selection-end-line="84" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/EpidermisCell.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-487">
-          <caret line="40" column="39" lean-forward="false" selection-start-line="40" selection-start-column="39" selection-end-line="40" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Epidermis_Model/Epidermis_Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4294">
-          <caret line="313" column="0" lean-forward="true" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
+        <state relative-caret-position="291">
+          <caret line="206" column="17" lean-forward="false" selection-start-line="206" selection-start-column="17" selection-end-line="206" selection-end-column="17" />
           <folding />
         </state>
       </provider>

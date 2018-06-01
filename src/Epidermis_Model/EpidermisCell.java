@@ -197,12 +197,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             String thisGenome = myGenome.GenomeInfoStr();
             // If P53 Mutation present standard death function
             if(thisGenome.contains(".68.")) { //Implement Check for mutation in cell
-//                System.out.println(thisGenome);
-//                if(RN.nextDouble() < DEATH_PROB){
-//                    //Random Fucked
-//                    itDead();
-//                    return;
-//                }
+                return;
             // If P53 Mutation NOT present
             } else {
                 if(RN.nextDouble() < (DEATH_PROB+EpidermisConst.UVDeathVal)) {
