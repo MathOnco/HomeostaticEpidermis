@@ -270,6 +270,19 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
 //        }
     }
 
+    public void DamageTissueWithUV(double FractionOfDeadCells){
+        for (int i = 0; i < (xDim*zDim*yDim); i++) {
+            EpidermisCell c = GetAgent(i);
+            if(c!=null) {
+                String thisGenome = c.myGenome.GenomeInfoStr();
+                // If P53 Mutation present standard death function
+                if(!thisGenome.contains(".68.") && RN.nextDouble()<FractionOfDeadCells) {
+                    c.itDead();
+                }
+            }
+        }
+    }
+
     public boolean checkWoundHeal(int AvgHeight){
         if(GetAgent(xDim/2, 0, zDim/2)!=null){
             return true;

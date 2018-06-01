@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 //Holds Constants for rest of model
 class EpidermisConst {
-    static int xSize = 20; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
+    static int xSize = 10; // keratinocyte modal cell size = 15µm (Proc. Natl. Acad. Sci. USA Vol.82,pp.5390-5394,August1985; YANN BARRANDON and HOWARD GREEN) == volume == 1766.25µm^3
     // (Sampled area = 1mm-2mm^2); Sampled volume = 4.4*10^8µm^3; Total cells needed for 2mm^2 area with depth of 140µm= 249115cells (xSize = 12456, ySize = 20);
     // For 1mm^2 area with depth of 140µm = 62279cells (xSize = 3114, ySize = 20);
     // Takes forever to reach even a year. Cutting the smallest biopsy into a quarter (1/4) = 15570cells (xSize = 1038, ySize = 20)
@@ -37,10 +37,13 @@ class EpidermisConst {
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
     static int MutRateSet = 0; // Select which mutation rate is required.
     static double UVDeathVal = 0.00; // How much is random death increased. Values between 0 and 1.
-    // 0-1 scaled to 0.0 (neutral) and 0.9961836966 (non-neutral).
+    // 0-1 scaled to 0.0 (neutral) and 0.9961836966 (non-neutral). // TODO Currently Depracated...Abandoned
+    static final int SunDays = 10; // Number of days with high sun exposure in a year.
+    static final int SunDaysFreqency = 10; // Number of days between sun exposures within a year.
+    static final double SunDaysDeathProb = 0.15; // Fraction of cells that die.
 
-    static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
-    static final boolean JarFile = true; // Set to true if running from command line as jar file!!!!!!!!
+    static final boolean GuiOn = true; // use for visualization, set to false for jar file / multiple runs
+    static final boolean JarFile = false; // Set to true if running from command line as jar file!!!!!!!!
     static final boolean RecordParents = true; // use when you want parents information
     static final boolean RecordLineages = true; // use when you want
     static final boolean RecordPopSizes = true; // Use to record clone population sizes
@@ -52,6 +55,7 @@ class EpidermisConst {
     static final boolean GetEGFSum = false; // Use for 3D data for visualization of EGF concentrations
     static final boolean Wounding = false; // Use to do wounding
     static final boolean PFiftyThree = false; // Whether to perform P53 Fitness testing.
+    static final boolean PFiftyThreeSunDays = true; // Whether to include a sun days UV damage rate.
 }
 
 public class Epidermis_Main {
@@ -110,7 +114,7 @@ public class Epidermis_Main {
             EpidermisConst.ModelTime = Time * 365 + 10;
             EpidermisConst.RecordTime = Time * 365;
             EpidermisConst.MutRateSet = Integer.parseInt(args[6]);
-//            EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
+            EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
 //            EpidermisConst.UVDeathVal = Integer.parseInt(args[7])*(0.9961836966);
 //            PositionFile = args[7];
         } else {
@@ -175,6 +179,8 @@ public class Epidermis_Main {
         double avgHeight=0;
         int tickSum=0;
         int wounded=0;
+        int SunDayCounter=0;
+        int[] SunTimes=new int[EpidermisConst.SunDays];
 
         TickRateTimer tickIt = new TickRateTimer();
         while(Epidermis.GetTick() < EpidermisConst.ModelTime){
@@ -311,6 +317,20 @@ public class Epidermis_Main {
 //                Image3D[matrix, ImageSize->Large,ColorSpace->"RGB", Axes->True,Boxed->False, Method-> {"InterpolateValues" -> False},Background->Black]
 //                 */
 //            }
+
+            if(EpidermisConst.PFiftyThreeSunDays && Epidermis.GetTick()%365.0==0){
+                for (int i = 0; i < EpidermisConst.SunDays; i++) {
+                    SunTimes[i] = Epidermis.GetTick() + i * EpidermisConst.SunDaysFreqency;
+                }
+            }
+
+            if(EpidermisConst.PFiftyThreeSunDays && Epidermis.GetTick()==SunTimes[SunDayCounter]) {
+                SunDayCounter++;
+                Epidermis.DamageTissueWithUV(EpidermisConst.SunDaysDeathProb);
+                if (SunDayCounter > EpidermisConst.SunDays-1) {
+                    SunDayCounter = 0;
+                }
+            }
 
             if(EpidermisConst.RecordAllPopSizes && EpidermisConst.RecordTime != Epidermis.GetTick() && (Epidermis.GetTick()%30.)==0){
                 Epidermis.GenomeStore.RecordClonePops();

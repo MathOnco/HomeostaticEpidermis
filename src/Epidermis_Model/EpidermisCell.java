@@ -200,7 +200,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
                 return;
             // If P53 Mutation NOT present
             } else {
-                if(RN.nextDouble() < (DEATH_PROB+EpidermisConst.UVDeathVal)) {
+                if(RN.nextDouble() < (DEATH_PROB)) {
                     //Random Fucked
                     itDead();
                     return;
@@ -234,6 +234,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         }
 
     }
+
 
     public int DirectionTracker(int NextMoveIndex){
         int x=G().ItoX(NextMoveIndex);
