@@ -30,24 +30,28 @@ class EpidermisConst {
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years = 5; // time in years.
+    static int years = 100; // time in years.
     static int RecordTime = years * 365;
     static int ModelTime = years * 365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
     static int MutRateSet = 0; // Select which mutation rate is required.
+    static double UVDeathVal = 0.00; // How much is random death increased. Values between 0 and 1.
+    // 0-1 scaled to 0.0 (neutral) and 0.9961836966 (non-neutral).
 
     static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
     static final boolean JarFile = true; // Set to true if running from command line as jar file!!!!!!!!
     static final boolean RecordParents = true; // use when you want parents information
     static final boolean RecordLineages = true; // use when you want
     static final boolean RecordPopSizes = true; // Use to record clone population sizes
+    static final boolean RecordAllPopSizes = true; // Use this to record all population sizes for each time step.
     static final boolean get_r_lambda = true; // use when you want the r_lambda value for the visualization
     static final boolean writeValues = true; // use this when you want the data to be saved!
     static final boolean sliceOnly = false; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
     static final boolean GetImageData = false; // Use for 3D data for visualization
     static final boolean GetEGFSum = false; // Use for 3D data for visualization of EGF concentrations
     static final boolean Wounding = false; // Use to do wounding
+    static final boolean PFiftyThree = false; // Whether to perform P53 Fitness testing.
 }
 
 public class Epidermis_Main {
@@ -106,8 +110,11 @@ public class Epidermis_Main {
             EpidermisConst.ModelTime = Time * 365 + 10;
             EpidermisConst.RecordTime = Time * 365;
             EpidermisConst.MutRateSet = Integer.parseInt(args[6]);
-            EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
+//            EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
+//            EpidermisConst.UVDeathVal = Integer.parseInt(args[7])*(0.9961836966);
 //            PositionFile = args[7];
+        } else {
+            EpidermisConst.UVDeathVal = EpidermisConst.UVDeathVal*(0.9961836966);
         }
         if(EpidermisConst.GuiOn == false && EpidermisConst.GetImageData == false){
             System.out.println("xSize and zSize: " + EpidermisConst.xSize);
@@ -304,6 +311,10 @@ public class Epidermis_Main {
 //                Image3D[matrix, ImageSize->Large,ColorSpace->"RGB", Axes->True,Boxed->False, Method-> {"InterpolateValues" -> False},Background->Black]
 //                 */
 //            }
+
+            if(EpidermisConst.RecordAllPopSizes && EpidermisConst.RecordTime != Epidermis.GetTick() && (Epidermis.GetTick()%30.)==0){
+                Epidermis.GenomeStore.RecordClonePops();
+            }
 
             /*
             All Model Data Recording Is Below This line
