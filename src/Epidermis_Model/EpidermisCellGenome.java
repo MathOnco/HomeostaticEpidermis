@@ -165,6 +165,7 @@ public class EpidermisCellGenome extends GenomeInfo<EpidermisCellGenome> {
     }
 
     private static double[] SetAdjustedMuts(int Selected){
+        System.out.println("Mutation Rate Selected: "+ Selected);
         double[] ExpectedMuts;
         if (Selected==0){
             // Set 1: Original. Mean Mutation Rate = 3.2e10-9

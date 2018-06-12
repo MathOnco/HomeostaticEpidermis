@@ -96,7 +96,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             G().Turnover.RecordLossBasal(); // Record Cell Loss from Pushing
         }
         if(Pushed==false){
-            return false; // Only false if melanocyte there
+            return false; // Only false if NOTCH mutation
         }
 
         EpidermisCell newCell = G().NewAgentI(G().inBounds[iDivLoc]);
@@ -121,6 +121,14 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
         int i = G().inBounds[iDivLoc];
         EpidermisCell c=G().GetAgent(i);
         if(c!=null){
+            if(EpidermisConst.NOTCH1FitnessChanges) {
+                String cellToMoveGenome = c.myGenome.GenomeInfoStr();
+                if (cellToMoveGenome.contains(".44.")) {
+                    if (EpidermisConst.NOTCHBlockProbability > RN.nextDouble()) {
+                        return false;
+                    }
+                }
+            }
             int x = G().ItoX(i);
             int y = G().ItoY(i);
             int z = G().ItoZ(i);
@@ -138,6 +146,7 @@ class EpidermisCell extends AgentSQ3unstackable<EpidermisGrid> {
             }
             if(c.Ysq()>= G().yDim-2){c.itDead();}
             return true;
+
         } else{
             return false;
         }
