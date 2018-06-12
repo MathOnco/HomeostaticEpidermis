@@ -56,7 +56,7 @@ class EpidermisConst {
     static final boolean GetImageData = false; // Use for 3D data for visualization
     static final boolean GetEGFSum = false; // Use for 3D data for visualization of EGF concentrations
     static final boolean Wounding = false; // Use to do wounding
-    static final boolean PFiftyThree = false; // Whether to perform P53 Fitness testing.
+    static final boolean PFiftyThree = false; // Whether to perform P53 Fitness testing through turnind Random Death Prob off.
     static final boolean PFiftyThreeSunDays = true; // Whether to include a sun days UV damage rate.
 }
 
