@@ -37,8 +37,7 @@ class EpidermisConst {
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
     static int Replicate = 1; // Replicate number to be multiplied by the RecordTime to set the seed
     static int MutRateSet = 0; // Select which mutation rate is required.
-    static double UVDeathVal = 0.00; // How much is random death increased. Values between 0 and 1.
-    // 0-1 scaled to 0.0 (neutral) and 0.9961836966 (non-neutral). // TODO Currently Depracated...Abandoned
+
     static final int SunDays = 7; // Number of days with high sun exposure in a year.
     static int SunDaysFreqency = 12; // Number of days between sun exposures within a year.
     static double SunDaysDeathProb = 0.1; // Fraction of cells that die.
@@ -122,9 +121,8 @@ public class Epidermis_Main {
             EpidermisConst.SunDaysDeathProb = Double.parseDouble(args[8]);
             EpidermisConst.Replicate = Integer.parseInt(args[9]);
 //            PositionFile = args[7];
-        } else {
-            EpidermisConst.UVDeathVal = EpidermisConst.UVDeathVal*(0.9961836966);
         }
+
         if(EpidermisConst.GuiOn == false && EpidermisConst.GetImageData == false){
             System.out.println("xSize and zSize: " + EpidermisConst.xSize);
             System.out.println("Years: " + EpidermisConst.years);
