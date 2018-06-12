@@ -30,20 +30,35 @@ class EpidermisConst {
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years = 5; // time in years.
+    static int years = 100; // time in years.
     static int RecordTime = years * 365;
     static int ModelTime = years * 365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
     static int Replicate = 1; // Replicate number to be multiplied by the RecordTime to set the seed
-    static int MutRateSet = 0; // Select which mutation rate is required.
 
+    /**
+     * Mutation Rate Set Options
+     */
+    static int MutRateSet = 0; // Select which mutation rate is required. /TODO Doesn't work, always what the genome is set to.
+
+    /**
+     * TP53 Fitness Change Options
+     */
     static final int SunDays = 7; // Number of days with high sun exposure in a year.
     static int SunDaysFreqency = 12; // Number of days between sun exposures within a year.
     static double SunDaysDeathProb = 0.1; // Fraction of cells that die.
     static final boolean PrintPopsForODE = false;
     static final boolean PrintSunDays = false;
 
+    /**
+     * NOTCH Fitness Change Options
+     */
+    static double NOTCHBlockProbability=0.0;
+
+    /**
+     * Booleans for Run Options
+     */
     static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
     static final boolean JarFile = true; // Set to true if running from command line as jar file!!!!!!!!
     static final boolean RecordParents = true; // use when you want parents information
@@ -57,7 +72,8 @@ class EpidermisConst {
     static final boolean GetEGFSum = false; // Use for 3D data for visualization of EGF concentrations
     static final boolean Wounding = false; // Use to do wounding
     static final boolean PFiftyThree = false; // Whether to perform P53 Fitness testing through turnind Random Death Prob off.
-    static final boolean PFiftyThreeSunDays = true; // Whether to include a sun days UV damage rate.
+    static final boolean PFiftyThreeSunDays = false; // Whether to include a sun days UV damage rate.
+    static final boolean NOTCH1FitnessChanges = true; // Whether to run NOTCH1 Fitness Changes.
 }
 
 public class Epidermis_Main {
@@ -93,7 +109,6 @@ public class Epidermis_Main {
         int r_lambda_index = 0;
         ArrayList<Float> meanCellAge = new ArrayList();
         int meanCellAgeIndex = 0;
-        EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
 
         String ParentFile = System.getProperty("user.dir") + "/TestOutput/ParentFile.csv";
         String PopSizes = System.getProperty("user.dir") + "/TestOutput/PopSizes.csv";
@@ -120,7 +135,10 @@ public class Epidermis_Main {
             EpidermisConst.SunDaysFreqency = Integer.parseInt(args[7]);
             EpidermisConst.SunDaysDeathProb = Double.parseDouble(args[8]);
             EpidermisConst.Replicate = Integer.parseInt(args[9]);
+            EpidermisConst.NOTCHBlockProbability = Double.parseDouble(args[10]);
 //            PositionFile = args[7];
+        } else {
+            EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
         }
 
         if(EpidermisConst.GuiOn == false && EpidermisConst.GetImageData == false){
@@ -243,16 +261,16 @@ public class Epidermis_Main {
             All Visualization Components are here
              */
             if(Epidermis.GetTick()%7==0){
-                if(rLambda_Label!=null){rLambda_Label.SetText("Mean rLambda (per week): " + new DecimalFormat("#.000").format( Epidermis.Turnover.GetBasalRate("Death",7) ));}
-                if(HeightLab!=null){HeightLab.SetText("Height: " + new DecimalFormat("#.00").format(Epidermis.GetMeanCellHeight()));}
+                if(rLambda_Label!=null){rLambda_Label.SetText("µrLambda(w): " + new DecimalFormat("#.000").format( Epidermis.Turnover.GetBasalRate("Death",7) ));}
+                if(HeightLab!=null){HeightLab.SetText("H: " + new DecimalFormat("#.00").format(Epidermis.GetMeanCellHeight()));}
             }
-            if(ActivityVis!=null){YearLab.SetText("Age (yrs.): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
+            if(ActivityVis!=null){YearLab.SetText("Age(Y): " + new DecimalFormat("#.00").format((Epidermis.GetTick() / 365f)));}
             if(DivVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DivVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
             if(DivLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DivLayerVis, Epidermis, CellDraw, Epidermis.MeanProlif, "gbr");}
             if(DeathVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.ActivityHeatMap(DeathVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(DeathLayerVis!=null&Epidermis.GetTick()%EpidermisConst.VisUpdate==0){Epidermis.LayerVis(DeathLayerVis, Epidermis, CellDraw, Epidermis.MeanDeath, "rbg");}
             if(ClonalVis!=null){Epidermis.DrawCellPops(ClonalVis, Epidermis, CellDraw);} // 3D Good
-            if(OldestCell!=null){OldestCell.SetText("Mean cell age: " + new DecimalFormat("#.00").format(Epidermis.GetMeanAge(Epidermis)));}
+            if(OldestCell!=null){OldestCell.SetText("µCellAge: " + new DecimalFormat("#.00").format(Epidermis.GetMeanAge(Epidermis)));}
             if(ActivityVis!=null){Epidermis.DrawCellActivity(ActivityVis, Epidermis, CellDraw);}
             if(BottomVis!=null){Epidermis.DrawCellPopsBottom(BottomVis, Epidermis, CellDraw);}
             if(BottomVisMove!=null){Epidermis.DrawCellPopsBottomActivity(BottomVisMove, Epidermis, CellDraw);}

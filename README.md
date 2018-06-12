@@ -3,7 +3,6 @@ Epidermis_Project with the final framework
 
 Steps To Finish Epidermis Skin Model:
 
-
 1) Neutral Story
 	- Different Biopsy Sizes Need to be ran (1mm^2 for all right now, need 0.75mm^2 to 3.14mm^2)
 	- Different mutation rates.
@@ -34,34 +33,34 @@ Ages: 55, 58, 65, 73
 8) SunDaysDeathProb (Default=0, (theta) must be switched on in source files)
 9) Replicate (Used for random seed along with Record time)
 
-Datasets:
+####Datasets:
 
-Neutral:
-	- MutSet1 Dataset (Older dataset)
-	- MutSet2-X Datasets for different Mutation Rates
-	- Size difference = 0.75mm^2 to 1.0mm^2
-Selection:
-	TP53:
+- Neutral:
+    - MutSet1 Dataset (Older dataset)
+    - MutSet2-X Datasets for different Mutation Rates
+    - Size difference = 0.75mm^2 to 1.0mm^2
+- Selection:
+    - TP53:
 		- ThreeDNeutralTP53test.5302018.* are the death probability off, but for fishplots
 		- threeDTP53deathproboff.5222018.* is the case with the death probability off for TP53
 		- threeDTP53.Xtheta.Xsetfreq.6072018.* is the different values of theta and Sun Day Sets 30xDim
-			-theta:
-				0.001
-				0.002
-				0.006
-				0.014
-				0.033
-				0.079
-			-setFreq:
-				-5
-				-50
+			- theta:
+				- 0.001
+				- 0.002
+				- 0.006
+				- 0.014
+				- 0.033
+				- 0.079
+			- setFreq:
+				- 5
+				- 50
 		- threeDTP53.Xtheta.Xsetfreq.6122018.* is the above dataset but for 100xDim
-			-theta:
-				0.014
-				0.079
-			-setFreq:
-				-5
-				-50
+			- theta:
+				- 0.014
+				- 0.079
+			- setFreq:
+				- 5
+				- 50
 				
 				
 				
