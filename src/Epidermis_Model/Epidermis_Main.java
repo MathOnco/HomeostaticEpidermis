@@ -35,6 +35,7 @@ class EpidermisConst {
     static int ModelTime = years * 365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
     static final int VisUpdate = 7; // Timestep interval to update Division and Death, etc.
+    static int Replicate = 1; // Replicate number to be multiplied by the RecordTime to set the seed
     static int MutRateSet = 0; // Select which mutation rate is required.
     static double UVDeathVal = 0.00; // How much is random death increased. Values between 0 and 1.
     // 0-1 scaled to 0.0 (neutral) and 0.9961836966 (non-neutral). // TODO Currently Depracated...Abandoned
@@ -119,7 +120,7 @@ public class Epidermis_Main {
             EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
             EpidermisConst.SunDaysFreqency = Integer.parseInt(args[7]);
             EpidermisConst.SunDaysDeathProb = Double.parseDouble(args[8]);
-//            EpidermisConst.UVDeathVal = Integer.parseInt(args[7])*(0.9961836966);
+            EpidermisConst.Replicate = Integer.parseInt(args[9]);
 //            PositionFile = args[7];
         } else {
             EpidermisConst.UVDeathVal = EpidermisConst.UVDeathVal*(0.9961836966);
@@ -344,7 +345,7 @@ public class Epidermis_Main {
                 }
             }
 
-            if(EpidermisConst.RecordAllPopSizes && EpidermisConst.RecordTime != Epidermis.GetTick() && (Epidermis.GetTick()%30.)==0){
+            if(EpidermisConst.RecordAllPopSizes && EpidermisConst.RecordTime != Epidermis.GetTick() && (Epidermis.GetTick()%10.)==0){
                 Epidermis.GenomeStore.RecordClonePops();
             }
 

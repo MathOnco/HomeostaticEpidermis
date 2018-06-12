@@ -19,7 +19,7 @@ import java.util.Random;
 
 // Grid specific parameters
 class EpidermisGrid extends Grid3<EpidermisCell> {
-    final Random RN=new Random();
+    final Random RN=new Random(EpidermisConst.Replicate*EpidermisConst.RecordTime);
     static final int[] moveHood={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,-1,0};
     static final int[] divHood={1,0,0, -1,0,0, 0,0,1, 0,0,-1, 0,1,0};
     static final int[] inBounds= new int[5];
@@ -68,7 +68,6 @@ class EpidermisGrid extends Grid3<EpidermisCell> {
             }
         }
     }
-
 
     public void RunStep() {
         for (int i = 0; i < CHEMICAL_STEPS; i++) {
