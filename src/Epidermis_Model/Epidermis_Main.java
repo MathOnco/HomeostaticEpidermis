@@ -54,7 +54,7 @@ class EpidermisConst {
     /**
      * NOTCH Fitness Change Options
      */
-    static double NOTCHBlockProbability=1.0;
+    static double NOTCHBlockProbability=0.0;
 
     /**
      * Booleans for Run Options
