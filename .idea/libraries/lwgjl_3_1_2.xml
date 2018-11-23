@@ -1,0 +1,76 @@
+<component name="libraryTable">
+  <library name="lwgjl-3.1.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-opencl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-xxhash-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-xxhash-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-nanovg.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-assimp-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-egl-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-opengl-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-nuklear.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-vulkan.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-tinyfd-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-tinyfd.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-egl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-opencl-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-openvr.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-yoga-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-sse-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-assimp.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-opengles-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-lmdb.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-stb-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-openal-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-tinyexr-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-glfw-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-jemalloc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-glfw.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-yoga.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-yoga-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-xxhash.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-jawt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-nfd-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-lmdb-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-par-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-openvr-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-nuklear-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-bgfx-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-stb.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-tinyfd-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-jemalloc-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-jawt-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-nfd-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-openvr-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-par-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-sse-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-tinyexr.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-tinyexr-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-opengles.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-nanovg-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-opengl-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-sse.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-openal-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-opengles-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-bgfx-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-bgfx.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-nanovg-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-openal.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-jemalloc-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-opengl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-assimp-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-glfw-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-lmdb-natives-macos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-vulkan-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-stb-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-nfd.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-nuklear-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/lwgjl-3.1.2/lwjgl-par.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

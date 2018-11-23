@@ -61,6 +61,16 @@ Ages: 55, 58, 65, 73
 			- setFreq:
 				- 5
 				- 50
-				
-				
-				
+	- NOTCH
+	    - threeDNOTCH1.Xbp.6122018. where X is one of the following with 100xDim
+	        - Blocking Probability
+	            - 1
+	            - 0.7
+	            - 0.5
+	            - 0.3
+	            - 0.1
+    - Combined Effects
+        - ThreeDCombinedEffects.50freq.Xtheta.Xbp.6132018.* with 50xDim
+            - Theta: 0.001,0.005,0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1
+            - NOTCH1(fp): 0.001,0.005,0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1
+

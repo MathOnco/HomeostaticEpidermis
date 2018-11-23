@@ -30,7 +30,7 @@ class EpidermisConst {
     static final int STATIONARY = 3; // Attribute if cell is stationary
     static final int MOVING = 4; //Attribute if cell is moving
 
-    static int years = 100; // time in years.
+    static int years = 58; // time in years.
     static int RecordTime = years * 365;
     static int ModelTime = years * 365 + 10; // Time in days + 10 days after time for recording! e.v. 65 years = 23725
 
@@ -60,7 +60,7 @@ class EpidermisConst {
      * Booleans for Run Options
      */
     static final boolean GuiOn = false; // use for visualization, set to false for jar file / multiple runs
-    static final boolean JarFile = true; // Set to true if running from command line as jar file!!!!!!!!
+    static final boolean JarFile = false; // Set to true if running from command line as jar file!!!!!!!!
     static final boolean RecordParents = true; // use when you want parents information
     static final boolean RecordLineages = true; // use when you want
     static final boolean RecordPopSizes = true; // Use to record clone population sizes
@@ -68,12 +68,12 @@ class EpidermisConst {
     static final boolean get_r_lambda = true; // use when you want the r_lambda value for the visualization
     static final boolean writeValues = true; // use this when you want the data to be saved!
     static final boolean sliceOnly = false; // use this when you want slice of the 3D model data to be output!!!!!!!!!!!!!!
-    static final boolean GetImageData = false; // Use for 3D data for visualization
+    static final boolean GetImageData = true; // Use for 3D data for visualization
     static final boolean GetEGFSum = false; // Use for 3D data for visualization of EGF concentrations
     static final boolean Wounding = false; // Use to do wounding
     static final boolean PFiftyThree = false; // Whether to perform P53 Fitness testing through turnind Random Death Prob off.
-    static final boolean PFiftyThreeSunDays = true; // Whether to include a sun days UV damage rate.
-    static final boolean NOTCH1FitnessChanges = true; // Whether to run NOTCH1 Fitness Changes.
+    static final boolean PFiftyThreeSunDays = false; // Whether to include a sun days UV damage rate.
+    static final boolean NOTCH1FitnessChanges = false; // Whether to run NOTCH1 Fitness Changes.
 }
 
 public class Epidermis_Main {
@@ -141,7 +141,7 @@ public class Epidermis_Main {
             EpidermisCellGenome.MutRateSet = EpidermisConst.MutRateSet;
         }
 
-        if(EpidermisConst.GuiOn == false && EpidermisConst.GetImageData == false){
+        if(EpidermisConst.GuiOn == false && EpidermisConst.GetImageData == false && EpidermisConst.GetImageData==false){
             System.out.println("xSize and zSize: " + EpidermisConst.xSize);
             System.out.println("Years: " + EpidermisConst.years);
         }
@@ -278,27 +278,27 @@ public class Epidermis_Main {
 
 
             // Use this to get the information for 3D visualizations for OpenGL
-//            if(EpidermisConst.GetImageData && Epidermis.GetTick() == EpidermisConst.RecordTime){
-//                Epidermis.BuildMathematicaArray();
+            if(EpidermisConst.GetImageData){
+                Epidermis.BuildMathematicaArray();
 //                FileIO VisOut = new FileIO(Image_file + "." + Epidermis.GetTick() + ".txt", "w");
-//                for(int x=0; x < EpidermisConst.xSize;x++){
-//                    for(int y=0; y < EpidermisConst.ySize;y++){
-//                        for(int z=0; z < EpidermisConst.zSize;z++){
-//                            //if (Epidermis.ImageArray[y][x][z][0] != 0.0f && Epidermis.ImageArray[y][x][z][1] != 0.0f && Epidermis.ImageArray[y][x][z][2] != 0.0f && Epidermis.ImageArray[y][x][z][3] != 0.0f){
-//                                String outLine =
-//                                    x + "\t" + z + "\t" + y + "\t" +
-//                                    Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
-//                                            "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3];
-//                                System.out.println(outLine);
-//                                //VisOut.Write(outLine);
-//                            }
-//                        //}
-//                    }
-//                }
-//
+                for(int x=0; x < EpidermisConst.xSize;x++){
+                    for(int y=0; y < EpidermisConst.ySize;y++){
+                        for(int z=0; z < EpidermisConst.zSize;z++){
+                            //if (Epidermis.ImageArray[y][x][z][0] != 0.0f && Epidermis.ImageArray[y][x][z][1] != 0.0f && Epidermis.ImageArray[y][x][z][2] != 0.0f && Epidermis.ImageArray[y][x][z][3] != 0.0f){
+                                String outLine =
+                                    x + "\t" + z + "\t" + y + "\t" +
+                                    Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
+                                            "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3];
+                                System.out.println(outLine);
+//                                VisOut.Write(outLine);
+                            }
+                        //}
+                    }
+                }
+
 //                VisOut.Close();
 //                System.out.println("Done");
-//            }
+            }
 
 //            if(EpidermisConst.GetImageData==true && (Epidermis.GetTick() / 365f == 25 || Epidermis.GetTick() / 365f == 50 || Epidermis.GetTick() / 365f == 75)){
 //                System.out.println(new DecimalFormat("#.0").format((Epidermis.GetTick() / 365f)));
@@ -316,33 +316,6 @@ public class Epidermis_Main {
                     Epidermis.EGFrglVisualization();
                 }
             }
-
-
-            // Use this to get the information for 3D visualizations
-//            if(EpidermisConst.GetImageData && EpidermisConst.RecordTime == Epidermis.GetTick()){
-//                Epidermis.BuildMathematicaArray();
-//                FileIO VisOut = new FileIO(Image_file, "w");
-//                String open="{\n";
-//                String closer="}\n";
-//                for(int y=EpidermisConst.ySize-1; y >= 0;y--){
-//                    for(int x=0; x < EpidermisConst.xSize;x++){
-//                        for(int z=0; z < EpidermisConst.zSize;z++){
-//                            String outLine =
-//                                    Epidermis.ImageArray[y][x][z][0] + "\t" + Epidermis.ImageArray[y][x][z][1] +
-//                                    "\t" + Epidermis.ImageArray[y][x][z][2] + "\t" + Epidermis.ImageArray[y][x][z][3] +
-//                                    "\n";
-//                            VisOut.Write(outLine);
-//                        }
-//                    }
-//                }
-//
-//                VisOut.Close();
-//                /* Use this code snippit to get the threeD vis on mathematica
-//                file=Import["VisFile(2).txt","Data"]
-//                matrix = ArrayReshape[file,{19,14,14,4}]
-//                Image3D[matrix, ImageSize->Large,ColorSpace->"RGB", Axes->True,Boxed->False, Method-> {"InterpolateValues" -> False},Background->Black]
-//                 */
-//            }
 
             if(EpidermisConst.PFiftyThreeSunDays && Epidermis.GetTick()%365.0==0){
                 for (int i = 0; i < EpidermisConst.SunDays; i++) {
